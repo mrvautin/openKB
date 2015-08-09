@@ -1,0 +1,40 @@
+<div class="col-md-12">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			{{#if message}}
+				<div class="alert alert-{{ message_type}} alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					{{message}}
+				</div>
+			{{/if}}
+			<ol class="breadcrumb">
+	  			<li><a href="/">Home</a></li>
+	 			<li><a href="/Users">Users</a></li>
+	  			<li class="active">New user</li>
+			</ol>
+			<h1>New User</h1>
+			<form method="post" id="edit_form" action="/user_insert">
+			<input type="hidden" name="user_id" value="{{user._id}}" />
+			<div class="form-group">
+		    	<label for="frm_kb_title">User email</label>
+		    	<input type="email" class="form-control" name="user_email" value="{{user.user_email}}" required>
+			  	<p class="help-block val-error"></p>
+		  	</div>
+		  	<div class="form-group">
+			    <label for="frm_kb_body">User password</label>
+			    <input type="password" class="form-control" name="user_password" required>
+				<p class="help-block val-error"></p>
+		  	</div>
+		  	<div class="form-group">
+			    <label for="frm_kb_body">Password confirm</label>
+			    <input type="password" data-validation-match-match="user_password" data-validation-match-message="Password values to not match" class="form-control" name="frm_user_password_confirm" required>
+				<p class="help-block val-error"></p>
+		  	</div>
+		  	<div class="form-group">
+    			<div class="pull-right">
+      				<button type="submit" class="btn btn-primary">Update</button>
+    			</div>
+  			</div>
+		</div>
+	</div>
+</div>

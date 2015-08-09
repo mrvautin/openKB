@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>{{title}}</title>
+	    <meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/stylesheets/style.css">
+		<link rel="stylesheet" href="/stylesheets/bootstrap-markdown.min.css">
+		<link rel="stylesheet" href="/stylesheets/bootstrap-switch.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="/javascripts/form_validation.js"></script>
+		<script src="/javascripts/bootstrap-markdown.js"></script>
+		<script src="/javascripts/bootstrap-switch.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$("#frm_kb_body").markdown({autofocus:false,savable:false})
+				
+				// add the responsive image class to all images
+				$('img').each(function(){
+					$(this).addClass("img-responsive")
+		        });
+
+				
+				$(".alert-dismissable").fadeTo(2500, 800).slideUp(800, function(){
+				    $(".alert-dismissable").alert('close');
+				});
+				
+				$("[class='published_state']").bootstrapSwitch();
+				$("#frm_kb_published").bootstrapSwitch();
+				$("input[class='published_state']").on('switchChange.bootstrapSwitch', function(event, state) {
+					$.ajax({
+					  	method: "POST",
+					  	url: "/published_state",
+				  		data: { id: this.id, state: state }
+					})
+				  	.done(function( msg ) {
+				    	alert( "Data Saved: " + msg);
+				  	});
+				});
+			});
+			
+			$(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
+			
+			function search_form(id) {
+				$('form#'+ id).submit();
+			}
+		</script>
+	</head>
+	<body>	
+		<!-- Static navbar -->
+	    <nav id="custom-bootstrap-menu" class="navbar navbar-default navbar-static-top">
+	      <div class="container">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand" href="/">openKB</a>
+	        </div>
+	        <div id="navbar" class="navbar-collapse collapse">
+	          <ul class="nav navbar-nav">
+	            <li><a href="/calendar"></a></li>
+	            <li><a href="/user"></a></li>
+	          </ul>
+			  <ul class="nav navbar-nav navbar-right">
+				{{#if session.user}}
+					{{#if result._id}}
+						<li><a href="/edit/{{result._id}}">Edit</a></li>
+					{{/if}}
+					<li class="dropdown">
+			        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
+			          	<ul class="dropdown-menu">
+				            <li><a href="/users/new">New</a></li>
+				            <li><a href="/users">Edit</a></li>
+							<li><a href="/user/edit/{{session.user_id}}">My account</a></li>
+			          	</ul>
+			        </li>
+					<li class="dropdown">
+			        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Articles <span class="caret"></span></a>
+			          	<ul class="dropdown-menu">
+				            <li><a href="/insert">New</a></li>
+				            <li><a href="/articles">Edit</a></li>
+			          	</ul>
+			        </li>
+					<li><a href="/logout">Logout</a></li>
+				{{else}}
+					<li><a href="/login">Login</a></li>
+				{{/if}}	
+      		  </ul>
+	        </div><!--/.nav-collapse -->
+	      </div>
+	    </nav>	
+		<div class="container">
+			{{{body}}}
+		</div>
+	</body>
+</html>

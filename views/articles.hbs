@@ -1,0 +1,23 @@
+<div class="col-md-12">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<ol class="breadcrumb">
+	  			<li><a href="/">Home</a></li>
+	 			<li class="active">Articles</li>
+			</ol>
+			<h1>Articles</h1>
+			<ul class="list-group">
+				<li class="list-group-item">
+					<span class="pull-right"><strong>Published</strong></span>
+			    	<strong>Article</strong>
+		  		</li>
+				{{#each articles}}
+				  	<li class="list-group-item">
+				    	<span class="pull-right"><input id="{{this._id}}" class="published_state" type="checkbox" data-size="mini" data-on-color="success" data-off-color="danger" {{checked_state this.kb_published}}></span>
+				    	<a href="/edit/{{this._id}}">{{this.kb_title}}</a>
+			  		</li>
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+</div>

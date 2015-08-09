@@ -1,0 +1,30 @@
+<div class="col-md-12">
+	<form method="post" id="insert_form" action="/insert_kb" novalidate>
+	<div class="row">
+		<div class="col-md-8">
+			  <div class="form-group">
+			    <label for="frm_kb_title">Article title</label>
+			    <input type="text" minlength="5" maxlength="100" class="form-control" name="frm_kb_title" id="frm_kb_title" placeholder="Article title" required>
+			  	<p class="help-block val-error"></p>
+			  </div>
+			  <div class="form-group">
+			    <label for="frm_kb_body">Article body</label>
+			    <textarea minlength="5" class="form-control" name="frm_kb_body" id="frm_kb_body" rows="12" required></textarea>
+			  	<p class="help-block val-error"></p>
+			  </div>
+		</div>
+		<div class="col-md-4">
+			<div class="form-group">
+				<label>Article status</label><br/>
+				<input id="frm_kb_published" name="frm_kb_published" type="checkbox" data-size="medium" data-on-color="success" data-off-color="danger" checked/>
+			</div>
+			<div class="form-group">
+		    	<label for="frm_kb_keywords">Article keywords</label>
+				<input type="text" minlength="3" class="form-control" name="frm_kb_keywords" id="frm_kb_keywords" placeholder="comma, seporated, keywords" required>
+				<p class="help-block val-error"></p>
+			</div>
+			<button type="submit" class="btn btn-primary pull-left">Insert</button>
+		</div>
+	</div>
+	</form>
+</div>

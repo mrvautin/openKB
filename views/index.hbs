@@ -1,0 +1,46 @@
+<div class="row">
+	<form action="search" method="post">
+	<div class="col-md-8 col-md-offset-2 col-lg-10 col-lg-offset-1">
+		<div class="input-group">
+  			<input type="text" name="frm_search" class="form-control input-lg" placeholder="Search the knowledge base">
+  			<span class="input-group-btn">
+    			<button class="btn btn-primary btn-lg" type="submit">Search</button>
+  			</span>
+		</div>
+	</div>
+	</form>
+</div>
+<div class="row">	
+	<div class="col-md-8 col-md-offset-2 col-lg-10 col-lg-offset-1">
+		{{#if results.length}}
+			<div class="panel panel-default" style="margin-top: 30px;">
+				<div class="panel-heading">Results for: {{search_term}}</div>
+				<div class="panel-body">
+					<ul class="list-group">
+						{{#each results}}
+							 <li class="list-group-item"><h5><a href="/kb/{{this._id}}">{{this.kb_title}}</a><span class="pull-right view_count">{{this.kb_viewcount}}</span></h5></li>
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+		{{else}}
+			<div class="panel panel-default" style="margin-top: 30px;">
+				<div class="panel-heading">Top articles</div>
+				<div class="panel-body">
+					<ul class="list-group">
+						{{#each top_results}}
+							 <li class="list-group-item">
+								 <h5>
+									<a href="/kb/{{this._id}}">{{this.kb_title}}</a>
+									{{#if ../config.settings.show_view_count}}
+								 		<span class="pull-right view_count"><small>View count: {{this.kb_viewcount}}</span></small>
+									{{/if}}
+								 </h5>
+							 </li>
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+		{{/if}}
+	</div>
+</div>

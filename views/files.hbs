@@ -1,0 +1,18 @@
+<div class="col-md-12">
+	<form method="post" id="edit_form" action="/save_kb">
+	<input type="hidden" name="frm_kb_id" value="{{result._id}}" />
+	<div class="row">
+		<div class="treeview-container">
+			<ul class="treeview">
+				{{#each files_list}}
+					<li>
+						<td>{{this.name}}</td>
+						<td>{{this.type}}</td>
+						<td>Delete</td>
+					</tr>
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+	</form>
+</div>
