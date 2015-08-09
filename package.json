@@ -1,7 +1,7 @@
 {
-  "name": "openKB",
-  "version": "0.0.1",
-  "private": true,
+  "name": "openkb",
+  "version": "0.0.3",
+  "private": false,
   "scripts": {
     "start": "node app.js"
   },

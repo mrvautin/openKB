@@ -1,3 +1,1 @@
-{"user_email":"test@test.com","user_password":"$2a$10$FFLTtwyjand0EjeE/YLqD.Fe0SkhhLg2ggb.w7cvZtr2gwLF3DAZi","is_admin":"false","_id":"LSwCvm3iokNuk1s4"}
-{"user_email":"test1@test.com","user_password":"test","is_admin":"false","_id":"avDzer14pnRfixIe"}
-{"user_email":"mrvautin@gmail.com","user_password":"$2a$08$fI.sxAINEuohZ33LTQ12h.Am117.lFIEr6sp2kYh.zTRpQ3pmVRrm","is_admin":"true","_id":"uLy2lBiGNIFKD1vQ"}
+{"user_email":"test@test.com","user_password":"$2a$08$fI.sxAINEuohZ33LTQ12h.Am117.lFIEr6sp2kYh.zTRpQ3pmVRrm","is_admin":"true","_id":"LSwCvm3iokNuk1s4"}
