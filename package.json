@@ -1,6 +1,6 @@
 {
   "name": "openkb",
-  "version": "0.0.3",
+  "version": "0.0.8",
   "private": false,
   "scripts": {
     "start": "node app.js"
@@ -18,5 +18,27 @@
     "morgan": "~1.3.0",
     "nedb": "^1.1.2",
     "serve-favicon": "~2.1.3"
-  }
+  },
+  "description": "openKB",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrvautin/openKB.git"
+  },
+  "keywords": [
+    "knowledge base",
+    "markdown",
+    "express",
+    "nedb",
+    "documentation",
+    "platform",
+    "nodejs"
+  ],
+  "author": "Mark Moffat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrvautin/openKB/issues"
+  },
+  "homepage": "http://mrvautin.com"
 }

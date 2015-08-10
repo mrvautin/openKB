@@ -14,7 +14,6 @@ var db = new nedb();
 db = {};
 db.users = new nedb({ filename: 'data/users.db', autoload: true });
 db.kb = new nedb({ filename: 'data/kb.db', autoload: true });
-db.settings = new nedb({ filename: 'data/settings.db', autoload: true });
 
 // markdown stuff
 marked.setOptions({
@@ -36,7 +35,6 @@ handlebars = handlebars.create({
         split_keywords: function (keywords) { 
             var array = keywords.split(','); var links = "";
             for (var i = 0; i < array.length; i++) { 
-                console.log(i + array[i]);
                 links += "<a href='/search/"+array[i].trim() +"'>"+array[i].trim() +"</a>&nbsp;|&nbsp;";
             }return links.substring(0, links.length - 1);
         },
