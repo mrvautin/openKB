@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res) {
+// The homepage of the site
+router.get('/', restrict, function(req, res, next) {
 	var db = req.db;
 	var config = require('./config');
 	
@@ -17,7 +17,7 @@ router.get('/', function(req, res) {
 	});
 });
 
-router.get('/kb/:id', function(req, res) {
+router.get('/kb/:id', restrict, function(req, res) {
   var db = req.db;
   var marked = req.marked;
   var helpers = req.handlebars.helpers;
@@ -202,14 +202,13 @@ router.post('/published_state', restrict, function(req, res) {
 });	
 
 // insert a user
-router.post('/user_insert', function(req, res) {
+router.post('/user_insert', restrict, function(req, res) {
   	var db = req.db;
 	var bcrypt = req.bcrypt;
 	var url = require('url');
 	
 	// set the account to admin if using the setup form. Eg: First user account
 	var url_parts = url.parse(req.header('Referer'));
-	
 	var is_admin = "false";
 	if(url_parts.path == "/setup"){
 		is_admin = "true";
@@ -235,7 +234,7 @@ router.post('/user_insert', function(req, res) {
 });
 
 // update a user
-router.post('/user_update', function(req, res) {
+router.post('/user_update', restrict, function(req, res) {
   	var db = req.db;
 	var bcrypt = req.bcrypt;
 	
@@ -274,7 +273,7 @@ router.get('/login', function(req, res) {
 	});
 });
 
-// setup form
+// setup form is shown when there are no users setup in the DB
 router.get('/setup', function(req, res) {
 	var config = require('./config');
 	
@@ -372,7 +371,7 @@ router.get('/insert', restrict, function(req, res) {
 });
 
 // search kb's
-router.get('/search/:tag', function(req, res) {
+router.get('/search/:tag', restrict, function(req, res) {
 	var db = req.db;
 	var search_term = req.params.tag;
 	var config = require('./config');
@@ -390,7 +389,7 @@ router.get('/search/:tag', function(req, res) {
 });
 
 // search kb's
-router.post('/search', function(req, res) {
+router.post('/search', restrict, function(req, res) {
 	var db = req.db;
 	var search_term = req.body.frm_search;
 	var config = require('./config');
@@ -420,9 +419,41 @@ function clear_session_value(session, session_var){
 	}
 }
 
-// check if a session for the user exists
-// redirect to login form if not
+// This is called on all URL's. If the "password_protect" config is set to true
+// we check for a login on thsoe normally public urls. All other URL's get
+// checked for a login as they are considered to be protected. The only exception
+// is the "setup", "login" and "login_action" URL's which is not checked at all.
 function restrict(req, res, next){
+	var config = require('./config');
+	var url = require('url');
+	var url_parts = url.parse(req.url);
+				
+	// if not protecting we check for public pages and don't check_login
+	if(url_parts.path == "/"){
+		if(config.settings.password_protect == false){
+			next();
+			return;
+		}
+	}
+	if(url_parts.path.indexOf("/search") > -1){
+		if(config.settings.password_protect == false){
+			next();
+			return;
+		}
+	}
+	if(url_parts.path.indexOf("/kb") > -1){
+		if(config.settings.password_protect == false){
+			next();
+			return;
+		}
+	}
+	
+	// if not a public page we check_login
+	check_login(req, res, next);
+}
+
+// does the actual login check
+function check_login(req, res, next){
 	if(req.session.user){
 		next();
 	}else{
