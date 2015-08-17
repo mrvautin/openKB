@@ -1,30 +1,57 @@
-<div class="col-md-12">
-	<form method="post" id="insert_form" action="/insert_kb" novalidate>
+<div class="col-md-10 col-md-offset-1">
 	<div class="row">
-		<div class="col-md-8">
-			  <div class="form-group">
-			    <label for="frm_kb_title">Article title</label>
-			    <input type="text" minlength="5" maxlength="100" class="form-control" name="frm_kb_title" id="frm_kb_title" placeholder="Article title" required>
-			  	<p class="help-block val-error"></p>
-			  </div>
-			  <div class="form-group">
-			    <label for="frm_kb_body">Article body</label>
-			    <textarea minlength="5" class="form-control" name="frm_kb_body" id="frm_kb_body" rows="12" required></textarea>
-			  	<p class="help-block val-error"></p>
-			  </div>
-		</div>
-		<div class="col-md-4">
-			<div class="form-group">
-				<label>Article status</label><br/>
-				<input id="frm_kb_published" name="frm_kb_published" type="checkbox" data-size="medium" data-on-color="success" data-off-color="danger" checked/>
+		<form method="post" id="insert_form" action="/insert_kb" novalidate>
+			<div id="header row">
+				<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+					<div class="form-group">
+						<label for="preview">Article title</label><br/>
+						<input type="text" name="frm_kb_title" class="form-control input-normal" minlength="5" maxlength="200" value="" placeholder="The article title" required/>
+						<p class="help-block val-error"></p>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+					<label for="preview">Status</label><br/>
+					<div class="input-group">
+						<input id="frm_kb_published" class="form-control" name="frm_kb_published" type="checkbox" data-size="medium" data-on-color="success" data-off-color="danger"/>
+						<div class="input-group-btn">
+							<button id="frm_edit_kb_save" class="btn btn-success editor_btn_action" type="submit">Insert <i class="fa fa-plus"></i></button>
+						</div>
+					</div>
+	
+					
+					<!--<div class="form-group">
+						<label for="frm_kb_published">Status</label></br>
+						<input id="frm_kb_published" class="form-control" name="frm_kb_published" type="checkbox" data-size="medium" data-on-color="success" data-off-color="danger"/>
+						<button id="frm_edit_kb_save" class="btn btn-success" type="submit">Insert <i class="fa fa-plus"></i></button>
+					</div>-->
+				</div>
 			</div>
-			<div class="form-group">
-		    	<label for="frm_kb_keywords">Article keywords</label>
-				<input type="text" minlength="3" class="form-control" name="frm_kb_keywords" id="frm_kb_keywords" placeholder="comma, seporated, keywords" required>
-				<p class="help-block val-error"></p>
+			<div id="editor-pagewrapper row">
+				<div class="col-xs-12 col-md-6">
+					<div class="form-group" id="editor-wrapper">
+						<label for="editor">Article body (Markdown)</label>
+						<textarea id="editor" minlength="5" name="frm_kb_body" class="form-control" required></textarea>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-6">
+					<div class="form-group" id="preview-wrapper">
+						<label for="preview">Preview</label>
+						<div id="preview" name="preview" class="form-control" rows="10"></div>
+					</div>
+				</div>
 			</div>
-			<button type="submit" class="btn btn-primary pull-left">Insert</button>
-		</div>
+			<footer>
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="form-group">
+						<label>Keywords</label><br/>
+						<input type="text" minlength="3" class="form-control" name="frm_kb_keywords" id="frm_kb_keywords" value="" placeholder="Comma, seporated, keywords" required>
+					</div>
+				</div>
+			</footer>
+		</form>
+		{{#if editor}}
+			<script src="/javascripts/showdown.min.js"></script>
+			<script src="/javascripts/markdown_editor.js"></script>
+		{{/if}}
 	</div>
-	</form>
 </div>

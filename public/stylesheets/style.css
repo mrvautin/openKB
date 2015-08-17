@@ -52,9 +52,19 @@ td{width:14%}
 		padding-bottom: 20px; 
 	} 
 	
-	.view_count {
+	.view_count, #preview-wrapper {
 		display: none;
 	}
+    
+    #editor-wrapper {
+        padding-top: 20px;
+    }
+    
+    
+    
+    #frm_edit_kb_save, #frm_kb_published{
+        float:right;
+    }
 }
 
 .btn-primary:hover{
@@ -117,4 +127,45 @@ a:hover {
 #custom-bootstrap-menu.navbar-default .navbar-toggle:hover .icon-bar,
 #custom-bootstrap-menu.navbar-default .navbar-toggle:focus .icon-bar {
     background-color: #f8f8f8;
+}
+
+html, body {
+  height: 100%;
+}
+#header {        
+    height: 50px;
+}
+
+#editor, #preview {
+    height: calc(100vh - 135px - 135px);
+    overflow: auto;
+}
+
+#editor-pagewrapper {
+    width: 100%;
+    height: calc(100vh - 100px - 100px);
+}
+footer { 
+    height: 50px;
+}
+
+.dropup-button{
+    height: 34px;
+    padding: 0px;
+}
+
+.dropdown-menu>li>a{
+    padding-top: 5px !important;
+}
+
+.editor_btn_action{
+    border-top-left-radius: 4px !important; 
+    border-bottom-left-radius: 4px !important;
+}
+
+.dropup-list{
+    padding-bottom: 5px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
 }

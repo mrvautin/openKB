@@ -59,6 +59,7 @@ router.get('/edit/:id', restrict, function(req, res) {
 		"result": result,
 		session: req.session,
 		config: config,
+		editor: true,
 		message: clear_session_value(req.session, "message"),
 		message_type: clear_session_value(req.session, "message_type"),
 		helpers: req.handlebars.helpers
@@ -366,6 +367,7 @@ router.get('/insert', restrict, function(req, res) {
 	res.render('insert', {
 		title: 'Insert new', 
 		session: req.session,
+		editor: true,
 		config: config
 	});
 });

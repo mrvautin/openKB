@@ -1,49 +1,77 @@
-<div class="col-md-12">
-	{{#if message}}
-		<div class="alert alert-{{ message_type}} alert-dismissable">
-			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			{{message}}
-		</div>
-	{{/if}}
-	<form method="post" id="edit_form" action="/save_kb">
-	<input type="hidden" name="frm_kb_id" value="{{result._id}}" />
+<div class="col-md-10 col-md-offset-1">
 	<div class="row">
-		<div class="col-md-8">
-			  <div class="form-group">
-			    <label for="frm_kb_title">Article title</label>
-			    <input type="text" minlength="5" maxlength="100" class="form-control" name="frm_kb_title" id="frm_kb_title" value="{{result.kb_title}}" required>
-			  	<p class="help-block val-error"></p>
-			  </div>
-			  <div class="form-group">
-			    <label for="frm_kb_body">Article body</label>
-			    <textarea minlength="5" class="form-control" name="frm_kb_body" id="frm_kb_body" rows="12" required>{{{result.kb_body}}}</textarea>
-				<p class="help-block val-error"></p>
-			  </div>
-		</div>
-		<div class="row col-md-4">
-			<div class="col-lg-6 col-xs-6">
-				<div class="form-group">
-					<label for="frm_kb_published">Article status: </label></br>
-					<input id="frm_kb_published" name="frm_kb_published" type="checkbox" data-size="medium" data-on-color="success" data-off-color="danger" {{checked_state result.kb_published}}/>
+		{{#if message}}
+			<div class="alert alert-{{ message_type}} alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				{{message}}
+			</div>
+		{{/if}}
+		<form method="post" id="edit_form" action="/save_kb">
+			<input type="hidden" name="frm_kb_id" value="{{result._id}}" />
+			<div id="header row">
+				<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+					<div class="form-group">
+						<label for="preview">Article title</label><br/>
+						<input type="text" name="frm_kb_title" class="form-control input-normal" minlength="5" maxlength="200" value="{{result.kb_title}}" required/>
+						<p class="help-block val-error"></p>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+					<label for="preview">Status</label><br/>
+					<div class="input-group">
+						<input id="frm_kb_published" class="form-control" name="frm_kb_published" type="checkbox" data-size="medium" data-on-color="success" data-off-color="danger" {{checked_state result.kb_published}}/>
+						<div class="input-group-btn">
+							<button id="frm_edit_kb_save" class="btn btn-success editor_btn_action" type="submit">Save <i class="fa fa-floppy-o"></i></button>
+						</div>
+					</div>
+					<!--<div class="form-group">
+						<label for="frm_kb_published">Status</label></br>
+						<input id="frm_kb_published" class="form-control" name="frm_kb_published" type="checkbox" data-size="medium" data-on-color="success" data-off-color="danger" {{checked_state result.kb_published}}/>
+						<button id="frm_edit_kb_save" class="btn btn-success" type="submit"><i class="fa fa-floppy-o"></i></button>
+					</div>-->
 				</div>
 			</div>
-			<div class="col-lg-6 col-xs-6 text-right">
-				<div class="form-group">
-					<label for="del_post">Delete article: </label></br>
-					<a href="/delete/{{result._id}}" id="del_post" onclick="return confirm('Are you sure you want to delete this article?');" class="btn btn-danger">Delete</a>
+			<div id="editor-pagewrapper row">
+				<div class="col-xs-12 col-md-6">
+					<div class="form-group" id="editor-wrapper">
+						<label for="editor">Article body (Markdown)</label>
+						<textarea id="editor" minlength="5" name="frm_kb_body" class="form-control" required>{{{result.kb_body}}}</textarea>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-6">
+					<div class="form-group" id="preview-wrapper">
+						<label for="preview">Preview</label>
+						<div id="preview" name="preview" class="form-control" rows="10"></div>
+					</div>
 				</div>
 			</div>
-			<div class="col-lg-12">
-				<div class="form-group">
-			    	<label for="frm_kb_keywords">Article keywords</label>
-					<input type="text" minlength="3" class="form-control" name="frm_kb_keywords" id="frm_kb_keywords" value="{{result.kb_keywords}}" required>
+			<footer>
+				<div class="col-xs-8 col-sm-10 col-md-10 col-lg-11">
+					<div class="form-group">
+						<label>Keywords</label><br/>
+						<input type="text" minlength="3" class="form-control" name="frm_kb_keywords" id="frm_kb_keywords" value="{{result.kb_keywords}}" required>
+					</div>
 				</div>
-			</div>
-			<div class="col-lg-12">		
-			  	<a href="/kb/{{result._id}}" class="btn btn-info">Preview</a>
-			  	<button type="submit" class="btn btn-primary pull-right">Save</button>
-			</div>
-		</div>
+				<div class="col-xs-4 col-sm-2 col-md-2 col-lg-1">
+					<div class="form-group pull-right">
+						<label>Settings</label><br/>
+						<div class="btn-group dropup pull-right">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fa fa-cog"></i>
+								<span class="sr-only"></span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li class="dropup-list"><a class="btn btn-warning dropup-button" target="_blank" href="/kb/{{result._id}}">Preview</a></li>
+								<li class="dropup-list"><a class="btn btn-danger dropup-button" href="/delete/{{result._id}}" id="del_post" onclick="return confirm('Are you sure you want to delete this article?');">Delete</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</form>
 	</div>
-	</form>
+	{{#if editor}}
+		<script src="/javascripts/showdown.min.js"></script>
+		<script src="/javascripts/markdown_editor.js"></script>
+	{{/if}}
 </div>
