@@ -1,17 +1,17 @@
 
-.tagit_wrapper{
+.bootstraptagger_wrapper{
 	width: 100%;
 	background-color: #fff;
     border: 1px solid #ccc;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     display: inline-block;
-    padding: 4px 6px;
+    padding: 0px 6px 4px 8px;
     margin-bottom: 10px;
     color: #555;
     vertical-align: middle;
     border-radius: 4px;
     max-width: 100%;
-    line-height: 22px;
+    line-height: 20px;
     cursor: text;
 }
 
@@ -24,7 +24,7 @@ input.form-control,input.form-control:focus {
    -webkit-transition: none;
 }
 
-.tagit_input_box{
+.bootstraptagger_input_box{
 	width: 4.5em !important;
     border: none;
     box-shadow: none;
@@ -33,17 +33,19 @@ input.form-control,input.form-control:focus {
     padding: 0;
     margin: 0;
     max-width: inherit;
+	margin-top: 4px;
 }
 
-.tagit_word{
+.bootstraptagger_word{
 	display:inline-block;
 	margin-right: 5px;
 	color: white;
+	margin-bottom: 4px;
 }
 
-.tagit_remove{
+.bootstraptagger_remove{
 	padding-left: 6px;
 }
-.tagit_remove a{
+.bootstraptagger_remove a{
 	color: white;
 }

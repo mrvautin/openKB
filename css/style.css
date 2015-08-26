@@ -22,3 +22,20 @@ pre.prettyprint{
 pre {
     tab-size: 4 !important;
 }
+
+hr{
+	border-top: 1px solid #ccc;
+}
+
+.doco-right{
+	border-left: 1px solid #ccc;
+	padding-left: 40px;
+}
+
+.doc-examples{
+	margin-top: 20px;
+}
+
+.jumbotron{
+	padding-left: 15px !important;
+}

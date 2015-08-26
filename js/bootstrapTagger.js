@@ -27,17 +27,17 @@
 		var old_name = $(input_box).attr("name");
 		
 		// add the wrapper div
-		$(input_box).wrap("<div class='tagit_wrapper'></div>");
+		$(input_box).wrap("<div class='bootstraptagger_wrapper'></div>");
 		
 		// change the id of the input
-		$(input_box).attr("id","tagit_input_field");
+		$(input_box).attr("id","bootstraptagger_input_field");
 		
 		// create a new hidden input with the id and name of passed input to hold val()
 		$(input_box).parent().append("<input type='hidden' name='"+old_name+"' id='"+old_id+"'>");
 		var hidden_input = $("#" + old_id);
 
 		// add the input box class
-		$(input_box).addClass("tagit_input_box");
+		$(input_box).addClass("bootstraptagger_input_box");
 		
 		// remove bootstrap classes if needed
 		$(input_box).removeClass("form-control");
@@ -73,7 +73,7 @@
 			}
 		});	
 
-		$(document).on('click', ".tagit_remove" , function() {
+		$(document).on('click', ".bootstraptagger_remove" , function() {
 			// get tag text
 			var tag_string = $(this).parent().text().trim();
 			
@@ -89,7 +89,7 @@
 		
 		function add_tag(tag){
 			// add the new tag element
-			$(input_box).before("<span class='tagit_word label label-" + get_color() + "'>"+tag+"<span class='tagit_remove'><a href='#'><i class='fa fa-times'></i></a></span></span>");
+			$(input_box).before("<span class='bootstraptagger_word label label-" + get_color() + "'>"+tag+"<span class='bootstraptagger_remove'><a href='#'><i class='fa fa-times'></i></a></span></span>");
 						
 			// push the new tag to the tag array
 			input_tags.push(tag);

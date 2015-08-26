@@ -20,15 +20,59 @@
 	<body>		
 		<div class="container">
 			<div class="row">
-				<div class="col-xs-12 col-sm-9">
-					<p class="pull-right visible-xs">
-						<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-					</p>
+				<div class="col-xs-12 col-sm-12">
 					<div class="jumbotron">
 						<h1>bootstrapTagger</h1>
 						<p>A Bootstrap input tag plugin</p>
 					</div>
-					<div class="col-lg-10">
+					<div class="col-xs-4 col-sm-4 col-md-4 hidden-xs hidden-sm pull-right doc-examples">
+						<div class="row">
+							<h3>Examples</h3> 
+							<b>Default</b> 
+							<p>
+								<div class="col-sm-12">
+									<input type="text" name="input_tags_default" id="input_tags_default" value="this,is,a,tag">
+								</div>
+							</p>
+							<b>Primary</b> 
+							<p>
+								<div class="col-sm-12">
+									<input type="text" name="input_tags_primary" id="input_tags_primary" value="this,is,a,tag">
+								</div>
+							</p>
+							<b>Success</b> 
+							<p>
+								<div class="col-sm-12">
+									<input type="text" name="input_tags_success" id="input_tags_success" value="this,is,a,tag">
+								</div>
+							</p>
+							<b>Info</b> 
+							<p>
+								<div class="col-sm-12">
+									<input type="text" name="input_tags_success" id="input_tags_info" value="this,is,a,tag">
+								</div>
+							</p>
+							<b>Warning</b> 
+							<p>
+								<div class="col-sm-12">
+									<input type="text" name="input_tags_success" id="input_tags_warning" value="this,is,a,tag">
+								</div>
+							</p>
+							<b>Danger</b> 
+							<p>
+								<div class="col-sm-12">
+									<input type="text" name="input_tags_success" id="input_tags_danger" value="this,is,a,tag">
+								</div>
+							</p>
+							<b>Random</b> 
+							<p>
+								<div class="col-sm-12">
+									<input type="text" name="input_tags_default" id="input_tags_random" value="this,is,a,tag">
+								</div>
+							</p>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 						<div class="row">
 							<h2>What is it?</h2><a name="what_is_it"></a> 
 							<p>
@@ -88,56 +132,46 @@
 							<p>
 								There aren't many right now...
 							</p>
+							<hr/>
 							<div class="col-sm-12">
-								<table class="table table-responsive">
-									<tr>
-										<th>Option</th>
-										<th>Example</th>
-									</tr>
-									<tr>
-										<td>backgroundColor</td>
-										<td>
-											<p>
-												Any of the supported Bootstrap colors are supported.
-											</p>
-											<p>					
-												Eg: 
-												<p class="label label-default">default</p> 
-												<p class="label label-primary">primary</p> 
-												<p class="label label-success">success</p> 
-												<p class="label label-info">info</p> 
-												<p class="label label-warning">warning</p> 
-												<p class="label label-danger">danger</p> 
-											</p>
-											<pre class="prettyprint">
-												<xmp>
-												$("#input_tags").bootstrapTagger({backgroundColor: "primary"});
-												</xmp>
-											</pre>
-											<p class="text-danger">
-												Alternatively a value of "random" can be used to randomly select a 
-												color for each tag. See example above.
-											</p>
-											<pre class="prettyprint">
-												<xmp>
-												$("#input_tags").bootstrapTagger({backgroundColor: "random"});
-												</xmp>
-											</pre>
-										</td>
-									</tr>
-								</table>
+								<div class="col-sm-3 doco-left">
+									<div class="row">
+										<b>Option</b>
+										<p>backgroundColor</p>
+									</div>
+								</div>
+								<div class="col-sm-9 doco-right">
+									<div class="row">
+										<p>
+											Any of the supported Bootstrap colors are supported.
+										</p>
+										<p>					
+											Eg: 
+											<p class="label label-default">default</p> 
+											<p class="label label-primary">primary</p> 
+											<p class="label label-success">success</p> 
+											<p class="label label-info">info</p> 
+											<p class="label label-warning">warning</p> 
+											<p class="label label-danger">danger</p> 
+										</p>
+										<pre class="prettyprint">
+											<xmp>
+											$("#input_tags").bootstrapTagger({backgroundColor: "primary"});
+											</xmp>
+										</pre>
+										<p class="text-danger">
+											Alternatively a value of "random" can be used to randomly select a 
+											color for each tag. See example above.
+										</p>
+										<pre class="prettyprint">
+											<xmp>
+											$("#input_tags").bootstrapTagger({backgroundColor: "random"});
+											</xmp>
+										</pre>
+									</div>
+								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-
-				<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
-					<div class="list-group">
-						<a href="#what_is_it" class="list-group-item">What is it</a>
-						<a href="#what_look_like" class="list-group-item">What does it look like</a>
-						<a href="#what_get_it" class="list-group-item">Where can I get it</a>
-						<a href="#code_examples" class="list-group-item">How does it work - Code examples</a>
-						<a href="#options" class="list-group-item">Options</a>
 					</div>
 				</div>
 			</div>
