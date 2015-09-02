@@ -94,7 +94,7 @@ app.use(session({
 }));
 
 // serving static content
-app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static('public'));
 
 // Make stuff accessible to our router
 app.use(function (req, res, next) {

@@ -24,6 +24,11 @@
 					$(this).addClass("img-responsive")
 		        });
 				
+				// add the table class to all tables
+				$('table').each(function(){
+					$(this).addClass("table table-hover")
+		        });
+				
 				$(".alert-dismissable").fadeTo(2500, 800).slideUp(800, function(){
 				    $(".alert-dismissable").alert('close');
 				});

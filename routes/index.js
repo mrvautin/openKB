@@ -230,7 +230,15 @@ router.post('/user_insert', restrict, function(req, res) {
 		}
 		req.session.message = "User account inserted.";
 		req.session.message_type = "success";
-		res.redirect('/user/edit/' + doc._id);
+		
+		// if from setup we add user to session and redirect to login.
+		// Otherwise we show user edit screen
+		if(url_parts.path == "/setup"){
+			req.session.user = req.body.user_email;
+			res.redirect('/login');
+		}else{
+			res.redirect('/user/edit/' + doc._id);
+		}
 	});
 });
 
@@ -261,6 +269,8 @@ router.get('/login', function(req, res) {
 	req.db.users.count({}, function (err, user_count) {  
 		// we check for a user. If one exists, redirect to login form otherwise setup
 		if(user_count > 0){
+			// set needs_setup to false as a user exists
+			req.session.needs_setup = false;
 			res.render('login', { 
 			  	title: 'Login', 
 				referring_url: req.header('Referer'),
@@ -269,6 +279,8 @@ router.get('/login', function(req, res) {
 				message_type: clear_session_value(req.session, "message_type")
 			});
 		}else{
+			// if there are no users set the "needs_setup" session
+			req.session.needs_setup = true;
 			res.redirect('/setup');
 		}
 	});
@@ -280,6 +292,8 @@ router.get('/setup', function(req, res) {
 	
 	req.db.users.count({}, function (err, user_count) {
 		// dont allow the user to "re-setup" if a user exists.
+		// set needs_setup to false as a user exists
+		req.session.needs_setup = false;
 		if(user_count == 0){
 			res.render('setup', { 
 			  	title: 'Setup', 
@@ -450,6 +464,13 @@ function restrict(req, res, next){
 		}
 	}
 	
+	// if the "needs_setup" session variable is set, we allow as 
+	// this means there is no user existing
+	if(req.session.needs_setup == false){
+		next();
+		return;
+	}
+
 	// if not a public page we check_login
 	check_login(req, res, next);
 }

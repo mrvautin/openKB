@@ -1,6 +1,6 @@
 window.onload = function() {
     var convertTextAreaToMarkdown = function(){
-        var converter = new showdown.Converter(),
+        var converter = new showdown.Converter({tables: true}),
         text      = document.getElementById('editor').value,
         html      = converter.makeHtml(text);
         
