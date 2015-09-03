@@ -9,11 +9,32 @@ var marked = require('marked');
 var nedb = require('nedb');
 var session = require('express-session');
 var bcrypt = require('bcrypt-nodejs');
+var lunr = require('lunr');
 
+// setup the db's
 var db = new nedb();
 db = {};
 db.users = new nedb({ filename: 'data/users.db', autoload: true });
 db.kb = new nedb({ filename: 'data/kb.db', autoload: true });
+
+// setup lunr indexing
+var lunr_index = lunr(function () {
+    this.field('kb_title', { boost: 10 });
+    this.field('kb_keywords');
+});
+
+// get all articles on startup
+db.kb.find({}, function (err, kb_list) {
+    // add to lunr index
+    kb_list.forEach(function(kb) {
+        var doc = {
+            "kb_title": kb.kb_title,
+            "kb_keywords": kb.kb_keywords,
+            "id": kb._id
+        };
+        lunr_index.add(doc);
+    });
+});
 
 // markdown stuff
 marked.setOptions({
@@ -102,6 +123,7 @@ app.use(function (req, res, next) {
 	req.marked = marked;
 	req.handlebars = handlebars;
     req.bcrypt = bcrypt;
+    req.lunr_index = lunr_index;
 	next();
 });
 

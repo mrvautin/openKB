@@ -70,6 +70,7 @@ router.get('/edit/:id', restrict, function(req, res) {
 // insert new KB form action
 router.post('/insert_kb', restrict, function(req, res) {
   	var db = req.db;
+	var lunr_index = req.lunr_index;
   
   	var published_state = "false";
 	if(req.body.frm_kb_published == "on"){
@@ -87,6 +88,17 @@ router.post('/insert_kb', restrict, function(req, res) {
 		if(err){
 			console.log(err);
 		}else{
+			// create lunr doc
+			var lunr_doc = { 
+				kb_title: req.body.frm_kb_title,
+				kb_keywords: req.body.frm_kb_keywords,
+				id: newDoc._id
+			};
+			
+			// add to lunr index
+			lunr_index.add(lunr_doc);
+			
+			// redirect to new doc
 			res.redirect('/kb/' + newDoc._id);
 		}
 	});
@@ -95,6 +107,7 @@ router.post('/insert_kb', restrict, function(req, res) {
 // Update an existing KB article form action
 router.post('/save_kb', restrict, function(req, res) {
   	var db = req.db;
+	var lunr_index = req.lunr_index;
 	
 	var published_state = "false";
 	if(req.body.frm_kb_published == "on"){
@@ -112,6 +125,16 @@ router.post('/save_kb', restrict, function(req, res) {
 			req.session.message = "Failed to save. Please try again";
 			req.session.message_type = "danger";
 		}else{
+			// create lunr doc
+			var lunr_doc = { 
+				kb_title: req.body.frm_kb_title,
+				kb_keywords: req.body.frm_kb_keywords,
+				id: req.body.frm_kb_id
+			};
+			
+			// update the index
+			lunr_index.update(lunr_doc, false);
+			
 			req.session.message = "Successfully saved";
 			req.session.message_type = "success";
 			res.redirect('/edit/' + req.body.frm_kb_id);
@@ -367,20 +390,33 @@ router.get('/user/delete/:id', restrict, function(req, res) {
 // delete article
 router.get('/delete/:id', restrict, function(req, res) {
   	var db = req.db;
+	var lunr_index = req.lunr_index;
 	
 	// remove the article
 	db.kb.remove({_id: req.params.id}, {}, function (err, numRemoved) {
+		
+		// create lunr doc
+		var lunr_doc = { 
+			kb_title: req.body.frm_kb_title,
+			kb_keywords: req.body.frm_kb_keywords,
+			id: req.body.frm_kb_id
+		};
+		
+		// remove the index
+		lunr_index.remove(lunr_doc, false);
+		
+		// redirect home
 		res.redirect('/');
   	});
 });
 
+// upload the file
 var multer  = require('multer')
 var upload = multer({ dest: '/public/images/' });
 router.post('/file/upload', restrict, upload.single('image_file'), function (req, res, next) {
 	var fs = require('fs');
 	
 	if(req.file){
-		console.log("here");
 		var file = req.file;
 		var source = fs.createReadStream(file.path);
 		var dest = fs.createWriteStream("public/images/" + file.originalname.replace(/ /g,"_"));
@@ -391,8 +427,7 @@ router.post('/file/upload', restrict, upload.single('image_file'), function (req
 
 		// delete the temp file.
 		fs.unlink(file.path, function (err) {});
-		
-
+	
 		req.session.message = "Media uploaded successfully";
 		req.session.message_type = "success";
 		res.redirect('/files');
@@ -404,6 +439,7 @@ router.post('/file/upload', restrict, upload.single('image_file'), function (req
 	}
 });
 
+// delete a file via ajax request
 router.post('/file/delete', function(req, res) {
 	var fs = require('fs');
 
@@ -423,7 +459,6 @@ router.get('/files', restrict, function(req, res) {
 	var config = require('./config');
 	var glob = require("glob");
 	var fs = require("fs");
-	var sizeOf = require('image-size');
 	
 	// loop files in /public/images/
 	glob("public/images/**", function (er, files) {
@@ -436,18 +471,10 @@ router.get('/files', restrict, function(req, res) {
 			
 			// only want files
 			if(fs.lstatSync(files[i]).isDirectory() == false){
-				// set the dimension to zeros by default
-				var dimension = {width: "0",height: "0"};
-				var file_dimension = sizeOf(files[i]);
-				dimension.width = file_dimension.width;
-				dimension.height = file_dimension.height;
-				
 				// declare the file object and set its values
 				var file = {
 					id: i,
-					path: files[i].substring(6),
-					width: dimension.width,
-					height: dimension.height
+					path: files[i].substring(6)
 				};
 				
 				// push the file object into the array
@@ -481,10 +508,17 @@ router.get('/insert', restrict, function(req, res) {
 router.get('/search/:tag', restrict, function(req, res) {
 	var db = req.db;
 	var search_term = req.params.tag;
+	var lunr_index = req.lunr_index;
 	var config = require('./config');
+	
+	// we strip the ID's from the lunr index search
+	var lunr_id_array = new Array();
+	lunr_index.search(search_term).forEach(function(id) {
+		lunr_id_array.push(id.ref);
+	});
   
-	// we search on the keywords and the title for the search text
-	db.kb.find({'$or':[{kb_keywords:new RegExp(search_term,'i')},{kb_title:new RegExp(search_term,'i')}], kb_published:'true'}).exec(function(err, results) {
+	// we search on the lunr indexes
+	db.kb.find({ _id: { $in: lunr_id_array}, kb_published:'true'}, function (err, results) {
 		res.render('index', { 
 			title: 'Results', 
 			"results": results, 
@@ -499,10 +533,18 @@ router.get('/search/:tag', restrict, function(req, res) {
 router.post('/search', restrict, function(req, res) {
 	var db = req.db;
 	var search_term = req.body.frm_search;
+	var lunr_index = req.lunr_index;
 	var config = require('./config');
+
+	// we strip the ID's from the lunr index search
+	var lunr_id_array = new Array();
+	lunr_index.search(search_term).forEach(function(id) {
+		lunr_id_array.push(id.ref);
+	});
 	
-	// we search on the keywords and the title for the search text
-	db.kb.find({'$or':[{kb_keywords:new RegExp(search_term,'i')},{kb_title:new RegExp(search_term,'i')}], kb_published:'true'}).exec(function(err, results) {
+	// we search on the lunr indexes
+	db.kb.find({ _id: { $in: lunr_id_array}, kb_published:'true'}, function (err, results) {
+		console.log(err);
 		res.render('index', { 
 			title: 'Results', 
 			"results": results, 
