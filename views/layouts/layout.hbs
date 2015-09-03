@@ -15,6 +15,7 @@
 		<script src="/javascripts/form_validation.js"></script>
 		<script src="/javascripts/bootstrap-markdown.js"></script>
 		<script src="/javascripts/bootstrap-switch.min.js"></script>
+		<script src="/javascripts/imagePreview.js"></script>
 		<script>
 			$(document).ready(function() {
 				$("#frm_kb_body").markdown({autofocus:false,savable:false})
@@ -23,6 +24,8 @@
 				$('img').each(function(){
 					$(this).addClass("img-responsive")
 		        });
+				
+				$(".imgPreview").imgPreview();
 				
 				// add the table class to all tables
 				$('table').each(function(){
@@ -46,6 +49,24 @@
 				  	});
 				});
 			});
+			
+			function file_delete_confirm(img, id) {
+				if (window.confirm("Are you sure you want to delete the image?")) {
+            		$.ajax({
+					  	method: "POST",
+					  	url: "/file/delete",
+				  		data: { img: img}
+					})
+				  	.done(function( msg ) {
+				    	if(msg.data == "error"){
+							alert("Image delete error. Try again.")
+						}else{
+							console.log("here");
+							$("#img-" + id).remove();
+					  	}
+				  	});
+        		}
+			}
 			
 			$(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
 			
@@ -86,10 +107,11 @@
 								</ul>
 							</li>
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Articles <span class="caret"></span></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Article <span class="caret"></span></a>
 								<ul class="dropdown-menu">
 									<li><a href="/insert">New</a></li>
 									<li><a href="/articles">Edit</a></li>
+									<li><a href="/files">Files</a></li>
 								</ul>
 							</li>
 							<li><a href="/logout">Logout</a></li>

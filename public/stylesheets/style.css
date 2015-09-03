@@ -158,6 +158,15 @@ footer {
     padding-top: 5px !important;
 }
 
+.imgPreview{
+    color: #d62828;
+}
+
+.imgPreview:link, .imgPreview:hover, .imgPreview:active, .imgPreview:visited{
+    color: #d62828;
+    text-decoration: none;
+}
+
 .editor_btn_action{
     border-top-left-radius: 4px !important; 
     border-bottom-left-radius: 4px !important;

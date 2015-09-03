@@ -374,6 +374,97 @@ router.get('/delete/:id', restrict, function(req, res) {
   	});
 });
 
+var multer  = require('multer')
+var upload = multer({ dest: '/public/images/' });
+router.post('/file/upload', restrict, upload.single('image_file'), function (req, res, next) {
+	var fs = require('fs');
+	
+	if(req.file){
+		console.log("here");
+		var file = req.file;
+		var source = fs.createReadStream(file.path);
+		var dest = fs.createWriteStream("public/images/" + file.originalname.replace(/ /g,"_"));
+
+		// save the new file
+		source.pipe(dest);
+		source.on("end", function() {});
+
+		// delete the temp file.
+		fs.unlink(file.path, function (err) {});
+		
+
+		req.session.message = "Media uploaded successfully";
+		req.session.message_type = "success";
+		res.redirect('/files');
+	}else{
+		console.log("non");
+		req.session.message = "Media upload error";
+		req.session.message_type = "danger";
+		res.redirect('/files');
+	}
+});
+
+router.post('/file/delete', function(req, res) {
+	var fs = require('fs');
+
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Accept");
+
+	fs.unlink("public/" + req.body.img, function (err) {
+		if (err){
+			console.log(err);
+			res.send({'data': 'Error'});
+		}
+		res.send({'data': 'Success'});
+	});
+});
+
+router.get('/files', restrict, function(req, res) {
+	var config = require('./config');
+	var glob = require("glob");
+	var fs = require("fs");
+	var sizeOf = require('image-size');
+	
+	// loop files in /public/images/
+	glob("public/images/**", function (er, files) {
+
+		// declare the array of objects
+		var file_list = new Array();
+		
+		// loop these files
+		for (var i = 0; i < files.length; i++) {
+			
+			// only want files
+			if(fs.lstatSync(files[i]).isDirectory() == false){
+				// set the dimension to zeros by default
+				var dimension = {width: "0",height: "0"};
+				var file_dimension = sizeOf(files[i]);
+				dimension.width = file_dimension.width;
+				dimension.height = file_dimension.height;
+				
+				// declare the file object and set its values
+				var file = {
+					id: i,
+					path: files[i].substring(6),
+					width: dimension.width,
+					height: dimension.height
+				};
+				
+				// push the file object into the array
+				file_list.push(file);
+			}
+		}
+		
+		// render the files route
+		res.render('files', {
+			title: 'Files', 
+			files: file_list,
+			session: req.session,
+			config: config
+		});
+	});
+});
+
 // insert form
 router.get('/insert', restrict, function(req, res) {
 	var config = require('./config');
