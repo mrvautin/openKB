@@ -1,6 +1,6 @@
 <div class="col-md-10 col-md-offset-1">
 	<div class="row">
-		<form method="post" id="insert_form" action="/insert_kb" novalidate>
+		<form method="post" id="insert_form" action="/insert_kb">
 			<div id="header row">
 				<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 					<div class="form-group">
@@ -37,13 +37,14 @@
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<div class="form-group">
 						<label>Keywords</label><br/>
-						<input type="text" minlength="3" class="form-control" name="frm_kb_keywords" id="frm_kb_keywords" value="" placeholder="Comma, seporated, keywords" required>
+						<input type="text" class="form-control" name="frm_kb_keywords" id="frm_kb_keywords" value="">
 					</div>
 				</div>
 			</footer>
 		</form>
 		{{#if editor}}
-			<script src="/javascripts/showdown.min.js"></script>
+			<script src="/javascripts/bootstrapTagger.js"></script>
+			<script src="/javascripts/markdown-it.min.js"></script>
 			<script src="/javascripts/markdown-editor.js"></script>
 		{{/if}}
 	</div>

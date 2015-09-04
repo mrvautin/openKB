@@ -29,9 +29,9 @@ db.kb.find({}, function (err, kb_list) {
     kb_list.forEach(function(kb) {
         var doc = {
             "kb_title": kb.kb_title,
-            "kb_keywords": kb.kb_keywords,
+            "kb_keywords": kb.kb_keywords.toString().replace(/,/g, ' '),
             "id": kb._id
-        };
+        };        
         lunr_index.add(doc);
     });
 });
@@ -56,7 +56,9 @@ handlebars = handlebars.create({
         split_keywords: function (keywords) { 
             var array = keywords.split(','); var links = "";
             for (var i = 0; i < array.length; i++) { 
-                links += "<a href='/search/"+array[i].trim() +"'>"+array[i].trim() +"</a>&nbsp;|&nbsp;";
+                if(array[i].trim() != ""){
+                    links += "<a href='/search/"+array[i].trim() +"'>"+array[i].trim() +"</a>&nbsp;|&nbsp;";
+                }
             }return links.substring(0, links.length - 1);
         },
         checked_state: function (state) { 

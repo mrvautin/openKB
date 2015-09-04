@@ -10,70 +10,14 @@
 		<link rel="stylesheet" href="/stylesheets/bootstrap-markdown.min.css">
 		<link rel="stylesheet" href="/stylesheets/bootstrap-switch.min.css">
 		<link rel="stylesheet" href="/stylesheets/font-awesome.min.css">
+		<link rel="stylesheet" href="/stylesheets/bootstrapTagger.css">
 		<script src="/javascripts/jquery-2.1.4.min.js"></script>
 		<script src="/javascripts/bootstrap.min.js"></script>
-		<script src="/javascripts/form_validation.js"></script>
+		<script src="/javascripts/jqBootstrapValidation.js"></script>
 		<script src="/javascripts/bootstrap-markdown.js"></script>
 		<script src="/javascripts/bootstrap-switch.min.js"></script>
 		<script src="/javascripts/imagePreview.js"></script>
-		<script>
-			$(document).ready(function() {
-				$("#frm_kb_body").markdown({autofocus:false,savable:false})
-				
-				// add the responsive image class to all images
-				$('img').each(function(){
-					$(this).addClass("img-responsive")
-		        });
-				
-				$(".imgPreview").imgPreview();
-				
-				// add the table class to all tables
-				$('table').each(function(){
-					$(this).addClass("table table-hover")
-		        });
-				
-				$(".alert-dismissable").fadeTo(2500, 800).slideUp(800, function(){
-				    $(".alert-dismissable").alert('close');
-				});
-				
-				$("[class='published_state']").bootstrapSwitch();
-				$("#frm_kb_published").bootstrapSwitch();
-				$("input[class='published_state']").on('switchChange.bootstrapSwitch', function(event, state) {
-					$.ajax({
-					  	method: "POST",
-					  	url: "/published_state",
-				  		data: { id: this.id, state: state }
-					})
-				  	.done(function( msg ) {
-				    	alert( "Data Saved: " + msg);
-				  	});
-				});
-			});
-			
-			function file_delete_confirm(img, id) {
-				if (window.confirm("Are you sure you want to delete the image?")) {
-            		$.ajax({
-					  	method: "POST",
-					  	url: "/file/delete",
-				  		data: { img: img}
-					})
-				  	.done(function( msg ) {
-				    	if(msg.data == "error"){
-							alert("Image delete error. Try again.")
-						}else{
-							console.log("here");
-							$("#img-" + id).remove();
-					  	}
-				  	});
-        		}
-			}
-			
-			$(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
-			
-			function search_form(id) {
-				$('form#'+ id).submit();
-			}
-		</script>
+		<script src="/javascripts/functions.js"></script>
 	</head>
 	<body>	
 		<!-- Static navbar -->

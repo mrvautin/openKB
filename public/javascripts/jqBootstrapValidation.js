@@ -1,6 +1,6 @@
 /* jqBootstrapValidation
  * A plugin for automating validation on Twitter Bootstrap formatted forms.
- *
+ * 
  * v1.3.6
  *
  * License: MIT <http://opensource.org/licenses/mit-license.php> - see LICENSE file
@@ -455,7 +455,7 @@
 
               $controlGroup.find("input,textarea,select").each(function (i, el) {
                 var oldCount = errorsFound.length;
-                $.each($(el).triggerHandler("validation.validation", params), function (j, message) {
+                $.each($(el).triggerHandler("validation.validation", params) || [], function (j, message) {
                   errorsFound.push(message);
                 });
                 if (errorsFound.length > oldCount) {

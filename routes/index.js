@@ -77,11 +77,17 @@ router.post('/insert_kb', restrict, function(req, res) {
 		published_state = "true";
 	}
 	
+	// if empty, remove the comma and just have a blank string
+	var keywords = req.body.frm_kb_keywords[1];
+	if(keywords.trim() == ","){
+		keywords = "";
+	}
+	
     var doc = { 
         kb_title: req.body.frm_kb_title,
 		kb_body: req.body.frm_kb_body,
 		kb_published: published_state,
-		kb_keywords: req.body.frm_kb_keywords
+		kb_keywords: keywords
 	};
 
 	db.kb.insert(doc, function (err, newDoc) {
@@ -91,7 +97,7 @@ router.post('/insert_kb', restrict, function(req, res) {
 			// create lunr doc
 			var lunr_doc = { 
 				kb_title: req.body.frm_kb_title,
-				kb_keywords: req.body.frm_kb_keywords,
+				kb_keywords: req.body.frm_kb_keywords.toString().replace(/,/g, ' '),
 				id: newDoc._id
 			};
 			
@@ -113,12 +119,18 @@ router.post('/save_kb', restrict, function(req, res) {
 	if(req.body.frm_kb_published == "on"){
 		published_state = "true";
 	}
+	
+	// if empty, remove the comma and just have a blank string
+	var keywords = req.body.frm_kb_keywords[1];
+	if(keywords.trim() == ","){
+		keywords = "";
+	}
  
 	db.kb.update({_id: req.body.frm_kb_id},{ $set: 
 			{   kb_title: req.body.frm_kb_title,
 				kb_body: req.body.frm_kb_body,
 				kb_published: published_state,
-				kb_keywords: req.body.frm_kb_keywords
+				kb_keywords: keywords
 			}
 		}, {},  function (err, numReplaced) {
 		if(err){
@@ -128,7 +140,7 @@ router.post('/save_kb', restrict, function(req, res) {
 			// create lunr doc
 			var lunr_doc = { 
 				kb_title: req.body.frm_kb_title,
-				kb_keywords: req.body.frm_kb_keywords,
+				kb_keywords: req.body.frm_kb_keywords.toString().replace(/,/g, ' '),
 				id: req.body.frm_kb_id
 			};
 			
@@ -398,7 +410,7 @@ router.get('/delete/:id', restrict, function(req, res) {
 		// create lunr doc
 		var lunr_doc = { 
 			kb_title: req.body.frm_kb_title,
-			kb_keywords: req.body.frm_kb_keywords,
+			kb_keywords: req.body.frm_kb_keywords.toString().replace(/,/g, ' '),
 			id: req.body.frm_kb_id
 		};
 		
@@ -432,7 +444,6 @@ router.post('/file/upload', restrict, upload.single('image_file'), function (req
 		req.session.message_type = "success";
 		res.redirect('/files');
 	}else{
-		console.log("non");
 		req.session.message = "Media upload error";
 		req.session.message_type = "danger";
 		res.redirect('/files');
@@ -544,7 +555,6 @@ router.post('/search', restrict, function(req, res) {
 	
 	// we search on the lunr indexes
 	db.kb.find({ _id: { $in: lunr_id_array}, kb_published:'true'}, function (err, results) {
-		console.log(err);
 		res.render('index', { 
 			title: 'Results', 
 			"results": results, 
