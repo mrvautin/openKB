@@ -167,6 +167,11 @@ footer {
     text-decoration: none;
 }
 
+.file-form{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
 .editor_btn_action{
     border-top-left-radius: 4px !important; 
     border-bottom-left-radius: 4px !important;

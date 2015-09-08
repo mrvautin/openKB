@@ -422,16 +422,46 @@ router.get('/delete/:id', restrict, function(req, res) {
   	});
 });
 
+router.post('/file/new_dir', restrict, function (req, res, next) {
+	var mkdirp = require('mkdirp');
+	
+	// if new directory exists
+	if(req.body.custom_dir){
+		mkdirp("public/uploads/" + req.body.custom_dir, function (err) {
+			console.log(err);
+			if (err){
+				req.session.message = "Directory creation error. Please try again";
+				req.session.message_type = "danger";
+				res.redirect('/files');
+			}else{
+				req.session.message = "Directory successfully created";
+				req.session.message_type = "success";
+				res.redirect('/files');
+			}
+		});
+	}else{
+		req.session.message = "Please enter a directory name";
+		req.session.message_type = "danger";
+		res.redirect('/files');
+	}
+});
+
 // upload the file
 var multer  = require('multer')
-var upload = multer({ dest: '/public/images/' });
-router.post('/file/upload', restrict, upload.single('image_file'), function (req, res, next) {
+var upload = multer({ dest: '/public/uploads/' });
+router.post('/file/upload', restrict, upload.single('upload_file'), function (req, res, next) {
 	var fs = require('fs');
 	
 	if(req.file){
+		// check for upload select
+		var upload_dir = "public/uploads/";
+		if(req.body.directory != "/uploads"){
+			upload_dir = "public/" + req.body.directory;
+		}
+		
 		var file = req.file;
 		var source = fs.createReadStream(file.path);
-		var dest = fs.createWriteStream("public/images/" + file.originalname.replace(/ /g,"_"));
+		var dest = fs.createWriteStream(upload_dir + "/" + file.originalname.replace(/ /g,"_"));
 
 		// save the new file
 		source.pipe(dest);
@@ -440,18 +470,18 @@ router.post('/file/upload', restrict, upload.single('image_file'), function (req
 		// delete the temp file.
 		fs.unlink(file.path, function (err) {});
 	
-		req.session.message = "Media uploaded successfully";
+		req.session.message = "File uploaded successfully";
 		req.session.message_type = "success";
 		res.redirect('/files');
 	}else{
-		req.session.message = "Media upload error";
+		req.session.message = "File upload error. Please select a file.";
 		req.session.message_type = "danger";
 		res.redirect('/files');
 	}
 });
 
 // delete a file via ajax request
-router.post('/file/delete', function(req, res) {
+router.post('/file/delete', restrict, function(req, res) {
 	var fs = require('fs');
 
 	res.header("Access-Control-Allow-Origin", "*");
@@ -471,11 +501,15 @@ router.get('/files', restrict, function(req, res) {
 	var glob = require("glob");
 	var fs = require("fs");
 	
-	// loop files in /public/images/
-	glob("public/images/**", function (er, files) {
-
+	// loop files in /public/uploads/
+	glob("public/uploads/**", {nosort: true}, function (er, files) {
+		
+		// sort array
+		files.sort();
+		
 		// declare the array of objects
 		var file_list = new Array();
+		var dir_list = new Array();
 		
 		// loop these files
 		for (var i = 0; i < files.length; i++) {
@@ -490,6 +524,14 @@ router.get('/files', restrict, function(req, res) {
 				
 				// push the file object into the array
 				file_list.push(file);
+			}else{
+				var dir = {
+					id: i,
+					path: files[i].substring(6)
+				};
+				
+				// push the dir object into the array
+				dir_list.push(dir);
 			}
 		}
 		
@@ -497,8 +539,11 @@ router.get('/files', restrict, function(req, res) {
 		res.render('files', {
 			title: 'Files', 
 			files: file_list,
+			dirs: dir_list,
 			session: req.session,
-			config: config
+			config: config,
+			message: clear_session_value(req.session, "message"),
+			message_type: clear_session_value(req.session, "message_type"),
 		});
 	});
 });

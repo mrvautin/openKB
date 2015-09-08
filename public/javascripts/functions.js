@@ -33,7 +33,7 @@ $(document).ready(function() {
 });
 
 function file_delete_confirm(img, id) {
-	if (window.confirm("Are you sure you want to delete the image?")) {
+	if (window.confirm("Are you sure you want to delete the file?")) {
 		$.ajax({
 			method: "POST",
 			url: "/file/delete",
@@ -41,10 +41,10 @@ function file_delete_confirm(img, id) {
 		})
 		.done(function( msg ) {
 			if(msg.data == "error"){
-				alert("Image delete error. Try again.")
+				alert("File delete error. Try again.")
 			}else{
 				console.log("here");
-				$("#img-" + id).remove();
+				$("#file-" + id).remove();
 			}
 		});
 	}

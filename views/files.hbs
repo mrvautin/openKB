@@ -11,22 +11,44 @@
 	  			<li><a href="/">Home</a></li>
 	 			<li class="active">Files</li>
 			</ol>
-			<h1>Files</h1>
-			<form class="form-inline" role="form" method="post" action="/file/upload" enctype="multipart/form-data" style="padding-bottom: 15px;">
-				<div class="form-group">
-					<input type="file" name="image_file" id="image_file">
-				</div>
-				<button type="submit" class="btn btn-primary">upload</button>
-			</form>
-			<ul class="list-group">
-				{{#each files}}
-					<li class="list-group-item" id="img-{{this.id}}">
-						<span><i class="fa fa-file-image-o"></i></span>
-						<span class="align-left"><a class="imgPreview" href="{{this.path}}">{{this.path}}</a></span>
-						<span class="pull-right" style="padding-left: 10px;"><button class="btn btn-danger btn-xs" onclick="file_delete_confirm('{{this.path}}','{{this.id}}')"><i class="fa fa-trash-o"></i></button></span>
-					</li>
-				{{/each}}
-			</ul>
+			<h1 class="file-form">Files</h1>
+			<div class="col-md-12">
+				<form class="form-horizontal" role="form" method="post" action="/file/upload" enctype="multipart/form-data">
+					<div class="form-group file-form">
+						<input type="file" name="upload_file" class="form-control" id="upload_file">
+					</div>
+					<div class="form-group file-form">
+						<label for="custom_dir">Upload directory</label>
+						<select class="form-control" name="directory">
+							{{#each dirs}}
+								<option>{{path}}</option>
+							{{/each}}
+						</select>
+					</div>
+					<div class="form-group file-form">
+						<button type="submit" class="btn btn-primary pull-right">Upload file</button>
+					</div>
+					<ul class="list-group">
+						{{#each files}}
+							<li class="list-group-item" id="file-{{this.id}}">
+								<span><i class="fa fa-file-image-o"></i></span>
+								<span class="align-left"><a class="imgPreview" href="{{this.path}}" target="_blank">{{this.path}}</a></span>
+								<span class="pull-right" style="padding-left: 10px;"><button class="btn btn-primary btn-xs" onclick="file_delete_confirm('{{this.path}}','{{this.id}}')"><i class="fa fa-trash-o"></i></button></span>
+							</li>
+						{{/each}}
+					</ul>
+				</form>
+				<form class="form-horizontal" role="form" method="post" action="/file/new_dir">
+					<label for="directory">New directory</label>
+					<div class="input-group">
+						<input type="text" class="form-control" name="custom_dir" id="custom_dir" placeholder="new/directory">
+						<span class="input-group-btn">
+							<button class="btn btn-primary" type="submit">Create</button>
+						</span>
+					</div>
+					<p class="help-block">Multiple directories can be created using a "/" seporator</p>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
