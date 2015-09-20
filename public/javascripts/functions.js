@@ -6,9 +6,6 @@ $(document).ready(function() {
 		$(this).addClass("img-responsive")
 	});
 	
-	// shows the image preview on hover in the files view
-	$(".imgPreview").imgPreview();
-	
 	// add the table class to all tables
 	$('table').each(function(){
 		$(this).addClass("table table-hover")

@@ -5,11 +5,11 @@ var logger = require('morgan');
 var handlebars = require('express-handlebars');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var marked = require('marked');
 var nedb = require('nedb');
 var session = require('express-session');
 var bcrypt = require('bcrypt-nodejs');
 var lunr = require('lunr');
+var markdownit = require('markdown-it')({html: true,linkify: true,typographer: true});
 
 // setup the db's
 var db = new nedb();
@@ -34,11 +34,6 @@ db.kb.find({}, function (err, kb_list) {
         };        
         lunr_index.add(doc);
     });
-});
-
-// markdown stuff
-marked.setOptions({
-	renderer: new marked.Renderer()
 });
 
 // require the routes
@@ -122,7 +117,7 @@ app.use(express.static('public'));
 // Make stuff accessible to our router
 app.use(function (req, res, next) {
 	req.db = db;
-	req.marked = marked;
+	req.markdownit = markdownit;
 	req.handlebars = handlebars;
     req.bcrypt = bcrypt;
     req.lunr_index = lunr_index;

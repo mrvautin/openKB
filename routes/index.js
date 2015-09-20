@@ -19,32 +19,38 @@ router.get('/', restrict, function(req, res, next) {
 
 router.get('/kb/:id', restrict, function(req, res) {
   var db = req.db;
-  var marked = req.marked;
+  var markdownit = req.markdownit;
   var helpers = req.handlebars.helpers;
   var config = require('./config');
   
   db.kb.findOne({_id: req.params.id}, function (err, result) {
-	// add to old view count
-	var old_viewcount = result.kb_viewcount;
-	if(old_viewcount == null){
-		old_viewcount = 0;
-	}
-	var new_viewcount = old_viewcount + 1;
-	
-	db.kb.update({ _id: req.params.id }, 
-		{ 
-			$set: { kb_viewcount:  new_viewcount} 
-		}, { multi: false }, function (err, numReplaced) {
-		// show the view
-		res.render('kb', { 
-			title: result.kb_title, 
-			"result": result,
-			"kb_body": marked(result.kb_body),
-			config: config,
-			session: req.session,
-			helpers: helpers
+	// render 404 if page is not published
+	if(result == null || result.kb_published == "false"){
+		res.render('error', { message: '404 - Page not found' });
+	}else{
+		// add to old view count
+		var old_viewcount = result.kb_viewcount;
+		if(old_viewcount == null){
+			old_viewcount = 0;
+		}
+		var new_viewcount = old_viewcount + 1;
+		
+		db.kb.update({ _id: req.params.id }, 
+			{ 
+				$set: { kb_viewcount:  new_viewcount} 
+			}, { multi: false }, function (err, numReplaced) {
+			
+			// show the view
+			res.render('kb', { 
+				title: result.kb_title, 
+				"result": result,
+				"kb_body": markdownit.render(result.kb_body),
+				config: config,
+				session: req.session,
+				helpers: helpers
+			});
 		});
-	});
+	}
   });
 });
 
