@@ -14,7 +14,23 @@
 	<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
 		<h2 style="padding-bottom: 25px;padding-top: 15px;">{{result.kb_title}}</h2>
 		<p class="body_text">{{{kb_body}}}</p>
-		<h5 style="padding-top:50px;">
+		{{#if config.settings.show_kb_meta}}
+			<div class="panel panel-default" style="margin-top: 35px;">
+				<div class="panel-heading">Article details:</div>
+				<div class="panel-body">
+					<h5>
+						<strong>Published date:</strong> {{format_date result.kb_published_date 'DD/MM/YYYY h:mmA'}}
+					</h5>
+					<h5>
+						<strong>Last updated:</strong> {{format_date result.kb_last_updated 'DD/MM/YYYY h:mmA'}}
+					</h5>
+					<h5>
+						<strong>Author:</strong> {{result.kb_author}}
+					</h5>
+				</div>
+			</div>
+		{{/if}}
+		<h5 style="padding-top:20px;">
 			{{{split_keywords result.kb_keywords}}}
 		</h5>
 	</div>

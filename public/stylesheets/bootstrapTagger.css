@@ -25,7 +25,6 @@ input.form-control,input.form-control:focus {
 }
 
 .bootstraptagger_input_box{
-	width: 4.5em !important;
     border: none;
     box-shadow: none;
     outline: none;

@@ -10,6 +10,7 @@ var session = require('express-session');
 var bcrypt = require('bcrypt-nodejs');
 var lunr = require('lunr');
 var markdownit = require('markdown-it')({html: true,linkify: true,typographer: true});
+var moment = require('moment');
 
 // setup the db's
 var db = new nedb();
@@ -27,9 +28,14 @@ var lunr_index = lunr(function () {
 db.kb.find({}, function (err, kb_list) {
     // add to lunr index
     kb_list.forEach(function(kb) {
+        // only if defined
+        var keywords = "";
+        if(kb.kb_keywords != undefined){
+            keywords = kb.kb_keywords.toString().replace(/,/g, ' ');
+        }
         var doc = {
             "kb_title": kb.kb_title,
-            "kb_keywords": kb.kb_keywords.toString().replace(/,/g, ' '),
+            "kb_keywords": keywords,
             "id": kb._id
         };        
         lunr_index.add(doc);
@@ -61,7 +67,12 @@ handlebars = handlebars.create({
                 return "checked"
                 }else{return "";
             }
-        },        
+        },     
+        format_date: function (date, format) { 
+            console.log(date);
+            console.log(format);
+            return moment(date).format(format);
+        },       
         ifCond: function (v1, operator, v2, options) {
 			switch (operator) {
 				case '==':

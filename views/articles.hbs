@@ -13,6 +13,7 @@
 		  		</li>
 				{{#each articles}}
 				  	<li class="list-group-item">
+						<span class="pull-right" style="padding-left: 10px;"><a href="delete/{{this._id}}" onclick="return confirm('Are you sure you want to delete this article?');"> <i class="fa fa-trash-o"></i></a></span>
 				    	<span class="pull-right"><input id="{{this._id}}" class="published_state" type="checkbox" data-size="mini" data-on-color="success" data-off-color="danger" {{checked_state this.kb_published}}></span>
 				    	<a href="/edit/{{this._id}}">{{this.kb_title}}</a>
 			  		</li>

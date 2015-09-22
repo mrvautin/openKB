@@ -12,6 +12,8 @@ router.get('/', restrict, function(req, res, next) {
 			 title: 'openKB', 
 			 "top_results": top_results, 
 			 session: req.session,
+			 message: clear_session_value(req.session, "message"),
+			 message_type: clear_session_value(req.session, "message_type"),
 			 config: config
 		});
 	});
@@ -33,6 +35,7 @@ router.get('/kb/:id', restrict, function(req, res) {
 		if(old_viewcount == null){
 			old_viewcount = 0;
 		}
+
 		var new_viewcount = old_viewcount + 1;
 		
 		db.kb.update({ _id: req.params.id }, 
@@ -93,17 +96,26 @@ router.post('/insert_kb', restrict, function(req, res) {
         kb_title: req.body.frm_kb_title,
 		kb_body: req.body.frm_kb_body,
 		kb_published: published_state,
-		kb_keywords: keywords
+		kb_keywords: keywords,
+		kb_published_date: new Date(),
+		kb_last_updated: new Date(),
+		kb_author: req.session.user
 	};
 
 	db.kb.insert(doc, function (err, newDoc) {
 		if(err){
 			console.log(err);
 		}else{
+			// setup keywords
+			var keywords = "";
+			if(req.body.frm_kb_keywords != undefined){
+				keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
+			}
+			
 			// create lunr doc
 			var lunr_doc = { 
 				kb_title: req.body.frm_kb_title,
-				kb_keywords: req.body.frm_kb_keywords.toString().replace(/,/g, ' '),
+				kb_keywords: keywords,
 				id: newDoc._id
 			};
 			
@@ -112,6 +124,72 @@ router.post('/insert_kb', restrict, function(req, res) {
 			
 			// redirect to new doc
 			res.redirect('/kb/' + newDoc._id);
+		}
+	});
+});
+
+// Update an existing KB article form action
+router.get('/suggest', suggest_allowed, function(req, res) {
+	var config = require('./config');
+	
+	res.render('suggest', { 
+		title: 'Suggest article',
+		config: config,
+		editor: true,
+		is_admin: req.session.is_admin,
+		helpers: req.handlebars.helpers,
+		session: req.session
+	});
+});
+
+// Update an existing KB article form action
+router.post('/insert_suggest', suggest_allowed, function(req, res) {
+	var db = req.db;
+	var lunr_index = req.lunr_index;
+	
+	// if empty, remove the comma and just have a blank string
+	var keywords = req.body.frm_kb_keywords[1];
+	if(keywords != null){
+		if(keywords.trim() == ","){
+			keywords = "";
+		}
+	}
+	
+	var doc = { 
+        kb_title: req.body.frm_kb_title,
+		kb_body: req.body.frm_kb_body,
+		kb_published: "false",
+		kb_keywords: keywords,
+		kb_published_date: new Date(),
+		kb_last_updated: new Date(),
+		kb_author: req.session.user
+	};
+
+	db.kb.insert(doc, function (err, newDoc) {
+		if(err){
+			console.log(err);
+		}else{
+			
+			// setup keywords
+			var keywords = "";
+			if(req.body.frm_kb_keywords != undefined){
+				keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
+			}
+			
+			// create lunr doc
+			var lunr_doc = { 
+				kb_title: req.body.frm_kb_title,
+				kb_keywords: keywords,
+				id: newDoc._id
+			};
+			
+			// add to lunr index
+			lunr_index.add(lunr_doc);
+			
+			// redirect to new doc
+			req.session.message = "Suggestion successfully processed",
+			req.session.message_type = "success",
+			res.redirect('/');
 		}
 	});
 });
@@ -136,17 +214,24 @@ router.post('/save_kb', restrict, function(req, res) {
 			{   kb_title: req.body.frm_kb_title,
 				kb_body: req.body.frm_kb_body,
 				kb_published: published_state,
-				kb_keywords: keywords
+				kb_keywords: keywords,
+				kb_last_updated: new Date()
 			}
 		}, {},  function (err, numReplaced) {
 		if(err){
 			req.session.message = "Failed to save. Please try again";
 			req.session.message_type = "danger";
 		}else{
+			// setup keywords
+			var keywords = "";
+			if(req.body.frm_kb_keywords != undefined){
+				keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
+			}
+			
 			// create lunr doc
 			var lunr_doc = { 
 				kb_title: req.body.frm_kb_title,
-				kb_keywords: req.body.frm_kb_keywords.toString().replace(/,/g, ' '),
+				kb_keywords: keywords,
 				id: req.body.frm_kb_id
 			};
 			
@@ -413,10 +498,16 @@ router.get('/delete/:id', restrict, function(req, res) {
 	// remove the article
 	db.kb.remove({_id: req.params.id}, {}, function (err, numRemoved) {
 		
+		// setup keywords
+		var keywords = "";
+		if(req.body.frm_kb_keywords != undefined){
+			keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
+		}
+		
 		// create lunr doc
 		var lunr_doc = { 
 			kb_title: req.body.frm_kb_title,
-			kb_keywords: req.body.frm_kb_keywords.toString().replace(/,/g, ' '),
+			kb_keywords: keywords,
 			id: req.body.frm_kb_id
 		};
 		
@@ -424,7 +515,7 @@ router.get('/delete/:id', restrict, function(req, res) {
 		lunr_index.remove(lunr_doc, false);
 		
 		// redirect home
-		res.redirect('/');
+		res.redirect('/articles');
   	});
 });
 
@@ -584,7 +675,9 @@ router.get('/search/:tag', restrict, function(req, res) {
 		res.render('index', { 
 			title: 'Results', 
 			"results": results, 
-			session: req.session, 
+			session: req.session,
+			message: clear_session_value(req.session, "message"),
+			message_type: clear_session_value(req.session, "message_type"), 
 			search_term: search_term,
 			config: config
 		});
@@ -611,6 +704,8 @@ router.post('/search', restrict, function(req, res) {
 			"results": results, 
 			session: req.session, 
 			search_term: search_term,
+			message: clear_session_value(req.session, "message"),
+			message_type: clear_session_value(req.session, "message_type"),
 			config: config
 		});
 	});
@@ -626,6 +721,19 @@ function clear_session_value(session, session_var){
 		var sess_message_type = session.message_type;
 		session.message_type = null;
 		return sess_message_type;
+	}
+}
+
+// This is called on the suggest url. If the value is set to false in the config
+// a 403 error is rendered.
+function suggest_allowed(req, res, next){
+	var config = require('./config');
+	console.log(config.settings.suggest_allowed);
+	if(config.settings.suggest_allowed == true){
+		next();
+		return;
+	}else{
+		res.render('error', { message: '403 - Forbidden' });
 	}
 }
 
@@ -652,6 +760,13 @@ function restrict(req, res, next){
 		}
 	}
 	if(url_parts.path.indexOf("/kb") > -1){
+		if(config.settings.password_protect == false){
+			next();
+			return;
+		}
+	}
+	
+	if(url_parts.path.indexOf("/suggest") > -1){
 		if(config.settings.password_protect == false){
 			next();
 			return;

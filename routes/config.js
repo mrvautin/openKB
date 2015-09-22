@@ -14,4 +14,10 @@ config.settings.website_title = "openKB";
 // If set to "true", this locks down all pages of the blog and requires an authenticated user
 config.settings.password_protect = false;
 
+// Show KB meta data including published date, last updated date and author
+config.settings.show_kb_meta = true;
+
+// whether users are allowed to suggest articles without a login
+config.settings.suggest_allowed = true;
+
 module.exports = config;
