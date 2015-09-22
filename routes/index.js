@@ -43,6 +43,7 @@ router.get('/kb/:id', restrict, function(req, res) {
 				$set: { kb_viewcount:  new_viewcount} 
 			}, { multi: false }, function (err, numReplaced) {
 			
+			console.log(result);
 			// show the view
 			res.render('kb', { 
 				title: result.kb_title, 
@@ -122,8 +123,11 @@ router.post('/insert_kb', restrict, function(req, res) {
 			// add to lunr index
 			lunr_index.add(lunr_doc);
 			
+			req.session.message = "New article successfully created";
+			req.session.message_type = "success";
+			
 			// redirect to new doc
-			res.redirect('/kb/' + newDoc._id);
+			res.redirect('/edit/' + newDoc._id);
 		}
 	});
 });
@@ -187,8 +191,8 @@ router.post('/insert_suggest', suggest_allowed, function(req, res) {
 			lunr_index.add(lunr_doc);
 			
 			// redirect to new doc
-			req.session.message = "Suggestion successfully processed",
-			req.session.message_type = "success",
+			req.session.message = "Suggestion successfully processed";
+			req.session.message_type = "success";
 			res.redirect('/');
 		}
 	});
@@ -210,38 +214,59 @@ router.post('/save_kb', restrict, function(req, res) {
 		keywords = "";
 	}
  
-	db.kb.update({_id: req.body.frm_kb_id},{ $set: 
-			{   kb_title: req.body.frm_kb_title,
-				kb_body: req.body.frm_kb_body,
-				kb_published: published_state,
-				kb_keywords: keywords,
-				kb_last_updated: new Date()
-			}
-		}, {},  function (err, numReplaced) {
-		if(err){
-			req.session.message = "Failed to save. Please try again";
-			req.session.message_type = "danger";
+ 	db.kb.findOne({_id: req.body.frm_kb_id}, function (err, article) {
+		
+		// update author if not set
+		var author;
+		if(article.kb_author == null || article.kb_author == undefined){
+			author = req.session.user;
 		}else{
-			// setup keywords
-			var keywords = "";
-			if(req.body.frm_kb_keywords != undefined){
-				keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
-			}
-			
-			// create lunr doc
-			var lunr_doc = { 
-				kb_title: req.body.frm_kb_title,
-				kb_keywords: keywords,
-				id: req.body.frm_kb_id
-			};
-			
-			// update the index
-			lunr_index.update(lunr_doc, false);
-			
-			req.session.message = "Successfully saved";
-			req.session.message_type = "success";
-			res.redirect('/edit/' + req.body.frm_kb_id);
+			author = article.kb_author;
 		}
+		
+		// set published date to now if none exists
+		var published_date;
+		if(article.kb_published_date == null || article.kb_published_date == undefined){
+			published_date = new Date();
+		}else{
+			published_date = article.kb_published_date;
+		}
+		
+		db.kb.update({_id: req.body.frm_kb_id},{ $set: 
+				{   kb_title: req.body.frm_kb_title,
+					kb_body: req.body.frm_kb_body,
+					kb_published: published_state,
+					kb_keywords: keywords,
+					kb_last_updated: new Date(),
+					kb_author: author,
+					kb_published_date: published_date
+				}
+			}, {},  function (err, numReplaced) {
+			if(err){
+				req.session.message = "Failed to save. Please try again";
+				req.session.message_type = "danger";
+			}else{
+				// setup keywords
+				var keywords = "";
+				if(req.body.frm_kb_keywords != undefined){
+					keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
+				}
+				
+				// create lunr doc
+				var lunr_doc = { 
+					kb_title: req.body.frm_kb_title,
+					kb_keywords: keywords,
+					id: req.body.frm_kb_id
+				};
+				
+				// update the index
+				lunr_index.update(lunr_doc, false);
+				
+				req.session.message = "Successfully saved";
+				req.session.message_type = "success";
+				res.redirect('/edit/' + req.body.frm_kb_id);
+			}
+		});
 	});
 });
 
