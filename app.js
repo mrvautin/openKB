@@ -68,9 +68,7 @@ handlebars = handlebars.create({
                 }else{return "";
             }
         },     
-        format_date: function (date, format) { 
-            console.log(date);
-            console.log(format);
+        format_date: function (date, format) {
             return moment(date).format(format);
         },       
         ifCond: function (v1, operator, v2, options) {

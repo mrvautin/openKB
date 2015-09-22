@@ -336,6 +336,7 @@ router.post('/user_insert', restrict, function(req, res) {
 	
 	// set the account to admin if using the setup form. Eg: First user account
 	var url_parts = url.parse(req.header('Referer'));
+
 	var is_admin = "false";
 	if(url_parts.path == "/setup"){
 		is_admin = "true";
@@ -711,6 +712,35 @@ router.post('/search', restrict, function(req, res) {
 	});
 });
 
+// export files into .md files and serve to browser
+router.get('/export', restrict, function(req, res) {
+	var db = req.db;
+	var fs = require('fs');
+	var JSZip = require("jszip");
+	
+	// dump all articles to .md files. Article title is the file name and body is contents
+	db.kb.find({}, function (err, results) {
+		
+		// files are written and added to zip.
+		var zip = new JSZip();
+		for (var i = 0; i < results.length; i++) {
+			// add and write file to zip
+			zip.file(results[i].kb_title + ".md", results[i].kb_body);
+		}
+		
+		// save the zip and serve to browser
+		var buffer = zip.generate({type:"nodebuffer"});
+		fs.writeFile("data/export.zip", buffer, function(err) {
+			if (err) throw err;
+			res.set('Content-Type', 'application/zip')
+			res.set('Content-Disposition', 'attachment; filename=data/export.zip');
+			res.set('Content-Length', buffer.length);
+			res.end(buffer, 'binary');
+			return;
+		});
+	});
+});
+
 function clear_session_value(session, session_var){
 	if(session_var == "message"){
 		var sess_message = session.message;
@@ -728,7 +758,7 @@ function clear_session_value(session, session_var){
 // a 403 error is rendered.
 function suggest_allowed(req, res, next){
 	var config = require('./config');
-	console.log(config.settings.suggest_allowed);
+
 	if(config.settings.suggest_allowed == true){
 		next();
 		return;
@@ -743,44 +773,41 @@ function suggest_allowed(req, res, next){
 // is the "setup", "login" and "login_action" URL's which is not checked at all.
 function restrict(req, res, next){
 	var config = require('./config');
-	var url = require('url');
-	var url_parts = url.parse(req.url);
+	var url_path = req.url;
 				
 	// if not protecting we check for public pages and don't check_login
-	if(url_parts.path == "/"){
+	if(url_path.substring(0,5).trim() == "/"){
 		if(config.settings.password_protect == false){
 			next();
 			return;
 		}
 	}
-	if(url_parts.path.indexOf("/search") > -1){
+	if(url_path.substring(0,7) == "/search"){
 		if(config.settings.password_protect == false){
 			next();
 			return;
 		}
 	}
-	if(url_parts.path.indexOf("/kb") > -1){
+	if(url_path.substring(0,3) == "/kb"){
 		if(config.settings.password_protect == false){
 			next();
 			return;
 		}
 	}
 	
-	if(url_parts.path.indexOf("/suggest") > -1){
-		if(config.settings.password_protect == false){
-			next();
-			return;
-		}
+	if(url_path.substring(0,12) == "/user_insert"){
+		next();
+		return;
 	}
 	
 	// if the "needs_setup" session variable is set, we allow as 
 	// this means there is no user existing
-	if(req.session.needs_setup == false){
-		next();
+	if(req.session.needs_setup == true){
+		res.redirect('/setup');
 		return;
 	}
 
-	// if not a public page we check_login
+	// if not a public page we 
 	check_login(req, res, next);
 }
 

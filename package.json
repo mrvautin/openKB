@@ -15,6 +15,7 @@
     "express-session": "^1.11.3",
     "glob": "^5.0.14",
     "hbs": "~2.7.0",
+    "jszip": "^2.5.0",
     "lunr": "^0.5.12",
     "markdown-it": "^4.4.0",
     "mkdirp": "^0.5.1",
