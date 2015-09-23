@@ -40,8 +40,12 @@
 							 <li class="list-group-item">
 								 <h5>
 									<a href="/kb/{{this._id}}">{{this.kb_title}}</a>
+
 									{{#if ../config.settings.show_view_count}}
 								 		<span class="pull-right view_count"><small>View count: {{this.kb_viewcount}}</span></small>
+									{{/if}}
+									{{#if this.kb_password}}
+										<span class="pull-right view_count" style="padding-right: 5px;"><i class="fa fa-lock"></i></span>
 									{{/if}}
 								 </h5>
 							 </li>

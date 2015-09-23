@@ -30,7 +30,7 @@ router.post('/protected/action', function(req, res) {
 		}else{
 			// password incorrect
 			req.session.pw_validated = null;
-			res.render('error', { message: '404 - Forbidden' });
+			res.render('error', { message: 'Password incorrect. Please try again.' });
 		}
 	});
 });
