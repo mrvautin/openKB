@@ -19,6 +19,22 @@ router.get('/', restrict, function(req, res, next) {
 	});
 });
 
+router.post('/protected/action', function(req, res) {
+	// get article
+	req.db.kb.findOne({kb_published:'true', _id: req.body.kb_id}, function (err, result) {
+		// check password
+		if(req.body.password == result.kb_password){
+			// password correct. Allow viewing the article this time
+			req.session.pw_validated = "true";
+			res.redirect('/kb/' + result._id);
+		}else{
+			// password incorrect
+			req.session.pw_validated = null;
+			res.render('error', { message: '404 - Forbidden' });
+		}
+	});
+});
+
 router.get('/kb/:id', restrict, function(req, res) {
   var db = req.db;
   var markdownit = req.markdownit;
@@ -30,6 +46,19 @@ router.get('/kb/:id', restrict, function(req, res) {
 	if(result == null || result.kb_published == "false"){
 		res.render('error', { message: '404 - Page not found' });
 	}else{
+		// check if has a password
+		if(result.kb_password){
+			if(result.kb_password != ""){
+				if(req.session.pw_validated == "false" || req.session.pw_validated == undefined || req.session.pw_validated == null){
+					res.render('protected_kb', { 
+						"result": result,
+						session: req.session
+					});
+					return;
+				}
+			}
+		}
+		
 		// add to old view count
 		var old_viewcount = result.kb_viewcount;
 		if(old_viewcount == null){
@@ -37,13 +66,14 @@ router.get('/kb/:id', restrict, function(req, res) {
 		}
 
 		var new_viewcount = old_viewcount + 1;
-		
 		db.kb.update({ _id: req.params.id }, 
 			{ 
 				$set: { kb_viewcount:  new_viewcount} 
 			}, { multi: false }, function (err, numReplaced) {
 			
-			console.log(result);
+			// clear session auth and render page
+			req.session.pw_validated = null;
+			
 			// show the view
 			res.render('kb', { 
 				title: result.kb_title, 
@@ -239,7 +269,8 @@ router.post('/save_kb', restrict, function(req, res) {
 					kb_keywords: keywords,
 					kb_last_updated: new Date(),
 					kb_author: author,
-					kb_published_date: published_date
+					kb_published_date: published_date,
+					kb_password: req.body.frm_kb_password
 				}
 			}, {},  function (err, numReplaced) {
 			if(err){

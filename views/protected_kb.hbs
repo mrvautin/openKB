@@ -1,0 +1,18 @@
+<div class="col-md-offset-4 col-md-4 col-lg-offset-4 col-lg-4" style="padding-top: 100px">
+	{{#if message}}
+		<div class="alert alert-{{ message_type}} alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			{{message}}
+		</div>
+	{{/if}}
+	
+	<form class="form-signin" action="/protected/action" method="post" role="form">
+		<input type="hidden" name="frm_referring_url" value="{{referring_url}}">
+		<h2 class="form-signin-heading">This page is protected. Please enter the password.</h2>
+		<div class="form-group">
+			<input type="password" name="password" class="form-control" placeholder="Password" value="" required>
+			<input type="hidden" name="kb_id" value="{{result._id}}" required>
+		</div>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Authenticate</button>
+	</form>
+</div>
