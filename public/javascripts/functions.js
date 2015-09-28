@@ -6,6 +6,9 @@ $(document).ready(function() {
 		$(this).addClass("img-responsive")
 	});
 	
+	//setup mermaid charting
+	mermaid.initialize({startOnLoad:true});
+	
 	// add the table class to all tables
 	$('table').each(function(){
 		$(this).addClass("table table-hover")
