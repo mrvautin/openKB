@@ -1,6 +1,4 @@
-$(document).ready(function() {
-	$("#frm_kb_body").markdown({autofocus:false,savable:false})
-	
+$(document).ready(function() {	
 	// add the responsive image class to all images
 	$('img').each(function(){
 		$(this).addClass("img-responsive")

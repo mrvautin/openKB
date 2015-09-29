@@ -1,6 +1,8 @@
 window.onload = function() {    
     var convertTextAreaToMarkdown = function(){
+        var classy = window.markdownItClassy;
         var mark_it_down = window.markdownit({ html: true,linkify: true,typographer: true, breaks: true});
+        mark_it_down.use(classy);
         var text = $('#editor').val();
         var html = mark_it_down.render(text);
 
