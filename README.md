@@ -7,11 +7,10 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 
 ### Installation
 
-1. Download the files from [here](https://github.com/mrvautin/openKB/archive/master.zip)
-2. Unzip the files to a directory of you choice
-3. Enter directory in terminal/command
-4. Run `$ npm install openkb`
-5. Go to  [http://127.0.0.1:4444](http://127.0.0.1:4444) in your browser
+1. Clone Repository: `git clone https://github.com/mrvautin/openKB.git && cd openKB`
+2. Install dependencies: `npm install`
+3. Start application: `npm start`
+4. Go to  [http://127.0.0.1:4444](http://127.0.0.1:4444) in your browser
 
 ### Admin
 
