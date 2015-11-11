@@ -605,7 +605,7 @@ router.post('/file/new_dir', restrict, function (req, res, next) {
 
 // upload the file
 var multer  = require('multer')
-var upload = multer({ dest: '/public/uploads/' });
+var upload = multer({ dest: 'public/uploads/' });
 router.post('/file/upload', restrict, upload.single('upload_file'), function (req, res, next) {
 	var fs = require('fs');
 	
