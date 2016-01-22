@@ -1,5 +1,6 @@
 node_modules/
 data/users.db
+data/sessions.db
 Rubbish/
 data/kb.db
 public/images/
