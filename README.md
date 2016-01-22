@@ -12,6 +12,13 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 3. Start application: `npm start`
 4. Go to  [http://127.0.0.1:4444](http://127.0.0.1:4444) in your browser
 
+### Screenshots
+
+![Homepage](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_homepage_.png)
+![Editor](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_editor.png)
+![Article view](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_articlefiltering.png)
+![Article view](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/articleview.png)
+
 ### Admin
 
 Visit: [http://127.0.0.1:4444/login](http://127.0.0.1:4444/login) 
