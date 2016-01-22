@@ -5,25 +5,27 @@
 	    <meta charset="utf-8">
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta name="description" content="Powered by openKB">
+		<meta name="keywords" content="openKB">
 		<link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/flatly/bootstrap.min.css">
 		<link rel="stylesheet" href="/stylesheets/style.css">
 		<link rel="stylesheet" href="/stylesheets/bootstrap-markdown.min.css">
-		<link rel="stylesheet" href="/stylesheets/bootstrap-switch.min.css">
 		<link rel="stylesheet" href="/stylesheets/font-awesome.min.css">
-		<link rel="stylesheet" href="/stylesheets/bootstrapTagger.css">
 		<link rel="stylesheet" href="/stylesheets/mermaid.css">
+		<link rel="stylesheet" href="/stylesheets/bootstrap-tokenfield.css">
 		<script src="/javascripts/jquery-2.1.4.min.js"></script>
 		<script src="/javascripts/bootstrap.min.js"></script>
 		<script src="/javascripts/jqBootstrapValidation.js"></script>
 		<script src="/javascripts/bootstrap-markdown.js"></script>
-		<script src="/javascripts/bootstrap-switch.min.js"></script>
 		<script src="/javascripts/mermaid.min.js"></script>
 		<script src="/javascripts/markdown-it-classy.js"></script>
-		<script src="/javascripts/functions.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.min.js"></script>
+		<script src="/javascripts/openKB.js"></script>
 	</head>
-	<body>	
+	<body class="{{show_footer}}">	
 		<!-- Static navbar -->
-	    <nav id="custom-bootstrap-menu" class="navbar navbar-default navbar-static-top">
+	    <nav class="navbar navbar-default navbar-static-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -71,5 +73,15 @@
 		<div class="container-fluid">
 			{{{body}}}
 		</div>
+		<input type="hidden" id="input_notify_message" value="{{message}}">
+		<input type="hidden" id="input_notify_message_type" value="{{message_type}}">
+		<div id="notify_message"></div>
+		{{#if show_footer}}
+			<footer class="footer">
+				<div class="container">
+					<p class="text-muted">Powered by openKB</p>
+				</div>
+			</footer>
+		{{/if}}
 	</body>
 </html>

@@ -11,6 +11,7 @@ var bcrypt = require('bcrypt-nodejs');
 var lunr = require('lunr');
 var markdownit = require('markdown-it')({html: true,linkify: true,typographer: true});
 var moment = require('moment');
+var nedb_store = require('nedb-session-store')(session);
 
 // setup the db's
 var db = new nedb();
@@ -55,19 +56,30 @@ app.set('view engine', 'hbs');
 handlebars = handlebars.create({
     helpers: {
         split_keywords: function (keywords) { 
-            var array = keywords.split(','); var links = "";
-            for (var i = 0; i < array.length; i++) { 
-                if(array[i].trim() != ""){
-                    links += "<a href='/search/"+array[i].trim() +"'>"+array[i].trim() +"</a>&nbsp;|&nbsp;";
-                }
-            }return links.substring(0, links.length - 1);
+            if(keywords != undefined){
+                var array = keywords.split(','); var links = "";
+                for (var i = 0; i < array.length; i++) { 
+                    if(array[i].trim() != ""){
+                        links += "<a href='/search/"+array[i].trim() +"'>"+array[i].trim() +"</a>&nbsp;|&nbsp;";
+                    }
+                }return links.substring(0, links.length - 1);
+            }else{
+                return keywords;
+            }
         },
         checked_state: function (state) { 
             if(state == "true"){
                 return "checked"
                 }else{return "";
             }
-        },     
+        }, 
+        view_count: function (value) {
+            if(value == "" || value == undefined){
+                return "0";
+            }else{
+                return value;
+            }
+        },       
         format_date: function (date, format) {
             return moment(date).format(format);
         },       
@@ -105,7 +117,7 @@ handlebars = handlebars.create({
 });
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.enable('trust proxy')
 app.set('port', process.env.PORT || 4444);
 app.use(logger('dev'));
@@ -113,11 +125,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser('5TOCyfH3HuszKGzFZntk'));
 app.use(session({
-	expires: new Date(Date.now() + 60 * 10000),
-	maxAge: 60 * 10000,
     resave: false,
     saveUninitialized: true,
-    secret: "pAgGxo8Hzg7PFlv1HpO8Eg0Y6xtP7zYx"
+    secret: "pAgGxo8Hzg7PFlv1HpO8Eg0Y6xtP7zYx",
+    cookie: {
+      path: '/',
+      httpOnly: true,
+      maxAge: 60 * 10000
+    },
+    store: new nedb_store({
+      filename: 'data/sessions.db'
+    })
 }));
 
 // serving static content
@@ -169,7 +187,7 @@ app.use(function(err, req, res, next) {
 
 // lift the app
 app.listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + app.get('port'));
+    console.log('openKB running on host: http://localhost:' + app.get('port'));
 });
 
 module.exports = app;

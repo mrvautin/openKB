@@ -4,6 +4,7 @@ var router = express.Router();
 // The homepage of the site
 router.get('/', restrict, function(req, res, next) {
 	var db = req.db;
+	var helpers = req.handlebars.helpers;
 	var config = require('./config');
 	
 	// get the top 5 results based on viewcount
@@ -14,7 +15,9 @@ router.get('/', restrict, function(req, res, next) {
 			 session: req.session,
 			 message: clear_session_value(req.session, "message"),
 			 message_type: clear_session_value(req.session, "message_type"),
-			 config: config
+			 config: config,
+			 helpers: helpers,
+			 show_footer: "show_footer"
 		});
 	});
 });
@@ -26,7 +29,7 @@ router.post('/protected/action', function(req, res) {
 		if(req.body.password == result.kb_password){
 			// password correct. Allow viewing the article this time
 			req.session.pw_validated = "true";
-			res.redirect('/kb/' + result._id);
+			res.redirect(req.header('Referer'));
 		}else{
 			// password incorrect
 			req.session.pw_validated = null;
@@ -36,78 +39,82 @@ router.post('/protected/action', function(req, res) {
 });
 
 router.get('/kb/:id', restrict, function(req, res) {
-  var db = req.db;
-  var classy = require("markdown-it-classy");
-  var markdownit = req.markdownit;
-  markdownit.use(classy);
-  var helpers = req.handlebars.helpers;
-  var config = require('./config');
+	var db = req.db;
+	var classy = require("markdown-it-classy");
+	var markdownit = req.markdownit;
+	markdownit.use(classy);
+	var helpers = req.handlebars.helpers;
+	var config = require('./config');
   
-  db.kb.findOne({_id: req.params.id}, function (err, result) {
-	// render 404 if page is not published
-	if(result == null || result.kb_published == "false"){
-		res.render('error', { message: '404 - Page not found' });
-	}else{
-		// check if has a password
-		if(result.kb_password){
-			if(result.kb_password != ""){
-				if(req.session.pw_validated == "false" || req.session.pw_validated == undefined || req.session.pw_validated == null){
-					res.render('protected_kb', { 
-						title: "Protected Article",
-						"result": result,
-						session: req.session
-					});
-					return;
+	db.kb.findOne({ $or: [{_id: req.params.id}, { kb_permalink: req.params.id }] }, function (err, result) {
+		// render 404 if page is not published
+		if(result == null || result.kb_published == "false"){
+			res.render('error', { message: '404 - Page not found' });
+		}else{
+			// check if has a password
+			if(result.kb_password){
+				if(result.kb_password != ""){
+					if(req.session.pw_validated == "false" || req.session.pw_validated == undefined || req.session.pw_validated == null){
+						res.render('protected_kb', { 
+							title: "Protected Article",
+							"result": result,
+							session: req.session
+						});
+						return;
+					}
 				}
 			}
-		}
-		
-		// add to old view count
-		var old_viewcount = result.kb_viewcount;
-		if(old_viewcount == null){
-			old_viewcount = 0;
-		}
+			
+			// add to old view count
+			var old_viewcount = result.kb_viewcount;
+			if(old_viewcount == null){
+				old_viewcount = 0;
+			}
 
-		var new_viewcount = old_viewcount + 1;
-		db.kb.update({ _id: req.params.id }, 
-			{ 
-				$set: { kb_viewcount:  new_viewcount} 
-			}, { multi: false }, function (err, numReplaced) {
-			
-			// clear session auth and render page
-			req.session.pw_validated = null;
-			
-			// show the view
-			res.render('kb', { 
-				title: result.kb_title, 
-				"result": result,
-				"kb_body": markdownit.render(result.kb_body),
-				config: config,
-				session: req.session,
-				helpers: helpers
+			var new_viewcount = old_viewcount + 1;
+			db.kb.update({ _id: req.params.id }, 
+				{ 
+					$set: { kb_viewcount:  new_viewcount} 
+				}, { multi: false }, function (err, numReplaced) {
+				
+				// clear session auth and render page
+				req.session.pw_validated = null;
+				
+				// show the view
+				res.render('kb', { 
+					title: result.kb_title, 
+					"result": result,
+					"kb_body": markdownit.render(result.kb_body),
+					config: config,
+					session: req.session,
+					current_url: req.protocol + '://' + req.get('host'),
+					message: clear_session_value(req.session, "message"),
+					message_type: clear_session_value(req.session, "message_type"),
+					helpers: helpers,
+					show_footer: "show_footer"
+				});
 			});
-		});
-	}
+		}
   });
 });
 
 // render the editor
 router.get('/edit/:id', restrict, function(req, res) {
-  var db = req.db;
-  var config = require('./config');
-  
-  db.kb.findOne({_id: req.params.id}, function (err, result) {
-	res.render('edit', { 
-		title: 'Edit article', 
-		"result": result,
-		session: req.session,
-		config: config,
-		editor: true,
-		message: clear_session_value(req.session, "message"),
-		message_type: clear_session_value(req.session, "message_type"),
-		helpers: req.handlebars.helpers
+	var db = req.db;
+	var config = require('./config');
+
+	db.kb.findOne({_id: req.params.id}, function (err, result) {
+		res.render('edit', { 
+			title: 'Edit article', 
+			"result": result,
+			session: req.session,
+			message: clear_session_value(req.session, "message"),
+			message_type: clear_session_value(req.session, "message_type"),
+			config: config,
+			editor: true,
+			helpers: req.handlebars.helpers
+		});
 	});
-  });
 });
 
 // insert new KB form action
@@ -122,11 +129,12 @@ router.post('/insert_kb', restrict, function(req, res) {
 	
 	// if empty, remove the comma and just have a blank string
 	var keywords = req.body.frm_kb_keywords[1];
-	if(keywords.trim() == ","){
+	if(safe_trim(keywords) == ","){
 		keywords = "";
 	}
 	
     var doc = { 
+		kb_permalink: req.body.frm_kb_permalink,
         kb_title: req.body.frm_kb_title,
 		kb_body: req.body.frm_kb_body,
 		kb_published: published_state,
@@ -136,31 +144,60 @@ router.post('/insert_kb', restrict, function(req, res) {
 		kb_author: req.session.user
 	};
 
-	db.kb.insert(doc, function (err, newDoc) {
-		if(err){
-			console.log(err);
+	db.kb.count({'kb_permalink': req.body.frm_kb_permalink}, function (err, kb) {
+		if(kb > 0 && req.body.frm_kb_permalink != ""){
+			// permalink exits
+			req.session.message = "Permalink already exists. Pick a new one.";
+			req.session.message_type = "danger";
+			
+			// keep the current stuff
+			req.session.kb_title = req.body.frm_kb_title;
+			req.session.kb_body = req.body.frm_kb_body;
+			req.session.kb_keywords = req.body.frm_kb_keywords;
+			req.session.kb_permalink = req.body.frm_kb_permalink;
+				
+			// redirect to insert
+			res.redirect('/insert');
 		}else{
-			// setup keywords
-			var keywords = "";
-			if(req.body.frm_kb_keywords != undefined){
-				keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
-			}
-			
-			// create lunr doc
-			var lunr_doc = { 
-				kb_title: req.body.frm_kb_title,
-				kb_keywords: keywords,
-				id: newDoc._id
-			};
-			
-			// add to lunr index
-			lunr_index.add(lunr_doc);
-			
-			req.session.message = "New article successfully created";
-			req.session.message_type = "success";
-			
-			// redirect to new doc
-			res.redirect('/edit/' + newDoc._id);
+			db.kb.insert(doc, function (err, newDoc) {
+				if(err){
+					console.error("Error inserting document: " + err);
+					
+					// keep the current stuff
+					req.session.kb_title = req.body.frm_kb_title;
+					req.session.kb_body = req.body.frm_kb_body;
+					req.session.kb_keywords = req.body.frm_kb_keywords;
+					req.session.kb_permalink = req.body.frm_kb_permalink;
+					
+					req.session.message = "Error: " + err;
+					req.session.message_type = "danger";
+					
+					// redirect to insert
+					res.redirect('/insert');
+				}else{
+					// setup keywords
+					var keywords = "";
+					if(req.body.frm_kb_keywords != undefined){
+						keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
+					}
+					
+					// create lunr doc
+					var lunr_doc = { 
+						kb_title: req.body.frm_kb_title,
+						kb_keywords: keywords,
+						id: newDoc._id
+					};
+					
+					// add to lunr index
+					lunr_index.add(lunr_doc);
+					
+					req.session.message = "New article successfully created";
+					req.session.message_type = "success";
+					
+					// redirect to new doc
+					res.redirect('/edit/' + newDoc._id);
+				}
+			});
 		}
 	});
 });
@@ -175,6 +212,8 @@ router.get('/suggest', suggest_allowed, function(req, res) {
 		editor: true,
 		is_admin: req.session.is_admin,
 		helpers: req.handlebars.helpers,
+		message: clear_session_value(req.session, "message"),
+		message_type: clear_session_value(req.session, "message_type"),
 		session: req.session
 	});
 });
@@ -193,7 +232,7 @@ router.post('/insert_suggest', suggest_allowed, function(req, res) {
 	}
 	
 	var doc = { 
-        kb_title: req.body.frm_kb_title,
+        kb_title: req.body.frm_kb_title + " (SUGGESTION)",
 		kb_body: req.body.frm_kb_body,
 		kb_published: "false",
 		kb_keywords: keywords,
@@ -204,7 +243,11 @@ router.post('/insert_suggest', suggest_allowed, function(req, res) {
 
 	db.kb.insert(doc, function (err, newDoc) {
 		if(err){
-			console.log(err);
+			console.error("Error inserting suggestion: " + err);			
+			
+			req.session.message = "Suggestion failed. Please contact admin.";
+			req.session.message_type = "danger";
+			res.redirect('/');
 		}else{
 			
 			// setup keywords
@@ -236,71 +279,86 @@ router.post('/save_kb', restrict, function(req, res) {
   	var db = req.db;
 	var lunr_index = req.lunr_index;
 	
-	var published_state = "false";
-	if(req.body.frm_kb_published == "on"){
-		published_state = "true";
-	}
-	
 	// if empty, remove the comma and just have a blank string
-	var keywords = req.body.frm_kb_keywords[1];
-	if(keywords.trim() == ","){
+	var keywords = req.body.frm_kb_keywords;
+	if(safe_trim(keywords) == ","){
 		keywords = "";
 	}
  
- 	db.kb.findOne({_id: req.body.frm_kb_id}, function (err, article) {
-		
-		// update author if not set
-		var author;
-		if(article.kb_author == null || article.kb_author == undefined){
-			author = req.session.user;
+ 	db.kb.count({'kb_permalink': req.body.frm_kb_permalink, $not: { _id: req.body.frm_kb_id }}, function (err, kb) {
+		if(kb > 0 && req.body.frm_kb_permalink != ""){
+			// permalink exits
+			req.session.message = "Permalink already exists. Pick a new one.";
+			req.session.message_type = "danger";
+			
+			// keep the current stuff
+			req.session.kb_title = req.body.frm_kb_title;
+			req.session.kb_body = req.body.frm_kb_body;
+			req.session.kb_keywords = req.body.frm_kb_keywords;
+			req.session.kb_permalink = req.body.frm_kb_permalink;
+				
+			// redirect to insert
+			res.redirect('/edit/' + req.body.frm_kb_id);
 		}else{
-			author = article.kb_author;
-		}
-		
-		// set published date to now if none exists
-		var published_date;
-		if(article.kb_published_date == null || article.kb_published_date == undefined){
-			published_date = new Date();
-		}else{
-			published_date = article.kb_published_date;
-		}
-		
-		db.kb.update({_id: req.body.frm_kb_id},{ $set: 
-				{   kb_title: req.body.frm_kb_title,
-					kb_body: req.body.frm_kb_body,
-					kb_published: published_state,
-					kb_keywords: keywords,
-					kb_last_updated: new Date(),
-					kb_author: author,
-					kb_published_date: published_date,
-					kb_password: req.body.frm_kb_password
-				}
-			}, {},  function (err, numReplaced) {
-			if(err){
-				req.session.message = "Failed to save. Please try again";
-				req.session.message_type = "danger";
-			}else{
-				// setup keywords
-				var keywords = "";
-				if(req.body.frm_kb_keywords != undefined){
-					keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
+			db.kb.findOne({_id: req.body.frm_kb_id}, function (err, article) {
+				
+				// update author if not set
+				var author;
+				if(article.kb_author == null || article.kb_author == undefined){
+					author = req.session.user;
+				}else{
+					author = article.kb_author;
 				}
 				
-				// create lunr doc
-				var lunr_doc = { 
-					kb_title: req.body.frm_kb_title,
-					kb_keywords: keywords,
-					id: req.body.frm_kb_id
-				};
+				// set published date to now if none exists
+				var published_date;
+				if(article.kb_published_date == null || article.kb_published_date == undefined){
+					published_date = new Date();
+				}else{
+					published_date = article.kb_published_date;
+				}
 				
-				// update the index
-				lunr_index.update(lunr_doc, false);
-				
-				req.session.message = "Successfully saved";
-				req.session.message_type = "success";
-				res.redirect('/edit/' + req.body.frm_kb_id);
-			}
-		});
+				db.kb.update({_id: req.body.frm_kb_id},{ $set: 
+						{   kb_title: req.body.frm_kb_title,
+							kb_body: req.body.frm_kb_body,
+							kb_published: req.body.frm_kb_published,
+							kb_keywords: keywords,
+							kb_last_updated: new Date(),
+							kb_author: author,
+							kb_published_date: published_date,
+							kb_password: req.body.frm_kb_password,
+							kb_permalink: req.body.frm_kb_permalink
+						}
+					}, {},  function (err, numReplaced) {
+					if(err){
+						console.error("Failed to save KB: " + err)
+						req.session.message = "Failed to save. Please try again";
+						req.session.message_type = "danger";
+						res.redirect('/edit/' + req.body.frm_kb_id);
+					}else{
+						// setup keywords
+						var keywords = "";
+						if(req.body.frm_kb_keywords != undefined){
+							keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
+						}
+						
+						// create lunr doc
+						var lunr_doc = { 
+							kb_title: req.body.frm_kb_title,
+							kb_keywords: keywords,
+							id: req.body.frm_kb_id
+						};
+						
+						// update the index
+						lunr_index.update(lunr_doc, false);
+						
+						req.session.message = "Successfully saved";
+						req.session.message_type = "success";
+						res.redirect('/edit/' + req.body.frm_kb_id);
+					}
+				});
+			});
+		}
 	});
 });
 
@@ -323,7 +381,9 @@ router.get('/users', restrict, function(req, res) {
 			config: config,
 			is_admin: req.session.is_admin,
 			helpers: req.handlebars.helpers,
-			session: req.session
+			session: req.session,
+			message: clear_session_value(req.session, "message"),
+			message_type: clear_session_value(req.session, "message_type"),
 		});
 	});
 });
@@ -337,9 +397,9 @@ router.get('/user/edit/:id', restrict, function(req, res) {
 		  	title: 'User edit',
 			user: user,
 			session: req.session,
-			config: config,
 			message: clear_session_value(req.session, "message"),
-			message_type: clear_session_value(req.session, "message_type")
+			message_type: clear_session_value(req.session, "message_type"),
+			config: config
 		});
 	});
 });
@@ -353,9 +413,7 @@ router.get('/users/new', restrict, function(req, res) {
 		  	title: 'User - New',
 			user: user,
 			session: req.session,
-			config: config,
-			message: clear_session_value(req.session, "message"),
-			message_type: clear_session_value(req.session, "message_type")
+			config: config
 		});
 	});
 });
@@ -364,26 +422,57 @@ router.get('/users/new', restrict, function(req, res) {
 router.get('/articles', restrict, function(req, res) {
 	var config = require('./config');
 	
-	req.db.kb.find({}, function (err, articles) {
+	req.db.kb.find({}).sort({kb_published_date: -1}).limit(10).exec(function (err, articles) {
 		res.render('articles', { 
 		  	title: 'Articles',
 			articles: articles,
 			session: req.session,
+			message: clear_session_value(req.session, "message"),
+			message_type: clear_session_value(req.session, "message_type"),
 			config: config,
 			helpers: req.handlebars.helpers
 		});
 	});
 });
 
+router.get('/articles/:tag', function(req, res) {
+	var db = req.db;
+	var lunr_index = req.lunr_index;
+	var config = require('./config');
+	var helpers = req.handlebars.helpers;
+
+	// we strip the ID's from the lunr index search
+	var lunr_id_array = new Array();
+	lunr_index.search(req.params.tag).forEach(function(id) {
+		lunr_id_array.push(id.ref);
+	});
+
+	// we search on the lunr indexes
+	db.kb.find({ _id: { $in: lunr_id_array}}).sort({kb_published_date: -1}).exec(function (err, results) {
+		res.render('articles', { 
+			title: 'Articles', 
+			"results": results, 
+			session: req.session,
+			message: clear_session_value(req.session, "message"),
+			message_type: clear_session_value(req.session, "message_type"), 
+			search_term: req.params.tag,
+			config: config,
+			helpers: helpers,
+		});
+	});
+});
+
 // update the published state based on an ajax call from the frontend
 router.post('/published_state', restrict, function(req, res) {
-	req.db.kb.update({ _id: req.body.id}, 
-		{ 
-			$set: { 
-				kb_published: req.body.state
-			} 
-		}, { multi: false }, function (err, numReplaced) {
-			console.log(err);
+	req.db.kb.update({ _id: req.body.id}, { $set: { kb_published: req.body.state} }, { multi: false }, function (err, numReplaced) {
+		if(err){
+			console.error("Failed to update the published state: " + err);
+			res.writeHead(400, { 'Content-Type': 'application/text' }); 
+			res.end('Published state not updated');
+		}else{
+			res.writeHead(200, { 'Content-Type': 'application/text' }); 
+			res.end('Published state updated');
+		}
 	});
 });	
 
@@ -410,20 +499,22 @@ router.post('/user_insert', restrict, function(req, res) {
 	db.users.insert(doc, function (err, doc) {
 		// show the view
 		if(err){
+			console.error("Failed to insert user, possibly already exists: " + err);
 			req.session.message = "User exists";
 			req.session.message_type = "danger";
 			res.redirect('/user/edit/' + doc._id);
-		}
-		req.session.message = "User account inserted.";
-		req.session.message_type = "success";
-		
-		// if from setup we add user to session and redirect to login.
-		// Otherwise we show user edit screen
-		if(url_parts.path == "/setup"){
-			req.session.user = req.body.user_email;
-			res.redirect('/login');
 		}else{
-			res.redirect('/user/edit/' + doc._id);
+			req.session.message = "User account inserted.";
+			req.session.message_type = "success";
+			
+			// if from setup we add user to session and redirect to login.
+			// Otherwise we show user edit screen
+			if(url_parts.path == "/setup"){
+				req.session.user = req.body.user_email;
+				res.redirect('/login');
+			}else{
+				res.redirect('/user/edit/' + doc._id);
+			}
 		}
 	});
 });
@@ -439,12 +530,18 @@ router.post('/user_update', restrict, function(req, res) {
 				user_password: bcrypt.hashSync(req.body.user_password)
 			} 
 		}, { multi: false }, function (err, numReplaced) {
-		
-		// show the view
-		req.session.user = req.body.user_email;
-		req.session.message = "User account updated.";
-		req.session.message_type = "success";
-		res.redirect('/user/edit/' + req.body.user_id);
+		if(err){
+			console.error("Failed updating user: " + err);
+			req.session.message = "Failed to update user";
+			req.session.message_type = "danger";
+			res.redirect('/user/edit/' + req.body.user_id);
+		}else{
+			// show the view
+			req.session.user = req.body.user_email;
+			req.session.message = "User account updated.";
+			req.session.message_type = "success";
+			res.redirect('/user/edit/' + req.body.user_id);
+		}
 	});
 });
 
@@ -454,7 +551,7 @@ router.get('/login', function(req, res) {
 	
 	req.db.users.count({}, function (err, user_count) {  
 		// we check for a user. If one exists, redirect to login form otherwise setup
-		if(user_count > 0){
+		if(user_count > 0){			
 			// set needs_setup to false as a user exists
 			req.session.needs_setup = false;
 			res.render('login', { 
@@ -462,7 +559,8 @@ router.get('/login', function(req, res) {
 				referring_url: req.header('Referer'),
 				config: config,
 				message: clear_session_value(req.session, "message"), 
-				message_type: clear_session_value(req.session, "message_type")
+				message_type: clear_session_value(req.session, "message_type"),
+				show_footer: "show_footer"
 			});
 		}else{
 			// if there are no users set the "needs_setup" session
@@ -485,10 +583,35 @@ router.get('/setup', function(req, res) {
 			  	title: 'Setup', 
 				config: config,
 				message: clear_session_value(req.session, "message"), 
-				message_type: clear_session_value(req.session, "message_type")
+				message_type: clear_session_value(req.session, "message_type"),
+				show_footer: "show_footer"
 			});
 		}else{
 			res.redirect('/login');
+		}
+	});
+});
+
+// validate the permalink
+router.post('/api/validate_permalink', function(req, res){
+	var db = req.db;
+	
+	// if doc id is provided it checks for permalink in any docs other that one provided,
+	// else it just checks for any kb's with that permalink
+	var query = {};
+	if(req.body.doc_id == ""){
+		query = {'kb_permalink': req.body.permalink};
+	}else{
+		query = {'kb_permalink': req.body.permalink, $not: { _id: req.body.doc_id }};
+	}
+
+	db.kb.count(query, function (err, kb) {
+		if(kb > 0){
+			res.writeHead(400, { 'Content-Type': 'application/text' }); 
+			res.end('Permalink already exists');
+		}else{
+			res.writeHead(200, { 'Content-Type': 'application/text' }); 
+			res.end('Permalink validated successfully');
 		}
 	});
 });
@@ -500,7 +623,6 @@ router.post('/login_action', function(req, res){
 	var url = require('url');
 	
 	db.users.findOne({user_email: req.body.email}, function (err, user) {  
-
 		// check if user exists with that email
 		if(user === undefined || user === null){
 			req.session.message = "A user with that email does not exist.";
@@ -516,7 +638,7 @@ router.post('/login_action', function(req, res){
 					res.redirect('/');
 				}else{
 					var url_parts = url.parse(req.body.frm_referring_url, true);
-					if(url_parts.pathname == "setup" || url_parts.pathname == "login"){
+					if(url_parts.pathname != "setup" || url_parts.pathname != "login"){
 						res.redirect(req.body.frm_referring_url);
 					}else{
 						res.redirect('/');
@@ -575,6 +697,8 @@ router.get('/delete/:id', restrict, function(req, res) {
 		lunr_index.remove(lunr_doc, false);
 		
 		// redirect home
+		req.session.message = "User deleted.";
+		req.session.message_type = "success";
 		res.redirect('/articles');
   	});
 });
@@ -585,8 +709,8 @@ router.post('/file/new_dir', restrict, function (req, res, next) {
 	// if new directory exists
 	if(req.body.custom_dir){
 		mkdirp("public/uploads/" + req.body.custom_dir, function (err) {
-			console.log(err);
 			if (err){
+				console.error("Directory creation error: " + err);
 				req.session.message = "Directory creation error. Please try again";
 				req.session.message_type = "danger";
 				res.redirect('/files');
@@ -640,16 +764,20 @@ router.post('/file/upload', restrict, upload.single('upload_file'), function (re
 // delete a file via ajax request
 router.post('/file/delete', restrict, function(req, res) {
 	var fs = require('fs');
-
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Accept");
+	
+	req.session.message = null;
+	req.session.message_type = null;
 
 	fs.unlink("public/" + req.body.img, function (err) {
-		if (err){
-			console.log(err);
-			res.send({'data': 'Error'});
+		if(err){
+			console.error("File delete error: "+ err);
+			res.writeHead(400, { 'Content-Type': 'application/text' }); 
+            res.end('Failed to delete file: ' + err);
+		}else{
+			
+			res.writeHead(200, { 'Content-Type': 'application/text' }); 
+            res.end('File deleted successfully');
 		}
-		res.send({'data': 'Success'});
 	});
 });
 
@@ -708,11 +836,19 @@ router.get('/files', restrict, function(req, res) {
 // insert form
 router.get('/insert', restrict, function(req, res) {
 	var config = require('./config');
+	var helpers = req.handlebars.helpers;
 	
 	res.render('insert', {
 		title: 'Insert new', 
 		session: req.session,
+		kb_title: clear_session_value(req.session, "kb_title"),
+		kb_body: clear_session_value(req.session, "kb_body"),
+		kb_keywords: clear_session_value(req.session, "kb_keywords"),
+		kb_permalink: clear_session_value(req.session, "kb_permalink"),
+		message: clear_session_value(req.session, "message"),
+		message_type: clear_session_value(req.session, "message_type"),
 		editor: true,
+		helpers: helpers,
 		config: config
 	});
 });
@@ -723,6 +859,7 @@ router.get('/search/:tag', restrict, function(req, res) {
 	var search_term = req.params.tag;
 	var lunr_index = req.lunr_index;
 	var config = require('./config');
+	var helpers = req.handlebars.helpers;
 	
 	// we strip the ID's from the lunr index search
 	var lunr_id_array = new Array();
@@ -739,7 +876,9 @@ router.get('/search/:tag', restrict, function(req, res) {
 			message: clear_session_value(req.session, "message"),
 			message_type: clear_session_value(req.session, "message_type"), 
 			search_term: search_term,
-			config: config
+			config: config,
+			helpers: helpers,
+			show_footer: "show_footer"
 		});
 	});
 });
@@ -749,6 +888,7 @@ router.post('/search', restrict, function(req, res) {
 	var db = req.db;
 	var search_term = req.body.frm_search;
 	var lunr_index = req.lunr_index;
+	var helpers = req.handlebars.helpers;
 	var config = require('./config');
 
 	// we strip the ID's from the lunr index search
@@ -766,7 +906,9 @@ router.post('/search', restrict, function(req, res) {
 			search_term: search_term,
 			message: clear_session_value(req.session, "message"),
 			message_type: clear_session_value(req.session, "message_type"),
-			config: config
+			config: config,
+			helpers: helpers,
+			show_footer: "show_footer"
 		});
 	});
 });
@@ -801,16 +943,9 @@ router.get('/export', restrict, function(req, res) {
 });
 
 function clear_session_value(session, session_var){
-	if(session_var == "message"){
-		var sess_message = session.message;
-		session.message = null;
-		return sess_message;
-	}
-	if(session_var == "message_type"){
-		var sess_message_type = session.message_type;
-		session.message_type = null;
-		return sess_message_type;
-	}
+	var temp = session[session_var];
+	session[session_var] = null;
+	return temp;
 }
 
 // This is called on the suggest url. If the value is set to false in the config
@@ -876,6 +1011,14 @@ function check_login(req, res, next){
 		next();
 	}else{
 		res.redirect('/login');
+	}
+}
+
+function safe_trim(str){
+	if(str != undefined){
+		return str.trim();
+	}else{
+		return str;
 	}
 }
 

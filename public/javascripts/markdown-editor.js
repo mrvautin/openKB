@@ -18,7 +18,4 @@ window.onload = function() {
     });
     
     convertTextAreaToMarkdown();
-
-    // adds the "facebook" styling to the keyword input
-    $("#frm_kb_keywords").bootstrapTagger({backgroundColor: "danger"});
 };

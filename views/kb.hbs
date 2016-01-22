@@ -1,10 +1,10 @@
 <div class="row">
-	<form action="/search" method="post">
-		<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+	<form action="/search" id="search_form" method="post">
+		<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 search_bar">
 			<div class="input-group">
-				<input type="text" name="frm_search" class="form-control input-lg" placeholder="Search the knowledge base">
+				<input type="text" name="frm_search" id="frm_search" class="form-control input-lg" placeholder="Search the knowledge base">
 				<span class="input-group-btn">
-					<button class="btn btn-primary btn-lg" type="submit">Search</button>
+					<button class="btn btn-success btn-lg" id="btn_search" type="submit">Search</button>
 				</span>
 			</div>
 		</div>
@@ -12,10 +12,10 @@
 </div>
 <div class="row">
 	<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
-		<h2 style="padding-bottom: 25px;padding-top: 15px;">{{result.kb_title}}</h2>
+		<h1 style="padding-bottom: 25px;padding-top: 15px;">{{result.kb_title}}</h1>
 		<p class="body_text">{{{kb_body}}}</p>
 		{{#if config.settings.show_kb_meta}}
-			<div class="panel panel-default" style="margin-top: 35px;">
+			<div class="panel panel-primary" style="margin-top: 35px;">
 				<div class="panel-heading">Article details:</div>
 				<div class="panel-body">
 					<h5>
@@ -27,10 +27,15 @@
 					<h5>
 						<strong>Author:</strong> {{result.kb_author}}
 					</h5>
+					{{#if result.kb_permalink}}
+					<h5>
+						<strong>Permalink:</strong> <a href="{{current_url}}/kb/{{result.kb_permalink}}" target="_blank">{{current_url}}/kb/{{result.kb_permalink}}</a>
+					</h5>
+					{{/if}}
 				</div>
 			</div>
 		{{/if}}
-		<h5 style="padding-top:20px;">
+		<h5 class="keywords">
 			{{{split_keywords result.kb_keywords}}}
 		</h5>
 	</div>
