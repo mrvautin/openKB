@@ -1,6 +1,6 @@
 # openKB
 
-openKB is a Knowledge base application built with [Nodejs](https://nodejs.org/) and [ExpressJS](http://expressjs.com/). The application uses a flat file database called [nedb](https://github.com/louischatriot/nedb) for easy installation.
+openKB is a Knowledge base application (FAQ) built with [Nodejs](https://nodejs.org/) and [ExpressJS](http://expressjs.com/). The application uses a flat file database called [nedb](https://github.com/louischatriot/nedb) for easy installation.
 The application is designed to be easy and based around search rather than nested categories. Simply search for what you want and select from the results.
 
 Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
@@ -16,8 +16,9 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 
 ![Homepage](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_homepage_.png)
 ![Editor](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_editor.png)
-![Article view](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_articlefiltering.png)
-![Article view](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/articleview.png)
+![Article view](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_articleview.png)
+![Article filtering](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_articlefiltering.png)
+![Files](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_files.png)
 
 ### Admin
 
