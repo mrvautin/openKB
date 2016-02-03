@@ -638,7 +638,7 @@ router.post('/login_action', function(req, res){
 					res.redirect('/');
 				}else{
 					var url_parts = url.parse(req.body.frm_referring_url, true);
-					if(url_parts.pathname != "setup" || url_parts.pathname != "login"){
+					if(url_parts.pathname != "/setup" && url_parts.pathname != "/login"){
 						res.redirect(req.body.frm_referring_url);
 					}else{
 						res.redirect('/');
