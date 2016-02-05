@@ -12,8 +12,15 @@ $(document).ready(function() {
 		$(this).addClass("table table-hover")
 	});
 	
+	// add the token field to the keywords input
 	$('#frm_kb_keywords').tokenfield();
 	
+	// setup the inline file attachement
+	$('#editor').inlineattachment({
+		uploadUrl: '/file/upload_file'
+	});
+	
+	// Call to API for a change to the published state of a KB
 	$("input[class='published_state']").change(function() {
 		$.ajax({
 			method: "POST",
@@ -28,6 +35,7 @@ $(document).ready(function() {
         });
 	});
 	
+	// Call to API to check if a permalink is available
 	$("#validate_permalink").click(function() {
 		if($("#frm_kb_permalink").val() != ""){
 			$.ajax({
@@ -46,6 +54,7 @@ $(document).ready(function() {
 		}
 	});
 	
+	// generates a random permalink
 	$("#generate_permalink").click(function() {
 		var min = 100000;
 		var max = 999999;
@@ -53,15 +62,17 @@ $(document).ready(function() {
 		 $("#frm_kb_permalink").val(num);
 	});
 	
-	
+	// applies an article filter
 	$("#btn_articles_filter").click(function() {
 		window.location.href = "/articles/" + $("#article_filter").val();
 	});
 	
+	// resets the article filter
 	$("#btn_articles_reset").click(function() {
 		window.location.href = "/articles";
 	});
 	
+	// search button click event
 	$("#btn_search").click(function(event) {
 		if($("#frm_search").val() == ""){
 			show_notification("Please enter a search value", "danger");
@@ -83,6 +94,7 @@ $(document).ready(function() {
 	}	
 });
 
+// Calls the API to delete a file
 function file_delete_confirm(img, id) {
 	if (window.confirm("Are you sure you want to delete the file?")) {
 		$.ajax({
