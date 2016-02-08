@@ -121,24 +121,13 @@ router.get('/edit/:id', restrict, function(req, res) {
 router.post('/insert_kb', restrict, function(req, res) {
   	var db = req.db;
 	var lunr_index = req.lunr_index;
-  
-  	var published_state = "false";
-	if(req.body.frm_kb_published == "on"){
-		published_state = "true";
-	}
-	
-	// if empty, remove the comma and just have a blank string
-	var keywords = req.body.frm_kb_keywords[1];
-	if(safe_trim(keywords) == ","){
-		keywords = "";
-	}
-	
+
     var doc = { 
 		kb_permalink: req.body.frm_kb_permalink,
         kb_title: req.body.frm_kb_title,
 		kb_body: req.body.frm_kb_body,
-		kb_published: published_state,
-		kb_keywords: keywords,
+		kb_published: req.body.frm_kb_published,
+		kb_keywords: req.body.frm_kb_keywords,
 		kb_published_date: new Date(),
 		kb_last_updated: new Date(),
 		kb_author: req.session.users_name,
@@ -726,7 +715,7 @@ router.get('/delete/:id', restrict, function(req, res) {
 		lunr_index.remove(lunr_doc, false);
 		
 		// redirect home
-		req.session.message = "User deleted.";
+		req.session.message = "Article successfully deleted";
 		req.session.message_type = "success";
 		res.redirect('/articles');
   	});
