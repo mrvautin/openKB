@@ -56,7 +56,7 @@ app.set('view engine', 'hbs');
 handlebars = handlebars.create({
     helpers: {
         split_keywords: function (keywords) { 
-            if(keywords != undefined){
+            if(keywords){
                 var array = keywords.split(','); var links = "";
                 for (var i = 0; i < array.length; i++) { 
                     if(array[i].trim() != ""){

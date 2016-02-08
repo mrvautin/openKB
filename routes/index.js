@@ -141,7 +141,8 @@ router.post('/insert_kb', restrict, function(req, res) {
 		kb_keywords: keywords,
 		kb_published_date: new Date(),
 		kb_last_updated: new Date(),
-		kb_author: req.session.user
+		kb_author: req.session.users_name,
+        kb_author_email: req.session.user
 	};
 
 	db.kb.count({'kb_permalink': req.body.frm_kb_permalink}, function (err, kb) {
@@ -237,8 +238,7 @@ router.post('/insert_suggest', suggest_allowed, function(req, res) {
 		kb_published: "false",
 		kb_keywords: keywords,
 		kb_published_date: new Date(),
-		kb_last_updated: new Date(),
-		kb_author: req.session.user
+		kb_last_updated: new Date()
 	};
 
 	db.kb.insert(doc, function (err, newDoc) {
@@ -303,12 +303,8 @@ router.post('/save_kb', restrict, function(req, res) {
 			db.kb.findOne({_id: req.body.frm_kb_id}, function (err, article) {
 				
 				// update author if not set
-				var author;
-				if(article.kb_author == null || article.kb_author == undefined){
-					author = req.session.user;
-				}else{
-					author = article.kb_author;
-				}
+				var author =  article.kb_author ? article.kb_author : req.session.users_name; 
+                var author_email = article.kb_author_email ? article.kb_author_email : req.session.user;
 				
 				// set published date to now if none exists
 				var published_date;
@@ -325,6 +321,7 @@ router.post('/save_kb', restrict, function(req, res) {
 							kb_keywords: keywords,
 							kb_last_updated: new Date(),
 							kb_author: author,
+                            kb_author_email: author_email,
 							kb_published_date: published_date,
 							kb_password: req.body.frm_kb_password,
 							kb_permalink: req.body.frm_kb_permalink
@@ -391,14 +388,25 @@ router.get('/users', restrict, function(req, res) {
 // users
 router.get('/user/edit/:id', restrict, function(req, res) {
 	var config = require('./config');
-	
+    
 	req.db.users.findOne({_id: req.params.id}, function (err, user) {
+      
+        // if the user we want to edit is not the current logged in user and the current user is not
+        // an admin we render an access denied message
+        if(user.user_email != req.session.user && req.session.is_admin == "false"){
+            req.session.message = "Access denied";
+            req.session.message_type = "danger";
+            res.redirect('/Users/');
+            return;
+        }
+        
 		res.render('user_edit', { 
 		  	title: 'User edit',
 			user: user,
 			session: req.session,
 			message: clear_session_value(req.session, "message"),
 			message_type: clear_session_value(req.session, "message_type"),
+            helpers: req.handlebars.helpers,
 			config: config
 		});
 	});
@@ -491,6 +499,7 @@ router.post('/user_insert', restrict, function(req, res) {
 	}
 	
 	var doc = { 
+        users_name: req.body.users_name,
         user_email: req.body.user_email,
 		user_password: bcrypt.hashSync(req.body.user_password),
 		is_admin: is_admin
@@ -504,16 +513,16 @@ router.post('/user_insert', restrict, function(req, res) {
 			req.session.message_type = "danger";
 			res.redirect('/user/edit/' + doc._id);
 		}else{
-			req.session.message = "User account inserted.";
+			req.session.message = "User account inserted";
 			req.session.message_type = "success";
 			
 			// if from setup we add user to session and redirect to login.
-			// Otherwise we show user edit screen
+			// Otherwise we show users screen
 			if(url_parts.path == "/setup"){
 				req.session.user = req.body.user_email;
 				res.redirect('/login');
 			}else{
-				res.redirect('/user/edit/' + doc._id);
+				res.redirect('/Users');
 			}
 		}
 	});
@@ -523,26 +532,45 @@ router.post('/user_insert', restrict, function(req, res) {
 router.post('/user_update', restrict, function(req, res) {
   	var db = req.db;
 	var bcrypt = req.bcrypt;
-	
-	db.users.update({ _id: req.body.user_id }, 
-		{ 
-			$set: { 
-				user_password: bcrypt.hashSync(req.body.user_password)
-			} 
-		}, { multi: false }, function (err, numReplaced) {
-		if(err){
-			console.error("Failed updating user: " + err);
-			req.session.message = "Failed to update user";
-			req.session.message_type = "danger";
-			res.redirect('/user/edit/' + req.body.user_id);
-		}else{
-			// show the view
-			req.session.user = req.body.user_email;
-			req.session.message = "User account updated.";
-			req.session.message_type = "success";
-			res.redirect('/user/edit/' + req.body.user_id);
-		}
-	});
+    
+    var is_admin = req.body.user_admin == 'on' ? "true" : "false";
+    
+    // get the user we want to update
+    req.db.users.findOne({_id: req.body.user_id}, function (err, user) {
+        // if the user we want to edit is not the current logged in user and the current user is not
+        // an admin we render an access denied message
+        if(user.user_email != req.session.user && req.session.is_admin == "false"){
+            req.session.message = "Access denied";
+            req.session.message_type = "danger";
+            res.redirect('/Users/');
+            return;
+        }
+        
+        // create the update doc
+        var update_doc = {};
+        update_doc.is_admin = is_admin;
+        update_doc.users_name = req.body.users_name;
+        if(req.body.user_password){
+            update_doc.user_password = bcrypt.hashSync(req.body.user_password);
+        }
+        
+        db.users.update({ _id: req.body.user_id }, 
+            { 
+                $set:  update_doc 
+            }, { multi: false }, function (err, numReplaced) {
+            if(err){
+                console.error("Failed updating user: " + err);
+                req.session.message = "Failed to update user";
+                req.session.message_type = "danger";
+                res.redirect('/user/edit/' + req.body.user_id);
+            }else{
+                // show the view
+                req.session.message = "User account updated.";
+                req.session.message_type = "success";
+                res.redirect('/user/edit/' + req.body.user_id);
+            }
+        });
+    });
 });
 
 // login form
@@ -632,6 +660,7 @@ router.post('/login_action', function(req, res){
 			// we have a user under that email so we compare the password
 			if(bcrypt.compareSync(req.body.password, user.user_password) == true){
 				req.session.user = req.body.email;
+                req.session.users_name = user.users_name;
 				req.session.user_id = user._id;
 				req.session.is_admin = user.is_admin;
 				if(req.body.frm_referring_url === undefined || req.body.frm_referring_url == ""){

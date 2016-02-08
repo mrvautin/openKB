@@ -13,7 +13,9 @@
 <div class="row">
 	<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
 		<h1 style="padding-bottom: 25px;padding-top: 15px;">{{result.kb_title}}</h1>
-		<p class="body_text">{{{kb_body}}}</p>
+		<p class="body_text">
+            {{{kb_body}}}
+        </p>
 		{{#if config.settings.show_kb_meta}}
 			<div class="panel panel-primary" style="margin-top: 35px;">
 				<div class="panel-heading">Article details:</div>
@@ -24,9 +26,11 @@
 					<h5>
 						<strong>Last updated:</strong> {{format_date result.kb_last_updated 'DD/MM/YYYY h:mmA'}}
 					</h5>
-					<h5>
-						<strong>Author:</strong> {{result.kb_author}}
-					</h5>
+                    {{#if result.kb_author}}
+                        <h5>
+                            <strong>Author:</strong> {{result.kb_author}} {{#if config.settings.show_author_email}}({{result.kb_author_email}}){{/if}}
+                        </h5>
+                    {{/if}}
 					{{#if result.kb_permalink}}
 					<h5>
 						<strong>Permalink:</strong> <a href="{{current_url}}/kb/{{result.kb_permalink}}" target="_blank">{{current_url}}/kb/{{result.kb_permalink}}</a>

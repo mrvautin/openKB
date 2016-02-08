@@ -20,4 +20,7 @@ config.settings.show_kb_meta = true;
 // whether users are allowed to suggest articles without a login
 config.settings.suggest_allowed = true;
 
+// Controls whether the authors email address is displayed in the meta. Needs "config.settings.show_kb_meta" set to true
+config.settings.show_author_email = true;
+
 module.exports = config;
