@@ -2,19 +2,19 @@
 	<form class="form-signin" action="user_insert" method="post" role="form" data-toggle="validator">
 		<h2 class="form-signin-heading text-center">openKB Setup</h2>
         <div class="form-group">
-	    	<label for="frm_kb_title">Users name</label>
+	    	<label for="frm_kb_title">Users name *</label>
 	    	<input type="text" class="form-control" name="users_name" placeholder="Users name" required>
 	  	</div>
 		<div class="form-group">
-	    	<label for="frm_kb_title">User email</label>
+	    	<label for="frm_kb_title">User email *</label>
 	    	<input type="email" class="form-control" name="user_email" placeholder="Email address" required>
 	  	</div>
 	  	<div class="form-group">
-		    <label for="frm_kb_body">User password</label>
+		    <label for="frm_kb_body">User password *</label>
 		    <input type="password" class="form-control" id="user_password" name="user_password" placeholder="Password" required>
 	  	</div>
 	  	<div class="form-group">
-		    <label for="frm_kb_body">Password confirm</label>
+		    <label for="frm_kb_body">Password confirm *</label>
 		    <input type="password" data-match="#user_password" placeholder="Confirm password" class="form-control" name="frm_user_password_confirm" required>
 	  	</div>
 		<button class="btn btn-lg btn-primary btn-block" type="submit">Complete setup</button>

@@ -410,6 +410,8 @@ router.get('/users/new', restrict, function(req, res) {
 		  	title: 'User - New',
 			user: user,
 			session: req.session,
+            message: clear_session_value(req.session, "message"),
+			message_type: clear_session_value(req.session, "message_type"),
 			config: config
 		});
 	});
@@ -494,27 +496,39 @@ router.post('/user_insert', restrict, function(req, res) {
 		is_admin: is_admin
 	};
 	
-	db.users.insert(doc, function (err, doc) {
-		// show the view
-		if(err){
-			console.error("Failed to insert user, possibly already exists: " + err);
-			req.session.message = "User exists";
-			req.session.message_type = "danger";
-			res.redirect('/user/edit/' + doc._id);
-		}else{
-			req.session.message = "User account inserted";
-			req.session.message_type = "success";
-			
-			// if from setup we add user to session and redirect to login.
-			// Otherwise we show users screen
-			if(url_parts.path == "/setup"){
-				req.session.user = req.body.user_email;
-				res.redirect('/login');
-			}else{
-				res.redirect('/Users');
-			}
-		}
-	});
+    // check for existing user
+    db.users.findOne({'user_email': req.body.user_email}, function (err, user) {
+        if(user){
+            // user already exists with that email address    
+            console.error("Failed to insert user, possibly already exists: " + err);
+            req.session.message = "A user with that email address already exists";
+            req.session.message_type = "danger";
+            res.redirect('/users/new');
+        }else{
+            // email is ok to be used.
+            db.users.insert(doc, function (err, doc) {
+                // show the view
+                if(err){
+                    console.error("Failed to insert user: " + err);
+                    req.session.message = "User exists";
+                    req.session.message_type = "danger";
+                    res.redirect('/user/edit/' + doc._id);
+                }else{
+                    req.session.message = "User account inserted";
+                    req.session.message_type = "success";
+                    
+                    // if from setup we add user to session and redirect to login.
+                    // Otherwise we show users screen
+                    if(url_parts.path == "/setup"){
+                        req.session.user = req.body.user_email;
+                        res.redirect('/login');
+                    }else{
+                        res.redirect('/Users');
+                    }
+                }
+            });
+        }
+    });
 });
 
 // update a user
