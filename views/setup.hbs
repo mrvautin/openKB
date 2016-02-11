@@ -1,20 +1,21 @@
-<div class="col-md-offset-4 col-md-4 col-lg-offset-4 col-lg-4" style="padding-top: 100px">
-	<form class="form-signin" action="user_insert" method="post" role="form">
-		<h2 class="form-signin-heading">Setup</h2>
+<div class="col-md-offset-4 col-md-4 col-lg-offset-4 col-lg-4" style="padding-top: 50px">
+	<form class="form-signin" action="user_insert" method="post" role="form" data-toggle="validator">
+		<h2 class="form-signin-heading text-center">openKB Setup</h2>
+        <div class="form-group">
+	    	<label for="frm_kb_title">Users name</label>
+	    	<input type="text" class="form-control" name="users_name" placeholder="Users name" required>
+	  	</div>
 		<div class="form-group">
 	    	<label for="frm_kb_title">User email</label>
-	    	<input type="email" class="form-control" name="user_email" value="{{user.user_email}}" placeholder="Email address" required>
-		  	<p class="help-block val-error"></p>
+	    	<input type="email" class="form-control" name="user_email" placeholder="Email address" required>
 	  	</div>
 	  	<div class="form-group">
 		    <label for="frm_kb_body">User password</label>
-		    <input type="password" class="form-control" name="user_password" placeholder="Password" required>
-			<p class="help-block val-error"></p>
+		    <input type="password" class="form-control" id="user_password" name="user_password" placeholder="Password" required>
 	  	</div>
 	  	<div class="form-group">
 		    <label for="frm_kb_body">Password confirm</label>
-		    <input type="password" data-validation-match-match="user_password" placeholder="Confirm password" data-validation-match-message="Password values to not match" class="form-control" name="frm_user_password_confirm" required>
-			<p class="help-block val-error"></p>
+		    <input type="password" data-match="#user_password" placeholder="Confirm password" class="form-control" name="frm_user_password_confirm" required>
 	  	</div>
 		<button class="btn btn-lg btn-primary btn-block" type="submit">Complete setup</button>
 	</form>
