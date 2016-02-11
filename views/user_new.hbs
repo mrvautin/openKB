@@ -7,26 +7,22 @@
 	  			<li class="active">New user</li>
 			</ol>
 			<h1>New User</h1>
-			<form method="post" id="edit_form" action="/user_insert">
+			<form method="post" id="edit_form" action="/user_insert" data-toggle="validator">
             <div class="form-group">
 		    	<label>Users name *</label>
 		    	<input type="text" class="form-control" name="users_name" value="{{user.users_name}}" required>
-			  	<p class="help-block val-error"></p>
 		  	</div>
 			<div class="form-group">
 		    	<label>User email *</label>
 		    	<input type="email" class="form-control" name="user_email" value="{{user.user_email}}" required>
-			  	<p class="help-block val-error"></p>
 		  	</div>
 		  	<div class="form-group">
 			    <label>User password *</label>
-			    <input type="password" class="form-control" name="user_password" required>
-				<p class="help-block val-error"></p>
+			    <input type="password" class="form-control" id="user_password" name="user_password" required>
 		  	</div>
 		  	<div class="form-group">
 			    <label>Password confirm *</label>
-			    <input type="password" data-validation-match-match="user_password" data-validation-match-message="Password values to not match" class="form-control" name="frm_user_password_confirm" required>
-				<p class="help-block val-error"></p>
+			    <input type="password" data-match="#user_password"  class="form-control" name="frm_user_password_confirm" required>
 		  	</div>
 		  	<div class="form-group">
     			<div class="pull-right">

@@ -1,13 +1,12 @@
 <div class="col-md-10 col-md-offset-1">
 	<div class="row">
-		<form method="post" id="edit_form" action="/insert_suggest">
+		<form method="post" id="edit_form" action="/insert_suggest" data-toggle="validator">
 			<input type="hidden" name="frm_kb_id" value="{{result._id}}" />
 			<div id="header row">
 				<div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
 					<div class="form-group">
 						<label for="preview">Article title *</label><br/>
 						<input type="text" name="frm_kb_title" class="form-control input-normal" minlength="5" maxlength="200" value="{{result.kb_title}}" required/>
-						<p class="help-block val-error"></p>
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 text-right">

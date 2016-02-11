@@ -118,6 +118,11 @@ html{
     background-color: #e74c3c;
 }
 
+.popover-title{
+    background-color: #e74c3c;
+    color: white;
+}
+
 .footer {
     position: absolute;
     bottom: 0;

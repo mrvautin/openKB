@@ -112,7 +112,7 @@ function file_delete_confirm(img, id) {
 	}
 }
 
-$(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
+//$(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
 
 // show notification popup
 function show_notification(msg, type, reload_page){
