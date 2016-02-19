@@ -46,18 +46,24 @@
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
 								<ul class="dropdown-menu">
-									<li><a href="/users/new">New</a></li>
-									<li><a href="/users">Edit</a></li>
-									<li><a href="/user/edit/{{session.user_id}}">My account</a></li>
+									<li><a href="/users/new"><i class="fa fa-user-plus fa-fw"></i>&nbsp; New</a></li>
+									<li><a href="/users"><i class="fa fa-users fa-fw"></i>&nbsp; Edit</a></li>
+									<li><a href="/user/edit/{{session.user_id}}"><i class="fa fa-user fa-fw"></i>&nbsp; My account</a></li>
 								</ul>
 							</li>
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Article <span class="caret"></span></a>
 								<ul class="dropdown-menu">
-									<li><a href="/insert">New</a></li>
-									<li><a href="/articles">Edit</a></li>
-									<li><a href="/files">Files</a></li>
-									<li><a href="/export">Export</a></li>
+									<li><a href="/insert"><i class="fa fa-plus fa-fw"></i>&nbsp; New</a></li>
+									<li><a href="/articles"><i class="fa fa-pencil fa-fw"></i>&nbsp; Edit</a></li>
+								</ul>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li><a href="/files"><i class="fa fa-files-o fa-fw"></i>&nbsp; Files</a></li>
+									<li><a href="/export"><i class="fa fa-file-archive-o fa-fw"></i>&nbsp; Export</a></li>
+									<li><a href="/image_cleanup"><i class="fa fa-trash fa-fw"></i>&nbsp; Cleanup images</a></li>
 								</ul>
 							</li>
 							<li><a href="/logout">Logout</a></li>
