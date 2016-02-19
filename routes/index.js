@@ -623,6 +623,34 @@ router.get('/setup', function(req, res) {
 	});
 });
 
+// Loops images on the disk, checks for their existance in any KB articles and removes non used images.
+router.get('/image_cleanup', restrict, function(req, res) {
+	var path = require('path');
+	var fs = require('fs');
+	var walk    = require('walk');
+    var walkPath = path.join("public", "uploads", "inline_files");
+    var walker  = walk.walk(walkPath, { followLinks: false });
+
+    walker.on('file', function(root, stat, next) {
+        var file_name = path.resolve(root, stat.name);
+        
+        // find posts with the file in question
+        req.db.kb.find({"kb_body": new RegExp(stat.name)}).exec(function (err, posts) {
+            // if the images doesn't exists in any posts then we remove it
+            if(posts.length == 0){
+                fs.unlinkSync(file_name);
+            }
+            next();
+        });
+    });
+	
+	walker.on("end", function (){
+		req.session.message = "All unused images have been removed";
+		req.session.message_type = "success";
+    	res.redirect(req.header('Referer'));
+  	});
+});
+
 // validate the permalink
 router.post('/api/validate_permalink', function(req, res){
 	var db = req.db;
