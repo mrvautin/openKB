@@ -19,6 +19,22 @@
     #frm_edit_kb_save, #frm_kb_published{
         float:right;
     }
+
+    .input-lg {
+        height: 50px;
+        padding-left: 15px;
+        font-size: 16px;
+        line-height: 1.2;
+        border-radius: 3px;
+    }
+
+    .btn-lg, .btn-group-lg>.btn {
+        height: 50px;
+        padding-left: 0px 5px;
+        font-size: 16px;
+        line-height: .8;
+        border-radius: 3px;
+    }
 }
 
 html, body {
