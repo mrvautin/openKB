@@ -16,8 +16,8 @@ var nedb_store = require('nedb-session-store')(session);
 // setup the db's
 var db = new nedb();
 db = {};
-db.users = new nedb({ filename: 'data/users.db', autoload: true });
-db.kb = new nedb({ filename: 'data/kb.db', autoload: true });
+db.users = new nedb({ filename: path.join(__dirname,'/data/users.db'), autoload: true });
+db.kb = new nedb({ filename: path.join(__dirname,'/data/kb.db'), autoload: true });
 
 // setup lunr indexing
 var lunr_index = lunr(function () {
@@ -49,7 +49,8 @@ var index = require('./routes/index');
 var app = express();
 
 // view engine setup
-app.engine('hbs', handlebars({ extname: 'hbs', defaultLayout: 'layout.hbs' }));
+app.set('views', path.join(__dirname, '/views'));
+app.engine('hbs', handlebars({ extname: 'hbs', layoutsDir: __dirname + '/views/layouts', defaultLayout: 'layout.hbs' }));
 app.set('view engine', 'hbs');
 
 // helpers for the handlebar templating platform
@@ -139,7 +140,7 @@ app.use(session({
 }));
 
 // serving static content
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname,'public')));
 
 // Make stuff accessible to our router
 app.use(function (req, res, next) {
