@@ -123,6 +123,10 @@ html{
     color: white;
 }
 
+.bg-danger, .bg-warning, .bg-primary, .bg-success, .bg-info{
+    color: #ffffff;
+}
+
 .footer {
     position: absolute;
     bottom: 0;
