@@ -1,79 +1,65 @@
-<div class="col-xs-12 col-md-10 col-md-offset-1">
-	<div class="row">
-		<div class="col-lg-12">
-			<form method="post" id="insert_form" action="/insert_kb" data-toggle="validator">
-				<div id="header">
-					<div class="col-lg-12">
-						<div class="col-xs-12 col-lg-6">
-							<div class="form-group">
-								<label for="frm_kb_title">Article title *</label><br/>
-								<input type="text" name="frm_kb_title" class="form-control input-normal" minlength="5" maxlength="200" value="{{kb_title}}" required/>
-							</div>
-						</div>
-						<div class="col-xs-12 col-sm-5 col-md-5 col-lg-2">
-							<label for="frm_kb_password">Password</label><br/>
-							<input id="frm_kb_password" class="form-control" name="frm_kb_password" type="text" value="{{kb_password}}" />
-						</div>
-						<div class="col-xs-6 col-sm-5 col-md-5 col-lg-2">
-							<label for="frm_kb_published">Status</label><br/>
-							<select class="form-control" id="frm_kb_published" name="frm_kb_published">
-								<option value="true" selected>Published</option>
-								<option value="false">Draft</option>
-							</select>
-						</div>
-						<div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
-							<label for="frm_kb_published">&nbsp;</label><br/>
-							<div class="input-group-btn">
-								<button id="frm_edit_kb_save" class="btn btn-success editor_btn_action pull-right" type="submit">Insert <i class="fa fa-plus"></i></button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div id="editor-pagewrapper">
-					<div class="col-lg-12">
-						<div class="col-xs-12 col-md-6 col-lg-6">
-							<div class="form-group" id="editor-wrapper">
-								<label for="editor">Article body (Markdown) *</label>
-								<textarea id="editor" minlength="5" name="frm_kb_body" class="form-control" required>{{kb_body}}</textarea>
-							</div>
-						</div>
-						<div class="col-xs-12 col-md-6 col-lg-6">
-							<div class="form-group" id="preview-wrapper">
-								<label for="preview">Preview</label>
-								<div id="preview" name="preview" class="form-control" rows="10"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<footer>
-					<div class="col-lg-12">
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<div class="form-group">
-								<label>Keywords</label><br/>
-								<input type="text" class="tokenfield form-control" name="frm_kb_keywords" id="frm_kb_keywords" placeholder="comma, seporated, list" value={{kb_keywords}}>
-							</div>
-						</div>
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<div class="form-group">
-								<label>Permalink (takes preference over the ID based link)</label><br/>
-								<div class="input-group">
-									<input type="text" class="form-control" name="frm_kb_permalink" id="frm_kb_permalink" placeholder="Permalink for the article" value={{kb_permalink}}>
-									<span class="input-group-btn">
-										<button class="btn btn-success" id="validate_permalink" type="button">Validate</button>
-									</span>
-									<span class="input-group-btn">
-										<button class="btn btn-warning" id="generate_permalink" type="button">Generate</button>
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</footer>
-			</form>
-		</div>
-		{{#if editor}}
-			<script src="/javascripts/markdown-it.min.js"></script>
-			<script src="/javascripts/markdown-editor.js"></script>
-		{{/if}}
-	</div>
+<div class="col-xs-12 col-md-12">
+    <form method="post" id="edit_form" action="/insert_kb" data-toggle="validator">
+        <div class="row">
+            <div class="col-xs-12 col-lg-6">
+                <div class="form-group">
+                    <label for="frm_kb_title">Article title *</label><br/>
+                    <input type="text" name="frm_kb_title" class="form-control input-normal" minlength="5" maxlength="200" value="{{kb_title}}" required/>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
+                <label for="frm_kb_password">Password</label><br/>
+                <input id="frm_kb_password" class="form-control" name="frm_kb_password" type="text" value="{{kb_password}}" />
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-2">
+                <label for="frm_kb_published">Status</label><br/>
+                <select class="form-control" id="frm_kb_published" name="frm_kb_published">
+                    <option value="true" selected>Published</option>
+                    <option value="false">Draft</option>
+                </select>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-2">
+                <label for="frm_kb_published">&nbsp;</label><br/>
+                <div class="btn-group pull-right" role="group" aria-label="...">
+                    <button id="frm_edit_kb_save" class="btn btn-success editor_btn_action pull-right" type="submit">Insert <i class="fa fa-plus"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6 col-lg-6">
+                <div class="form-group" id="editor-wrapper">
+                    <label for="editor">Article body (Markdown) *</label>
+                    <textarea id="editor" minlength="5" name="frm_kb_body" class="form-control" required>{{kb_body}}</textarea>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6 col-lg-6">
+                <div class="form-group" id="preview-wrapper">
+                    <label for="preview">Preview</label>
+                    <div id="preview" name="preview" class="form-control" rows="10"></div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <input type="text" class="tokenfield form-control" name="frm_kb_keywords" id="frm_kb_keywords" placeholder="comma, seporated, list" value={{kb_keywords}}>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                    <input type="text" class="form-control" name="frm_kb_permalink" id="frm_kb_permalink" placeholder="Permalink for the article" value={{kb_permalink}}>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                    <div class="btn-group btn-group-justified pull-right permalink_buttons" role="group" aria-label="...">
+                        <a href="#" class="btn btn-success" id="validate_permalink" type="button">Validate</a>
+                        <a href="#" class="btn btn-warning" id="generate_permalink" type="button">Generate</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </form>
+	{{#if editor}}
+		<script src="/javascripts/markdown-it.min.js"></script>
+		<script src="/javascripts/markdown-editor.js"></script>
+	{{/if}}
 </div>

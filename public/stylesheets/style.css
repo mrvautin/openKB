@@ -20,6 +20,10 @@
         float:right;
     }
 
+    .permalink_buttons{
+        padding-top: 15px;
+    }
+
     .input-lg {
         height: 50px;
         padding-left: 15px;
@@ -55,12 +59,8 @@ html{
 }
 
 #editor, #preview {
-    height: calc(100vh - 135px - 175px);
+    height: calc(100vh - 110px - 175px);
     overflow: auto;
-}
-
-#editor-pagewrapper {
-    height: calc(100vh - 100px - 135px);
 }
 
 .show_footer{
