@@ -14,8 +14,6 @@
     var Validator = function (element, options) {
         this.$element = $(element)
         this.options = options
-        
-        console.log("here");
 
         options.errors = $.extend({}, Validator.DEFAULTS.errors, options.errors)
 
