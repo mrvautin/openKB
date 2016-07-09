@@ -68,6 +68,10 @@ handlebars = handlebars.create({
                 return keywords;
             }
         },
+
+        encodeURI: function(url){
+            return encodeURI(url);
+        },
         checked_state: function (state) { 
             if(state == "true"){
                 return "checked"

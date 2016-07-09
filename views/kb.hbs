@@ -28,11 +28,11 @@
 					</h5>
                     {{#if result.kb_permalink}}
                         <h5 class="col-sm-12 col-lg-6">
-                            <strong>Share article:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{result.kb_permalink}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                            <strong>Share article:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/kb/{{encodeURI result.kb_permalink}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
                         </h5>
                     {{else}}
                         <h5 class="col-sm-12 col-lg-6">
-						    <strong>Share article:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{current_url}}/kb/{{result._id}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+						    <strong>Share article:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/kb/{{result._id}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
 					    </h5>
                     {{/if}}
                     {{#if result.kb_author}}
