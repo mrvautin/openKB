@@ -40,7 +40,7 @@ router.post('/protected/action', function(req, res) {
 
 router.get('/kb/:id', restrict, function(req, res) {
 	var db = req.db;
-	var classy = require("markdown-it-classy");
+	var classy = require("../public/javascripts/markdown-it-classy");
 	var markdownit = req.markdownit;
 	markdownit.use(classy);
 	var helpers = req.handlebars.helpers;

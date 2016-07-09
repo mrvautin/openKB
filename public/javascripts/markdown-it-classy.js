@@ -112,22 +112,26 @@ function getClassyFromInlineToken(inlineToken) {
   // should be classy
   //
   // also, don't do anything if the only token present is a classy token
-  if (tokens[numChildren - 1].type !== "classy"
-      || tokens.length === 1) {
-    return null;
+  if (tokens[numChildren - 1]){
+    if (tokens[numChildren - 1].type !== "classy"
+        || tokens.length === 1) {
+        return null;
+    }
   }
 
   classy = tokens.pop();
   numChildren -= 1;
 
   // clean up after token was removed
-  if (tokens[numChildren - 1].type === "softbreak") {
-    // we may need to get rid of the newline just before classy statement
-    tokens.pop(numChildren - 1);
-  } else {
-    // or there might be some whitespace
-    // we may need to trim on the previous element
-    tokens[numChildren - 1].content = tokens[numChildren - 1].content.trim();
+  if (tokens[numChildren - 1]){
+    if (tokens[numChildren - 1].type === "softbreak") {
+        // we may need to get rid of the newline just before classy statement
+        tokens.pop(numChildren - 1);
+    } else {
+        // or there might be some whitespace
+        // we may need to trim on the previous element
+        tokens[numChildren - 1].content = tokens[numChildren - 1].content.trim();
+    }
   }
 
   return classy;
