@@ -1,5 +1,10 @@
 # openKB
 
+![npm downloads badge](https://img.shields.io/npm/dm/openkb.svg "npm download badge")
+![npm version badge](https://img.shields.io/npm/v/openkb.svg "npm version badge")
+[![Build Status](https://travis-ci.org/mrvautin/openKB.svg?branch=master)](https://travis-ci.org/mrvautin/opnkb)
+[![Github stars](https://img.shields.io/github/stars/mrvautin/openkb.svg?style=social&label=Star)](https://github.com/mrvautin/openkb)
+
 openKB is a Markdown Knowledge base application (FAQ) built with [Nodejs](https://nodejs.org/) and [ExpressJS](http://expressjs.com/). The application uses an embedded database ([nedb](https://github.com/louischatriot/nedb)) for easy installation.
 The application is designed to be easy to use and install and based around search rather than nested categories. Simply search for what you want and select from the results.
 
