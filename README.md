@@ -19,7 +19,7 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 
 ### Features
 
-- **Seach**: openKB is a search based Knowledgebase (FAQ) backed by [Lunr.js](https://github.com/olivernn/lunr.js/) indexing to create the best possible results on searches. 
+- **Search**: openKB is a search based Knowledgebase (FAQ) backed by [Lunr.js](https://github.com/olivernn/lunr.js/) indexing to create the best possible results on searches. 
 - **Backend**: openKB uses the pure javascript [nedb](https://github.com/louischatriot/nedb) embedded database. This means no external databases need to be setup.
 - **Design**: openKB is meant to be simple flat design. With that said, openKB is very customizable by adding your CSS file to `/public/stylesheets/` and adding a link in `/views/layouts/layout.hbs` you can add your own styling and graphics.
 - **Responsive**: openKB is built using Bootstrap allowing it to be responsive and work on all devices. The `admin` can be a little difficult editing Markdown on smaller screens.
