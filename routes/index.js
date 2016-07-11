@@ -130,6 +130,7 @@ router.post('/insert_kb', restrict, function(req, res) {
 		kb_keywords: req.body.frm_kb_keywords,
 		kb_published_date: new Date(),
 		kb_last_updated: new Date(),
+        kb_last_update_user: req.session.users_name + " - " + req.session.user,
 		kb_author: req.session.users_name,
         kb_author_email: req.session.user
 	};
