@@ -3,6 +3,9 @@ $(document).ready(function() {
 	$('img').each(function(){
 		$(this).addClass("img-responsive")
 	});
+
+    // make all links in articles open in new window/tab
+    $('.body_text a').attr('target','_blank');
 	
 	//setup mermaid charting
 	mermaid.initialize({startOnLoad:true});
