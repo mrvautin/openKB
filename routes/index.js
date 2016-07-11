@@ -309,6 +309,7 @@ router.post('/save_kb', restrict, function(req, res) {
 							kb_published: req.body.frm_kb_published,
 							kb_keywords: keywords,
 							kb_last_updated: new Date(),
+                            kb_last_update_user: req.session.users_name + " - " + req.session.user,
 							kb_author: author,
                             kb_author_email: author_email,
 							kb_published_date: published_date,

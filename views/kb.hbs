@@ -25,6 +25,9 @@
 					</h5>
 					<h5 class="col-sm-12 col-lg-6">
 						<strong>Last updated:</strong> {{format_date result.kb_last_updated 'DD/MM/YYYY h:mmA'}}
+                        {{#if result.kb_last_update_user}}
+                            <span class="text-info">({{result.kb_last_update_user}})</span>
+                        {{/if}}
 					</h5>
                     {{#if result.kb_permalink}}
                         <h5 class="col-sm-12 col-lg-6">
@@ -37,7 +40,7 @@
                     {{/if}}
                     {{#if result.kb_author}}
                         <h5 class="col-sm-12 col-lg-6">
-                            <strong>Author:</strong> {{result.kb_author}} {{#if config.settings.show_author_email}}({{result.kb_author_email}}){{/if}}
+                            <strong>Author:</strong> <span class="text-info">{{result.kb_author}} {{#if config.settings.show_author_email}}({{result.kb_author_email}}){{/if}}</span>
                         </h5>
                     {{/if}}
 					{{#if result.kb_permalink}}
