@@ -434,6 +434,22 @@ router.get('/articles', restrict, function(req, res) {
 	});
 });
 
+router.get('/articles/all', restrict, function(req, res) {
+    var config = require('./config');
+	
+	req.db.kb.find({}).sort({kb_published_date: -1}).exec(function (err, articles) {
+		res.render('articles', { 
+		    title: 'Articles',
+			articles: articles,
+			session: req.session,
+			message: clear_session_value(req.session, "message"),
+			message_type: clear_session_value(req.session, "message_type"),
+			config: config,
+			helpers: req.handlebars.helpers
+		});
+	});
+});
+
 router.get('/articles/:tag', function(req, res) {
 	var db = req.db;
 	var lunr_index = req.lunr_index;
