@@ -641,8 +641,8 @@ router.get('/setup', function(req, res) {
 	});
 });
 
-// Loops images on the disk, checks for their existance in any KB articles and removes non used images.
-router.get('/image_cleanup', restrict, function(req, res) {
+// Loops files on the disk, checks for their existance in any KB articles and removes non used files.
+router.get('/file_cleanup', restrict, function(req, res) {
 	var path = require('path');
 	var fs = require('fs');
 	var walk    = require('walk');
@@ -663,7 +663,7 @@ router.get('/image_cleanup', restrict, function(req, res) {
     });
 	
 	walker.on("end", function (){
-		req.session.message = "All unused images have been removed";
+		req.session.message = "All unused files have been removed";
 		req.session.message_type = "success";
     	res.redirect(req.header('Referer'));
   	});
@@ -781,8 +781,6 @@ router.get('/delete/:id', restrict, function(req, res) {
   	});
 });
 
-
-//router.post('/file/upload_file', restrict, function (req, res, next) {
 var multer_upload  = require('multer')
 var inline_upload = multer_upload({ dest: 'public/uploads/inline_files' });
 router.post('/file/upload_file', restrict, inline_upload.single('file'), function (req, res, next) {
