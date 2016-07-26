@@ -1,6 +1,6 @@
 {
   "name": "openkb",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "An Open Source Nodejs Markdown based knowledge base (FAQ) app with powerful lunr search",
   "private": false,
   "scripts": {
@@ -28,7 +28,6 @@
     "serve-favicon": "~2.1.3",
     "walk": "^2.3.9"
   },
-  "description": "openKB",
   "main": "app.js",
   "devDependencies": {},
   "repository": {
