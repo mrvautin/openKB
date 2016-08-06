@@ -1,4 +1,5 @@
 var express = require('express');
+var path = require('path');
 var router = express.Router();
 
 // The homepage of the site
@@ -782,18 +783,18 @@ router.get('/delete/:id', restrict, function(req, res) {
 });
 
 var multer_upload  = require('multer')
-var inline_upload = multer_upload({ dest: 'public/uploads/inline_files' });
+var inline_upload = multer_upload({ dest: path.join('public','uploads','inline_files') });
 router.post('/file/upload_file', restrict, inline_upload.single('file'), function (req, res, next) {
 	var fs = require('fs');
-	
+    
 	if(req.file){		
 		// check for upload select
-		var upload_dir = "public/uploads/inline_files";
-		var relative_upload_dir = "/uploads/inline_files/";
+		var upload_dir = path.join('public','uploads','inline_files');
+		var relative_upload_dir = path.join('/uploads','inline_files');
 		
 		var file = req.file;
 		var source = fs.createReadStream(file.path);
-		var dest = fs.createWriteStream(upload_dir + "/" + file.originalname);
+		var dest = fs.createWriteStream(path.join(upload_dir,file.originalname));
 
 		// save the new file
 		source.pipe(dest);
@@ -804,7 +805,7 @@ router.post('/file/upload_file', restrict, inline_upload.single('file'), functio
 		
 		// uploaded
 		res.writeHead(200, { 'Content-Type': 'application/json' }); 
-		res.end(JSON.stringify({ 'filename': relative_upload_dir + file.originalname }, null, 3));
+		res.end(JSON.stringify({ 'filename': path.join(relative_upload_dir, file.originalname) }, null, 3));
 		return;
 	}else{
 		res.writeHead(500, { 'Content-Type': 'application/json' }); 
@@ -818,7 +819,7 @@ router.post('/file/new_dir', restrict, function (req, res, next) {
 	
 	// if new directory exists
 	if(req.body.custom_dir){
-		mkdirp("public/uploads/" + req.body.custom_dir, function (err) {
+		mkdirp(path.join("public","uploads",req.body.custom_dir), function (err) {
 			if (err){
 				console.error("Directory creation error: " + err);
 				req.session.message = "Directory creation error. Please try again";
