@@ -802,8 +802,10 @@ router.post('/file/upload_file', restrict, inline_upload.single('file'), functio
 		fs.unlink(file.path, function (err) {});
 		
 		// uploaded
-		res.writeHead(200, { 'Content-Type': 'application/json' }); 
-		res.end(JSON.stringify({ 'filename': path.join(relative_upload_dir, file.originalname) }, null, 3));
+		res.writeHead(200, { 'Content-Type': 'application/json' });
+		var filenameURL = relative_upload_dir + "/" + file.originalname;
+		filenameURL = filenameURL.replace(/\\/g,"/");
+		res.end(JSON.stringify({ 'filename': filenameURL }, null, 3));
 		return;
 	}else{
 		res.writeHead(500, { 'Content-Type': 'application/json' }); 
