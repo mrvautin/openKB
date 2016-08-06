@@ -1,7 +1,7 @@
 {
   "name": "openkb",
-  "version": "1.0.5",
-  "description": "An Open Source Nodejs Markdown based knowledge base (FAQ) app with powerful lunr search",
+  "version": "1.0.6",
+  "description": "An Open Source Nodejs Markdown based knowledge base/FAQ/Wiki app with powerful lunr search",
   "private": false,
   "scripts": {
     "start": "node app.js"
@@ -43,7 +43,9 @@
     "platform",
     "nodejs",
     "kb",
-    "documentation"
+    "documentation",
+    "faq",
+    "wiki"
   ],
   "author": "Mark Moffat",
   "license": "MIT",
