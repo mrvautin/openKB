@@ -214,13 +214,11 @@ router.get('/suggest', suggest_allowed, function(req, res) {
 router.post('/insert_suggest', suggest_allowed, function(req, res) {
 	var db = req.db;
 	var lunr_index = req.lunr_index;
-	
-	// if empty, remove the comma and just have a blank string
-	var keywords = req.body.frm_kb_keywords[1];
-	if(keywords != null){
-		if(keywords.trim() == ","){
-			keywords = "";
-		}
+
+    // if empty, remove the comma and just have a blank string
+	var keywords = req.body.frm_kb_keywords;
+	if(safe_trim(keywords) == ","){
+		keywords = "";
 	}
 	
 	var doc = { 
