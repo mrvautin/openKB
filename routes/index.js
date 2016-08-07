@@ -43,7 +43,7 @@ router.get('/', restrict, function(req, res, next) {
 	}
 
 	// get the top 5 results based on viewcount
-	db.kb.find({kb_published:'true'}).sort({kb_viewcount: -1}).limit(config.settings.num_top_results).exec(function (err, top_results) {
+	db.kb.find({kb_published:'true'}).sort({kb_last_updated: -1}).limit(config.settings.num_top_results).exec(function (err, top_results) {
  		res.render('index', {
 			 title: config.settings.website_title,
 			 "top_results": top_results,
@@ -509,7 +509,7 @@ router.get('/articles', restrict, function(req, res) {
 router.get('/articles/all', restrict, function(req, res) {
     var config = require('./config');
 
-	req.db.kb.find({}).sort({kb_published_date: -1}).exec(function (err, articles) {
+	req.db.kb.find({}).sort({kb_last_updated: -1}).exec(function (err, articles) {
 		res.render('articles', {
 		    title: 'Articles',
 			articles: articles,
@@ -535,7 +535,7 @@ router.get('/articles/:tag', function(req, res) {
 	});
 
 	// we search on the lunr indexes
-	db.kb.find({ _id: { $in: lunr_id_array}}).sort({kb_published_date: -1}).exec(function (err, results) {
+	db.kb.find({ _id: { $in: lunr_id_array}}).sort({kb_last_updated: -1}).exec(function (err, results) {
 		res.render('articles', {
 			title: 'Articles',
 			"results": results,
@@ -1201,6 +1201,12 @@ function restrict(req, res, next){
 		}
 	}
 	if(url_path.substring(0,7) == "/search"){
+		if(config.settings.password_protect == false){
+			next();
+			return;
+		}
+	}
+	if(url_path.substring(0,11) == "/searchtags"){
 		if(config.settings.password_protect == false){
 			next();
 			return;
