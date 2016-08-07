@@ -24,19 +24,21 @@ router.get('/', restrict, function(req, res, next) {
 					var current_tag = {};
 					current_tag.keyword = tag;
 					current_tag.results = results;
-					// convert into a 2D array, 3 tags per row
-					if ( temp.length > 0 && temp.length % 3 === 0 ) {
-							featured_tags.push( temp );
-							temp = new Array();
+					if(results && results.length > 0) {
+						// convert into a 2D array, 3 tags per row
+						if ( temp.length > 0 && temp.length % 3 === 0 ) {
+								featured_tags.push( temp );
+								temp = new Array();
+						}
+						temp.push( current_tag );
 					}
-					temp.push( current_tag );
 					if(((i + 1) == tag_list.length) && temp.length > 0) {
 							featured_tags.push( temp );
 					}
 				};
 			};
 			// we search on the lunr indexes
-			db.kb.find({ _id: { $in: lunr_id_array}, kb_published:'true'}).limit(4).exec(saveResults(tag_list[i], i));
+			db.kb.find({ _id: { $in: lunr_id_array}, kb_published:'true'}).sort({kb_last_updated: -1}).limit(config.settings.featured_tags_limit).exec(saveResults(tag_list[i], i));
 		}
 	}
 

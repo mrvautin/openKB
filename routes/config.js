@@ -26,4 +26,7 @@ config.settings.show_author_email = true;
 // Comma separated list of tags to be featured on the home page
 config.settings.featured_tags = "help,info,kb";
 
+// Controls how many articles are being displayed on the home page for each featured tag
+config.settings.featured_tags_limit = 5;
+
 module.exports = config;
