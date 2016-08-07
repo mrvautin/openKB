@@ -23,4 +23,7 @@ config.settings.suggest_allowed = true;
 // Controls whether the authors email address is displayed in the meta. Needs "config.settings.show_kb_meta" set to true
 config.settings.show_author_email = true;
 
+// Comma separated list of tags to be featured on the home page
+config.settings.featured_tags = "help,info,kb";
+
 module.exports = config;
