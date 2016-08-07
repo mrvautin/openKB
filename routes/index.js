@@ -12,11 +12,11 @@ router.get('/', restrict, function(req, res, next) {
 	var featured_tags = new Array();
 	if(tag_list.length > 0 && tag_list[0]) {
 		var temp = new Array();
-		var lunr_index = req.lunr_index;
+		var lunr_tags_index = req.lunr_tags_index;
 		for (var i = 0; i < tag_list.length; i++) {
 			// we strip the ID's from the lunr index search
 			var lunr_id_array = new Array();
-			lunr_index.search(tag_list[i]).forEach(function(id) {
+			lunr_tags_index.search(tag_list[i]).forEach(function(id) {
 				lunr_id_array.push(id.ref);
 			});
 			var saveResults = function(tag, i) {
@@ -156,7 +156,8 @@ router.get('/edit/:id', restrict, function(req, res) {
 // insert new KB form action
 router.post('/insert_kb', restrict, function(req, res) {
   	var db = req.db;
-	var lunr_index = req.lunr_index;
+		var lunr_index = req.lunr_index;
+		var lunr_tags_index = req.lunr_tags_index;
 
     var doc = {
 		kb_permalink: req.body.frm_kb_permalink,
@@ -212,11 +213,22 @@ router.post('/insert_kb', restrict, function(req, res) {
 					var lunr_doc = {
 						kb_title: req.body.frm_kb_title,
 						kb_keywords: keywords,
+						kb_body: req.body.frm_kb_body,
 						id: newDoc._id
 					};
 
 					// add to lunr index
 					lunr_index.add(lunr_doc);
+
+					// create lunr doc
+					var lunr_tags_doc = {
+						kb_title: req.body.frm_kb_title,
+						kb_keywords: keywords,
+						id: newDoc._id
+					};
+
+					// add to lunr index
+					lunr_tags_index.add(lunr_tags_doc);
 
 					req.session.message = "New article successfully created";
 					req.session.message_type = "success";
@@ -249,6 +261,7 @@ router.get('/suggest', suggest_allowed, function(req, res) {
 router.post('/insert_suggest', suggest_allowed, function(req, res) {
 	var db = req.db;
 	var lunr_index = req.lunr_index;
+	var lunr_tags_index = req.lunr_tags_index;
 
     // if empty, remove the comma and just have a blank string
 	var keywords = req.body.frm_kb_keywords;
@@ -284,11 +297,22 @@ router.post('/insert_suggest', suggest_allowed, function(req, res) {
 			var lunr_doc = {
 				kb_title: req.body.frm_kb_title,
 				kb_keywords: keywords,
+				kb_body: req.body.frm_kb_body,
 				id: newDoc._id
 			};
 
 			// add to lunr index
 			lunr_index.add(lunr_doc);
+
+			// create lunr doc
+			var lunr_tags_doc = {
+				kb_title: req.body.frm_kb_title,
+				kb_keywords: keywords,
+				id: newDoc._id
+			};
+
+			// add to lunr index
+			lunr_tags_index.add(lunr_tags_doc);
 
 			// redirect to new doc
 			req.session.message = "Suggestion successfully processed";
@@ -301,7 +325,8 @@ router.post('/insert_suggest', suggest_allowed, function(req, res) {
 // Update an existing KB article form action
 router.post('/save_kb', restrict, function(req, res) {
   	var db = req.db;
-	var lunr_index = req.lunr_index;
+		var lunr_index = req.lunr_index;
+		var lunr_tags_index = req.lunr_tags_index;
 
 	// if empty, remove the comma and just have a blank string
 	var keywords = req.body.frm_kb_keywords;
@@ -368,11 +393,22 @@ router.post('/save_kb', restrict, function(req, res) {
 						var lunr_doc = {
 							kb_title: req.body.frm_kb_title,
 							kb_keywords: keywords,
+							kb_body: req.body.frm_kb_body,
 							id: req.body.frm_kb_id
 						};
 
 						// update the index
 						lunr_index.update(lunr_doc, false);
+
+						// create lunr doc
+						var lunr_tags_doc = {
+							kb_title: req.body.frm_kb_title,
+							kb_keywords: keywords,
+							id: req.body.frm_kb_id
+						};
+
+						// update the index
+						lunr_tags_index.update(lunr_tags_doc, false);
 
 						req.session.message = "Successfully saved";
 						req.session.message_type = "success";
@@ -787,7 +823,8 @@ router.get('/user/delete/:id', restrict, function(req, res) {
 // delete article
 router.get('/delete/:id', restrict, function(req, res) {
   	var db = req.db;
-	var lunr_index = req.lunr_index;
+		var lunr_index = req.lunr_index;
+		var lunr_tags_index = req.lunr_tags_index;
 
 	// remove the article
 	db.kb.remove({_id: req.params.id}, {}, function (err, numRemoved) {
@@ -802,11 +839,22 @@ router.get('/delete/:id', restrict, function(req, res) {
 		var lunr_doc = {
 			kb_title: req.body.frm_kb_title,
 			kb_keywords: keywords,
+			kb_body: req.body.frm_kb_body,
 			id: req.body.frm_kb_id
 		};
 
 		// remove the index
 		lunr_index.remove(lunr_doc, false);
+
+		// create lunr doc
+		var lunr_tags_doc = {
+			kb_title: req.body.frm_kb_title,
+			kb_keywords: keywords,
+			id: req.body.frm_kb_id
+		};
+
+		// remove the index
+		lunr_tags_index.remove(lunr_tags_doc, false);
 
 		// redirect home
 		req.session.message = "Article successfully deleted";
@@ -1010,6 +1058,36 @@ router.get('/search/:tag', restrict, function(req, res) {
 	// we strip the ID's from the lunr index search
 	var lunr_id_array = new Array();
 	lunr_index.search(search_term).forEach(function(id) {
+		lunr_id_array.push(id.ref);
+	});
+
+	// we search on the lunr indexes
+	db.kb.find({ _id: { $in: lunr_id_array}, kb_published:'true'}, function (err, results) {
+		res.render('index', {
+			title: 'Results',
+			"results": results,
+			session: req.session,
+			message: clear_session_value(req.session, "message"),
+			message_type: clear_session_value(req.session, "message_type"),
+			search_term: search_term,
+			config: config,
+			helpers: helpers,
+			show_footer: "show_footer"
+		});
+	});
+});
+
+// search kb's
+router.get('/searchtag/:tag', restrict, function(req, res) {
+	var db = req.db;
+	var search_term = req.params.tag;
+	var lunr_tags_index = req.lunr_tags_index;
+	var config = require('./config');
+	var helpers = req.handlebars.helpers;
+
+	// we strip the ID's from the lunr index search
+	var lunr_id_array = new Array();
+	lunr_tags_index.search(search_term).forEach(function(id) {
 		lunr_id_array.push(id.ref);
 	});
 
