@@ -10,7 +10,7 @@
 		</div>
 	</form>
 </div>
-<div class="row">	
+<div class="row">
 	<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
 		{{#if results.length}}
 			<div class="panel panel-default" style="margin-top: 30px;">
@@ -42,6 +42,35 @@
 				</div>
 			</div>
 		{{else}}
+			{{#if featured_tags.length}}
+				<div class="panel panel-default" style="margin-top: 30px;">
+					<div class="panel-heading">Featured tags</div>
+					<div class="panel-body">
+						{{#each featured_tags}}
+							<div class="row">
+								{{#each this}}
+									<div class="col-md-4">
+										<div class="panel panel-default">
+											<div class="panel-heading"><a href="/searchtag/{{this.keyword}}">{{this.keyword}}</a></div>
+											<table class="table">
+												{{#each this.results}}
+													<tr><td>
+														{{#if kb_permalink}}
+															<a href="/kb/{{this.kb_permalink}}">{{this.kb_title}}</a>
+														{{else}}
+															<a href="/kb/{{this._id}}">{{this.kb_title}}</a>
+														{{/if}}
+													</td></tr>
+												{{/each}}
+											</table>
+										</div>
+									</div>
+								{{/each}}
+							</div>
+						{{/each}}
+					</div>
+				</div>
+			{{/if}}
 			<div class="panel panel-default" style="margin-top: 30px;">
 				<div class="panel-heading">Top articles</div>
 				<div class="panel-body">

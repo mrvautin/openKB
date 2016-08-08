@@ -21,8 +21,13 @@ db.kb = new nedb({ filename: path.join(__dirname,'/data/kb.db'), autoload: true 
 
 // setup lunr indexing
 var lunr_index = lunr(function () {
-    this.field('kb_title', { boost: 10 });
-    this.field('kb_keywords');
+  this.field('kb_title', { boost: 20 });
+  this.field('kb_body');
+  this.field('kb_keywords', { boost: 10 });
+});
+
+var lunr_tags_index = lunr(function () {
+  this.field('kb_keywords');
 });
 
 // get all articles on startup
@@ -37,9 +42,16 @@ db.kb.find({}, function (err, kb_list) {
         var doc = {
             "kb_title": kb.kb_title,
             "kb_keywords": keywords,
+            "kb_body": kb.kb_body,
             "id": kb._id
-        };        
+        };
         lunr_index.add(doc);
+        var tags_doc = {
+            "kb_title": kb.kb_title,
+            "kb_keywords": keywords,
+            "id": kb._id
+        };
+        lunr_tags_index.add(tags_doc);
     });
 });
 
@@ -56,10 +68,10 @@ app.set('view engine', 'hbs');
 // helpers for the handlebar templating platform
 handlebars = handlebars.create({
     helpers: {
-        split_keywords: function (keywords) { 
+        split_keywords: function (keywords) {
             if(keywords){
                 var array = keywords.split(','); var links = "";
-                for (var i = 0; i < array.length; i++) { 
+                for (var i = 0; i < array.length; i++) {
                     if(array[i].trim() != ""){
                         links += "<a href='/search/"+array[i].trim() +"'>"+array[i].trim() +"</a>&nbsp;|&nbsp;";
                     }
@@ -72,22 +84,22 @@ handlebars = handlebars.create({
         encodeURI: function(url){
             return encodeURI(url);
         },
-        checked_state: function (state) { 
+        checked_state: function (state) {
             if(state == "true"){
                 return "checked"
                 }else{return "";
             }
-        }, 
+        },
         view_count: function (value) {
             if(value == "" || value == undefined){
                 return "0";
             }else{
                 return value;
             }
-        },       
+        },
         format_date: function (date, format) {
             return moment(date).format(format);
-        },       
+        },
         ifCond: function (v1, operator, v2, options) {
 			switch (operator) {
 				case '==':
@@ -124,7 +136,7 @@ handlebars = handlebars.create({
 // uncomment after placing your favicon in /public
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.enable('trust proxy')
-app.set('port', process.env.PORT || 4444);
+app.set('port', process.env.PORT || 88);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -153,6 +165,7 @@ app.use(function (req, res, next) {
 	req.handlebars = handlebars;
     req.bcrypt = bcrypt;
     req.lunr_index = lunr_index;
+    req.lunr_tags_index = lunr_tags_index;
 	next();
 });
 
@@ -192,7 +205,7 @@ app.use(function(err, req, res, next) {
 
 // lift the app
 app.listen(app.get('port'), function () {
-    console.log('openKB running on host: http://localhost:' + app.get('port'));
+    console.log('openKB running on port:' + app.get('port'));
 });
 
 module.exports = app;
