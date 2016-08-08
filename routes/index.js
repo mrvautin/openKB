@@ -222,7 +222,6 @@ router.post('/insert_kb', restrict, function(req, res) {
 
 					// create lunr doc
 					var lunr_tags_doc = {
-						kb_title: req.body.frm_kb_title,
 						kb_keywords: keywords,
 						id: newDoc._id
 					};
@@ -306,7 +305,6 @@ router.post('/insert_suggest', suggest_allowed, function(req, res) {
 
 			// create lunr doc
 			var lunr_tags_doc = {
-				kb_title: req.body.frm_kb_title,
 				kb_keywords: keywords,
 				id: newDoc._id
 			};
@@ -402,7 +400,6 @@ router.post('/save_kb', restrict, function(req, res) {
 
 						// create lunr doc
 						var lunr_tags_doc = {
-							kb_title: req.body.frm_kb_title,
 							kb_keywords: keywords,
 							id: req.body.frm_kb_id
 						};
@@ -848,7 +845,6 @@ router.get('/delete/:id', restrict, function(req, res) {
 
 		// create lunr doc
 		var lunr_tags_doc = {
-			kb_title: req.body.frm_kb_title,
 			kb_keywords: keywords,
 			id: req.body.frm_kb_id
 		};

@@ -27,8 +27,7 @@ var lunr_index = lunr(function () {
 });
 
 var lunr_tags_index = lunr(function () {
-  this.field('kb_title', { boost: 20 });
-  this.field('kb_keywords', { boost: 10 });
+  this.field('kb_keywords');
 });
 
 // get all articles on startup
