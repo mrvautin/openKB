@@ -45,7 +45,7 @@
             <div class="col-xs-12 col-md-6 col-lg-6">
                 <div class="form-group" id="editor-wrapper">
                     <label for="editor">Article body (Markdown) *</label>
-                    <textarea id="editor" minlength="5" name="frm_kb_body" class="form-control" required>{{{result.kb_body}}}</textarea>
+                    <textarea id="editor" minlength="5" name="frm_kb_body" data-provide="markdown" data-hidden-buttons="cmdPreview" data-iconlibrary="fa" class="form-control" required>{{{result.kb_body}}}</textarea>
                 </div>
             </div>
             <div class="col-xs-12 col-md-6 col-lg-6">
@@ -75,9 +75,6 @@
             </div>
         </footer>
         <input type="hidden" name="frm_kb_id" id="frm_kb_id" value="{{result._id}}" />
+        <input type="hidden" id="frm_editor" value="true" />
     </form>
-	{{#if editor}}
-		<script src="/javascripts/markdown-it.min.js"></script>
-		<script src="/javascripts/markdown-editor.js"></script>
-	{{/if}}
 </div>

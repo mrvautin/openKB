@@ -18,10 +18,36 @@ $(document).ready(function() {
 	// add the token field to the keywords input
 	$('#frm_kb_keywords').tokenfield();
 	
-	// setup the inline file attachement
-	$('#editor').inlineattachment({
-		uploadUrl: '/file/upload_file'
-	});
+    if($("#editor").length) {
+        // setup editors
+        var simplemde = new SimpleMDE({
+            element: $("#editor")[0],
+            toolbar: ["bold", "italic", "heading", '|', 'quote', 'unordered-list', 'ordered-list', '|', 'link', 'image', '|', 'table', 'horizontal-rule', 'guide']
+        });
+
+        // setup inline attachments
+        inlineAttachment.editors.codemirror4.attach(simplemde.codemirror, {uploadUrl: '/file/upload_file'});
+
+        // do initial convert on load
+        convertTextAreaToMarkdown();
+
+        // attach to editor changes and update preview
+        simplemde.codemirror.on("change", function(){
+            convertTextAreaToMarkdown();
+        });
+    }
+
+    // if in the editor, trap ctrl+s and cmd+s shortcuts and save the article
+    if($('#frm_editor').val() === 'true'){
+        $(window).bind('keydown', function(event) {
+            if (event.ctrlKey || event.metaKey) {
+                if(String.fromCharCode(event.which).toLowerCase() === 's'){
+                    event.preventDefault();
+                    $('#frm_edit_kb_save').click();
+                }
+            }
+        });
+    }
 	
 	// Call to API for a change to the published state of a KB
 	$("input[class='published_state']").change(function() {
@@ -37,6 +63,19 @@ $(document).ready(function() {
             show_notification(msg.responseText,"danger");
         });
 	});
+ 
+    // convert editor markdown to HTML and display in #preview div
+    function convertTextAreaToMarkdown(){
+        var classy = window.markdownItClassy;
+        var mark_it_down = window.markdownit({ html: true,linkify: true,typographer: true, breaks: true});
+        mark_it_down.use(classy);
+        var html = mark_it_down.render(simplemde.value());
+
+        // add responsive images and tables
+        var fixed_html = html.replace(/<img/g,"<img class='img-responsive' ");
+        fixed_html = fixed_html.replace(/<table/g,"<table class='table table-hover' ");
+        $('#preview').html(fixed_html);
+    }
 	
 	// Call to API to check if a permalink is available
 	$("#validate_permalink").click(function() {

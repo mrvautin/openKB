@@ -58,8 +58,29 @@ html{
     font-size: 14px;
 }
 
-#editor, #preview {
-    height: calc(100vh - 110px - 175px);
+.CodeMirror {
+    height: calc(100vh - 110px - 175px - 70px) !important;
+    overflow: auto;
+}
+
+.editor-toolbar, .CodeMirror{
+    border: 2px solid #dce4ec;
+    border-radius: 4px;
+}
+
+.editor-toolbar{
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom: 0px;
+}
+
+.CodeMirror{
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+#preview {
+    height: calc(100vh - 110px - 195px);
     overflow: auto;
 }
 
@@ -102,8 +123,8 @@ html{
 }
 
 .editor_btn_action{
-    border-top-left-radius: 4px !important; 
-    border-bottom-left-radius: 4px !important;
+    border-top-left-radius: 0px !important; 
+    border-bottom-left-radius: 0px !important;
 }
 
 .dropup-list{
