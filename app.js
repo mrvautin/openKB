@@ -12,6 +12,7 @@ var lunr = require('lunr');
 var markdownit = require('markdown-it')({html: true, linkify: true, typographer: true});
 var moment = require('moment');
 var Nedb_store = require('nedb-session-store')(session);
+var config = require('./routes/config');
 
 // setup the db's
 var db = new Nedb();
@@ -77,16 +78,19 @@ handlebars = handlebars.create({
             }
             return'';
         },
-        view_count: function (value){
+        view_count: function(value){
             if(value === '' || value === undefined){
                 return'0';
             }
             return value;
         },
-        format_date: function (date, format){
-            return moment(date).format(format);
+        format_date: function(date){
+            if(config.settings.date_format){
+                return moment(date).format(config.settings.date_format);
+            }
+            return moment(date).format('DD/MM/YYYY h:mmA');
         },
-        ifCond: function (v1, operator, v2, options){
+        ifCond: function(v1, operator, v2, options){
 			switch(operator){
 				case'==':
 					return(v1 === v2) ? options.fn(this) : options.inverse(this);

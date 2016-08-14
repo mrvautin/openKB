@@ -5,8 +5,18 @@ config.settings = {};
 // sets the number of results shown on the home page
 config.settings.num_top_results = 10;
 
-// sets whether the view count will be shown next to the top results on the homepage
+// sets the global date formatting. Uses moment.js date formatting, see more here: http://momentjs.com/docs/#/displaying/
+config.settings.date_format = 'DD/MM/YYYY h:mmA';
+
+// sets whether the view count will be shown next to the top results on the homepage/search
 config.settings.show_view_count = true;
+
+// sets whether the published date will be shown next to the results on the homepage/search
+config.settings.show_published_date = true;
+
+config.settings.sort_by = {field: 'kb_viewcount', order: -1}; // see below:
+// field options are: 'kb_published_date', 'kb_viewcount', 'kb_last_updated'
+// order options are: -1 or 1
 
 // sets the website title
 config.settings.website_title = 'openKB';

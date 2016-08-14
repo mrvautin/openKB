@@ -21,10 +21,10 @@
 				<div class="panel-heading">Article details:</div>
 				<div class="panel-body">
                     <h5 class="col-sm-12 col-lg-6">
-						<strong>Published date:</strong> {{format_date result.kb_published_date 'DD/MM/YYYY h:mmA'}}
+						<strong>Published date:</strong> {{format_date result.kb_published_date}}
 					</h5>
 					<h5 class="col-sm-12 col-lg-6">
-						<strong>Last updated:</strong> {{format_date result.kb_last_updated 'DD/MM/YYYY h:mmA'}}
+						<strong>Last updated:</strong> {{format_date result.kb_last_updated}}
                         {{#if result.kb_last_update_user}}
                             <span class="text-info">({{result.kb_last_update_user}})</span>
                         {{/if}}

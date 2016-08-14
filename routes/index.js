@@ -6,8 +6,14 @@ var router = express.Router();
 router.get('/', restrict, function(req, res, next){
 	var config = require('./config');
 
+    // get sortBy from config, set to 'kb_viewcount' if nothing found
+    var sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
+    var sortByOrder = typeof config.settings.sort_by.order !== 'undefined' ? config.settings.sort_by.order : -1;
+    var sortBy = {};
+    sortBy[sortByField] = sortByOrder;
+
 	// get the top 5 results based on viewcount
-    req.db.kb.find({kb_published: 'true'}).sort({kb_viewcount: -1}).limit(config.settings.num_top_results).exec(function (err, top_results){
+    req.db.kb.find({kb_published: 'true'}).sort(sortBy).limit(config.settings.num_top_results).exec(function (err, top_results){
         res.render('index', {
             title: 'openKB',
             'top_results': top_results,
@@ -92,6 +98,21 @@ router.get('/kb/:id', restrict, function(req, res){
 			});
 		}
   });
+});
+
+router.get('/kb/resetviewCount/:id', restrict, function(req, res){
+    req.db.kb.update({_id: req.params.id}, {$set: {kb_viewcount: 0}}, {multi: false}, function (err, numReplaced){
+        if(err){
+            req.session.message = 'View count could not be reset. Try again.';
+			req.session.message_type = 'danger';
+        }else{
+            req.session.message = 'View count successfully reset to zero.';
+            req.session.message_type = 'success';
+        }
+
+        // redirect to new doc
+        res.redirect('/edit/' + req.params.id);
+    });
 });
 
 // render the editor

@@ -22,8 +22,15 @@
 								<li class="list-group-item">
 									<h4>
 										<a href="/kb/{{this.kb_permalink}}">{{this.kb_title}}</a>
+                                        {{#if ../../config.settings.show_published_date}}
+                                            {{#if ../../../config.settings.show_view_count}}
+                                                <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                            {{else}}
+                                                <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                            {{/if}}
+                                        {{/if}}
 										{{#if ../../config.settings.show_view_count}}
-												<span class="pull-right view_count">View count: {{view_count this.kb_viewcount}}</span>
+                                            <span class="pull-right view_count"><strong>View count:</strong> {{view_count this.kb_viewcount}}</span>
 										{{/if}}
 									</h4>
 								</li>
@@ -31,8 +38,15 @@
 								<li class="list-group-item">
 									<h4>
 										<a href="/kb/{{this._id}}">{{this.kb_title}}</a>
+                                        {{#if ../../config.settings.show_published_date}}
+                                            {{#if ../../../config.settings.show_view_count}}
+                                                <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                            {{else}}
+                                                <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                            {{/if}}
+                                        {{/if}}
 										{{#if ../../config.settings.show_view_count}}
-												<span class="pull-right view_count">View count: {{view_count this.kb_viewcount}}</span>
+                                            <span class="pull-right view_count"><strong>View count: </strong>{{view_count this.kb_viewcount}}</span>
 										{{/if}}
 									</h4>
 								</li>
@@ -54,9 +68,15 @@
 									{{else}}
 										<a href="/kb/{{this._id}}">{{this.kb_title}}</a>
 									{{/if}}
-
+                                    {{#if ../../config.settings.show_published_date}}
+                                        {{#if ../../config.settings.show_view_count}}
+                                            <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                        {{else}}
+                                            <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                        {{/if}}
+                                    {{/if}}
 									{{#if ../config.settings.show_view_count}}
-								 		<span class="pull-right view_count">View count: {{view_count this.kb_viewcount}}</span>
+								 		<span class="pull-right view_count"><strong>View count:</strong> {{view_count this.kb_viewcount}}</span>
 									{{/if}}
 									{{#if this.kb_password}}
 										<span class="pull-right view_count" style="padding-right: 5px;"><i class="fa fa-key"></i></span>
