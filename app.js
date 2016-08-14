@@ -157,8 +157,6 @@ app.use(function (req, res, next){
 // setup the routes
 app.use('/', index);
 
-console.log(handlebars.helpers);
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next){
     var err = new Error('Not Found');
