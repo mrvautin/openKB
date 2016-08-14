@@ -3,69 +3,65 @@ var path = require('path');
 var router = express.Router();
 
 // The homepage of the site
-router.get('/', restrict, function(req, res, next) {
-	var db = req.db;
-	var helpers = req.handlebars.helpers;
+router.get('/', restrict, function(req, res, next){
 	var config = require('./config');
-	
+
 	// get the top 5 results based on viewcount
-	db.kb.find({kb_published:'true'}).sort({kb_viewcount: -1}).limit(config.settings.num_top_results).exec(function (err, top_results) {
- 		res.render('index', { 
-			 title: 'openKB', 
-			 "top_results": top_results, 
-			 session: req.session,
-			 message: clear_session_value(req.session, "message"),
-			 message_type: clear_session_value(req.session, "message_type"),
-			 config: config,
-			 helpers: helpers,
-			 show_footer: "show_footer"
-		});
-	});
+    req.db.kb.find({kb_published: 'true'}).sort({kb_viewcount: -1}).limit(config.settings.num_top_results).exec(function (err, top_results){
+        res.render('index', {
+            title: 'openKB',
+            'top_results': top_results,
+            session: req.session,
+            message: clear_session_value(req.session, 'message'),
+            message_type: clear_session_value(req.session, 'message_type'),
+            config: config,
+            helpers: req.handlebars,
+            show_footer: 'show_footer'
+        });
+    });
 });
 
-router.post('/protected/action', function(req, res) {
+router.post('/protected/action', function(req, res){
 	// get article
-	req.db.kb.findOne({kb_published:'true', _id: req.body.kb_id}, function (err, result) {
+	req.db.kb.findOne({kb_published: 'true', _id: req.body.kb_id}, function (err, result){
 		// check password
-		if(req.body.password == result.kb_password){
+		if(req.body.password === result.kb_password){
 			// password correct. Allow viewing the article this time
-			req.session.pw_validated = "true";
+			req.session.pw_validated = 'true';
 			res.redirect(req.header('Referer'));
 		}else{
 			// password incorrect
 			req.session.pw_validated = null;
-			res.render('error', { message: 'Password incorrect. Please try again.' });
+			res.render('error', {message: 'Password incorrect. Please try again.'});
 		}
 	});
 });
 
-router.get('/kb/:id', restrict, function(req, res) {
-	var db = req.db;
-	var classy = require("../public/javascripts/markdown-it-classy");
+router.get('/kb/:id', restrict, function(req, res){
+	var classy = require('../public/javascripts/markdown-it-classy');
 	var markdownit = req.markdownit;
 	markdownit.use(classy);
-	var helpers = req.handlebars.helpers;
 	var config = require('./config');
-  
-	db.kb.findOne({ $or: [{_id: req.params.id}, { kb_permalink: req.params.id }] }, function (err, result) {
+
+	req.db.kb.findOne({$or: [{_id: req.params.id}, {kb_permalink: req.params.id}]}, function (err, result){
 		// render 404 if page is not published
-		if(result == null || result.kb_published == "false"){
-			res.render('error', { message: '404 - Page not found' });
+		if(result == null || result.kb_published === 'false'){
+            res.render('error', {message: '404 - Page not found'});
 		}else{
 			// check if has a password
-			if(result.kb_password){
-				if(result.kb_password != ""){
-					if(req.session.pw_validated == "false" || req.session.pw_validated == undefined || req.session.pw_validated == null){
-						res.render('protected_kb', { 
-							title: "Protected Article",
-							"result": result,
-							session: req.session
-						});
-						return;
-					}
-				}
-			}
-			
+            if(result.kb_password){
+                if(result.kb_password !== ''){
+                    if(req.session.pw_validated === 'false' || req.session.pw_validated === undefined || req.session.pw_validated == null){
+                        res.render('protected_kb', {
+                            title: 'Protected Article',
+                            'result': result,
+                            session: req.session
+                        });
+                        return;
+                    }
+                }
+            }
+
 			// add to old view count
 			var old_viewcount = result.kb_viewcount;
 			if(old_viewcount == null){
@@ -73,26 +69,25 @@ router.get('/kb/:id', restrict, function(req, res) {
 			}
 
 			var new_viewcount = old_viewcount + 1;
-			db.kb.update({ _id: req.params.id }, 
-				{ 
-					$set: { kb_viewcount:  new_viewcount} 
-				}, { multi: false }, function (err, numReplaced) {
-				
+			req.db.kb.update({_id: req.params.id},
+				{
+					$set: {kb_viewcount: new_viewcount}
+				}, {multi: false}, function (err, numReplaced){
 				// clear session auth and render page
 				req.session.pw_validated = null;
-				
+
 				// show the view
-				res.render('kb', { 
-					title: result.kb_title, 
-					"result": result,
-					"kb_body": markdownit.render(result.kb_body),
+				res.render('kb', {
+					title: result.kb_title,
+					'result': result,
+					'kb_body': markdownit.render(result.kb_body),
 					config: config,
 					session: req.session,
 					current_url: req.protocol + '://' + req.get('host'),
-					message: clear_session_value(req.session, "message"),
-					message_type: clear_session_value(req.session, "message_type"),
-					helpers: helpers,
-					show_footer: "show_footer"
+					message: clear_session_value(req.session, 'message'),
+					message_type: clear_session_value(req.session, 'message_type'),
+					helpers: req.handlebars,
+					show_footer: 'show_footer'
 				});
 			});
 		}
@@ -100,92 +95,90 @@ router.get('/kb/:id', restrict, function(req, res) {
 });
 
 // render the editor
-router.get('/edit/:id', restrict, function(req, res) {
-	var db = req.db;
-	var config = require('./config');
+router.get('/edit/:id', restrict, function(req, res){
+    var config = require('./config');
 
-	db.kb.findOne({_id: req.params.id}, function (err, result) {
-		res.render('edit', { 
-			title: 'Edit article', 
-			"result": result,
-			session: req.session,
-			message: clear_session_value(req.session, "message"),
-			message_type: clear_session_value(req.session, "message_type"),
-			config: config,
-			editor: true,
-			helpers: req.handlebars.helpers
-		});
-	});
+    req.db.kb.findOne({_id: req.params.id}, function (err, result){
+        res.render('edit', {
+            title: 'Edit article',
+            'result': result,
+            session: req.session,
+            message: clear_session_value(req.session, 'message'),
+            message_type: clear_session_value(req.session, 'message_type'),
+            config: config,
+            editor: true,
+            helpers: req.handlebars
+        });
+    });
 });
 
 // insert new KB form action
-router.post('/insert_kb', restrict, function(req, res) {
-  	var db = req.db;
-	var lunr_index = req.lunr_index;
+router.post('/insert_kb', restrict, function(req, res){
+    var lunr_index = req.lunr_index;
 
-    var doc = { 
-		kb_permalink: req.body.frm_kb_permalink,
+    var doc = {
+        kb_permalink: req.body.frm_kb_permalink,
         kb_title: req.body.frm_kb_title,
-		kb_body: req.body.frm_kb_body,
-		kb_published: req.body.frm_kb_published,
-		kb_keywords: req.body.frm_kb_keywords,
-		kb_published_date: new Date(),
-		kb_last_updated: new Date(),
-        kb_last_update_user: req.session.users_name + " - " + req.session.user,
-		kb_author: req.session.users_name,
+        kb_body: req.body.frm_kb_body,
+        kb_published: req.body.frm_kb_published,
+        kb_keywords: req.body.frm_kb_keywords,
+        kb_published_date: new Date(),
+        kb_last_updated: new Date(),
+        kb_last_update_user: req.session.users_name + ' - ' + req.session.user,
+        kb_author: req.session.users_name,
         kb_author_email: req.session.user
-	};
+    };
 
-	db.kb.count({'kb_permalink': req.body.frm_kb_permalink}, function (err, kb) {
-		if(kb > 0 && req.body.frm_kb_permalink != ""){
+	req.db.kb.count({'kb_permalink': req.body.frm_kb_permalink}, function (err, kb){
+		if(kb > 0 && req.body.frm_kb_permalink !== ''){
 			// permalink exits
-			req.session.message = "Permalink already exists. Pick a new one.";
-			req.session.message_type = "danger";
-			
+			req.session.message = 'Permalink already exists. Pick a new one.';
+			req.session.message_type = 'danger';
+
 			// keep the current stuff
 			req.session.kb_title = req.body.frm_kb_title;
 			req.session.kb_body = req.body.frm_kb_body;
 			req.session.kb_keywords = req.body.frm_kb_keywords;
 			req.session.kb_permalink = req.body.frm_kb_permalink;
-				
+
 			// redirect to insert
 			res.redirect('/insert');
 		}else{
-			db.kb.insert(doc, function (err, newDoc) {
+			req.db.kb.insert(doc, function (err, newDoc){
 				if(err){
-					console.error("Error inserting document: " + err);
-					
+					console.error('Error inserting document: ' + err);
+
 					// keep the current stuff
 					req.session.kb_title = req.body.frm_kb_title;
 					req.session.kb_body = req.body.frm_kb_body;
 					req.session.kb_keywords = req.body.frm_kb_keywords;
 					req.session.kb_permalink = req.body.frm_kb_permalink;
-					
-					req.session.message = "Error: " + err;
-					req.session.message_type = "danger";
-					
+
+					req.session.message = 'Error: ' + err;
+					req.session.message_type = 'danger';
+
 					// redirect to insert
 					res.redirect('/insert');
 				}else{
 					// setup keywords
-					var keywords = "";
-					if(req.body.frm_kb_keywords != undefined){
+					var keywords = '';
+					if(req.body.frm_kb_keywords !== undefined){
 						keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
 					}
-					
+
 					// create lunr doc
-					var lunr_doc = { 
+					var lunr_doc = {
 						kb_title: req.body.frm_kb_title,
 						kb_keywords: keywords,
 						id: newDoc._id
 					};
-					
+
 					// add to lunr index
 					lunr_index.add(lunr_doc);
-					
-					req.session.message = "New article successfully created";
-					req.session.message_type = "success";
-					
+
+					req.session.message = 'New article successfully created';
+					req.session.message_type = 'success';
+
 					// redirect to new doc
 					res.redirect('/edit/' + newDoc._id);
 				}
@@ -195,152 +188,147 @@ router.post('/insert_kb', restrict, function(req, res) {
 });
 
 // Update an existing KB article form action
-router.get('/suggest', suggest_allowed, function(req, res) {
+router.get('/suggest', suggest_allowed, function(req, res){
 	var config = require('./config');
-	
-	res.render('suggest', { 
+
+	res.render('suggest', {
 		title: 'Suggest article',
 		config: config,
 		editor: true,
 		is_admin: req.session.is_admin,
-		helpers: req.handlebars.helpers,
-		message: clear_session_value(req.session, "message"),
-		message_type: clear_session_value(req.session, "message_type"),
+		helpers: req.handlebars,
+		message: clear_session_value(req.session, 'message'),
+		message_type: clear_session_value(req.session, 'message_type'),
 		session: req.session
 	});
 });
 
 // Update an existing KB article form action
-router.post('/insert_suggest', suggest_allowed, function(req, res) {
-	var db = req.db;
+router.post('/insert_suggest', suggest_allowed, function(req, res){
 	var lunr_index = req.lunr_index;
 
     // if empty, remove the comma and just have a blank string
 	var keywords = req.body.frm_kb_keywords;
-	if(safe_trim(keywords) == ","){
-		keywords = "";
+	if(safe_trim(keywords) === ','){
+		keywords = '';
 	}
-	
-	var doc = { 
-        kb_title: req.body.frm_kb_title + " (SUGGESTION)",
+
+	var doc = {
+        kb_title: req.body.frm_kb_title + ' (SUGGESTION)',
 		kb_body: req.body.frm_kb_body,
-		kb_published: "false",
+		kb_published: 'false',
 		kb_keywords: keywords,
 		kb_published_date: new Date(),
 		kb_last_updated: new Date()
 	};
 
-	db.kb.insert(doc, function (err, newDoc) {
+	req.db.kb.insert(doc, function (err, newDoc){
 		if(err){
-			console.error("Error inserting suggestion: " + err);			
-			
-			req.session.message = "Suggestion failed. Please contact admin.";
-			req.session.message_type = "danger";
+			console.error('Error inserting suggestion: ' + err);
+			req.session.message = 'Suggestion failed. Please contact admin.';
+			req.session.message_type = 'danger';
 			res.redirect('/');
 		}else{
-			
 			// setup keywords
-			var keywords = "";
-			if(req.body.frm_kb_keywords != undefined){
+			var keywords = '';
+			if(req.body.frm_kb_keywords !== undefined){
 				keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
 			}
-			
+
 			// create lunr doc
-			var lunr_doc = { 
+			var lunr_doc = {
 				kb_title: req.body.frm_kb_title,
 				kb_keywords: keywords,
 				id: newDoc._id
 			};
-			
+
 			// add to lunr index
 			lunr_index.add(lunr_doc);
-			
+
 			// redirect to new doc
-			req.session.message = "Suggestion successfully processed";
-			req.session.message_type = "success";
+			req.session.message = 'Suggestion successfully processed';
+			req.session.message_type = 'success';
 			res.redirect('/');
 		}
 	});
 });
 
 // Update an existing KB article form action
-router.post('/save_kb', restrict, function(req, res) {
-  	var db = req.db;
+router.post('/save_kb', restrict, function(req, res){
 	var lunr_index = req.lunr_index;
-	
+
 	// if empty, remove the comma and just have a blank string
 	var keywords = req.body.frm_kb_keywords;
-	if(safe_trim(keywords) == ","){
-		keywords = "";
+	if(safe_trim(keywords) === ','){
+		keywords = '';
 	}
- 
- 	db.kb.count({'kb_permalink': req.body.frm_kb_permalink, $not: { _id: req.body.frm_kb_id }}, function (err, kb) {
-		if(kb > 0 && req.body.frm_kb_permalink != ""){
+
+    req.db.kb.count({'kb_permalink': req.body.frm_kb_permalink, $not: {_id: req.body.frm_kb_id}}, function (err, kb){
+		if(kb > 0 && req.body.frm_kb_permalink !== ''){
 			// permalink exits
-			req.session.message = "Permalink already exists. Pick a new one.";
-			req.session.message_type = "danger";
-			
+			req.session.message = 'Permalink already exists. Pick a new one.';
+			req.session.message_type = 'danger';
+
 			// keep the current stuff
 			req.session.kb_title = req.body.frm_kb_title;
 			req.session.kb_body = req.body.frm_kb_body;
 			req.session.kb_keywords = req.body.frm_kb_keywords;
 			req.session.kb_permalink = req.body.frm_kb_permalink;
-				
+
 			// redirect to insert
 			res.redirect('/edit/' + req.body.frm_kb_id);
 		}else{
-			db.kb.findOne({_id: req.body.frm_kb_id}, function (err, article) {
-				
+			req.db.kb.findOne({_id: req.body.frm_kb_id}, function (err, article){
 				// update author if not set
-				var author =  article.kb_author ? article.kb_author : req.session.users_name; 
+				var author = article.kb_author ? article.kb_author : req.session.users_name;
                 var author_email = article.kb_author_email ? article.kb_author_email : req.session.user;
-				
+
 				// set published date to now if none exists
 				var published_date;
-				if(article.kb_published_date == null || article.kb_published_date == undefined){
+				if(article.kb_published_date == null || article.kb_published_date === undefined){
 					published_date = new Date();
 				}else{
 					published_date = article.kb_published_date;
 				}
-				
-				db.kb.update({_id: req.body.frm_kb_id},{ $set: 
-						{   kb_title: req.body.frm_kb_title,
+
+				req.db.kb.update({_id: req.body.frm_kb_id}, {$set:
+						{kb_title: req.body.frm_kb_title,
 							kb_body: req.body.frm_kb_body,
 							kb_published: req.body.frm_kb_published,
 							kb_keywords: keywords,
 							kb_last_updated: new Date(),
-                            kb_last_update_user: req.session.users_name + " - " + req.session.user,
+                            kb_last_update_user: req.session.users_name + ' - ' + req.session.user,
 							kb_author: author,
                             kb_author_email: author_email,
 							kb_published_date: published_date,
 							kb_password: req.body.frm_kb_password,
 							kb_permalink: req.body.frm_kb_permalink
 						}
-					}, {},  function (err, numReplaced) {
+					}, {}, function(err, numReplaced){
 					if(err){
-						console.error("Failed to save KB: " + err)
-						req.session.message = "Failed to save. Please try again";
-						req.session.message_type = "danger";
+						console.error('Failed to save KB: ' + err);
+						req.session.message = 'Failed to save. Please try again';
+						req.session.message_type = 'danger';
 						res.redirect('/edit/' + req.body.frm_kb_id);
 					}else{
 						// setup keywords
-						var keywords = "";
-						if(req.body.frm_kb_keywords != undefined){
+						var keywords = '';
+						if(req.body.frm_kb_keywords !== undefined){
 							keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
 						}
-						
+
 						// create lunr doc
-						var lunr_doc = { 
+						var lunr_doc = {
 							kb_title: req.body.frm_kb_title,
 							kb_keywords: keywords,
 							id: req.body.frm_kb_id
 						};
-						
+
 						// update the index
 						lunr_index.update(lunr_doc, false);
-						
-						req.session.message = "Successfully saved";
-						req.session.message_type = "success";
+
+						req.session.message = 'Successfully saved';
+						req.session.message_type = 'success';
 						res.redirect('/edit/' + req.body.frm_kb_id);
 					}
 				});
@@ -350,193 +338,189 @@ router.post('/save_kb', restrict, function(req, res) {
 });
 
 // logout
-router.get('/logout', function(req, res) {
-  	req.session.user = null;
+router.get('/logout', function(req, res){
+    req.session.user = null;
 	req.session.message = null;
 	req.session.message_type = null;
 	res.redirect('/');
 });
 
 // users
-router.get('/users', restrict, function(req, res) {
+router.get('/users', restrict, function(req, res){
 	var config = require('./config');
-	
-	req.db.users.find({}, function (err, users) {
-		res.render('users', { 
-		  	title: 'Users',
-			users: users,
-			config: config,
-			is_admin: req.session.is_admin,
-			helpers: req.handlebars.helpers,
-			session: req.session,
-			message: clear_session_value(req.session, "message"),
-			message_type: clear_session_value(req.session, "message_type"),
-		});
+
+	req.db.users.find({}, function (err, users){
+        res.render('users', {
+            title: 'Users',
+            users: users,
+            config: config,
+            is_admin: req.session.is_admin,
+            helpers: req.handlebars,
+            session: req.session,
+            message: clear_session_value(req.session, 'message'),
+            message_type: clear_session_value(req.session, 'message_type')
+        });
 	});
 });
 
 // users
-router.get('/user/edit/:id', restrict, function(req, res) {
+router.get('/user/edit/:id', restrict, function(req, res){
 	var config = require('./config');
-    
-	req.db.users.findOne({_id: req.params.id}, function (err, user) {
-      
+
+	req.db.users.findOne({_id: req.params.id}, function (err, user){
         // if the user we want to edit is not the current logged in user and the current user is not
         // an admin we render an access denied message
-        if(user.user_email != req.session.user && req.session.is_admin == "false"){
-            req.session.message = "Access denied";
-            req.session.message_type = "danger";
+        if(user.user_email !== req.session.user && req.session.is_admin === 'false'){
+            req.session.message = 'Access denied';
+            req.session.message_type = 'danger';
             res.redirect('/Users/');
             return;
         }
-        
-		res.render('user_edit', { 
-		  	title: 'User edit',
-			user: user,
-			session: req.session,
-			message: clear_session_value(req.session, "message"),
-			message_type: clear_session_value(req.session, "message_type"),
-            helpers: req.handlebars.helpers,
-			config: config
-		});
+
+        res.render('user_edit', {
+            title: 'User edit',
+            user: user,
+            session: req.session,
+            message: clear_session_value(req.session, 'message'),
+            message_type: clear_session_value(req.session, 'message_type'),
+            helpers: req.handlebars,
+            config: config
+        });
 	});
 });
 
 // users
-router.get('/users/new', restrict, function(req, res) {
+router.get('/users/new', restrict, function(req, res){
 	var config = require('./config');
-		
-	req.db.users.findOne({_id: req.params.id}, function (err, user) {
-		res.render('user_new', { 
-		  	title: 'User - New',
-			user: user,
-			session: req.session,
-            message: clear_session_value(req.session, "message"),
-			message_type: clear_session_value(req.session, "message_type"),
-			config: config
-		});
+
+    req.db.users.findOne({_id: req.params.id}, function (err, user){
+        res.render('user_new', {
+            title: 'User - New',
+            user: user,
+            session: req.session,
+            message: clear_session_value(req.session, 'message'),
+            message_type: clear_session_value(req.session, 'message_type'),
+            config: config
+        });
 	});
 });
 
 // kb list
-router.get('/articles', restrict, function(req, res) {
+router.get('/articles', restrict, function(req, res){
 	var config = require('./config');
-	
-	req.db.kb.find({}).sort({kb_published_date: -1}).limit(10).exec(function (err, articles) {
-		res.render('articles', { 
-		  	title: 'Articles',
-			articles: articles,
-			session: req.session,
-			message: clear_session_value(req.session, "message"),
-			message_type: clear_session_value(req.session, "message_type"),
-			config: config,
-			helpers: req.handlebars.helpers
-		});
-	});
+
+    req.db.kb.find({}).sort({kb_published_date: -1}).limit(10).exec(function (err, articles){
+        res.render('articles', {
+            title: 'Articles',
+            articles: articles,
+            session: req.session,
+            message: clear_session_value(req.session, 'message'),
+            message_type: clear_session_value(req.session, 'message_type'),
+            config: config,
+            helpers: req.handlebars
+        });
+    });
 });
 
-router.get('/articles/all', restrict, function(req, res) {
+router.get('/articles/all', restrict, function(req, res){
     var config = require('./config');
-	
-	req.db.kb.find({}).sort({kb_published_date: -1}).exec(function (err, articles) {
-		res.render('articles', { 
-		    title: 'Articles',
-			articles: articles,
-			session: req.session,
-			message: clear_session_value(req.session, "message"),
-			message_type: clear_session_value(req.session, "message_type"),
-			config: config,
-			helpers: req.handlebars.helpers
-		});
-	});
+
+    req.db.kb.find({}).sort({kb_published_date: -1}).exec(function (err, articles){
+        res.render('articles', {
+            title: 'Articles',
+            articles: articles,
+            session: req.session,
+            message: clear_session_value(req.session, 'message'),
+            message_type: clear_session_value(req.session, 'message_type'),
+            config: config,
+            helpers: req.handlebars
+        });
+    });
 });
 
-router.get('/articles/:tag', function(req, res) {
-	var db = req.db;
+router.get('/articles/:tag', function(req, res){
 	var lunr_index = req.lunr_index;
 	var config = require('./config');
-	var helpers = req.handlebars.helpers;
 
 	// we strip the ID's from the lunr index search
-	var lunr_id_array = new Array();
-	lunr_index.search(req.params.tag).forEach(function(id) {
+	var lunr_id_array = [];
+	lunr_index.search(req.params.tag).forEach(function(id){
 		lunr_id_array.push(id.ref);
 	});
 
 	// we search on the lunr indexes
-	db.kb.find({ _id: { $in: lunr_id_array}}).sort({kb_published_date: -1}).exec(function (err, results) {
-		res.render('articles', { 
-			title: 'Articles', 
-			"results": results, 
+	req.db.kb.find({_id: {$in: lunr_id_array}}).sort({kb_published_date: -1}).exec(function (err, results){
+		res.render('articles', {
+			title: 'Articles',
+			'results': results,
 			session: req.session,
-			message: clear_session_value(req.session, "message"),
-			message_type: clear_session_value(req.session, "message_type"), 
+			message: clear_session_value(req.session, 'message'),
+			message_type: clear_session_value(req.session, 'message_type'),
 			search_term: req.params.tag,
 			config: config,
-			helpers: helpers,
+			helpers: req.handlebars
 		});
 	});
 });
 
 // update the published state based on an ajax call from the frontend
-router.post('/published_state', restrict, function(req, res) {
-	req.db.kb.update({ _id: req.body.id}, { $set: { kb_published: req.body.state} }, { multi: false }, function (err, numReplaced) {
+router.post('/published_state', restrict, function(req, res){
+	req.db.kb.update({_id: req.body.id}, {$set: {kb_published: req.body.state}}, {multi: false}, function (err, numReplaced){
 		if(err){
-			console.error("Failed to update the published state: " + err);
-			res.writeHead(400, { 'Content-Type': 'application/text' }); 
+			console.error('Failed to update the published state: ' + err);
+			res.writeHead(400, {'Content-Type': 'application/text'});
 			res.end('Published state not updated');
 		}else{
-			res.writeHead(200, { 'Content-Type': 'application/text' }); 
+			res.writeHead(200, {'Content-Type': 'application/text'});
 			res.end('Published state updated');
 		}
 	});
-});	
+});
 
 // insert a user
-router.post('/user_insert', restrict, function(req, res) {
-  	var db = req.db;
+router.post('/user_insert', restrict, function(req, res){
 	var bcrypt = req.bcrypt;
 	var url = require('url');
-	
+
 	// set the account to admin if using the setup form. Eg: First user account
 	var url_parts = url.parse(req.header('Referer'));
 
-	var is_admin = "false";
-	if(url_parts.path == "/setup"){
-		is_admin = "true";
+	var is_admin = 'false';
+	if(url_parts.path === '/setup'){
+		is_admin = 'true';
 	}
-	
-	var doc = { 
+
+	var doc = {
         users_name: req.body.users_name,
         user_email: req.body.user_email,
 		user_password: bcrypt.hashSync(req.body.user_password),
 		is_admin: is_admin
 	};
-	
+
     // check for existing user
-    db.users.findOne({'user_email': req.body.user_email}, function (err, user) {
+    req.db.users.findOne({'user_email': req.body.user_email}, function (err, user){
         if(user){
-            // user already exists with that email address    
-            console.error("Failed to insert user, possibly already exists: " + err);
-            req.session.message = "A user with that email address already exists";
-            req.session.message_type = "danger";
+            // user already exists with that email address
+            console.error('Failed to insert user, possibly already exists: ' + err);
+            req.session.message = 'A user with that email address already exists';
+            req.session.message_type = 'danger';
             res.redirect('/users/new');
         }else{
             // email is ok to be used.
-            db.users.insert(doc, function (err, doc) {
+            req.db.users.insert(doc, function (err, doc){
                 // show the view
                 if(err){
-                    console.error("Failed to insert user: " + err);
-                    req.session.message = "User exists";
-                    req.session.message_type = "danger";
+                    console.error('Failed to insert user: ' + err);
+                    req.session.message = 'User exists';
+                    req.session.message_type = 'danger';
                     res.redirect('/user/edit/' + doc._id);
                 }else{
-                    req.session.message = "User account inserted";
-                    req.session.message_type = "success";
-                    
+                    req.session.message = 'User account inserted';
+                    req.session.message_type = 'success';
+
                     // if from setup we add user to session and redirect to login.
                     // Otherwise we show users screen
-                    if(url_parts.path == "/setup"){
+                    if(url_parts.path === '/setup'){
                         req.session.user = req.body.user_email;
                         res.redirect('/login');
                     }else{
@@ -549,23 +533,22 @@ router.post('/user_insert', restrict, function(req, res) {
 });
 
 // update a user
-router.post('/user_update', restrict, function(req, res) {
-  	var db = req.db;
+router.post('/user_update', restrict, function(req, res){
 	var bcrypt = req.bcrypt;
-    
-    var is_admin = req.body.user_admin == 'on' ? "true" : "false";
-    
+
+    var is_admin = req.body.user_admin === 'on' ? 'true' : 'false';
+
     // get the user we want to update
-    req.db.users.findOne({_id: req.body.user_id}, function (err, user) {
+    req.db.users.findOne({_id: req.body.user_id}, function (err, user){
         // if the user we want to edit is not the current logged in user and the current user is not
         // an admin we render an access denied message
-        if(user.user_email != req.session.user && req.session.is_admin == "false"){
-            req.session.message = "Access denied";
-            req.session.message_type = "danger";
+        if(user.user_email !== req.session.user && req.session.is_admin === 'false'){
+            req.session.message = 'Access denied';
+            req.session.message_type = 'danger';
             res.redirect('/Users/');
             return;
         }
-        
+
         // create the update doc
         var update_doc = {};
         update_doc.is_admin = is_admin;
@@ -573,20 +556,20 @@ router.post('/user_update', restrict, function(req, res) {
         if(req.body.user_password){
             update_doc.user_password = bcrypt.hashSync(req.body.user_password);
         }
-        
-        db.users.update({ _id: req.body.user_id }, 
-            { 
-                $set:  update_doc 
-            }, { multi: false }, function (err, numReplaced) {
+
+        req.db.users.update({_id: req.body.user_id},
+            {
+                $set: update_doc
+            }, {multi: false}, function (err, numReplaced){
             if(err){
-                console.error("Failed updating user: " + err);
-                req.session.message = "Failed to update user";
-                req.session.message_type = "danger";
+                console.error('Failed updating user: ' + err);
+                req.session.message = 'Failed to update user';
+                req.session.message_type = 'danger';
                 res.redirect('/user/edit/' + req.body.user_id);
             }else{
                 // show the view
-                req.session.message = "User account updated.";
-                req.session.message_type = "success";
+                req.session.message = 'User account updated.';
+                req.session.message_type = 'success';
                 res.redirect('/user/edit/' + req.body.user_id);
             }
         });
@@ -594,22 +577,22 @@ router.post('/user_update', restrict, function(req, res) {
 });
 
 // login form
-router.get('/login', function(req, res) {
+router.get('/login', function(req, res){
 	var config = require('./config');
-	
-	req.db.users.count({}, function (err, user_count) {  
+
+	req.db.users.count({}, function (err, user_count){
 		// we check for a user. If one exists, redirect to login form otherwise setup
-		if(user_count > 0){			
+		if(user_count > 0){
 			// set needs_setup to false as a user exists
-			req.session.needs_setup = false;
-			res.render('login', { 
-			  	title: 'Login', 
-				referring_url: req.header('Referer'),
-				config: config,
-				message: clear_session_value(req.session, "message"), 
-				message_type: clear_session_value(req.session, "message_type"),
-				show_footer: "show_footer"
-			});
+            req.session.needs_setup = false;
+            res.render('login', {
+                title: 'Login',
+                referring_url: req.header('Referer'),
+                config: config,
+                message: clear_session_value(req.session, 'message'),
+                message_type: clear_session_value(req.session, 'message_type'),
+                show_footer: 'show_footer'
+            });
 		}else{
 			// if there are no users set the "needs_setup" session
 			req.session.needs_setup = true;
@@ -619,21 +602,21 @@ router.get('/login', function(req, res) {
 });
 
 // setup form is shown when there are no users setup in the DB
-router.get('/setup', function(req, res) {
+router.get('/setup', function(req, res){
 	var config = require('./config');
-	
-	req.db.users.count({}, function (err, user_count) {
+
+	req.db.users.count({}, function (err, user_count){
 		// dont allow the user to "re-setup" if a user exists.
 		// set needs_setup to false as a user exists
 		req.session.needs_setup = false;
-		if(user_count == 0){
-			res.render('setup', { 
-			  	title: 'Setup', 
-				config: config,
-				message: clear_session_value(req.session, "message"), 
-				message_type: clear_session_value(req.session, "message_type"),
-				show_footer: "show_footer"
-			});
+        if(user_count === 0){
+            res.render('setup', {
+                title: 'Setup',
+                config: config,
+                message: clear_session_value(req.session, 'message'),
+                message_type: clear_session_value(req.session, 'message_type'),
+                show_footer: 'show_footer'
+            });
 		}else{
 			res.redirect('/login');
 		}
@@ -641,52 +624,50 @@ router.get('/setup', function(req, res) {
 });
 
 // Loops files on the disk, checks for their existance in any KB articles and removes non used files.
-router.get('/file_cleanup', restrict, function(req, res) {
+router.get('/file_cleanup', restrict, function(req, res){
 	var path = require('path');
 	var fs = require('fs');
-	var walk    = require('walk');
-    var walkPath = path.join("public", "uploads", "inline_files");
-    var walker  = walk.walk(walkPath, { followLinks: false });
+	var walk = require('walk');
+    var walkPath = path.join('public', 'uploads', 'inline_files');
+    var walker = walk.walk(walkPath, {followLinks: false});
 
-    walker.on('file', function(root, stat, next) {
+    walker.on('file', function(root, stat, next){
         var file_name = path.resolve(root, stat.name);
-        
+
         // find posts with the file in question
-        req.db.kb.find({"kb_body": new RegExp(stat.name)}).exec(function (err, posts) {
+        req.db.kb.find({'kb_body': new RegExp(stat.name)}).exec(function (err, posts){
             // if the images doesn't exists in any posts then we remove it
-            if(posts.length == 0){
+            if(posts.length === 0){
                 fs.unlinkSync(file_name);
             }
             next();
         });
     });
-	
-	walker.on("end", function (){
-		req.session.message = "All unused files have been removed";
-		req.session.message_type = "success";
-    	res.redirect(req.header('Referer'));
-  	});
+
+    walker.on('end', function (){
+        req.session.message = 'All unused files have been removed';
+        req.session.message_type = 'success';
+        res.redirect(req.header('Referer'));
+    });
 });
 
 // validate the permalink
 router.post('/api/validate_permalink', function(req, res){
-	var db = req.db;
-	
 	// if doc id is provided it checks for permalink in any docs other that one provided,
 	// else it just checks for any kb's with that permalink
 	var query = {};
-	if(req.body.doc_id == ""){
+	if(req.body.doc_id === ''){
 		query = {'kb_permalink': req.body.permalink};
 	}else{
-		query = {'kb_permalink': req.body.permalink, $not: { _id: req.body.doc_id }};
+		query = {'kb_permalink': req.body.permalink, $not: {_id: req.body.doc_id}};
 	}
 
-	db.kb.count(query, function (err, kb) {
+	req.db.kb.count(query, function (err, kb){
 		if(kb > 0){
-			res.writeHead(400, { 'Content-Type': 'application/text' }); 
+			res.writeHead(400, {'Content-Type': 'application/text'});
 			res.end('Permalink already exists');
 		}else{
-			res.writeHead(200, { 'Content-Type': 'application/text' }); 
+			res.writeHead(200, {'Content-Type': 'application/text'});
 			res.end('Permalink validated successfully');
 		}
 	});
@@ -694,28 +675,27 @@ router.post('/api/validate_permalink', function(req, res){
 
 // login the user and check the password
 router.post('/login_action', function(req, res){
-    var db = req.db;
 	var bcrypt = req.bcrypt;
 	var url = require('url');
-	
-	db.users.findOne({user_email: req.body.email}, function (err, user) {  
+
+	req.db.users.findOne({user_email: req.body.email}, function (err, user){
 		// check if user exists with that email
 		if(user === undefined || user === null){
-			req.session.message = "A user with that email does not exist.";
-			req.session.message_type = "danger";
+			req.session.message = 'A user with that email does not exist.';
+			req.session.message_type = 'danger';
 			res.redirect('/login');
 		}else{
 			// we have a user under that email so we compare the password
-			if(bcrypt.compareSync(req.body.password, user.user_password) == true){
+			if(bcrypt.compareSync(req.body.password, user.user_password) === true){
 				req.session.user = req.body.email;
                 req.session.users_name = user.users_name;
 				req.session.user_id = user._id;
 				req.session.is_admin = user.is_admin;
-				if(req.body.frm_referring_url === undefined || req.body.frm_referring_url == ""){
+				if(req.body.frm_referring_url === undefined || req.body.frm_referring_url === ''){
 					res.redirect('/');
 				}else{
 					var url_parts = url.parse(req.body.frm_referring_url, true);
-					if(url_parts.pathname != "/setup" && url_parts.pathname != "/login"){
+					if(url_parts.pathname !== '/setup' && url_parts.pathname !== '/login'){
 						res.redirect(req.body.frm_referring_url);
 					}else{
 						res.redirect('/');
@@ -723,8 +703,8 @@ router.post('/login_action', function(req, res){
 				}
 			}else{
 				// password is not correct
-				req.session.message = "Access denied. Check password and try again.";
-				req.session.message_type = "danger";
+				req.session.message = 'Access denied. Check password and try again.';
+				req.session.message_type = 'danger';
 				res.redirect('/login');
 			}
 		}
@@ -732,190 +712,182 @@ router.post('/login_action', function(req, res){
 });
 
 // delete user
-router.get('/user/delete/:id', restrict, function(req, res) {
-  	var db = req.db;
-	
-	// remove the article
-	if(req.session.is_admin == "true"){
-		db.users.remove({_id: req.params.id}, {}, function (err, numRemoved) {			
-			req.session.message = "User deleted.";
-			req.session.message_type = "success";
-			res.redirect("/users");
-	  	});
-	}else{
-		req.session.message = "Access denied.";
-		req.session.message_type = "danger";
-		res.redirect("/users");
-	}
+router.get('/user/delete/:id', restrict, function(req, res){
+    // remove the article
+    if(req.session.is_admin === 'true'){
+        req.db.users.remove({_id: req.params.id}, {}, function (err, numRemoved){
+            req.session.message = 'User deleted.';
+            req.session.message_type = 'success';
+            res.redirect('/users');
+        });
+    }else{
+        req.session.message = 'Access denied.';
+        req.session.message_type = 'danger';
+        res.redirect('/users');
+    }
 });
 
 // delete article
-router.get('/delete/:id', restrict, function(req, res) {
-  	var db = req.db;
+router.get('/delete/:id', restrict, function(req, res){
 	var lunr_index = req.lunr_index;
-	
+
 	// remove the article
-	db.kb.remove({_id: req.params.id}, {}, function (err, numRemoved) {
-		
+	req.db.kb.remove({_id: req.params.id}, {}, function (err, numRemoved){
 		// setup keywords
-		var keywords = "";
-		if(req.body.frm_kb_keywords != undefined){
+		var keywords = '';
+		if(req.body.frm_kb_keywords !== undefined){
 			keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
 		}
-		
+
 		// create lunr doc
-		var lunr_doc = { 
+		var lunr_doc = {
 			kb_title: req.body.frm_kb_title,
 			kb_keywords: keywords,
 			id: req.body.frm_kb_id
 		};
-		
+
 		// remove the index
 		lunr_index.remove(lunr_doc, false);
-		
+
 		// redirect home
-		req.session.message = "Article successfully deleted";
-		req.session.message_type = "success";
+		req.session.message = 'Article successfully deleted';
+		req.session.message_type = 'success';
 		res.redirect('/articles');
-  	});
+    });
 });
 
-var multer_upload  = require('multer')
-var inline_upload = multer_upload({ dest: path.join('public','uploads','inline_files') });
-router.post('/file/upload_file', restrict, inline_upload.single('file'), function (req, res, next) {
+var multer_upload = require('multer');
+var inline_upload = multer_upload({dest: path.join('public', 'uploads', 'inline_files')});
+router.post('/file/upload_file', restrict, inline_upload.single('file'), function (req, res, next){
 	var fs = require('fs');
-    
-	if(req.file){		
+
+	if(req.file){
 		// check for upload select
-		var upload_dir = path.join('public','uploads','inline_files');
-		var relative_upload_dir = path.join('/uploads','inline_files');
-		
+		var upload_dir = path.join('public', 'uploads', 'inline_files');
+		var relative_upload_dir = path.join('/uploads', 'inline_files');
+
 		var file = req.file;
 		var source = fs.createReadStream(file.path);
-		var dest = fs.createWriteStream(path.join(upload_dir,file.originalname));
+		var dest = fs.createWriteStream(path.join(upload_dir, file.originalname));
 
 		// save the new file
 		source.pipe(dest);
-		source.on("end", function() {});
+		source.on('end', function(){});
 
 		// delete the temp file.
-		fs.unlink(file.path, function (err) {});
-		
+		fs.unlink(file.path, function (err){});
+
 		// uploaded
-		res.writeHead(200, { 'Content-Type': 'application/json' }); 
-		res.end(JSON.stringify({ 'filename': path.join(relative_upload_dir, file.originalname) }, null, 3));
-		return;
-	}else{
-		res.writeHead(500, { 'Content-Type': 'application/json' }); 
-		res.end(JSON.stringify({ 'filename': 'fail' }, null, 3));
+		res.writeHead(200, {'Content-Type': 'application/json'});
+		res.end(JSON.stringify({'filename': path.join(relative_upload_dir, file.originalname)}, null, 3));
 		return;
 	}
+    res.writeHead(500, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify({'filename': 'fail'}, null, 3));
+    return;
 });
 
-router.post('/file/new_dir', restrict, function (req, res, next) {
+router.post('/file/new_dir', restrict, function (req, res, next){
 	var mkdirp = require('mkdirp');
-	
+
 	// if new directory exists
 	if(req.body.custom_dir){
-		mkdirp(path.join("public","uploads",req.body.custom_dir), function (err) {
-			if (err){
-				console.error("Directory creation error: " + err);
-				req.session.message = "Directory creation error. Please try again";
-				req.session.message_type = "danger";
+		mkdirp(path.join('public', 'uploads', req.body.custom_dir), function (err){
+			if(err){
+				console.error('Directory creation error: ' + err);
+				req.session.message = 'Directory creation error. Please try again';
+				req.session.message_type = 'danger';
 				res.redirect('/files');
 			}else{
-				req.session.message = "Directory successfully created";
-				req.session.message_type = "success";
+				req.session.message = 'Directory successfully created';
+				req.session.message_type = 'success';
 				res.redirect('/files');
 			}
 		});
 	}else{
-		req.session.message = "Please enter a directory name";
-		req.session.message_type = "danger";
+		req.session.message = 'Please enter a directory name';
+		req.session.message_type = 'danger';
 		res.redirect('/files');
 	}
 });
 
 // upload the file
-var multer  = require('multer')
-var upload = multer({ dest: 'public/uploads/' });
-router.post('/file/upload', restrict, upload.single('upload_file'), function (req, res, next) {
+var multer = require('multer');
+var upload = multer({dest: 'public/uploads/'});
+router.post('/file/upload', restrict, upload.single('upload_file'), function (req, res, next){
 	var fs = require('fs');
-	
+
 	if(req.file){
 		// check for upload select
-		var upload_dir = "public/uploads/";
-		if(req.body.directory != "/uploads"){
-			upload_dir = "public/" + req.body.directory;
+		var upload_dir = 'public/uploads/';
+		if(req.body.directory !== '/uploads'){
+			upload_dir = 'public/' + req.body.directory;
 		}
-		
+
 		var file = req.file;
 		var source = fs.createReadStream(file.path);
-		var dest = fs.createWriteStream(upload_dir + "/" + file.originalname.replace(/ /g,"_"));
+		var dest = fs.createWriteStream(upload_dir + '/' + file.originalname.replace(/ /g, '_'));
 
 		// save the new file
 		source.pipe(dest);
-		source.on("end", function() {});
+		source.on('end', function(){});
 
 		// delete the temp file.
-		fs.unlink(file.path, function (err) {});
-	
-		req.session.message = "File uploaded successfully";
-		req.session.message_type = "success";
+		fs.unlink(file.path, function (err){});
+
+		req.session.message = 'File uploaded successfully';
+		req.session.message_type = 'success';
 		res.redirect('/files');
 	}else{
-		req.session.message = "File upload error. Please select a file.";
-		req.session.message_type = "danger";
+		req.session.message = 'File upload error. Please select a file.';
+		req.session.message_type = 'danger';
 		res.redirect('/files');
 	}
 });
 
 // delete a file via ajax request
-router.post('/file/delete', restrict, function(req, res) {
+router.post('/file/delete', restrict, function(req, res){
 	var fs = require('fs');
-	
+
 	req.session.message = null;
 	req.session.message_type = null;
 
-	fs.unlink("public/" + req.body.img, function (err) {
+	fs.unlink('public/' + req.body.img, function (err){
 		if(err){
-			console.error("File delete error: "+ err);
-			res.writeHead(400, { 'Content-Type': 'application/text' }); 
+			console.error('File delete error: ' + err);
+			res.writeHead(400, {'Content-Type': 'application/text'});
             res.end('Failed to delete file: ' + err);
 		}else{
-			
-			res.writeHead(200, { 'Content-Type': 'application/text' }); 
+			res.writeHead(200, {'Content-Type': 'application/text'});
             res.end('File deleted successfully');
 		}
 	});
 });
 
-router.get('/files', restrict, function(req, res) {
+router.get('/files', restrict, function(req, res){
 	var config = require('./config');
-	var glob = require("glob");
-	var fs = require("fs");
-	
+	var glob = require('glob');
+	var fs = require('fs');
+
 	// loop files in /public/uploads/
-	glob("public/uploads/**", {nosort: true}, function (er, files) {
-		
+	glob('public/uploads/**', {nosort: true}, function (er, files){
 		// sort array
 		files.sort();
-		
+
 		// declare the array of objects
-		var file_list = new Array();
-		var dir_list = new Array();
-		
+		var file_list = [];
+		var dir_list = [];
+
 		// loop these files
-		for (var i = 0; i < files.length; i++) {
-			
+		for(var i = 0; i < files.length; i++){
 			// only want files
-			if(fs.lstatSync(files[i]).isDirectory() == false){
+			if(fs.lstatSync(files[i]).isDirectory() === false){
 				// declare the file object and set its values
 				var file = {
 					id: i,
 					path: files[i].substring(6)
 				};
-				
+
 				// push the file object into the array
 				file_list.push(file);
 			}else{
@@ -923,126 +895,119 @@ router.get('/files', restrict, function(req, res) {
 					id: i,
 					path: files[i].substring(6)
 				};
-				
+
 				// push the dir object into the array
 				dir_list.push(dir);
 			}
 		}
-		
+
 		// render the files route
 		res.render('files', {
-			title: 'Files', 
+			title: 'Files',
 			files: file_list,
 			dirs: dir_list,
 			session: req.session,
 			config: config,
-			message: clear_session_value(req.session, "message"),
-			message_type: clear_session_value(req.session, "message_type"),
+			message: clear_session_value(req.session, 'message'),
+			message_type: clear_session_value(req.session, 'message_type')
 		});
 	});
 });
 
 // insert form
-router.get('/insert', restrict, function(req, res) {
+router.get('/insert', restrict, function(req, res){
 	var config = require('./config');
-	var helpers = req.handlebars.helpers;
-	
+
 	res.render('insert', {
-		title: 'Insert new', 
+		title: 'Insert new',
 		session: req.session,
-		kb_title: clear_session_value(req.session, "kb_title"),
-		kb_body: clear_session_value(req.session, "kb_body"),
-		kb_keywords: clear_session_value(req.session, "kb_keywords"),
-		kb_permalink: clear_session_value(req.session, "kb_permalink"),
-		message: clear_session_value(req.session, "message"),
-		message_type: clear_session_value(req.session, "message_type"),
+		kb_title: clear_session_value(req.session, 'kb_title'),
+		kb_body: clear_session_value(req.session, 'kb_body'),
+		kb_keywords: clear_session_value(req.session, 'kb_keywords'),
+		kb_permalink: clear_session_value(req.session, 'kb_permalink'),
+		message: clear_session_value(req.session, 'message'),
+		message_type: clear_session_value(req.session, 'message_type'),
 		editor: true,
-		helpers: helpers,
+		helpers: req.handlebars,
 		config: config
 	});
 });
 
 // search kb's
-router.get('/search/:tag', restrict, function(req, res) {
-	var db = req.db;
+router.get('/search/:tag', restrict, function(req, res){
 	var search_term = req.params.tag;
 	var lunr_index = req.lunr_index;
 	var config = require('./config');
-	var helpers = req.handlebars.helpers;
-	
+
 	// we strip the ID's from the lunr index search
-	var lunr_id_array = new Array();
-	lunr_index.search(search_term).forEach(function(id) {
+	var lunr_id_array = [];
+	lunr_index.search(search_term).forEach(function(id){
 		lunr_id_array.push(id.ref);
 	});
-  
+
 	// we search on the lunr indexes
-	db.kb.find({ _id: { $in: lunr_id_array}, kb_published:'true'}, function (err, results) {
-		res.render('index', { 
-			title: 'Results', 
-			"results": results, 
+	req.db.kb.find({_id: {$in: lunr_id_array}, kb_published: 'true'}, function (err, results){
+		res.render('index', {
+			title: 'Results',
+			'results': results,
 			session: req.session,
-			message: clear_session_value(req.session, "message"),
-			message_type: clear_session_value(req.session, "message_type"), 
+			message: clear_session_value(req.session, 'message'),
+			message_type: clear_session_value(req.session, 'message_type'),
 			search_term: search_term,
 			config: config,
-			helpers: helpers,
-			show_footer: "show_footer"
+			helpers: req.handlebars,
+			show_footer: 'show_footer'
 		});
 	});
 });
 
 // search kb's
-router.post('/search', restrict, function(req, res) {
-	var db = req.db;
+router.post('/search', restrict, function(req, res){
 	var search_term = req.body.frm_search;
 	var lunr_index = req.lunr_index;
-	var helpers = req.handlebars.helpers;
 	var config = require('./config');
 
 	// we strip the ID's from the lunr index search
-	var lunr_id_array = new Array();
-	lunr_index.search(search_term).forEach(function(id) {
+	var lunr_id_array = [];
+	lunr_index.search(search_term).forEach(function(id){
 		lunr_id_array.push(id.ref);
 	});
-	
+
 	// we search on the lunr indexes
-	db.kb.find({ _id: { $in: lunr_id_array}, kb_published:'true'}, function (err, results) {
-		res.render('index', { 
-			title: 'Results', 
-			"results": results, 
-			session: req.session, 
+	req.db.kb.find({_id: {$in: lunr_id_array}, kb_published: 'true'}, function (err, results){
+		res.render('index', {
+			title: 'Results',
+			'results': results,
+			session: req.session,
 			search_term: search_term,
-			message: clear_session_value(req.session, "message"),
-			message_type: clear_session_value(req.session, "message_type"),
+			message: clear_session_value(req.session, 'message'),
+			message_type: clear_session_value(req.session, 'message_type'),
 			config: config,
-			helpers: helpers,
-			show_footer: "show_footer"
+			helpers: req.handlebars,
+			show_footer: 'show_footer'
 		});
 	});
 });
 
 // export files into .md files and serve to browser
-router.get('/export', restrict, function(req, res) {
-	var db = req.db;
+router.get('/export', restrict, function(req, res){
 	var fs = require('fs');
-	var JSZip = require("jszip");
-	
+	var JSZip = require('jszip');
+
 	// dump all articles to .md files. Article title is the file name and body is contents
-	db.kb.find({}, function (err, results) {
-		
+	req.db.kb.find({}, function (err, results){
 		// files are written and added to zip.
 		var zip = new JSZip();
-		for (var i = 0; i < results.length; i++) {
+		for(var i = 0; i < results.length; i++){
 			// add and write file to zip
-			zip.file(results[i].kb_title + ".md", results[i].kb_body);
+			zip.file(results[i].kb_title + '.md', results[i].kb_body);
 		}
-		
+
 		// save the zip and serve to browser
-		var buffer = zip.generate({type:"nodebuffer"});
-		fs.writeFile("data/export.zip", buffer, function(err) {
-			if (err) throw err;
-			res.set('Content-Type', 'application/zip')
+		var buffer = zip.generate({type: 'nodebuffer'});
+		fs.writeFile('data/export.zip', buffer, function(err){
+			if(err)throw err;
+			res.set('Content-Type', 'application/zip');
 			res.set('Content-Disposition', 'attachment; filename=data/export.zip');
 			res.set('Content-Length', buffer.length);
 			res.end(buffer, 'binary');
@@ -1062,12 +1027,11 @@ function clear_session_value(session, session_var){
 function suggest_allowed(req, res, next){
 	var config = require('./config');
 
-	if(config.settings.suggest_allowed == true){
+	if(config.settings.suggest_allowed === true){
 		next();
 		return;
-	}else{
-		res.render('error', { message: '403 - Forbidden' });
 	}
+    res.render('error', {message: '403 - Forbidden'});
 }
 
 // This is called on all URL's. If the "password_protect" config is set to true
@@ -1077,40 +1041,40 @@ function suggest_allowed(req, res, next){
 function restrict(req, res, next){
 	var config = require('./config');
 	var url_path = req.url;
-				
+
 	// if not protecting we check for public pages and don't check_login
-	if(url_path.substring(0,5).trim() == "/"){
-		if(config.settings.password_protect == false){
+	if(url_path.substring(0, 5).trim() === '/'){
+		if(config.settings.password_protect === false){
 			next();
 			return;
 		}
 	}
-	if(url_path.substring(0,7) == "/search"){
-		if(config.settings.password_protect == false){
+	if(url_path.substring(0, 7) === '/search'){
+		if(config.settings.password_protect === false){
 			next();
 			return;
 		}
 	}
-	if(url_path.substring(0,3) == "/kb"){
-		if(config.settings.password_protect == false){
+	if(url_path.substring(0, 3) === '/kb'){
+		if(config.settings.password_protect === false){
 			next();
 			return;
 		}
 	}
-	
-	if(url_path.substring(0,12) == "/user_insert"){
+
+	if(url_path.substring(0, 12) === '/user_insert'){
 		next();
 		return;
 	}
-	
-	// if the "needs_setup" session variable is set, we allow as 
+
+	// if the "needs_setup" session variable is set, we allow as
 	// this means there is no user existing
-	if(req.session.needs_setup == true){
+	if(req.session.needs_setup === true){
 		res.redirect('/setup');
 		return;
 	}
 
-	// if not a public page we 
+	// if not a public page we
 	check_login(req, res, next);
 }
 
@@ -1124,11 +1088,10 @@ function check_login(req, res, next){
 }
 
 function safe_trim(str){
-	if(str != undefined){
+	if(str !== undefined){
 		return str.trim();
-	}else{
-		return str;
 	}
+    return str;
 }
 
 module.exports = router;
