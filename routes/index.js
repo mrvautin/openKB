@@ -12,7 +12,7 @@ router.get('/', restrict, function(req, res, next){
     var sortBy = {};
     sortBy[sortByField] = sortByOrder;
 
-	// get the top 5 results based on viewcount
+	// get the top results based on sort order
     req.db.kb.find({kb_published: 'true'}).sort(sortBy).limit(config.settings.num_top_results).exec(function (err, top_results){
         res.render('index', {
             title: 'openKB',

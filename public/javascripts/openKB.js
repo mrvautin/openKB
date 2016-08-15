@@ -15,6 +15,11 @@ $(document).ready(function(){
         $(this).addClass('table table-hover');
     });
 
+    // highlight any code blocks
+    $('pre code').each(function(i, block){
+        hljs.highlightBlock(block);
+    });
+
 	// add the token field to the keywords input
 	$('#frm_kb_keywords').tokenfield();
 
@@ -22,7 +27,7 @@ $(document).ready(function(){
         // setup editors
         var simplemde = new SimpleMDE({
             element: $('#editor')[0],
-            toolbar: ['bold', 'italic', 'heading', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'link', 'image', '|', 'table', 'horizontal-rule', 'guide']
+            toolbar: ['bold', 'italic', 'heading', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'link', 'image', '|', 'table', 'horizontal-rule', 'code', 'guide']
         });
 
         // setup inline attachments
@@ -99,6 +104,7 @@ $(document).ready(function(){
     // convert editor markdown to HTML and display in #preview div
     function convertTextAreaToMarkdown(){
         var classy = window.markdownItClassy;
+
         var mark_it_down = window.markdownit({html: true, linkify: true, typographer: true, breaks: true});
         mark_it_down.use(classy);
         var html = mark_it_down.render(simplemde.value());
@@ -107,6 +113,11 @@ $(document).ready(function(){
         var fixed_html = html.replace(/<img/g, "<img class='img-responsive' ");
         fixed_html = fixed_html.replace(/<table/g, "<table class='table table-hover' ");
         $('#preview').html(fixed_html);
+
+        // re-hightlight the preview
+        $('pre code').each(function(i, block){
+            hljs.highlightBlock(block);
+        });
     }
 
 	// Call to API to check if a permalink is available

@@ -50,6 +50,10 @@ html{
     min-height: 100%;
 }
 
+.hljs{
+    background: transparent;
+}
+
 #header {        
     height: 50px;
 }

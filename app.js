@@ -145,6 +145,18 @@ app.use(session({
     })
 }));
 
+// frontend modules loaded from NPM
+app.use('/static', express.static(path.join(__dirname, 'public/')));
+app.use('/font-awesome', express.static(path.join(__dirname, 'node_modules/font-awesome/')));
+app.use('/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist/')));
+app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/')));
+app.use('/simplemde', express.static(path.join(__dirname, 'node_modules/simplemde/dist/')));
+app.use('/markdown-it', express.static(path.join(__dirname, 'node_modules/markdown-it/dist/')));
+app.use('/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
+app.use('/fonts', express.static(path.join(__dirname, 'public/fonts')));
+app.use('/javascripts', express.static(path.join(__dirname, 'public/javascripts')));
+app.use('/favicon.ico', express.static(path.join(__dirname, 'public/favicon.ico')));
+
 // serving static content
 app.use(express.static(path.join(__dirname, 'public')));
 
