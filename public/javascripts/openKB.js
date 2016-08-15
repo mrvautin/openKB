@@ -88,10 +88,10 @@ $(document).ready(function(){
 			url: '/published_state',
 			data: {id: this.id, state: this.checked}
 		})
-		.success(function(msg){
+		.done(function(msg){
             show_notification(msg, 'success');
         })
-        .error(function(msg){
+        .fail(function(msg){
             show_notification(msg.responseText, 'danger');
         });
 	});
@@ -117,10 +117,10 @@ $(document).ready(function(){
 				url: '/api/validate_permalink',
 				data: {'permalink': $('#frm_kb_permalink').val(), 'doc_id': $('#frm_kb_id').val()}
 			})
-			.success(function(msg){
+			.done(function(msg){
 				show_notification(msg, 'success');
 			})
-			.error(function(msg){
+			.fail(function(msg){
 				show_notification(msg.responseText, 'danger');
 			});
 		}else{
@@ -176,11 +176,11 @@ function file_delete_confirm(img, id){
 			url: '/file/delete',
 			data: {img: img}
 		})
-		.success(function(msg){
+		.done(function(msg){
 			$('#file-' + id).remove();
 			show_notification(msg, 'success');
 		})
-		.error(function(msg){
+		.fail(function(msg){
 			show_notification(msg, 'danger');
 		});
 	}
