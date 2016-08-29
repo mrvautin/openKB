@@ -21,7 +21,7 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 
 - **Search**: openKB is a search based Knowledgebase (FAQ) backed by [Lunr.js](https://github.com/olivernn/lunr.js/) indexing to create the best possible results on searches. 
 - **Backend**: openKB uses the pure javascript [nedb](https://github.com/louischatriot/nedb) embedded database. This means no external databases need to be setup.
-- **Design**: openKB is meant to be simple flat design. With that said, openKB is very customizable by adding your CSS file to `/public/stylesheets/` and adding a link in `/views/layouts/layout.hbs` you can add your own styling and graphics.
+- **Design/Themes**: openKB is meant to be simple flat design. Themes can be added by creating a theme folder within `public/themes/`. See the example theme for more information.
 - **Responsive**: openKB is built using Bootstrap allowing it to be responsive and work on all devices. The `admin` can be a little difficult editing Markdown on smaller screens.
 - **Mermaid**: openKB allows for [Mermaid](http://knsv.github.io/mermaid/) charts in articles.
 - **Editor**: openKB uses Markdown-it which is based off the [CommonMark spec](http://spec.commonmark.org/). This allows for the very best Markdown experience.
@@ -29,11 +29,23 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 
 ### Screenshots
 
+**Homepage**
 ![Homepage](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_homepage_.png)
+
+**Admin editor**
 ![Editor](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_editor.png)
+
+**Article view**
 ![Article view](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_articleview.png)
+
+**Admin article management**
 ![Article filtering](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_articlefiltering.png)
+
+**Managing files**
 ![Files](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_files.png)
+
+**This is a deliberate rip from [https://twitter.com](https://twitter.com) to show an example. All design and credit goes to [https://twitter.com](https://twitter.com) and not openKB.** 
+![Theme](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_theme_example.png)
 
 ### Admin
 
