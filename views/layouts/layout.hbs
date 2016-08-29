@@ -3,11 +3,14 @@
 	<head>
         {{#if result.kb_seo_title}}
         <title>{{result.kb_seo_title}}</title>
+        <meta property="og:title" content="{{result.kb_seo_title}}" />
         {{else}}
         {{#if result.kb_title}}
         <title>{{result.kb_title}}</title>
+        <meta property="og:title" content="{{result.kb_title}}" />
         {{else}}
         <title>{{title}}</title>
+        <meta property="og:title" content="{{title}}" />
         {{/if}}
         {{/if}}
 	    <meta charset="utf-8">
@@ -15,11 +18,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         {{#if result.kb_seo_description}}
 		<meta name="description" content="{{result.kb_seo_description}}">
+        <meta property="og:description" content="{{result.kb_seo_description}}" />
         {{else}}
         {{#if result.kb_body}}
         <meta name="description" content="{{substring (strip_md result.kb_body) 160}}">
+        <meta property="og:description" content="{{substring (strip_md result.kb_body) 160}}" />
         {{else}}
         <meta name="description" content="Powered by openKB">
+        <meta property="og:description" content="Powered by openKB" />
         {{/if}}
         {{/if}}
         {{#if result.kb_keywords}}
@@ -27,6 +33,10 @@
         {{else}}
         <meta name="keywords" content="openKB">
         {{/if}}
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="{{current_url}}/logo.png" />
+        <meta property="og:url" content="{{fullUrl}}" />
+        <link rel="canonical" href="{{fullUrl}}" />
 		<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/stylesheets/flatly.bootstrap.min.css">
         <link rel="stylesheet" href="/simplemde/simplemde.min.css">

@@ -27,6 +27,8 @@ router.get('/', restrict, function(req, res, next){
                 message: clear_session_value(req.session, 'message'),
                 message_type: clear_session_value(req.session, 'message_type'),
                 config: config,
+                current_url: req.protocol + '://' + req.get('host'),
+                fullUrl: req.protocol + '://' + req.get('host') + req.originalUrl,
                 helpers: req.handlebars,
                 show_footer: 'show_footer'
             });
@@ -109,6 +111,7 @@ router.get('/kb/:id', restrict, function(req, res){
                         config: config,
                         session: req.session,
                         current_url: req.protocol + '://' + req.get('host'),
+                        fullUrl: req.protocol + '://' + req.get('host') + req.originalUrl,
                         message: clear_session_value(req.session, 'message'),
                         message_type: clear_session_value(req.session, 'message_type'),
                         helpers: req.handlebars,
