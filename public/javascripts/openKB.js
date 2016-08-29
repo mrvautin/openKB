@@ -15,6 +15,8 @@ $(document).ready(function(){
         $(this).addClass('table table-hover');
     });
 
+    $('.toggle-menu').jPushMenu();
+
     // highlight any code blocks
     $('pre code').each(function(i, block){
         hljs.highlightBlock(block);

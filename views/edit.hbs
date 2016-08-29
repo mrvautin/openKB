@@ -27,17 +27,7 @@
             <div class="col-xs-6 col-sm-4 col-md-4 col-lg-2">
                 <label for="frm_kb_published">&nbsp;</label><br/>
                 <div class="btn-group pull-right" role="group" aria-label="...">
-                    <div class="btn-group dropdown">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-cog"></i>
-                            <span class="sr-only"></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li class="dropup-list"><a class="btn btn-warning dropup-button" target="_blank" href="/kb/{{result._id}}">Preview</a></li>
-                            <li class="dropup-list"><a class="btn btn-info dropup-button" target="_blank" href="/kb/resetviewCount/{{result._id}}">Reset view count</a></li>
-                            <li class="dropup-list"><a class="btn btn-danger dropup-button" href="/delete/{{result._id}}" id="del_post" onclick="return confirm('Are you sure you want to delete this article?');">Delete</a></li>
-                        </ul>
-                    </div>
+                    <button class="btn btn-default toggle-menu menu-right push-body"><i class="fa fa-cog"></i></button>
                     <button id="frm_edit_kb_save" class="btn btn-success editor_btn_action" type="submit">Save <i class="fa fa-floppy-o"></i></button>
                 </div>
             </div>
@@ -77,5 +67,33 @@
         </footer>
         <input type="hidden" name="frm_kb_id" id="frm_kb_id" value="{{result._id}}" />
         <input type="hidden" id="frm_editor" value="true" />
+    
+        <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right">
+            <div class="cbp-spmenu-header"><div class="pull-left">Settings</div><button class="btn btn-default pull-right toggle-menu menu-right push-body"><i class="fa fa-cog"></i></div></button>
+            <ul class="list-group list-group-sidemenu">
+                <li class="list-group-item">
+                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                        <a class="btn btn-sm btn-warning" target="_blank" href="/kb/{{result._id}}">Preview</a>
+                        <a class="btn btn-sm btn-info" target="_blank" href="/kb/resetviewCount/{{result._id}}">Reset views</a>
+                        <a class="btn btn-sm btn-danger" href="/delete/{{result._id}}" id="del_post" onclick="return confirm('Are you sure you want to delete this article?');">Delete</a>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="frm_kb_featured" {{checked_state result.kb_featured}}> Featured article
+                        </label>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <label for="frm_kb_seo_title">SEO title</label>
+                    <textarea class="form-control" name="frm_kb_seo_title" rows="3">{{if_null result.kb_seo_title result.kb_title}}</textarea>
+                </li>
+                <li class="list-group-item">
+                    <label for="frm_kb_seo_title">SEO description</label>
+                    <textarea class="form-control" name="frm_kb_seo_description" rows="3">{{if_null result.kb_seo_description (substring (strip_md result.kb_body) 160)}}</textarea>
+                </li>
+            </ul>
+        </nav>
     </form>
 </div>

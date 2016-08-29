@@ -1,12 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>{{title}}</title>
+        {{#if result.kb_seo_title}}
+        <title>{{result.kb_seo_title}}</title>
+        {{else}}
+        {{#if result.kb_title}}
+        <title>{{result.kb_title}}</title>
+        {{else}}
+        <title>{{title}}</title>
+        {{/if}}
+        {{/if}}
 	    <meta charset="utf-8">
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-		<meta name="description" content="Powered by openKB">
-		<meta name="keywords" content="openKB">
+        {{#if result.kb_seo_description}}
+		<meta name="description" content="{{result.kb_seo_description}}">
+        {{else}}
+        {{#if result.kb_body}}
+        <meta name="description" content="{{substring (strip_md result.kb_body) 160}}">
+        {{else}}
+        <meta name="description" content="Powered by openKB">
+        {{/if}}
+        {{/if}}
+        {{#if result.kb_keywords}}
+		<meta name="keywords" content="{{result.kb_keywords}}">
+        {{else}}
+        <meta name="keywords" content="openKB">
+        {{/if}}
 		<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/stylesheets/flatly.bootstrap.min.css">
         <link rel="stylesheet" href="/simplemde/simplemde.min.css">
@@ -15,6 +35,7 @@
 		<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="/stylesheets/mermaid.css">
 		<link rel="stylesheet" href="/stylesheets/bootstrap-tokenfield.css">
+        <link rel="stylesheet" href="/stylesheets/jpushmenu.css">
 		<script src="/jquery/jquery.min.js"></script>
 		<script src="/bootstrap/js/bootstrap.min.js"></script>
         <script src="/javascripts/bootstrap-validator.js"></script>
@@ -26,6 +47,7 @@
         <script src="/javascripts/highlight.min.js"></script>
         <script src="/simplemde/simplemde.min.js"></script>
 		<script src="/markdown-it/markdown-it.min.js"></script>
+        <script src="/javascripts/jpushmenu.js"></script>
 		<script src="/javascripts/openKB.js"></script>
 	</head>
 	<body class="{{show_footer}}">	

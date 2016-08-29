@@ -62,6 +62,11 @@ html{
     font-size: 14px;
 }
 
+.list-group-sidemenu li{
+    background-color: transparent;
+    border: none;
+}
+
 .CodeMirror {
     height: calc(100vh - 110px - 175px - 70px) !important;
     overflow: auto;

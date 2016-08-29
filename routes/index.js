@@ -14,15 +14,18 @@ router.get('/', restrict, function(req, res, next){
 
 	// get the top results based on sort order
     req.db.kb.find({kb_published: 'true'}).sort(sortBy).limit(config.settings.num_top_results).exec(function (err, top_results){
-        res.render('index', {
-            title: 'openKB',
-            'top_results': top_results,
-            session: req.session,
-            message: clear_session_value(req.session, 'message'),
-            message_type: clear_session_value(req.session, 'message_type'),
-            config: config,
-            helpers: req.handlebars,
-            show_footer: 'show_footer'
+        req.db.kb.find({kb_published: 'true', kb_featured: 'true'}).sort(sortBy).limit(10).exec(function (err, featured_results){
+            res.render('index', {
+                title: 'openKB',
+                top_results: top_results,
+                featured_results: featured_results,
+                session: req.session,
+                message: clear_session_value(req.session, 'message'),
+                message_type: clear_session_value(req.session, 'message_type'),
+                config: config,
+                helpers: req.handlebars,
+                show_footer: 'show_footer'
+            });
         });
     });
 });
@@ -48,6 +51,12 @@ router.get('/kb/:id', restrict, function(req, res){
 	var markdownit = req.markdownit;
 	markdownit.use(classy);
 	var config = require('./config');
+
+    // get sortBy from config, set to 'kb_viewcount' if nothing found
+    var sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
+    var sortByOrder = typeof config.settings.sort_by.order !== 'undefined' ? config.settings.sort_by.order : -1;
+    var sortBy = {};
+    sortBy[sortByField] = sortByOrder;
 
 	req.db.kb.findOne({$or: [{_id: req.params.id}, {kb_permalink: req.params.id}]}, function (err, result){
 		// render 404 if page is not published
@@ -83,18 +92,21 @@ router.get('/kb/:id', restrict, function(req, res){
 				req.session.pw_validated = null;
 
 				// show the view
-				res.render('kb', {
-					title: result.kb_title,
-					'result': result,
-					'kb_body': markdownit.render(result.kb_body),
-					config: config,
-					session: req.session,
-					current_url: req.protocol + '://' + req.get('host'),
-					message: clear_session_value(req.session, 'message'),
-					message_type: clear_session_value(req.session, 'message_type'),
-					helpers: req.handlebars,
-					show_footer: 'show_footer'
-				});
+                req.db.kb.find({kb_published: 'true', kb_featured: 'true'}).sort(sortBy).limit(10).exec(function (err, featured_results){
+                    res.render('kb', {
+                        title: result.kb_title,
+                        result: result,
+                        kb_body: markdownit.render(result.kb_body),
+                        featured_results: featured_results,
+                        config: config,
+                        session: req.session,
+                        current_url: req.protocol + '://' + req.get('host'),
+                        message: clear_session_value(req.session, 'message'),
+                        message_type: clear_session_value(req.session, 'message_type'),
+                        helpers: req.handlebars,
+                        show_footer: 'show_footer'
+                    });
+                });
 			});
 		}
   });
@@ -277,6 +289,7 @@ router.post('/insert_suggest', suggest_allowed, function(req, res){
 // Update an existing KB article form action
 router.post('/save_kb', restrict, function(req, res){
 	var lunr_index = req.lunr_index;
+    var kb_featured = req.body.frm_kb_featured === 'on' ? 'true' : 'false';
 
 	// if empty, remove the comma and just have a blank string
 	var keywords = req.body.frm_kb_keywords;
@@ -295,6 +308,9 @@ router.post('/save_kb', restrict, function(req, res){
 			req.session.kb_body = req.body.frm_kb_body;
 			req.session.kb_keywords = req.body.frm_kb_keywords;
 			req.session.kb_permalink = req.body.frm_kb_permalink;
+            req.session.kb_featured = kb_featured;
+            req.session.kb_seo_title = req.body.frm_kb_seo_title;
+            req.session.kb_seo_description = req.body.frm_kb_seo_description;
 
 			// redirect to insert
 			res.redirect('/edit/' + req.body.frm_kb_id);
@@ -323,7 +339,10 @@ router.post('/save_kb', restrict, function(req, res){
                             kb_author_email: author_email,
 							kb_published_date: published_date,
 							kb_password: req.body.frm_kb_password,
-							kb_permalink: req.body.frm_kb_permalink
+							kb_permalink: req.body.frm_kb_permalink,
+                            kb_featured: kb_featured,
+                            kb_seo_title: req.body.frm_kb_seo_title,
+                            kb_seo_description: req.body.frm_kb_seo_description
 						}
 					}, {}, function(err, numReplaced){
 					if(err){

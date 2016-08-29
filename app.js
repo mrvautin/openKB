@@ -12,6 +12,7 @@ var lunr = require('lunr');
 var markdownit = require('markdown-it')({html: true, linkify: true, typographer: true});
 var moment = require('moment');
 var Nedb_store = require('nedb-session-store')(session);
+var remove_md = require('remove-markdown');
 var config = require('./routes/config');
 
 // setup the db's
@@ -68,7 +69,6 @@ handlebars = handlebars.create({
             }
             return keywords;
         },
-
         encodeURI: function(url){
             return encodeURI(url);
         },
@@ -77,6 +77,21 @@ handlebars = handlebars.create({
                 return'checked';
             }
             return'';
+        },
+        if_null: function (val1, val2){
+            if(val1){
+                return val1;
+            }
+            return val2;
+        },
+        substring: function (val, length){
+            if(val.length > length){
+                return val.substring(0, length);
+            }
+            return val;
+        },
+        strip_md: function(md){
+            return remove_md(md);
         },
         view_count: function(value){
             if(value === '' || value === undefined){
