@@ -21,6 +21,9 @@ config.settings.sort_by = {field: 'kb_viewcount', order: -1}; // see below:
 // sets the website title
 config.settings.website_title = 'openKB';
 
+// sets whether to show the featured articles
+config.settings.show_featured_articles = true;
+
 // If set to "true", this locks down all pages of the blog and requires an authenticated user
 config.settings.password_protect = false;
 

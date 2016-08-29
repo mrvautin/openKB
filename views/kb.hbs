@@ -1,6 +1,10 @@
 <div class="row">
 	<form action="/search" id="search_form" method="post">
-		<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 search_bar">
+		{{#if config.settings.show_featured_articles}}
+		    <div class="col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1 search_bar">
+        {{else}}
+            <div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 search_bar">
+        {{/if}}
 			<div class="input-group">
 				<input type="text" name="frm_search" id="frm_search" class="form-control input-lg" placeholder="Search the knowledge base">
 				<span class="input-group-btn">
@@ -11,7 +15,27 @@
 	</form>
 </div>
 <div class="row">
-	<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+    {{#if config.settings.show_featured_articles}}
+        <div class="col-md-2 col-md-offset-1 col-lg-2 col-lg-offset-1">
+            <div class="panel panel-default" style="margin-top: 30px;">
+                <div class="panel-heading">Featured articles</div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        {{#each featured_results}}
+                            {{#if this.kb_permalink}}
+                                <li class="list-group-item"><a href="/kb/{{this.kb_permalink}}">{{this.kb_title}}</a></li>
+                            {{else}}
+                                <li class="list-group-item"><a href="/kb/{{this._id}}">{{this.kb_title}}</a></li>
+                            {{/if}}
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-lg-8">
+    {{else}}
+        <div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+    {{/if}}
 		<h1 style="padding-bottom: 25px;padding-top: 15px;">{{result.kb_title}}</h1>
 		<div class="body_text">
             {{{kb_body}}}
