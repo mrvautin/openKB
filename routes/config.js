@@ -21,8 +21,14 @@ config.settings.sort_by = {field: 'kb_viewcount', order: -1}; // see below:
 // sets the website title
 config.settings.website_title = 'openKB';
 
+// sets the website theme (themes are located in /public/themes/<folder name>)
+//config.settings.theme = 'twitter';
+
 // sets whether to show the featured articles
 config.settings.show_featured_articles = true;
+
+// if featured articles enabled, this is how many are returned
+config.settings.featured_articles_count = 4;
 
 // If set to "true", this locks down all pages of the blog and requires an authenticated user
 config.settings.password_protect = false;

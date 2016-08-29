@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        {{#if result.kb_seo_title}}
+        <title>{{result.kb_seo_title}}</title>
+        {{else}}
+        {{#if result.kb_title}}
+        <title>{{result.kb_title}}</title>
+        {{else}}
+        <title>{{title}}</title>
+        {{/if}}
+        {{/if}}
+	    <meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        {{#if result.kb_seo_description}}
+		<meta name="description" content="{{result.kb_seo_description}}">
+        {{else}}
+        {{#if result.kb_body}}
+        <meta name="description" content="{{substring (strip_md result.kb_body) 160}}">
+        {{else}}
+        <meta name="description" content="Powered by openKB">
+        {{/if}}
+        {{/if}}
+        {{#if result.kb_keywords}}
+		<meta name="keywords" content="{{result.kb_keywords}}">
+        {{else}}
+        <meta name="keywords" content="openKB">
+        {{/if}}
+		<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/simplemde/simplemde.min.css">
+        <link rel="stylesheet" href="/stylesheets/github.css">
+		<link rel="stylesheet" href="/themes/twitter/css/style.css">
+		<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/stylesheets/mermaid.css">
+		<link rel="stylesheet" href="/stylesheets/bootstrap-tokenfield.css">
+        <link rel="stylesheet" href="/stylesheets/jpushmenu.css">
+		<script src="/jquery/jquery.min.js"></script>
+		<script src="/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/javascripts/bootstrap-validator.js"></script>
+		<script src="/javascripts/mermaid.min.js"></script>
+		<script src="/javascripts/markdown-it-classy.js"></script>
+		<script src="/javascripts/bootstrap-tokenfield.min.js"></script>
+        <script src="/javascripts/inline-attachment.js"></script>
+		<script src="/javascripts/codemirror.inline-attachment.js"></script>
+        <script src="/javascripts/highlight.min.js"></script>
+        <script src="/simplemde/simplemde.min.js"></script>
+		<script src="/markdown-it/markdown-it.min.js"></script>
+        <script src="/javascripts/jpushmenu.js"></script>
+		<script src="/javascripts/openKB.js"></script>
+	</head>
+	<body class="{{show_footer}}">	
+		<!-- Static navbar -->
+		<div class="container-fluid">
+			{{{body}}}
+		</div>
+		<input type="hidden" id="input_notify_message" value="{{message}}">
+		<input type="hidden" id="input_notify_message_type" value="{{message_type}}">
+		<div id="notify_message"></div>
+		{{#if show_footer}}
+			<footer class="footer">
+				<div class="container">
+					<p class="text-muted text-center">Powered by openKB</p>
+				</div>
+			</footer>
+		{{/if}}
+	</body>
+</html>

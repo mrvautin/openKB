@@ -11,6 +11,7 @@ var bcrypt = require('bcrypt-nodejs');
 var lunr = require('lunr');
 var markdownit = require('markdown-it')({html: true, linkify: true, typographer: true});
 var moment = require('moment');
+var fs = require('fs');
 var Nedb_store = require('nedb-session-store')(session);
 var remove_md = require('remove-markdown');
 var config = require('./routes/config');
@@ -49,6 +50,14 @@ db.kb.find({}, function (err, kb_list){
 var index = require('./routes/index');
 
 var app = express();
+
+// check theme directory exists if set
+if(config.settings.theme){
+    if(!fs.existsSync(path.join(__dirname, '/public/themes/', config.settings.theme))){
+        console.error('Theme folder does not exist. Please check theme in /routes/config.js');
+        process.exit();
+    }
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, '/views'));

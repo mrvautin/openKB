@@ -5,6 +5,10 @@ var router = express.Router();
 // The homepage of the site
 router.get('/', restrict, function(req, res, next){
 	var config = require('./config');
+    var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
+
+    // set the template dir
+    setTemplateDir('user', req);
 
     // get sortBy from config, set to 'kb_viewcount' if nothing found
     var sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
@@ -14,7 +18,7 @@ router.get('/', restrict, function(req, res, next){
 
 	// get the top results based on sort order
     req.db.kb.find({kb_published: 'true'}).sort(sortBy).limit(config.settings.num_top_results).exec(function (err, top_results){
-        req.db.kb.find({kb_published: 'true', kb_featured: 'true'}).sort(sortBy).limit(10).exec(function (err, featured_results){
+        req.db.kb.find({kb_published: 'true', kb_featured: 'true'}).sort(sortBy).limit(featuredCount).exec(function (err, featured_results){
             res.render('index', {
                 title: 'openKB',
                 top_results: top_results,
@@ -51,6 +55,10 @@ router.get('/kb/:id', restrict, function(req, res){
 	var markdownit = req.markdownit;
 	markdownit.use(classy);
 	var config = require('./config');
+    var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
+
+    // set the template dir
+    setTemplateDir('user', req);
 
     // get sortBy from config, set to 'kb_viewcount' if nothing found
     var sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
@@ -92,7 +100,7 @@ router.get('/kb/:id', restrict, function(req, res){
 				req.session.pw_validated = null;
 
 				// show the view
-                req.db.kb.find({kb_published: 'true', kb_featured: 'true'}).sort(sortBy).limit(10).exec(function (err, featured_results){
+                req.db.kb.find({kb_published: 'true', kb_featured: 'true'}).sort(sortBy).limit(featuredCount).exec(function (err, featured_results){
                     res.render('kb', {
                         title: result.kb_title,
                         result: result,
@@ -223,6 +231,9 @@ router.post('/insert_kb', restrict, function(req, res){
 // Update an existing KB article form action
 router.get('/suggest', suggest_allowed, function(req, res){
 	var config = require('./config');
+
+    // set the template dir
+    setTemplateDir('admin', req);
 
 	res.render('suggest', {
 		title: 'Suggest article',
@@ -619,6 +630,9 @@ router.post('/user_update', restrict, function(req, res){
 // login form
 router.get('/login', function(req, res){
 	var config = require('./config');
+
+    // set the template
+    setTemplateDir('admin', req);
 
 	req.db.users.count({}, function (err, user_count){
 		// we check for a user. If one exists, redirect to login form otherwise setup
@@ -1120,11 +1134,33 @@ function restrict(req, res, next){
 
 // does the actual login check
 function check_login(req, res, next){
+
+    // set template dir
+    setTemplateDir('admin', req);
+
 	if(req.session.user){
 		next();
 	}else{
 		res.redirect('/login');
 	}
+}
+
+function setTemplateDir(type, req){
+    var config = require('./config');
+
+    if(type !== 'admin'){
+        // if theme selected, override the layout dir
+        var layoutDir = config.settings.theme ? path.join(__dirname, '../public/themes/', config.settings.theme, '/views/layouts/layout.hbs') : path.join(__dirname, '../views/layouts/layout.hbs');
+        var viewDir = config.settings.theme ? path.join(__dirname, '../public/themes/', config.settings.theme, '/views') : path.join(__dirname, '../views');
+
+        // set the views dir
+        req.app.locals.settings.views = viewDir;
+        req.app.locals.layout = layoutDir;
+    }else{
+        // set the views dir
+        req.app.locals.settings.views = path.join(__dirname, '../views/');
+        req.app.locals.layout = path.join(__dirname, '../views/layouts/layout.hbs');
+    }
 }
 
 function safe_trim(str){
