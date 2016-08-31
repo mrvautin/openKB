@@ -27,6 +27,9 @@ config.settings.website_title = 'openKB';
 // sets whether to show the featured articles
 config.settings.show_featured_articles = true;
 
+// sets whether to show the featured articles sidebar when viewing the artcile
+config.settings.show_featured_in_article = false;
+
 // if featured articles enabled, this is how many are returned
 config.settings.featured_articles_count = 4;
 

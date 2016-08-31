@@ -108,6 +108,12 @@ handlebars = handlebars.create({
             }
             return value;
         },
+        ifBoth: function(val1, val2, options){
+            if(val1 && val2){
+                return options.fn(this);
+            }
+            return options.inverse(this);
+        },
         format_date: function(date){
             if(config.settings.date_format){
                 return moment(date).format(config.settings.date_format);
