@@ -48,4 +48,7 @@ config.settings.show_author_email = true;
 // Controls whether the enable mermaid charts
 config.settings.enable_mermaid_charts = false;
 
+// Provide an app context to allow: http://127.0.0.1:4444/openkb/ .... etc
+config.settings.app_context = '';
+
 module.exports = config;

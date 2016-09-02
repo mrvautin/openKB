@@ -53,7 +53,7 @@
     <div class="">
         <h1>How can we help?</h1>
     </div>
-	<form action="/search" id="search_form" method="post">
+	<form action="{{app_context}}/search" id="search_form" method="post">
         {{#if config.settings.show_featured_articles}}
 		    <div class="col-md-4 col-md-offset-4 search_bar">
         {{else}}

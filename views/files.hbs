@@ -2,12 +2,12 @@
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<ol class="breadcrumb">
-	  			<li><a href="/">Home</a></li>
+	  			<li><a href="{{app_context}}/">Home</a></li>
 	 			<li class="active">Files</li>
 			</ol>
 			<h1 class="file-form">Files</h1>
 			<div class="col-md-12">
-				<form class="form-horizontal" role="form" method="post" action="/file/upload" enctype="multipart/form-data">
+				<form class="form-horizontal" role="form" method="post" action="{{app_context}}/file/upload" enctype="multipart/form-data">
 					<div class="form-group file-form">
 						<span class="btn btn-info btn-file">
 							Select file<input type="file" name="upload_file" id="upload_file">
@@ -28,14 +28,14 @@
 						{{#each files}}
 							<li class="list-group-item" id="file-{{this.id}}">
 								<span><i class="fa fa-file-image-o"></i></span>
-								<span class="align-left"><a class="imgPreview" href="{{this.path}}" target="_blank">{{this.path}}</a></span>
+								<span class="align-left"><a class="imgPreview" href="{{app_context}}/{{this.path}}" target="_blank">{{this.path}}</a></span>
 								<span class="pull-right" style="padding-left: 10px;"><button class="btn btn-danger btn-xs" onclick="file_delete_confirm('{{this.path}}','{{this.id}}')"><i class="fa fa-trash-o"></i></button></span>
 							</li>
 						{{/each}}
 					</ul>
 					<p class="text-warning">Tip: To insert an image right click the link, copy the link address and add it to your Markdown</p>
 				</form>
-				<form class="form-horizontal" role="form" method="post" action="/file/new_dir">
+				<form class="form-horizontal" role="form" method="post" action="{{app_context}}/file/new_dir">
 					<label for="directory">New directory</label>
 					<div class="input-group">
 						<input type="text" class="form-control" name="custom_dir" id="custom_dir" placeholder="new/directory">

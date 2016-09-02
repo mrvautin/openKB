@@ -120,6 +120,11 @@ handlebars = handlebars.create({
             }
             return moment(date).format('DD/MM/YYYY h:mmA');
         },
+        app_context: function (){
+            if(config.settings.app_context !== undefined && config.settings.app_context !== ''){
+                return'/' + config.settings.app_context;
+            }return'';
+        },
         ifCond: function(v1, operator, v2, options){
 			switch(operator){
 				case'==':
@@ -175,17 +180,23 @@ app.use(session({
     })
 }));
 
+// setup the app context
+var app_context = '';
+if(config.settings.app_context !== undefined && config.settings.app_context !== ''){
+    app_context = '/' + config.settings.app_context;
+}
+
 // frontend modules loaded from NPM
-app.use('/static', express.static(path.join(__dirname, 'public/')));
-app.use('/font-awesome', express.static(path.join(__dirname, 'node_modules/font-awesome/')));
-app.use('/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist/')));
-app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/')));
-app.use('/simplemde', express.static(path.join(__dirname, 'node_modules/simplemde/dist/')));
-app.use('/markdown-it', express.static(path.join(__dirname, 'node_modules/markdown-it/dist/')));
-app.use('/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
-app.use('/fonts', express.static(path.join(__dirname, 'public/fonts')));
-app.use('/javascripts', express.static(path.join(__dirname, 'public/javascripts')));
-app.use('/favicon.ico', express.static(path.join(__dirname, 'public/favicon.ico')));
+app.use(app_context + '/static', express.static(path.join(__dirname, 'public/')));
+app.use(app_context + '/font-awesome', express.static(path.join(__dirname, 'node_modules/font-awesome/')));
+app.use(app_context + '/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist/')));
+app.use(app_context + '/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/')));
+app.use(app_context + '/simplemde', express.static(path.join(__dirname, 'node_modules/simplemde/dist/')));
+app.use(app_context + '/markdown-it', express.static(path.join(__dirname, 'node_modules/markdown-it/dist/')));
+app.use(app_context + '/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
+app.use(app_context + '/fonts', express.static(path.join(__dirname, 'public/fonts')));
+app.use(app_context + '/javascripts', express.static(path.join(__dirname, 'public/javascripts')));
+app.use(app_context + '/favicon.ico', express.static(path.join(__dirname, 'public/favicon.ico')));
 
 // serving static content
 app.use(express.static(path.join(__dirname, 'public')));
@@ -197,11 +208,16 @@ app.use(function (req, res, next){
 	req.handlebars = handlebars.helpers;
     req.bcrypt = bcrypt;
     req.lunr_index = lunr_index;
+    req.app_context = app_context;
 	next();
 });
 
 // setup the routes
-app.use('/', index);
+if(app_context !== ''){
+    app.use(app_context, index);
+}else{
+    app.use('/', index);
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next){

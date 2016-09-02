@@ -1,5 +1,5 @@
 <div class="col-xs-12 col-md-12">
-    <form method="post" id="edit_form" action="/save_kb" data-toggle="validator">
+    <form method="post" id="edit_form" action="{{app_context}}/save_kb" data-toggle="validator">
         <div class="row">
             <div class="col-xs-12 col-lg-6">
                 <div class="form-group">
@@ -73,9 +73,9 @@
             <ul class="list-group list-group-sidemenu">
                 <li class="list-group-item">
                     <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                        <a class="btn btn-sm btn-warning" target="_blank" href="/kb/{{result._id}}">Preview</a>
-                        <a class="btn btn-sm btn-info" target="_blank" href="/kb/resetviewCount/{{result._id}}">Reset views</a>
-                        <a class="btn btn-sm btn-danger" href="/delete/{{result._id}}" id="del_post" onclick="return confirm('Are you sure you want to delete this article?');">Delete</a>
+                        <a class="btn btn-sm btn-warning" target="_blank" href="{{app_context}}/kb/{{result._id}}">Preview</a>
+                        <a class="btn btn-sm btn-info" target="_blank" href="{{app_context}}/kb/resetviewCount/{{result._id}}">Reset views</a>
+                        <a class="btn btn-sm btn-danger" href="{{app_context}}/delete/{{result._id}}" id="del_post" onclick="return confirm('Are you sure you want to delete this article?');">Delete</a>
                     </div>
                 </li>
                 <li class="list-group-item">

@@ -1,5 +1,5 @@
 <div class="row">
-	<form action="/search" id="search_form" method="post">
+	<form action="{{app_context}}/search" id="search_form" method="post">
 		{{#ifBoth config.settings.show_featured_articles config.settings.show_featured_in_article}}
 		    <div class="col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1 search_bar">
         {{else}}
@@ -23,9 +23,9 @@
                     <ul class="list-group">
                         {{#each featured_results}}
                             {{#if this.kb_permalink}}
-                                <li class="list-group-item"><a href="/kb/{{this.kb_permalink}}">{{this.kb_title}}</a></li>
+                                <li class="list-group-item"><a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a></li>
                             {{else}}
-                                <li class="list-group-item"><a href="/kb/{{this._id}}">{{this.kb_title}}</a></li>
+                                <li class="list-group-item"><a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a></li>
                             {{/if}}
                         {{/each}}
                     </ul>

@@ -2,12 +2,12 @@
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<ol class="breadcrumb">
-	  			<li><a href="/">Home</a></li>
-	 			<li><a href="/Users">Users</a></li>
+	  			<li><a href="{{app_context}}/">Home</a></li>
+	 			<li><a href="{{app_context}}/Users">Users</a></li>
 	  			<li class="active">User edit</li>
 			</ol>
 			<h1>User edit</h1>
-			<form method="post" id="edit_form" action="/user_update" data-toggle="validator">
+			<form method="post" id="edit_form" action="{{app_context}}/user_update" data-toggle="validator">
 			<input type="hidden" name="user_id" value="{{user._id}}" />
             <div class="form-group">
 		    	<label>Users name</label>

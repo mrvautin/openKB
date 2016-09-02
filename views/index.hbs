@@ -1,5 +1,5 @@
 <div class="row">
-	<form action="/search" id="search_form" method="post">
+	<form action="{{app_context}}/search" id="search_form" method="post">
         {{#if config.settings.show_featured_articles}}
 		    <div class="col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1 search_bar">
         {{else}}
@@ -23,9 +23,9 @@
                     <ul class="list-group">
                         {{#each featured_results}}
                             {{#if this.kb_permalink}}
-                                <li class="list-group-item"><a href="/kb/{{this.kb_permalink}}">{{this.kb_title}}</a></li>
+                                <li class="list-group-item"><a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a></li>
                             {{else}}
-                                <li class="list-group-item"><a href="/kb/{{this._id}}">{{this.kb_title}}</a></li>
+                                <li class="list-group-item"><a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a></li>
                             {{/if}}
                         {{/each}}
                     </ul>
@@ -45,7 +45,7 @@
 							{{#if this.kb_permalink}}
 								<li class="list-group-item">
 									<h4>
-										<a href="/kb/{{this.kb_permalink}}">{{this.kb_title}}</a>
+										<a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a>
                                         {{#if ../../config.settings.show_published_date}}
                                             {{#if ../../../config.settings.show_view_count}}
                                                 <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
@@ -61,7 +61,7 @@
 							{{else}}
 								<li class="list-group-item">
 									<h4>
-										<a href="/kb/{{this._id}}">{{this.kb_title}}</a>
+										<a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a>
                                         {{#if ../../config.settings.show_published_date}}
                                             {{#if ../../../config.settings.show_view_count}}
                                                 <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
@@ -88,9 +88,9 @@
 							 <li class="list-group-item">
 								 <h4>
 									{{#if kb_permalink}}
-										<a href="/kb/{{this.kb_permalink}}">{{this.kb_title}}</a>
+										<a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a>
 									{{else}}
-										<a href="/kb/{{this._id}}">{{this.kb_title}}</a>
+										<a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a>
 									{{/if}}
                                     {{#if ../../config.settings.show_published_date}}
                                         {{#if ../../config.settings.show_view_count}}
