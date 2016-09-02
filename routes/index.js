@@ -983,19 +983,30 @@ router.get('/search/:tag', restrict, function(req, res){
 		lunr_id_array.push(id.ref);
 	});
 
+    var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
+
+    // get sortBy from config, set to 'kb_viewcount' if nothing found
+    var sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
+    var sortByOrder = typeof config.settings.sort_by.order !== 'undefined' ? config.settings.sort_by.order : -1;
+    var sortBy = {};
+    sortBy[sortByField] = sortByOrder;
+
 	// we search on the lunr indexes
 	req.db.kb.find({_id: {$in: lunr_id_array}, kb_published: 'true'}, function (err, results){
-		res.render('index', {
-			title: 'Results',
-			'results': results,
-			session: req.session,
-			message: clear_session_value(req.session, 'message'),
-			message_type: clear_session_value(req.session, 'message_type'),
-			search_term: search_term,
-			config: config,
-			helpers: req.handlebars,
-			show_footer: 'show_footer'
-		});
+        req.db.kb.find({kb_published: 'true', kb_featured: 'true'}).sort(sortBy).limit(featuredCount).exec(function (err, featured_results){
+            res.render('index', {
+                title: 'Results',
+                search_results: results,
+                session: req.session,
+                featured_results: featured_results,
+                message: clear_session_value(req.session, 'message'),
+                message_type: clear_session_value(req.session, 'message_type'),
+                search_term: search_term,
+                config: config,
+                helpers: req.handlebars,
+                show_footer: 'show_footer'
+            });
+        });
 	});
 });
 
@@ -1010,19 +1021,30 @@ router.post('/search', restrict, function(req, res){
 		lunr_id_array.push(id.ref);
 	});
 
+    var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
+
+    // get sortBy from config, set to 'kb_viewcount' if nothing found
+    var sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
+    var sortByOrder = typeof config.settings.sort_by.order !== 'undefined' ? config.settings.sort_by.order : -1;
+    var sortBy = {};
+    sortBy[sortByField] = sortByOrder;
+
 	// we search on the lunr indexes
 	req.db.kb.find({_id: {$in: lunr_id_array}, kb_published: 'true'}, function (err, results){
-		res.render('index', {
-			title: 'Results',
-			'results': results,
-			session: req.session,
-			search_term: search_term,
-			message: clear_session_value(req.session, 'message'),
-			message_type: clear_session_value(req.session, 'message_type'),
-			config: config,
-			helpers: req.handlebars,
-			show_footer: 'show_footer'
-		});
+        req.db.kb.find({kb_published: 'true', kb_featured: 'true'}).sort(sortBy).limit(featuredCount).exec(function (err, featured_results){
+            res.render('index', {
+                title: 'Results',
+                search_results: results,
+                session: req.session,
+                search_term: search_term,
+                featured_results: featured_results,
+                message: clear_session_value(req.session, 'message'),
+                message_type: clear_session_value(req.session, 'message_type'),
+                config: config,
+                helpers: req.handlebars,
+                show_footer: 'show_footer'
+            });
+        });
 	});
 });
 
