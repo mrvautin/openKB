@@ -995,7 +995,7 @@ router.get('/search/:tag', restrict, function(req, res){
 	req.db.kb.find({_id: {$in: lunr_id_array}, kb_published: 'true'}, function (err, results){
         req.db.kb.find({kb_published: 'true', kb_featured: 'true'}).sort(sortBy).limit(featuredCount).exec(function (err, featured_results){
             res.render('index', {
-                title: 'Results',
+                title: 'Search results: ' + search_term,
                 search_results: results,
                 session: req.session,
                 featured_results: featured_results,
@@ -1033,7 +1033,7 @@ router.post('/search', restrict, function(req, res){
 	req.db.kb.find({_id: {$in: lunr_id_array}, kb_published: 'true'}, function (err, results){
         req.db.kb.find({kb_published: 'true', kb_featured: 'true'}).sort(sortBy).limit(featuredCount).exec(function (err, featured_results){
             res.render('index', {
-                title: 'Results',
+                title: 'Search results: ' + search_term,
                 search_results: results,
                 session: req.session,
                 search_term: search_term,
