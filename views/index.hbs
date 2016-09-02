@@ -23,9 +23,9 @@
                     <ul class="list-group">
                         {{#each featured_results}}
                             {{#if this.kb_permalink}}
-                                <li class="list-group-item"><a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a></li>
+                                <li class="list-group-item"><h4><a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a></h4></li>
                             {{else}}
-                                <li class="list-group-item"><a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a></li>
+                                <li class="list-group-item"><h4><a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a></h4></li>
                             {{/if}}
                         {{/each}}
                     </ul>
@@ -77,7 +77,7 @@
 							{{/if}}
                         {{else}}
                             <li class="list-group-item">
-                                No results found
+                                <h4>No results found</h4>
                             </li>
 						{{/each}}
 					</ul>
