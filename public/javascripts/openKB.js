@@ -8,7 +8,9 @@ $(document).ready(function(){
     $('.body_text a').attr('target', '_blank');
 
 	// setup mermaid charting
-	mermaid.initialize({startOnLoad: true});
+    if(typeof mermaid !== 'undefined'){
+        mermaid.initialize({startOnLoad: true});
+    }
 
 	// add the table class to all tables
     $('table').each(function(){

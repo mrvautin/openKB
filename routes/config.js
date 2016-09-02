@@ -45,4 +45,7 @@ config.settings.suggest_allowed = true;
 // Controls whether the authors email address is displayed in the meta. Needs "config.settings.show_kb_meta" set to true
 config.settings.show_author_email = true;
 
+// Controls whether the enable mermaid charts
+config.settings.enable_mermaid_charts = false;
+
 module.exports = config;

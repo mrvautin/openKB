@@ -49,7 +49,9 @@
 		<script src="/jquery/jquery.min.js"></script>
 		<script src="/bootstrap/js/bootstrap.min.js"></script>
         <script src="/javascripts/bootstrap-validator.js"></script>
+        {{#ifCond config.settings.enable_mermaid_charts '===' true}}
 		<script src="/javascripts/mermaid.min.js"></script>
+        {{/ifCond}}
 		<script src="/javascripts/markdown-it-classy.js"></script>
 		<script src="/javascripts/bootstrap-tokenfield.min.js"></script>
         <script src="/javascripts/inline-attachment.js"></script>
