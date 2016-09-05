@@ -22,7 +22,7 @@ config.settings.sort_by = {field: 'kb_viewcount', order: -1}; // see below:
 config.settings.website_title = 'openKB';
 
 // sets the website theme (themes are located in /public/themes/<folder name>)
-//config.settings.theme = 'twitter';
+// config.settings.theme = 'twitter';
 
 // sets whether to show the featured articles
 config.settings.show_featured_articles = true;
@@ -50,5 +50,17 @@ config.settings.enable_mermaid_charts = false;
 
 // Provide an app context to allow: http://127.0.0.1:4444/openkb/ .... etc
 config.settings.app_context = '';
+
+// Database setup - See README.md for more information
+// (Embedded)
+config.settings.database = {
+    type: 'embedded'
+};
+
+// (MongoDb)
+config.settings.database = {
+    type: 'mongodb',
+    connection_string: 'mongodb://127.0.0.1:27017/openkb'
+};
 
 module.exports = config;

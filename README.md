@@ -5,8 +5,8 @@
 [![Build Status](https://travis-ci.org/mrvautin/openKB.svg?branch=master)](https://travis-ci.org/mrvautin/opnkb)
 [![Github stars](https://img.shields.io/github/stars/mrvautin/openkb.svg?style=social&label=Star)](https://github.com/mrvautin/openkb)
 
-openKB is a Markdown Knowledge base application (FAQ) built with [Nodejs](https://nodejs.org/) and [ExpressJS](http://expressjs.com/). The application uses an embedded database ([nedb](https://github.com/louischatriot/nedb)) for easy installation.
-The application is designed to be easy to use and install and based around search rather than nested categories. Simply search for what you want and select from the results.
+openKB is a Markdown Knowledge base application (FAQ) built with [Nodejs](https://nodejs.org/) and [ExpressJS](http://expressjs.com/). The application uses an embedded database ([nedb](https://github.com/louischatriot/nedb)) 
+by default but can also use a MongoDB server by changing the config (see below). The application is designed to be easy to use and install and based around search rather than nested categories. Simply search for what you want and select from the results.
 
 Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 
@@ -20,7 +20,7 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 ### Features
 
 - **Search**: openKB is a search based Knowledgebase (FAQ) backed by [Lunr.js](https://github.com/olivernn/lunr.js/) indexing to create the best possible results on searches. 
-- **Backend**: openKB uses the pure javascript [nedb](https://github.com/louischatriot/nedb) embedded database. This means no external databases need to be setup.
+- **Backend**: openKB uses the pure Javascript [nedb](https://github.com/louischatriot/nedb) embedded database by default or a MongoDB server.
 - **Design/Themes**: openKB is meant to be simple flat design. Themes can be added by creating a theme folder within `public/themes/`. See the example theme for more information.
 - **Responsive**: openKB is built using Bootstrap allowing it to be responsive and work on all devices. The `admin` can be a little difficult editing Markdown on smaller screens.
 - **Mermaid**: openKB allows for [Mermaid](http://knsv.github.io/mermaid/) charts in articles.
@@ -55,7 +55,29 @@ A new user form will be shown where a user can be created.
 
 ### Config
 
-There are are a few configurations that can be made which are held in `/routes/config.js`. If any values have been changed the app will need to be restarted.
+There are a few configurations that can be made which are held in `/routes/config.js`. When any values have been changed the app will need to be restarted.
+
+### Database setup
+
+By default, `openKB` uses an embedded Javascript database called [nedb](https://github.com/louischatriot/nedb) for easy installation. This works really well for small to medium sized applications but
+has it's limitations if you wanted to scale your application to handle many artciles and concurrent users. For this reason, `openKB` also supports using a MongoDB server by simply changing the config file.
+
+Here is the `config.js` for the embedded database (NeDB):
+
+``` javascript
+config.settings.database = {
+    type: 'embedded'
+};
+```
+
+Here is an example `config.js` for a MongoDB server. You can use your own localhost MongoDB instance or you may choose a hosted MongoDB server like [mLab](https://mlab.com/).
+
+``` javascript
+config.settings.database = {
+    type: 'mongodb',
+    connection_string: 'mongodb://127.0.0.1:27017/openkb'
+};
+```
 
 ### Running in production
 

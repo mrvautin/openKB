@@ -5,6 +5,7 @@ var config = require('./config');
 
 // The homepage of the site
 router.get('/', restrict, function(req, res, next){
+    var db = req.app.db;
     var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
 
     // set the template dir
@@ -17,8 +18,8 @@ router.get('/', restrict, function(req, res, next){
     sortBy[sortByField] = sortByOrder;
 
 	// get the top results based on sort order
-    req.db.kb.find({kb_published: 'true'}).sort(sortBy).limit(config.settings.num_top_results).exec(function (err, top_results){
-        req.db.kb.find({kb_published: 'true', kb_featured: 'true'}).sort(sortBy).limit(featuredCount).exec(function (err, featured_results){
+    dbQuery(db.kb, {kb_published: 'true'}, sortBy, config.settings.num_top_results, function(err, top_results){
+        dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function(err, featured_results){
             res.render('index', {
                 title: 'openKB',
                 top_results: top_results,
@@ -37,8 +38,9 @@ router.get('/', restrict, function(req, res, next){
 });
 
 router.post('/protected/action', function(req, res){
+    var db = req.app.db;
 	// get article
-	req.db.kb.findOne({kb_published: 'true', _id: req.body.kb_id}, function (err, result){
+    db.kb.findOne({kb_published: 'true', _id: getId(req.body.kb_id)}, function(err, result){
 		// check password
 		if(req.body.password === result.kb_password){
 			// password correct. Allow viewing the article this time
@@ -53,6 +55,7 @@ router.post('/protected/action', function(req, res){
 });
 
 router.get('/kb/:id', restrict, function(req, res){
+    var db = req.app.db;
 	var classy = require('../public/javascripts/markdown-it-classy');
 	var markdownit = req.markdownit;
 	markdownit.use(classy);
@@ -67,7 +70,7 @@ router.get('/kb/:id', restrict, function(req, res){
     var sortBy = {};
     sortBy[sortByField] = sortByOrder;
 
-	req.db.kb.findOne({$or: [{_id: req.params.id}, {kb_permalink: req.params.id}]}, function (err, result){
+	db.kb.findOne({$or: [{_id: getId(req.params.id)}, {kb_permalink: req.params.id}]}, function (err, result){
 		// render 404 if page is not published
 		if(result == null || result.kb_published === 'false'){
             res.render('error', {message: '404 - Page not found', helpers: req.handlebars});
@@ -94,7 +97,7 @@ router.get('/kb/:id', restrict, function(req, res){
 			}
 
 			var new_viewcount = old_viewcount + 1;
-			req.db.kb.update({_id: req.params.id},
+			db.kb.update({_id: getId(req.params.id)},
 				{
 					$set: {kb_viewcount: new_viewcount}
 				}, {multi: false}, function (err, numReplaced){
@@ -102,7 +105,7 @@ router.get('/kb/:id', restrict, function(req, res){
 				req.session.pw_validated = null;
 
 				// show the view
-                req.db.kb.find({kb_published: 'true', kb_featured: 'true'}).sort(sortBy).limit(featuredCount).exec(function (err, featured_results){
+                dbQuery(db.kb, {kb_published: 'true'}, sortBy, featuredCount, function(err, featured_results){
                     res.render('kb', {
                         title: result.kb_title,
                         result: result,
@@ -123,8 +126,10 @@ router.get('/kb/:id', restrict, function(req, res){
   });
 });
 
+// resets the view count of a given article ID
 router.get('/kb/resetviewCount/:id', restrict, function(req, res){
-    req.db.kb.update({_id: req.params.id}, {$set: {kb_viewcount: 0}}, {multi: false}, function (err, numReplaced){
+    var db = req.app.db;
+    db.kb.update({_id: getId(req.params.id)}, {$set: {kb_viewcount: 0}}, {multi: false}, function (err, numReplaced){
         if(err){
             req.session.message = 'View count could not be reset. Try again.';
 			req.session.message_type = 'danger';
@@ -140,7 +145,8 @@ router.get('/kb/resetviewCount/:id', restrict, function(req, res){
 
 // render the editor
 router.get('/edit/:id', restrict, function(req, res){
-    req.db.kb.findOne({_id: req.params.id}, function (err, result){
+    var db = req.app.db;
+    db.kb.findOne({_id: getId(req.params.id)}, function (err, result){
         res.render('edit', {
             title: 'Edit article',
             'result': result,
@@ -156,6 +162,7 @@ router.get('/edit/:id', restrict, function(req, res){
 
 // insert new KB form action
 router.post('/insert_kb', restrict, function(req, res){
+    var db = req.app.db;
     var lunr_index = req.lunr_index;
 
     var doc = {
@@ -171,7 +178,7 @@ router.post('/insert_kb', restrict, function(req, res){
         kb_author_email: req.session.user
     };
 
-	req.db.kb.count({'kb_permalink': req.body.frm_kb_permalink}, function (err, kb){
+	db.kb.count({'kb_permalink': req.body.frm_kb_permalink}, function (err, kb){
 		if(kb > 0 && req.body.frm_kb_permalink !== ''){
 			// permalink exits
 			req.session.message = 'Permalink already exists. Pick a new one.';
@@ -186,7 +193,7 @@ router.post('/insert_kb', restrict, function(req, res){
 			// redirect to insert
 			res.redirect(req.app_context + '/insert');
 		}else{
-			req.db.kb.insert(doc, function (err, newDoc){
+			db.kb.insert(doc, function (err, newDoc){
 				if(err){
 					console.error('Error inserting document: ' + err);
 
@@ -208,11 +215,17 @@ router.post('/insert_kb', restrict, function(req, res){
 						keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
 					}
 
+                    // get the new ID
+                    var newId = newDoc._id;
+                    if(config.settings.database.type !== 'embedded'){
+                        newId = newDoc.insertedIds;
+                    }
+
 					// create lunr doc
 					var lunr_doc = {
 						kb_title: req.body.frm_kb_title,
 						kb_keywords: keywords,
-						id: newDoc._id
+						id: newId
 					};
 
 					// add to lunr index
@@ -222,7 +235,7 @@ router.post('/insert_kb', restrict, function(req, res){
 					req.session.message_type = 'success';
 
 					// redirect to new doc
-					res.redirect(req.app_context + '/edit/' + newDoc._id);
+					res.redirect(req.app_context + '/edit/' + newId);
 				}
 			});
 		}
@@ -248,6 +261,7 @@ router.get('/suggest', suggest_allowed, function(req, res){
 
 // Update an existing KB article form action
 router.post('/insert_suggest', suggest_allowed, function(req, res){
+    var db = req.app.db;
 	var lunr_index = req.lunr_index;
 
     // if empty, remove the comma and just have a blank string
@@ -265,7 +279,7 @@ router.post('/insert_suggest', suggest_allowed, function(req, res){
 		kb_last_updated: new Date()
 	};
 
-	req.db.kb.insert(doc, function (err, newDoc){
+	db.kb.insert(doc, function (err, newDoc){
 		if(err){
 			console.error('Error inserting suggestion: ' + err);
 			req.session.message = 'Suggestion failed. Please contact admin.';
@@ -278,11 +292,17 @@ router.post('/insert_suggest', suggest_allowed, function(req, res){
 				keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
 			}
 
+            // get the new ID
+            var newId = newDoc._id;
+            if(config.settings.database.type !== 'embedded'){
+                newId = newDoc.insertedIds;
+            }
+
 			// create lunr doc
 			var lunr_doc = {
 				kb_title: req.body.frm_kb_title,
 				kb_keywords: keywords,
-				id: newDoc._id
+				id: newId
 			};
 
 			// add to lunr index
@@ -298,6 +318,7 @@ router.post('/insert_suggest', suggest_allowed, function(req, res){
 
 // Update an existing KB article form action
 router.post('/save_kb', restrict, function(req, res){
+    var db = req.app.db;
 	var lunr_index = req.lunr_index;
     var kb_featured = req.body.frm_kb_featured === 'on' ? 'true' : 'false';
 
@@ -307,7 +328,7 @@ router.post('/save_kb', restrict, function(req, res){
 		keywords = '';
 	}
 
-    req.db.kb.count({'kb_permalink': req.body.frm_kb_permalink, $not: {_id: req.body.frm_kb_id}}, function (err, kb){
+    db.kb.count({'kb_permalink': req.body.frm_kb_permalink, $not: {_id: getId(req.body.frm_kb_id)}}, function (err, kb){
 		if(kb > 0 && req.body.frm_kb_permalink !== ''){
 			// permalink exits
 			req.session.message = 'Permalink already exists. Pick a new one.';
@@ -325,7 +346,7 @@ router.post('/save_kb', restrict, function(req, res){
 			// redirect to insert
 			res.redirect(req.app_context + '/edit/' + req.body.frm_kb_id);
 		}else{
-			req.db.kb.findOne({_id: req.body.frm_kb_id}, function (err, article){
+			db.kb.findOne({_id: getId(req.body.frm_kb_id)}, function (err, article){
 				// update author if not set
 				var author = article.kb_author ? article.kb_author : req.session.users_name;
                 var author_email = article.kb_author_email ? article.kb_author_email : req.session.user;
@@ -338,7 +359,7 @@ router.post('/save_kb', restrict, function(req, res){
 					published_date = article.kb_published_date;
 				}
 
-				req.db.kb.update({_id: req.body.frm_kb_id}, {$set:
+				db.kb.update({_id: getId(req.body.frm_kb_id)}, {$set:
 						{kb_title: req.body.frm_kb_title,
 							kb_body: req.body.frm_kb_body,
 							kb_published: req.body.frm_kb_published,
@@ -397,7 +418,8 @@ router.get('/logout', function(req, res){
 
 // users
 router.get('/users', restrict, function(req, res){
-	req.db.users.find({}, function (err, users){
+    var db = req.app.db;
+    dbQuery(db.users, {}, null, null, function (err, users){
         res.render('users', {
             title: 'Users',
             users: users,
@@ -413,7 +435,8 @@ router.get('/users', restrict, function(req, res){
 
 // users
 router.get('/user/edit/:id', restrict, function(req, res){
-	req.db.users.findOne({_id: req.params.id}, function (err, user){
+    var db = req.app.db;
+	db.users.findOne({_id: getId(req.params.id)}, function (err, user){
         // if the user we want to edit is not the current logged in user and the current user is not
         // an admin we render an access denied message
         if(user.user_email !== req.session.user && req.session.is_admin === 'false'){
@@ -437,7 +460,8 @@ router.get('/user/edit/:id', restrict, function(req, res){
 
 // users
 router.get('/users/new', restrict, function(req, res){
-    req.db.users.findOne({_id: req.params.id}, function (err, user){
+    var db = req.app.db;
+    db.users.findOne({_id: getId(req.params.id)}, function (err, user){
         res.render('user_new', {
             title: 'User - New',
             user: user,
@@ -452,7 +476,8 @@ router.get('/users/new', restrict, function(req, res){
 
 // kb list
 router.get('/articles', restrict, function(req, res){
-    req.db.kb.find({}).sort({kb_published_date: -1}).limit(10).exec(function (err, articles){
+    var db = req.app.db;
+    dbQuery(db.kb, {}, {kb_published_date: -1}, 10, function(err, articles){
         res.render('articles', {
             title: 'Articles',
             articles: articles,
@@ -466,7 +491,8 @@ router.get('/articles', restrict, function(req, res){
 });
 
 router.get('/articles/all', restrict, function(req, res){
-    req.db.kb.find({}).sort({kb_published_date: -1}).exec(function (err, articles){
+    var db = req.app.db;
+    dbQuery(db.kb, {}, {kb_published_date: -1}, null, function(err, articles){
         res.render('articles', {
             title: 'Articles',
             articles: articles,
@@ -480,6 +506,7 @@ router.get('/articles/all', restrict, function(req, res){
 });
 
 router.get('/articles/:tag', function(req, res){
+    var db = req.app.db;
 	var lunr_index = req.lunr_index;
 
 	// we strip the ID's from the lunr index search
@@ -489,10 +516,10 @@ router.get('/articles/:tag', function(req, res){
 	});
 
 	// we search on the lunr indexes
-	req.db.kb.find({_id: {$in: lunr_id_array}}).sort({kb_published_date: -1}).exec(function (err, results){
+    dbQuery(db.kb, {_id: {$in: lunr_id_array}}, {kb_published_date: -1}, null, function(err, results){
 		res.render('articles', {
 			title: 'Articles',
-			'results': results,
+			results: results,
 			session: req.session,
 			message: clear_session_value(req.session, 'message'),
 			message_type: clear_session_value(req.session, 'message_type'),
@@ -505,7 +532,8 @@ router.get('/articles/:tag', function(req, res){
 
 // update the published state based on an ajax call from the frontend
 router.post('/published_state', restrict, function(req, res){
-	req.db.kb.update({_id: req.body.id}, {$set: {kb_published: req.body.state}}, {multi: false}, function (err, numReplaced){
+    var db = req.app.db;
+	db.kb.update({_id: getId(req.body.id)}, {$set: {kb_published: req.body.state}}, {multi: false}, function (err, numReplaced){
 		if(err){
 			console.error('Failed to update the published state: ' + err);
 			res.writeHead(400, {'Content-Type': 'application/text'});
@@ -519,6 +547,7 @@ router.post('/published_state', restrict, function(req, res){
 
 // insert a user
 router.post('/user_insert', restrict, function(req, res){
+    var db = req.app.db;
 	var bcrypt = req.bcrypt;
 	var url = require('url');
 
@@ -538,7 +567,7 @@ router.post('/user_insert', restrict, function(req, res){
 	};
 
     // check for existing user
-    req.db.users.findOne({'user_email': req.body.user_email}, function (err, user){
+    db.users.findOne({'user_email': req.body.user_email}, function (err, user){
         if(user){
             // user already exists with that email address
             console.error('Failed to insert user, possibly already exists: ' + err);
@@ -547,7 +576,7 @@ router.post('/user_insert', restrict, function(req, res){
             res.redirect(req.app_context + '/users/new');
         }else{
             // email is ok to be used.
-            req.db.users.insert(doc, function (err, doc){
+            db.users.insert(doc, function (err, doc){
                 // show the view
                 if(err){
                     console.error('Failed to insert user: ' + err);
@@ -574,12 +603,12 @@ router.post('/user_insert', restrict, function(req, res){
 
 // update a user
 router.post('/user_update', restrict, function(req, res){
+    var db = req.app.db;
 	var bcrypt = req.bcrypt;
-
     var is_admin = req.body.user_admin === 'on' ? 'true' : 'false';
 
     // get the user we want to update
-    req.db.users.findOne({_id: req.body.user_id}, function (err, user){
+    db.users.findOne({_id: getId(req.body.user_id)}, function (err, user){
         // if the user we want to edit is not the current logged in user and the current user is not
         // an admin we render an access denied message
         if(user.user_email !== req.session.user && req.session.is_admin === 'false'){
@@ -597,7 +626,7 @@ router.post('/user_update', restrict, function(req, res){
             update_doc.user_password = bcrypt.hashSync(req.body.user_password);
         }
 
-        req.db.users.update({_id: req.body.user_id},
+        db.users.update({_id: getId(req.body.user_id)},
             {
                 $set: update_doc
             }, {multi: false}, function (err, numReplaced){
@@ -618,10 +647,11 @@ router.post('/user_update', restrict, function(req, res){
 
 // login form
 router.get('/login', function(req, res){
+    var db = req.app.db;
     // set the template
     setTemplateDir('admin', req);
 
-	req.db.users.count({}, function (err, user_count){
+	db.users.count({}, function (err, user_count){
 		// we check for a user. If one exists, redirect to login form otherwise setup
 		if(user_count > 0){
 			// set needs_setup to false as a user exists
@@ -645,7 +675,8 @@ router.get('/login', function(req, res){
 
 // setup form is shown when there are no users setup in the DB
 router.get('/setup', function(req, res){
-	req.db.users.count({}, function (err, user_count){
+    var db = req.app.db;
+	db.users.count({}, function (err, user_count){
 		// dont allow the user to "re-setup" if a user exists.
 		// set needs_setup to false as a user exists
 		req.session.needs_setup = false;
@@ -666,6 +697,7 @@ router.get('/setup', function(req, res){
 
 // Loops files on the disk, checks for their existance in any KB articles and removes non used files.
 router.get('/file_cleanup', restrict, function(req, res){
+    var db = req.app.db;
 	var path = require('path');
 	var fs = require('fs');
 	var walk = require('walk');
@@ -676,7 +708,7 @@ router.get('/file_cleanup', restrict, function(req, res){
         var file_name = path.resolve(root, stat.name);
 
         // find posts with the file in question
-        req.db.kb.find({'kb_body': new RegExp(stat.name)}).exec(function (err, posts){
+        dbQuery(db.kb, {'kb_body': new RegExp(stat.name)}, null, null, function (err, posts){
             // if the images doesn't exists in any posts then we remove it
             if(posts.length === 0){
                 fs.unlinkSync(file_name);
@@ -694,6 +726,7 @@ router.get('/file_cleanup', restrict, function(req, res){
 
 // validate the permalink
 router.post('/api/validate_permalink', function(req, res){
+    var db = req.app.db;
 	// if doc id is provided it checks for permalink in any docs other that one provided,
 	// else it just checks for any kb's with that permalink
 	var query = {};
@@ -703,7 +736,7 @@ router.post('/api/validate_permalink', function(req, res){
 		query = {'kb_permalink': req.body.permalink, $not: {_id: req.body.doc_id}};
 	}
 
-	req.db.kb.count(query, function (err, kb){
+	db.kb.count(query, function (err, kb){
 		if(kb > 0){
 			res.writeHead(400, {'Content-Type': 'application/text'});
 			res.end('Permalink already exists');
@@ -716,10 +749,11 @@ router.post('/api/validate_permalink', function(req, res){
 
 // login the user and check the password
 router.post('/login_action', function(req, res){
+    var db = req.app.db;
 	var bcrypt = req.bcrypt;
 	var url = require('url');
 
-	req.db.users.findOne({user_email: req.body.email}, function (err, user){
+	db.users.findOne({user_email: req.body.email}, function (err, user){
 		// check if user exists with that email
 		if(user === undefined || user === null){
 			req.session.message = 'A user with that email does not exist.';
@@ -730,7 +764,7 @@ router.post('/login_action', function(req, res){
 			if(bcrypt.compareSync(req.body.password, user.user_password) === true){
 				req.session.user = req.body.email;
                 req.session.users_name = user.users_name;
-				req.session.user_id = user._id;
+				req.session.user_id = user._id.toString();
 				req.session.is_admin = user.is_admin;
 				if(req.body.frm_referring_url === undefined || req.body.frm_referring_url === ''){
 					res.redirect(req.app_context + '/');
@@ -754,9 +788,10 @@ router.post('/login_action', function(req, res){
 
 // delete user
 router.get('/user/delete/:id', restrict, function(req, res){
+    var db = req.app.db;
     // remove the article
     if(req.session.is_admin === 'true'){
-        req.db.users.remove({_id: req.params.id}, {}, function (err, numRemoved){
+        db.users.remove({_id: getId(req.params.id)}, {}, function (err, numRemoved){
             req.session.message = 'User deleted.';
             req.session.message_type = 'success';
             res.redirect(req.app_context + '/users');
@@ -770,10 +805,11 @@ router.get('/user/delete/:id', restrict, function(req, res){
 
 // delete article
 router.get('/delete/:id', restrict, function(req, res){
+    var db = req.app.db;
 	var lunr_index = req.lunr_index;
 
 	// remove the article
-	req.db.kb.remove({_id: req.params.id}, {}, function (err, numRemoved){
+	db.kb.remove({_id: getId(req.params.id)}, {}, function (err, numRemoved){
 		// setup keywords
 		var keywords = '';
 		if(req.body.frm_kb_keywords !== undefined){
@@ -974,13 +1010,19 @@ router.get('/insert', restrict, function(req, res){
 
 // search kb's
 router.get('/search/:tag', restrict, function(req, res){
+    var db = req.app.db;
 	var search_term = req.params.tag;
 	var lunr_index = req.lunr_index;
 
 	// we strip the ID's from the lunr index search
 	var lunr_id_array = [];
 	lunr_index.search(search_term).forEach(function(id){
-		lunr_id_array.push(id.ref);
+        // if mongoDB we use ObjectID's, else normal string ID's
+        if(config.settings.database.type !== 'embedded'){
+            lunr_id_array.push(getId(id.ref));
+        }else{
+            lunr_id_array.push(id.ref);
+        }
 	});
 
     var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
@@ -992,8 +1034,8 @@ router.get('/search/:tag', restrict, function(req, res){
     sortBy[sortByField] = sortByOrder;
 
 	// we search on the lunr indexes
-	req.db.kb.find({_id: {$in: lunr_id_array}, kb_published: 'true'}, function (err, results){
-        req.db.kb.find({kb_published: 'true', kb_featured: 'true'}).sort(sortBy).limit(featuredCount).exec(function (err, featured_results){
+    dbQuery(db.kb, {_id: {$in: lunr_id_array}, kb_published: 'true'}, null, null, function(err, results){
+        dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function(err, featured_results){
             res.render('index', {
                 title: 'Search results: ' + search_term,
                 search_results: results,
@@ -1012,13 +1054,19 @@ router.get('/search/:tag', restrict, function(req, res){
 
 // search kb's
 router.post('/search', restrict, function(req, res){
+    var db = req.app.db;
 	var search_term = req.body.frm_search;
 	var lunr_index = req.lunr_index;
 
 	// we strip the ID's from the lunr index search
 	var lunr_id_array = [];
 	lunr_index.search(search_term).forEach(function(id){
-		lunr_id_array.push(id.ref);
+        // if mongoDB we use ObjectID's, else normal string ID's
+		if(config.settings.database.type !== 'embedded'){
+            lunr_id_array.push(getId(id.ref));
+        }else{
+            lunr_id_array.push(id.ref);
+        }
 	});
 
     var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
@@ -1030,8 +1078,8 @@ router.post('/search', restrict, function(req, res){
     sortBy[sortByField] = sortByOrder;
 
 	// we search on the lunr indexes
-	req.db.kb.find({_id: {$in: lunr_id_array}, kb_published: 'true'}, function (err, results){
-        req.db.kb.find({kb_published: 'true', kb_featured: 'true'}).sort(sortBy).limit(featuredCount).exec(function (err, featured_results){
+    dbQuery(db.kb, {_id: {$in: lunr_id_array}, kb_published: 'true'}, null, null, function(err, results){
+        dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function(err, featured_results){
             res.render('index', {
                 title: 'Search results: ' + search_term,
                 search_results: results,
@@ -1050,11 +1098,12 @@ router.post('/search', restrict, function(req, res){
 
 // export files into .md files and serve to browser
 router.get('/export', restrict, function(req, res){
+    var db = req.app.db;
 	var fs = require('fs');
 	var JSZip = require('jszip');
 
 	// dump all articles to .md files. Article title is the file name and body is contents
-	req.db.kb.find({}, function (err, results){
+    dbQuery(db.kb, {}, null, null, function (err, results){
 		// files are written and added to zip.
 		var zip = new JSZip();
 		for(var i = 0; i < results.length; i++){
@@ -1144,7 +1193,7 @@ function check_login(req, res, next){
 	}else{
 		res.redirect(req.app_context + '/login');
 	}
-}
+};
 
 function setTemplateDir(type, req){
     if(type !== 'admin'){
@@ -1160,13 +1209,45 @@ function setTemplateDir(type, req){
         req.app.locals.settings.views = path.join(__dirname, '../views/');
         req.app.locals.layout = path.join(__dirname, '../views/layouts/layout.hbs');
     }
+};
+
+function getId(id){
+    var ObjectID = require('mongodb').ObjectID;
+    if(config.settings.database.type === 'embedded'){
+        return id;
+    }
+    return ObjectID(id);
 }
+
+function dbQuery(db, query, sort, limit, callback){
+    if(config.settings.database.type === 'embedded'){
+        if(sort && limit){
+            db.find(query).sort(sort).limit(limit).exec(function(err, results){
+                callback(null, results);
+            });
+        }else{
+            db.find(query).exec(function(err, results){
+                callback(null, results);
+            });
+        }
+    }else{
+        if(sort && limit){
+            db.find(query).sort(sort).limit(limit).toArray(function(err, results){
+                callback(null, results);
+            });
+        }else{
+            db.find(query).toArray(function(err, results){
+                callback(null, results);
+            });
+        }
+    }
+};
 
 function safe_trim(str){
 	if(str !== undefined){
 		return str.trim();
 	}
     return str;
-}
+};
 
 module.exports = router;

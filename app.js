@@ -15,36 +15,7 @@ var fs = require('fs');
 var Nedb_store = require('nedb-session-store')(session);
 var remove_md = require('remove-markdown');
 var config = require('./routes/config');
-
-// setup the db's
-var db = new Nedb();
-db = {};
-db.users = new Nedb({filename: path.join(__dirname, '/data/users.db'), autoload: true});
-db.kb = new Nedb({filename: path.join(__dirname, '/data/kb.db'), autoload: true});
-
-// setup lunr indexing
-var lunr_index = lunr(function (){
-    this.field('kb_title', {boost: 10});
-    this.field('kb_keywords');
-});
-
-// get all articles on startup
-db.kb.find({}, function (err, kb_list){
-    // add to lunr index
-    kb_list.forEach(function(kb){
-        // only if defined
-        var keywords = '';
-        if(kb.kb_keywords !== undefined){
-            keywords = kb.kb_keywords.toString().replace(/,/g, ' ');
-        }
-        var doc = {
-            'kb_title': kb.kb_title,
-            'kb_keywords': keywords,
-            'id': kb._id
-        };
-        lunr_index.add(doc);
-    });
-});
+var MongoClient = require('mongodb').MongoClient;
 
 // require the routes
 var index = require('./routes/index');
@@ -203,7 +174,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Make stuff accessible to our router
 app.use(function (req, res, next){
-	req.db = db;
 	req.markdownit = markdownit;
 	req.handlebars = handlebars.helpers;
     req.bcrypt = bcrypt;
@@ -232,11 +202,12 @@ app.use(function(req, res, next){
 // will print stacktrace
 if(app.get('env') === 'development'){
     app.use(function (err, req, res, next){
-        console.log(err.stack);
+        console.error(err.stack);
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
-            error: err
+            error: err,
+            helpers: handlebars.helpers
         });
     });
 }
@@ -244,17 +215,107 @@ if(app.get('env') === 'development'){
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next){
-    console.log(err.stack);
+    console.error(err.stack);
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
-        error: {}
+        error: {},
+        helpers: handlebars.helpers
     });
 });
 
-// lift the app
-app.listen(app.get('port'), function (){
-    console.log('openKB running on host: http://localhost:' + app.get('port'));
+// sets up the databse depending on whether it's embedded (NeDB) or MongoDB
+if(config.settings.database.type === 'embedded'){
+    // setup the db's
+    var db = new Nedb();
+    db = {};
+    db.users = new Nedb({filename: path.join(__dirname, '/data/users.db'), autoload: true});
+    db.kb = new Nedb({filename: path.join(__dirname, '/data/kb.db'), autoload: true});
+
+    // add db to app for routes
+    app.db = db;
+
+    // add articles to index
+    indexArticles(db, function(err){
+        // lift the app
+        app.listen(app.get('port'), function (){
+            console.log('openKB running on host: http://localhost:' + app.get('port'));
+            app.emit('openKBstarted');
+        });
+    });
+}else{
+    MongoClient.connect(config.settings.database.connection_string, {}, function(err, db){
+        // On connection error we display then exit
+        if(err){
+            console.error('Error connecting to MongoDB: ' + err);
+            process.exit();
+        }
+
+        // setup the collections
+        db.users = db.collection('users');
+        db.kb = db.collection('kb');
+
+        // add db to app for routes
+        app.db = db;
+
+        // add articles to index
+        indexArticles(db, function(err){
+            // lift the app
+            app.listen(app.get('port'), function (){
+                console.log('openKB running on host: http://localhost:' + app.get('port'));
+                app.emit('openKBstarted');
+            });
+        });
+    });
+}
+
+// setup lunr indexing
+var lunr_index = lunr(function (){
+    this.field('kb_title', {boost: 10});
+    this.field('kb_keywords');
 });
+
+function indexArticles(db, callback){
+    // get all articles on startup
+    if(config.settings.database.type === 'embedded'){
+        db.kb.find({}, function (err, kb_list){
+            // add to lunr index
+            kb_list.forEach(function(kb){
+                // only if defined
+                var keywords = '';
+                if(kb.kb_keywords !== undefined){
+                    keywords = kb.kb_keywords.toString().replace(/,/g, ' ');
+                }
+                var doc = {
+                    'kb_title': kb.kb_title,
+                    'kb_keywords': keywords,
+                    'id': kb._id
+                };
+                lunr_index.add(doc);
+            });
+
+            callback(null);
+        });
+    }else{
+        db.kb.find({}).toArray(function (err, kb_list){
+            // add to lunr index
+            kb_list.forEach(function(kb){
+                // only if defined
+                var keywords = '';
+                if(kb.kb_keywords !== undefined){
+                    keywords = kb.kb_keywords.toString().replace(/,/g, ' ');
+                }
+                var doc = {
+                    'kb_title': kb.kb_title,
+                    'kb_keywords': keywords,
+                    'id': kb._id
+                };
+                lunr_index.add(doc);
+            });
+
+            callback(null);
+        });
+    }
+}
 
 module.exports = app;
