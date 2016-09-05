@@ -207,7 +207,8 @@ if(app.get('env') === 'development'){
         res.render('error', {
             message: err.message,
             error: err,
-            helpers: handlebars.helpers
+            helpers: handlebars.helpers,
+            config: config
         });
     });
 }
@@ -220,7 +221,8 @@ app.use(function (err, req, res, next){
     res.render('error', {
         message: err.message,
         error: {},
-        helpers: handlebars.helpers
+        helpers: handlebars.helpers,
+        config: config
     });
 });
 

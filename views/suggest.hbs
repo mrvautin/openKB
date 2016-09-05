@@ -16,15 +16,15 @@
 			</div>
 			<div id="editor-pagewrapper row">
 				<div class="col-xs-12 col-md-6">
-					<div class="form-group" id="editor-wrapper">
+					<div class="form-group" id="editor-wrapper-suggest" class="suggest-editor">
 						<label for="editor">Article body (Markdown) *</label>
-                        <textarea id="editor" minlength="5" name="frm_kb_body" data-provide="markdown" data-hidden-buttons="cmdPreview" data-iconlibrary="fa" class="form-control" required>{{{result.kb_body}}}</textarea>
+                        <textarea id="editor" class="test" minlength="5" name="frm_kb_body" data-provide="markdown" data-hidden-buttons="cmdPreview" data-iconlibrary="fa" class="form-control" required>{{{result.kb_body}}}</textarea>
 					</div>
 				</div>
 				<div class="col-xs-12 col-md-6">
 					<div class="form-group" id="preview-wrapper">
 						<label for="preview">Preview</label>
-						<div id="preview" name="preview" class="form-control" rows="10"></div>
+						<div id="preview" name="preview" class="form-control suggest-preview" rows="10"></div>
 					</div>
 				</div>
 			</div>

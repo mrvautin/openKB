@@ -72,6 +72,11 @@ html{
     overflow: auto;
 }
 
+#editor-wrapper-suggest > .CodeMirror{
+    height: calc(100vh - 110px - 175px - 110px) !important;
+    overflow: auto;
+}
+
 .editor-toolbar, .CodeMirror{
     border: 2px solid #dce4ec;
     border-radius: 4px;
@@ -91,6 +96,10 @@ html{
 #preview {
     height: calc(100vh - 110px - 195px);
     overflow: auto;
+}
+
+.suggest-preview{
+    height: calc(100vh - 110px - 235px) !important;
 }
 
 .show_footer{
