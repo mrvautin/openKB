@@ -5,7 +5,9 @@ $(document).ready(function(){
     });
 
     // make all links in articles open in new window/tab
-    $('.body_text a').attr('target', '_blank');
+    if($('#blank_links').val() === 'true'){
+        $('.body_text a').attr('target', '_blank');
+    }
 
 	// setup mermaid charting
     if(typeof mermaid !== 'undefined'){

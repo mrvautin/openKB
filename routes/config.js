@@ -51,6 +51,9 @@ config.settings.enable_mermaid_charts = false;
 // Provide an app context to allow: http://127.0.0.1:4444/openkb/ .... etc
 config.settings.app_context = '';
 
+// Whether to open links within articles in a new tab/window
+config.settings.links_blank_page = true;
+
 // Database setup - See README.md for more information
 // (Embedded)
 config.settings.database = {
