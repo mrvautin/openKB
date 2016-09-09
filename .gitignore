@@ -6,3 +6,4 @@ data/kb.db
 public/images/
 public/uploads/
 data/export.zip
+.vscode

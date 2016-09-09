@@ -1,5 +1,5 @@
-var config = require('./config');
 var path = require('path');
+var fs = require('fs');
 
 exports.clear_session_value = function(session, session_var){
 	var temp = session[session_var];
@@ -7,9 +7,14 @@ exports.clear_session_value = function(session, session_var){
 	return temp;
 };
 
+exports.read_config = function(){
+    return JSON.parse(fs.readFileSync(path.join(__dirname, 'config.js')));
+};
+
 // This is called on the suggest url. If the value is set to false in the config
 // a 403 error is rendered.
 exports.suggest_allowed = function(req, res, next){
+    var config = exports.read_config();
 	if(config.settings.suggest_allowed === true){
 		next();
 		return;
@@ -22,6 +27,7 @@ exports.suggest_allowed = function(req, res, next){
 // checked for a login as they are considered to be protected. The only exception
 // is the "setup", "login" and "login_action" URL's which is not checked at all.
 exports.restrict = function(req, res, next){
+    var config = exports.read_config();
 	var url_path = req.url;
 
 	// if not protecting we check for public pages and don't check_login
@@ -73,6 +79,7 @@ exports.check_login = function(req, res, next){
 };
 
 exports.setTemplateDir = function(type, req){
+    var config = exports.read_config();
     if(type !== 'admin'){
         // if theme selected, override the layout dir
         var layoutDir = config.settings.theme ? path.join(__dirname, '../public/themes/', config.settings.theme, '/views/layouts/layout.hbs') : path.join(__dirname, '../views/layouts/layout.hbs');
@@ -89,6 +96,7 @@ exports.setTemplateDir = function(type, req){
 };
 
 exports.getId = function(id){
+    var config = exports.read_config();
     var ObjectID = require('mongodb').ObjectID;
     if(config.settings.database.type === 'embedded'){
         return id;
@@ -97,9 +105,10 @@ exports.getId = function(id){
 };
 
 exports.dbQuery = function(db, query, sort, limit, callback){
+    var config = exports.read_config();
     if(config.settings.database.type === 'embedded'){
         if(sort && limit){
-            db.find(query).sort(sort).limit(limit).exec(function(err, results){
+            db.find(query).sort(sort).limit(parseInt(limit)).exec(function(err, results){
                 callback(null, results);
             });
         }else{
@@ -109,7 +118,7 @@ exports.dbQuery = function(db, query, sort, limit, callback){
         }
     }else{
         if(sort && limit){
-            db.find(query).sort(sort).limit(limit).toArray(function(err, results){
+            db.find(query).sort(sort).limit(parseInt(limit)).toArray(function(err, results){
                 callback(null, results);
             });
         }else{

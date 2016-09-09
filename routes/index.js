@@ -1,8 +1,9 @@
 var express = require('express');
 var path = require('path');
 var router = express.Router();
-var config = require('./config');
+var fs = require('fs');
 var common = require('./common');
+var config = common.read_config();
 
 // The homepage of the site
 router.get('/', common.restrict, function(req, res, next){
@@ -126,6 +127,62 @@ router.get('/kb/:id', common.restrict, function(req, res){
 		}
   });
 });
+
+// render the settings page
+router.get('/settings', common.restrict, function(req, res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('error', {message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+
+    res.render('settings', {
+        title: 'Settings',
+        session: req.session,
+        message: common.clear_session_value(req.session, 'message'),
+        message_type: common.clear_session_value(req.session, 'message_type'),
+        config: config,
+        helpers: req.handlebars
+    });
+});
+
+// update the settings
+router.post('/update_settings', common.restrict, function(req, res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('error', {message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+
+    // get the new settings
+    var settings = req.body;
+
+    // possible boolean type values
+    var booleanArray = [true, 'true', false, 'false'];
+
+    // loop settings, update config
+    for(var key in settings){
+        if(settings.hasOwnProperty(key)){
+            // if true/false, convert to boolean - TODO: Figure a better way of doing this?
+            var settingValue = settings[key];
+            if(booleanArray.indexOf(settingValue) > -1){
+                settingValue = (settingValue === 'true');
+            }
+            config.settings[key] = settingValue;
+        }
+    }
+
+    // write settings to file
+    fs.writeFileSync(path.join(__dirname, 'config.js'), JSON.stringify(config, null, 4), 'utf8');
+
+    // set notification
+    req.session.message = 'Settings successfully updated';
+    req.session.message_type = 'success';
+
+    // redirect back
+    res.redirect('/settings');
+});
+
 
 // resets the view count of a given article ID
 router.get('/kb/resetviewCount/:id', common.restrict, function(req, res){

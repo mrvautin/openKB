@@ -14,7 +14,8 @@ var moment = require('moment');
 var fs = require('fs');
 var Nedb_store = require('nedb-session-store')(session);
 var remove_md = require('remove-markdown');
-var config = require('./routes/config');
+var common = require('./routes/common');
+var config = common.read_config();
 var MongoClient = require('mongodb').MongoClient;
 
 // require the routes
@@ -53,10 +54,15 @@ handlebars = handlebars.create({
             return encodeURI(url);
         },
         checked_state: function (state){
-            if(state === 'true'){
+            if(state === true){
                 return'checked';
             }
             return'';
+        },
+        select_state: function (value, option){
+            if(value === option){
+                return'selected';
+            }return'';
         },
         if_null: function (val1, val2){
             if(val1){

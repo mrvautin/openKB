@@ -55,28 +55,64 @@ A new user form will be shown where a user can be created.
 
 ### Config
 
-There are a few configurations that can be made which are held in `/routes/config.js`. When any values have been changed the app will need to be restarted.
+Most of the configuration can be done on the `/settings` page but there are some addition values which require setting manually in the `/routes/config.js` file.
+
+|Setting|Description|
+|--- |--- |
+|`num_top_results`|Sets the number of results shown on the home page|
+|`date_format`|Sets the global date formatting. Uses moment.js date formatting, see more here: http://momentjs.com/docs/#/displaying|
+|`show_view_count`|Shows the view count next to the results on the homepage and search|
+|`show_published_date`|Shows the published date next to the results on the homepage and search|
+|`sort_by`|The order to sort articles|
+|`website_title`|The title of your website|
+|`show_featured_articles`|Whether to show any articles set to featured in a sidebar|
+|`show_featured_in_article`|Whether to show any articles set to featured in a sidebar when viewing an article|
+|`featured_articles_count`|The number of featured articles shown|
+|`password_protect`|Setting to "true" will require a user to login before viewing ANY pages|
+|`show_kb_meta`|Whether to show article meta data including published date, last updated date, author etc|
+|`suggest_allowed`|If enabled non authenticated users can submit article suggestions for approval|
+|`show_author_email`|Controls whether the authors email address is displayed in the meta. Requires "Show article meta data" to be true.|
+|`enable_mermaid_charts`|Whether to allow Mermaid charts within articles|
+|`app_context`|Allows for the website to be run from a non root path. Eg: http://127.0.0.1:4444/openkb/|
+|`links_blank_page`|Controls whether links within articles open a new page (tab)|
+|`database`|The database type to use. See **Database setup**|
+
+**Data sorting**
+You can control the sort order or articles. You can sort on anything but popular fields are `kb_viewcount`,  `kb_published_date` or `kb_last_updated`
+
+Setting the `sort_by` field in the `config.js` like so:
+
+``` javascript
+{field: 'kb_viewcount', order: -1};
+```
+
+Valid `order` values are: `-1` or `1`
+
+`1` = ascending order
+
+`-1` = decending order
+
 
 ### Database setup
 
 By default, `openKB` uses an embedded Javascript database called [nedb](https://github.com/louischatriot/nedb) for easy installation. This works really well for small to medium sized applications but
-has it's limitations if you wanted to scale your application to handle many artciles and concurrent users. For this reason, `openKB` also supports using a MongoDB server by simply changing the config file.
+has it's limitations if you wanted to scale your application to handle many articles and concurrent users. For this reason, `openKB` also supports using a MongoDB server by simply changing the config file.
 
 Here is the `config.js` for the embedded database (NeDB):
 
 ``` javascript
-config.settings.database = {
-    type: 'embedded'
-};
+"database": {
+    "type": "embedded"
+}
 ```
 
 Here is an example `config.js` for a MongoDB server. You can use your own localhost MongoDB instance or you may choose a hosted MongoDB server like [mLab](https://mlab.com/).
 
 ``` javascript
-config.settings.database = {
-    type: 'mongodb',
-    connection_string: 'mongodb://127.0.0.1:27017/openkb'
-};
+"database": {
+    "type": "mongodb",
+    "connection_string": "mongodb://127.0.0.1:27017/openkb"
+}
 ```
 
 ### Running in production
