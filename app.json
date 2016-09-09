@@ -1,0 +1,7 @@
+{
+  "name": "openKB",
+  "description": "openKB is an Open Source Nodejs Markdown based knowledge base/FAQ/Wiki app with powerful lunr search",
+  "repository": "https://github.com/mrvautin/openKB",
+  "logo": "https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_logo.png",
+  "keywords": ["nodejs", "knowledgebase", "faq", "wiki", "markdown"]
+}

@@ -17,6 +17,10 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 3. Start application: `npm start`
 4. Go to  [http://127.0.0.1:4444](http://127.0.0.1:4444) in your browser
 
+### Deploy on Heroku
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ### Features
 
 - **Search**: openKB is a search based Knowledgebase (FAQ) backed by [Lunr.js](https://github.com/olivernn/lunr.js/) indexing to create the best possible results on searches. 
