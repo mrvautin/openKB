@@ -17,19 +17,17 @@
 <div class="row">
     {{#if config.settings.show_featured_articles}}
         <div class="col-md-2 col-md-offset-1 col-lg-2 col-lg-offset-1">
-            <div class="panel panel-default" style="margin-top: 30px;">
-                <div class="panel-heading">Featured articles</div>
-                <div class="panel-body">
-                    <ul class="list-group">
-                        {{#each featured_results}}
-                            {{#if this.kb_permalink}}
-                                <li class="list-group-item"><h4><a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a></h4></li>
-                            {{else}}
-                                <li class="list-group-item"><h4><a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a></h4></li>
-                            {{/if}}
-                        {{/each}}
-                    </ul>
-                </div>
+            <div style="margin-top: 30px;">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-heading">Featured articles</li>
+                    {{#each featured_results}}
+                        {{#if this.kb_permalink}}
+                            <li class="list-group-item"><h4><a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a></h4></li>
+                        {{else}}
+                            <li class="list-group-item"><h4><a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a></h4></li>
+                        {{/if}}
+                    {{/each}}
+                </ul>
             </div>
         </div>
         <div class="col-md-8 col-lg-8">
@@ -37,83 +35,79 @@
         <div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
     {{/if}}
 		{{#if search_term}}
-			<div class="panel panel-default" style="margin-top: 30px;">
-				<div class="panel-heading">Results for: {{search_term}}</div>
-				<div class="panel-body">
-					<ul class="list-group">
-						{{#each search_results}}
-							{{#if this.kb_permalink}}
-								<li class="list-group-item">
-									<h4>
-										<a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a>
-                                        {{#if ../../config.settings.show_published_date}}
-                                            {{#if ../../../config.settings.show_view_count}}
-                                                <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
-                                            {{else}}
-                                                <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
-                                            {{/if}}
-                                        {{/if}}
-										{{#if ../../config.settings.show_view_count}}
-                                            <span class="pull-right view_count"><strong>View count:</strong> {{view_count this.kb_viewcount}}</span>
-										{{/if}}
-									</h4>
-								</li>
-							{{else}}
-								<li class="list-group-item">
-									<h4>
-										<a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a>
-                                        {{#if ../../config.settings.show_published_date}}
-                                            {{#if ../../../config.settings.show_view_count}}
-                                                <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
-                                            {{else}}
-                                                <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
-                                            {{/if}}
-                                        {{/if}}
-										{{#if ../../config.settings.show_view_count}}
-                                            <span class="pull-right view_count"><strong>View count: </strong>{{view_count this.kb_viewcount}}</span>
-										{{/if}}
-									</h4>
-								</li>
-							{{/if}}
-                        {{else}}
+			<div style="margin-top: 30px;">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-heading">Results for: {{search_term}}</li>
+                    {{#each search_results}}
+                        {{#if this.kb_permalink}}
                             <li class="list-group-item">
-                                <h4>No results found</h4>
-                            </li>
-						{{/each}}
-					</ul>
-				</div>
-			</div>
-		{{else}}
-			<div class="panel panel-default" style="margin-top: 30px;">
-				<div class="panel-heading">Top articles</div>
-				<div class="panel-body">
-					<ul class="list-group">
-						{{#each top_results}}
-							 <li class="list-group-item">
-								 <h4>
-									{{#if kb_permalink}}
-										<a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a>
-									{{else}}
-										<a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a>
-									{{/if}}
+                                <h4>
+                                    <a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a>
                                     {{#if ../../config.settings.show_published_date}}
-                                        {{#if ../../config.settings.show_view_count}}
+                                        {{#if ../../../config.settings.show_view_count}}
                                             <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
                                         {{else}}
                                             <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
                                         {{/if}}
                                     {{/if}}
-									{{#if ../config.settings.show_view_count}}
-								 		<span class="pull-right view_count"><strong>View count:</strong> {{view_count this.kb_viewcount}}</span>
-									{{/if}}
-									{{#if this.kb_password}}
-										<span class="pull-right view_count" style="padding-right: 5px;"><i class="fa fa-key"></i></span>
-									{{/if}}
-								 </h4>
-							 </li>
-						{{/each}}
-					</ul>
-				</div>
+                                    {{#if ../../config.settings.show_view_count}}
+                                        <span class="pull-right view_count"><strong>View count:</strong> {{view_count this.kb_viewcount}}</span>
+                                    {{/if}}
+                                </h4>
+                            </li>
+                        {{else}}
+                            <li class="list-group-item">
+                                <h4>
+                                    <a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a>
+                                    {{#if ../../config.settings.show_published_date}}
+                                        {{#if ../../../config.settings.show_view_count}}
+                                            <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                        {{else}}
+                                            <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                        {{/if}}
+                                    {{/if}}
+                                    {{#if ../../config.settings.show_view_count}}
+                                        <span class="pull-right view_count"><strong>View count: </strong>{{view_count this.kb_viewcount}}</span>
+                                    {{/if}}
+                                </h4>
+                            </li>
+                        {{/if}}
+                    {{else}}
+                        <li class="list-group-item">
+                            <h4>No results found</h4>
+                        </li>
+                    {{/each}}
+                </ul>
+			</div>
+		{{else}}
+			<div style="margin-top: 30px;">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-heading">Top articles</li>
+                    {{#each top_results}}
+                            <li class="list-group-item">
+                                <h4>
+                                {{#if kb_permalink}}
+                                    <a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a>
+                                {{else}}
+                                    <a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a>
+                                {{/if}}
+                                {{#if ../../config.settings.show_published_date}}
+                                    {{#if ../../config.settings.show_view_count}}
+                                        <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                    {{else}}
+                                        <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                    {{/if}}
+                                {{/if}}
+                                {{#if ../config.settings.show_view_count}}
+                                    <span class="pull-right view_count"><strong>View count:</strong> {{view_count this.kb_viewcount}}</span>
+                                {{/if}}
+                                {{#if this.kb_password}}
+                                    <span class="pull-right view_count" style="padding-right: 5px;"><i class="fa fa-key"></i></span>
+                                {{/if}}
+                                </h4>
+                            </li>
+                    {{/each}}
+                </ul>
 			</div>
 		{{/if}}
 	</div>
