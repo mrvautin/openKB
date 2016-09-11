@@ -54,7 +54,9 @@ handlebars = handlebars.create({
             return encodeURI(url);
         },
         removeEmail: function(user){
-            return user.replace(/@.*$/, '');
+            var userReplace = user.replace(/@.*$/, '');
+            var username = userReplace !== user ? userReplace : null;
+            return username;
         },
         checked_state: function (state){
             if(state === true || state === 'true'){
