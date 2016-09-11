@@ -126,6 +126,40 @@ $(document).ready(function(){
         });
     }
 
+    // user up vote clicked
+    $(document).on('click', '#btnUpvote', function(){
+        $.ajax({
+            method: 'POST',
+            url: $('#app_context').val() + '/vote',
+            data: {'doc_id': $('#doc_id').val(), 'vote_type': 'upvote'}
+        })
+        .done(function(msg){
+            show_notification(msg, 'success', true);
+            console.log('success', msg.responseText);
+        })
+        .fail(function(msg){
+            console.log('fail', msg);
+            show_notification(msg.responseText, 'danger');
+        });
+    });
+
+    // user down vote clicked
+    $(document).on('click', '#btnDownvote', function(){
+        $.ajax({
+            method: 'POST',
+            url: $('#app_context').val() + '/vote',
+            data: {'doc_id': $('#doc_id').val(), 'vote_type': 'downvote'}
+        })
+        .done(function(msg){
+            show_notification(msg, 'success', true);
+            console.log('success', msg.responseText, true);
+        })
+        .fail(function(msg){
+            console.log('fail', msg);
+            show_notification(msg.responseText, 'danger');
+        });
+    });
+
 	// Call to API to check if a permalink is available
 	$('#validate_permalink').click(function(){
 		if($('#frm_kb_permalink').val() !== ''){
@@ -135,7 +169,7 @@ $(document).ready(function(){
 				data: {'permalink': $('#frm_kb_permalink').val(), 'doc_id': $('#frm_kb_id').val()}
 			})
 			.done(function(msg){
-				show_notification(msg, 'success');
+				show_notification(msg, 'success', true);
 			})
 			.fail(function(msg){
 				show_notification(msg.responseText, 'danger');
@@ -207,6 +241,8 @@ function file_delete_confirm(img, id){
 function show_notification(msg, type, reload_page){
     // defaults to false
     reload_page = reload_page || false;
+
+    console.log(reload_page);
 
     $('#notify_message').removeClass();
     $('#notify_message').addClass('notify_message-' + type);

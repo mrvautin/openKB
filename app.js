@@ -239,6 +239,7 @@ if(config.settings.database.type === 'embedded'){
     db = {};
     db.users = new Nedb({filename: path.join(__dirname, '/data/users.db'), autoload: true});
     db.kb = new Nedb({filename: path.join(__dirname, '/data/kb.db'), autoload: true});
+    db.votes = new Nedb({filename: path.join(__dirname, '/data/votes.db'), autoload: true});
 
     // add db to app for routes
     app.db = db;
@@ -262,6 +263,7 @@ if(config.settings.database.type === 'embedded'){
         // setup the collections
         db.users = db.collection('users');
         db.kb = db.collection('kb');
+        db.votes = db.collection('votes');
 
         // add db to app for routes
         app.db = db;

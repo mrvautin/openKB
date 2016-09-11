@@ -56,6 +56,38 @@ router.post('/protected/action', function(req, res){
 	});
 });
 
+// vote on articles
+router.post('/vote', function(req, res){
+    var db = req.app.db;
+
+    // if voting allowed
+    if(config.settings.allow_voting === true){
+        // check if voted
+        db.votes.findOne({$and: [{doc_id: req.body.doc_id}, {session_id: req.sessionID}]}, function (err, result){
+            // if not voted
+            if(!result){
+                var vote = req.body.vote_type === 'upvote' ? 1 : -1;
+                // update kb vote
+                db.kb.update({_id: common.getId(req.body.doc_id)}, {$inc: {kb_votes: vote}}, function (err, numReplaced){
+                    // insert session id into table to stop muli-voters
+                    db.votes.insert({doc_id: req.body.doc_id, session_id: req.sessionID}, function (err, newDoc){
+                        res.writeHead(200, {'Content-Type': 'application/text'});
+                        res.end('Vote successful');
+                    });
+                });
+            }else{
+                // User has already voted
+                res.writeHead(404, {'Content-Type': 'application/text'});
+                res.end('User already voted');
+            }
+        });
+    }else{
+        // Voting not allowed
+        res.writeHead(404, {'Content-Type': 'application/text'});
+        res.end('Voting now allowed');
+    }
+});
+
 router.get('/kb/:id', common.restrict, function(req, res){
     var db = req.app.db;
 	var classy = require('../public/javascripts/markdown-it-classy');
@@ -193,6 +225,23 @@ router.get('/kb/resetviewCount/:id', common.restrict, function(req, res){
 			req.session.message_type = 'danger';
         }else{
             req.session.message = 'View count successfully reset to zero.';
+            req.session.message_type = 'success';
+        }
+
+        // redirect to new doc
+        res.redirect(req.app_context + '/edit/' + req.params.id);
+    });
+});
+
+// resets the vote count of a given article ID
+router.get('/kb/resetvoteCount/:id', common.restrict, function(req, res){
+    var db = req.app.db;
+    db.kb.update({_id: common.getId(req.params.id)}, {$set: {kb_votes: 0}}, {multi: false}, function (err, numReplaced){
+        if(err){
+            req.session.message = 'Vote count could not be reset. Try again.';
+			req.session.message_type = 'danger';
+        }else{
+            req.session.message = 'Vote count successfully reset to zero.';
             req.session.message_type = 'success';
         }
 

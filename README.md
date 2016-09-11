@@ -82,7 +82,7 @@ Most of the configuration can be done on the `/settings` page but there are some
 |`database`|The database type to use. See **Database setup**|
 
 **Data sorting**
-You can control the sort order or articles. You can sort on anything but popular fields are `kb_viewcount`,  `kb_published_date` or `kb_last_updated`
+You can control the sort order or articles. You can sort on anything but popular fields are `kb_viewcount`,  `kb_published_date`,  `kb_last_updated` or `kb_votes`
 
 Setting the `sort_by` field in the `config.js` like so:
 

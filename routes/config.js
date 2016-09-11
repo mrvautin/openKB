@@ -21,6 +21,7 @@
         "links_blank_page": true,
         "database": {
             "type": "embedded"
-        }
+        },
+        "allow_voting": true
     }
 }
