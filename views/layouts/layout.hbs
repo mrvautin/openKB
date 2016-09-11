@@ -60,6 +60,11 @@
 		<script src="{{app_context}}/markdown-it/markdown-it.min.js"></script>
         <script src="{{app_context}}/javascripts/jpushmenu.js"></script>
 		<script src="{{app_context}}/javascripts/openKB.js"></script>
+        {{#ifCond user_page '===' true}}
+        {{#if config.settings.google_analytics}}
+        {{{config.settings.google_analytics}}}
+        {{/if}}
+        {{/ifCond}}
 	</head>
 	<body class="{{show_footer}}">	
 		<!-- Static navbar -->

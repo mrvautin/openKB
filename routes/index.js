@@ -24,6 +24,7 @@ router.get('/', common.restrict, function(req, res, next){
         common.dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function(err, featured_results){
             res.render('index', {
                 title: 'openKB',
+                user_page: true,
                 top_results: top_results,
                 featured_results: featured_results,
                 session: req.session,
@@ -148,6 +149,7 @@ router.get('/kb/:id', common.restrict, function(req, res){
                     res.render('kb', {
                         title: result.kb_title,
                         result: result,
+                        user_page: true,
                         kb_body: markdownit.render(result.kb_body),
                         featured_results: featured_results,
                         config: config,
@@ -1188,6 +1190,7 @@ router.get('/search/:tag', common.restrict, function(req, res){
             res.render('index', {
                 title: 'Search results: ' + search_term,
                 search_results: results,
+                user_page: true,
                 session: req.session,
                 featured_results: featured_results,
                 message: common.clear_session_value(req.session, 'message'),
@@ -1232,6 +1235,7 @@ router.post('/search', common.restrict, function(req, res){
             res.render('index', {
                 title: 'Search results: ' + search_term,
                 search_results: results,
+                user_page: true,
                 session: req.session,
                 search_term: search_term,
                 featured_results: featured_results,

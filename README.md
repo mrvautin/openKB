@@ -34,21 +34,27 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 ### Screenshots
 
 **Homepage**
+
 ![Homepage](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_homepage_.png)
 
 **Admin editor**
+
 ![Editor](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_editor.png)
 
 **Article view**
+
 ![Article view](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_articleview.png)
 
 **Admin article management**
+
 ![Article filtering](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_articlefiltering.png)
 
 **Managing files**
+
 ![Files](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_files.png)
 
 **This is a deliberate rip from [https://twitter.com](https://twitter.com) to show an example. All design and credit goes to [https://twitter.com](https://twitter.com) and not openKB.** 
+
 ![Theme](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_theme_example.png)
 
 ### Admin
@@ -80,6 +86,7 @@ Most of the configuration can be done on the `/settings` page but there are some
 |`app_context`|Allows for the website to be run from a non root path. Eg: http://127.0.0.1:4444/openkb/|
 |`links_blank_page`|Controls whether links within articles open a new page (tab)|
 |`database`|The database type to use. See **Database setup**|
+|`google_analytics`|Adds Google Analytics to public facing pages. Include the entire code from Google including the &lt;script&gt; tags.|
 
 **Data sorting**
 You can control the sort order or articles. You can sort on anything but popular fields are `kb_viewcount`,  `kb_published_date`,  `kb_last_updated` or `kb_votes`
