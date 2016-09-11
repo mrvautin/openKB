@@ -54,7 +54,7 @@ handlebars = handlebars.create({
             return encodeURI(url);
         },
         checked_state: function (state){
-            if(state === true){
+            if(state === true || state === 'true'){
                 return'checked';
             }
             return'';
