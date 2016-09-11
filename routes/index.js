@@ -130,7 +130,12 @@ router.get('/kb/:id', common.restrict, function(req, res){
 				old_viewcount = 0;
 			}
 
-			var new_viewcount = old_viewcount + 1;
+            // increment only if the user is a guest and not logged in
+            var new_viewcount = old_viewcount;
+            if(!req.session.user){
+                new_viewcount = old_viewcount + 1;
+            }
+            // update kb_viewcount
 			db.kb.update({$or: [{_id: common.getId(req.params.id)}, {kb_permalink: req.params.id}]},
 				{
 					$set: {kb_viewcount: new_viewcount}
