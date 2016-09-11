@@ -99,7 +99,7 @@ router.get('/kb/:id', common.restrict, function(req, res){
 			}
 
 			var new_viewcount = old_viewcount + 1;
-			db.kb.update({_id: common.getId(req.params.id)},
+			db.kb.update({$or: [{_id: common.getId(req.params.id)}, {kb_permalink: req.params.id}]},
 				{
 					$set: {kb_viewcount: new_viewcount}
 				}, {multi: false}, function (err, numReplaced){
