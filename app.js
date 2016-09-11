@@ -53,6 +53,9 @@ handlebars = handlebars.create({
         encodeURI: function(url){
             return encodeURI(url);
         },
+        removeEmail: function(user){
+            return user.replace(/@.*$/, '');
+        },
         checked_state: function (state){
             if(state === true || state === 'true'){
                 return'checked';

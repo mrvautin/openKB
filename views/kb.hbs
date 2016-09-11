@@ -67,7 +67,13 @@
                             <h5 class="col-sm-12 col-lg-6">
                                 <strong>Last updated:</strong> {{format_date result.kb_last_updated}}
                                 {{#if result.kb_last_update_user}}
-                                    <span class="text-info">({{result.kb_last_update_user}})</span>
+                                    <span class="text-info">
+                                        {{#ifCond config.settings.show_author_email '===' false}}
+                                            ({{removeEmail result.kb_author_email}})
+                                        {{else}}
+                                            ({{result.kb_last_update_user}})
+                                        {{/ifCond}}
+                                    </span>
                                 {{/if}}
                             </h5>
                             {{#if result.kb_permalink}}
@@ -81,7 +87,7 @@
                             {{/if}}
                             {{#if result.kb_author}}
                                 <h5 class="col-sm-12 col-lg-6">
-                                    <strong>Author:</strong> <span class="text-info">{{result.kb_author}} {{#if config.settings.show_author_email}}({{result.kb_author_email}}){{/if}}</span>
+                                    <strong>Author:</strong> <span class="text-info">{{result.kb_author}} {{#ifCond config.settings.show_author_email '===' true}}({{result.kb_author_email}}){{/ifCond}}</span>
                                 </h5>
                             {{/if}}
                             {{#if result.kb_permalink}}
