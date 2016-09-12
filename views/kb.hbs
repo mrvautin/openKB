@@ -69,7 +69,7 @@
                                 {{#if result.kb_last_update_user}}
                                     <span class="text-info">
                                         {{#ifCond config.settings.show_author_email '===' false}}
-                                            ({{removeEmail result.kb_author_email}})
+                                            ({{removeEmail result.kb_last_update_user}})
                                         {{else}}
                                             ({{result.kb_last_update_user}})
                                         {{/ifCond}}
