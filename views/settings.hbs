@@ -108,6 +108,18 @@
                     </p>	
                 </div>
                 <div class="form-group">
+                    <label class="control-label" for="show_kb_meta">Select a theme:</label>
+                    <select class="form-control" name="theme">
+                        <option></option>
+                        {{#each themes}}
+                            <option {{select_state ../config.settings.theme this}}>{{this}}</option>
+                        {{/each}}
+                    </select>
+                    <p class="help-block">
+                        The theme to use for public facing pages. Leave blank for default.
+                    </p>	
+                </div>
+                <div class="form-group">
                     <label class="control-label" for="show_kb_meta">Show article meta data:</label>
                     <select class="form-control" name="show_kb_meta">
                         <option {{select_state config.settings.show_kb_meta true}}>true</option>

@@ -169,19 +169,27 @@ router.get('/kb/:id', common.restrict, function(req, res){
 
 // render the settings page
 router.get('/settings', common.restrict, function(req, res){
+    var junk = require('junk');
+
     // only allow admin
     if(req.session.is_admin !== 'true'){
         res.render('error', {message: 'Access denied', helpers: req.handlebars, config: config});
         return;
     }
 
-    res.render('settings', {
-        title: 'Settings',
-        session: req.session,
-        message: common.clear_session_value(req.session, 'message'),
-        message_type: common.clear_session_value(req.session, 'message_type'),
-        config: config,
-        helpers: req.handlebars
+    // path to themes
+    var themePath = path.join(__dirname, '../public/themes');
+
+    fs.readdir(themePath, function (err, files){
+        res.render('settings', {
+            title: 'Settings',
+            session: req.session,
+            themes: files.filter(junk.not),
+            message: common.clear_session_value(req.session, 'message'),
+            message_type: common.clear_session_value(req.session, 'message_type'),
+            config: config,
+            helpers: req.handlebars
+        });
     });
 });
 

@@ -22,6 +22,8 @@
         "database": {
             "type": "embedded"
         },
-        "allow_voting": true
+        "allow_voting": true,
+        "google_analytics": "",
+        "theme": ""
     }
 }
