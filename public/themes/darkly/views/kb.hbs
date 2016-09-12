@@ -1,0 +1,111 @@
+<div class="row searchBar">
+    <h1 class="text-center">How can we help you...</h1>
+	<form action="{{app_context}}/search" id="search_form" method="post">
+		{{#ifBoth config.settings.show_featured_articles config.settings.show_featured_in_article}}
+		    <div class="col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 search_bar">
+        {{else}}
+            <div class="col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 search_bar">
+        {{/ifBoth}}
+			<div class="input-group">
+				<input type="text" name="frm_search" id="frm_search" class="form-control input-lg" placeholder="Search the knowledge base">
+				<span class="input-group-btn">
+					<button class="btn btn-success btn-lg" id="btn_search" type="submit">Search</button>
+				</span>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="row">
+    {{#ifBoth config.settings.show_featured_articles config.settings.show_featured_in_article}}
+        <div class="col-md-2 col-md-offset-2 col-lg-2 col-lg-offset-2">
+            <div style="margin-top: 30px;">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-heading">Featured articles</li>
+                    {{#each featured_results}}
+                        {{#if this.kb_permalink}}
+                            <li class="list-group-item"><h5><a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a></h5></li>
+                        {{else}}
+                            <li class="list-group-item"><h5><a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a></h5></li>
+                        {{/if}}
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+    {{else}}
+        <div class="col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+    {{/ifBoth}}
+		<h1 style="padding-bottom: 25px;padding-top: 15px;">{{result.kb_title}}</h1>
+		<div class="body_text">
+            {{{kb_body}}}
+        </div>
+        {{#if config.settings.allow_voting}}
+            <div class="row">
+                <div class="voting text-right col-lg-12">
+                    <span>Was this article helpful?</span>
+                    <button id="btnUpvote" class="btn btn-sm btn-default"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
+                    <button id="btnDownvote" class="btn btn-sm btn-default"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button>
+                    <span>
+                        <strong>Votes:</strong> 
+                        {{#if result.kb_votes}}
+                            {{result.kb_votes}}
+                        {{else}}
+                            0
+                        {{/if}}                  
+                    </span>
+                </div>
+            </div>
+        {{/if}}
+		{{#if config.settings.show_kb_meta}}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-primary" style="margin-top: 35px;">
+                        <div class="panel-heading">Article details:</div>
+                        <div class="panel-body">
+                            <h5 class="col-sm-12 col-lg-6">
+                                <strong>Published date:</strong> {{format_date result.kb_published_date}}
+                            </h5>
+                            <h5 class="col-sm-12 col-lg-6">
+                                <strong>Last updated:</strong> {{format_date result.kb_last_updated}}
+                                {{#if result.kb_last_update_user}}
+                                    <span class="text-info">
+                                        {{#ifCond config.settings.show_author_email '===' false}}
+                                            ({{removeEmail result.kb_last_update_user}})
+                                        {{else}}
+                                            ({{result.kb_last_update_user}})
+                                        {{/ifCond}}
+                                    </span>
+                                {{/if}}
+                            </h5>
+                            {{#if result.kb_permalink}}
+                                <h5 class="col-sm-12 col-lg-6">
+                                    <strong>Share article:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/kb/{{encodeURI result.kb_permalink}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                                </h5>
+                            {{else}}
+                                <h5 class="col-sm-12 col-lg-6">
+                                    <strong>Share article:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/kb/{{result._id}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                                </h5>
+                            {{/if}}
+                            {{#if result.kb_author}}
+                                <h5 class="col-sm-12 col-lg-6">
+                                    <strong>Author:</strong> <span class="text-info">{{result.kb_author}} {{#ifCond config.settings.show_author_email '===' true}}({{result.kb_author_email}}){{/ifCond}}</span>
+                                </h5>
+                            {{/if}}
+                            {{#if result.kb_permalink}}
+                            <h5 class="col-sm-12 col-lg-6">
+                                <strong>Permalink:</strong> <a href="{{current_url}}/kb/{{result.kb_permalink}}" target="_blank">{{current_url}}/kb/{{result.kb_permalink}}</a>
+                            </h5>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+		{{/if}}
+        {{#if result.kb_keywords}}
+            <h5 class="keywords">
+                Keywords: {{{split_keywords result.kb_keywords}}}
+            </h5>
+        {{/if}}
+	</div>
+    <input type="hidden" id="doc_id" value={{result._id}}>
+</div>

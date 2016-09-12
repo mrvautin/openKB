@@ -1,0 +1,152 @@
+html, body {
+    font-size: 16px;
+}
+
+body{
+    font-family: "Gotham Narrow SSm", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+html{
+    position: relative;
+    min-height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: inherit;
+    font-weight: 300;
+    line-height: 1.65;
+    color: #292f33;
+}
+
+h2, .h2 {
+    font-size: 38px;
+}
+
+.hljs{
+    background: transparent;
+}
+
+.container-fluid {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.searchBar h1{
+    font-size: 40px;
+    font-weight: 300;
+    margin: 50px 0px 50px 0px;
+    color: #fff;
+    line-height: 1;
+}
+
+.searchBar a{
+    color: #fff;
+}
+
+p.subheading {
+    color: #899aa6;
+    font-size: 25px;
+    line-height: 1.2;
+}
+
+#frm_search{
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+#btn_search{
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.keywords{
+    font-size: 20px;
+    color: #fff;
+}
+
+.featuredPanel{
+    height: 150px; 
+    text-align: center;  
+}
+
+.panel-default {
+    border: 1px solid #e3eaee;
+}
+
+.panel-body h5{
+    color: #fff;
+}
+
+h1, h2, h3, h4{
+    color: #fff;
+}
+
+.featuredArticles{
+    margin-top: 20px;
+}
+
+.featuredArticlesFooter{
+    background-color: #0c85d0;
+    border-color: #0b7fc6;
+    text-align: center;
+    color: #fff;
+}
+
+.featuredArticlesFooter a{
+    color: #fff;
+}
+
+/*.navbar-default .navbar-brand {
+    color: #fff;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #fff;
+}
+
+.navbar-default {
+    border: none;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border: none;
+}
+
+.navbar-default {
+    background-color: transparent;
+}*/
+
+.list-group-heading{
+    background-color: #00bc8c;
+}
+
+.view_count{
+    font-size: 14px;
+}
+
+.panel-default>.panel-heading {
+    color: #333;
+    background: #f5f8fa;
+    border-color: #e3eaee;
+}
+
+.show_footer{
+    margin-bottom: 80px;
+}
+
+.metaData h5{
+    padding-bottom: 0px;
+    line-height: 1;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+    text-align: center;
+    padding-top: 25px;
+    margin-top: 35px;
+    color: #fff;
+    background-color: #375a7f;
+}

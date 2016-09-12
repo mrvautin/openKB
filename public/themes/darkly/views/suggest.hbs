@@ -1,0 +1,41 @@
+<div class="col-md-10 col-md-offset-1">
+	<div class="row">
+		<form method="post" id="edit_form" action="{{app_context}}/insert_suggest" data-toggle="validator">
+			<input type="hidden" name="frm_kb_id" value="{{result._id}}" />
+			<div id="header row">
+				<div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+					<div class="form-group">
+						<label for="preview">Article title *</label><br/>
+						<input type="text" name="frm_kb_title" class="form-control input-normal" minlength="5" maxlength="200" value="{{result.kb_title}}" required/>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 text-right">
+					<label for="preview">&nbsp;</label><br/>
+					<button id="frm_edit_kb_save" class="btn btn-success editor_btn_action" type="submit">Suggest</button>
+				</div>
+			</div>
+			<div id="editor-pagewrapper row">
+				<div class="col-xs-12 col-md-6">
+					<div class="form-group" id="editor-wrapper" class="suggest-editor">
+						<label for="editor">Article body (Markdown) *</label>
+                        <textarea id="editor" minlength="5" name="frm_kb_body" data-provide="markdown" data-hidden-buttons="cmdPreview" data-iconlibrary="fa" class="form-control" required>{{{result.kb_body}}}</textarea>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-6">
+					<div class="form-group" id="preview-wrapper">
+						<label for="preview">Preview</label>
+						<div id="preview" name="preview" class="form-control suggest-preview" rows="10"></div>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<div class="col-xs-12">
+					<div class="form-group">
+						<label>Keywords</label><br/>
+						<input type="text" class="form-control" name="frm_kb_keywords" id="frm_kb_keywords" value="{{result.kb_keywords}}">
+					</div>
+				</div>
+			</footer>
+		</form>
+	</div>
+</div>
