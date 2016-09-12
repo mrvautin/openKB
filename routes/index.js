@@ -533,6 +533,8 @@ router.post('/save_kb', common.restrict, function(req, res){
 // logout
 router.get('/logout', function(req, res){
     req.session.user = null;
+    req.session.users_name = null;
+    req.session.is_admin = null;
 	req.session.message = null;
 	req.session.message_type = null;
 	res.redirect(req.app_context + '/');
