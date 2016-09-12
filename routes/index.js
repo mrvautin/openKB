@@ -222,7 +222,6 @@ router.post('/update_settings', common.restrict, function(req, res){
     res.redirect('/settings');
 });
 
-
 // resets the view count of a given article ID
 router.get('/kb/resetviewCount/:id', common.restrict, function(req, res){
     var db = req.app.db;
@@ -1281,6 +1280,49 @@ router.get('/export', common.restrict, function(req, res){
 			return;
 		});
 	});
+});
+
+// return sitemap
+router.get('/sitemap.xml', function(req, res, next){
+    var sm = require('sitemap');
+    var db = req.app.db;
+
+    // get the articles
+    common.dbQuery(db.kb, {kb_published: 'true'}, null, null, function(err, articles){
+        var urlArray = [];
+
+        // push in the base url
+        urlArray.push({url: '/', changefreq: 'weekly', priority: 1.0});
+
+        // get the article URL's
+        for(var key in articles){
+            if(articles.hasOwnProperty(key)){
+                // check for permalink
+                var pageUrl = '/kb/' + articles[key]._id;
+                if(articles[key].kb_permalink !== ''){
+                    pageUrl = '/kb/' + articles[key].kb_permalink;
+                }
+                urlArray.push({url: pageUrl, changefreq: 'weekly', priority: 1.0});
+            }
+        }
+
+        // create the sitemap
+        var sitemap = sm.createSitemap(
+        {
+            hostname: req.protocol + '://' + req.headers.host,
+            cacheTime: 600000,        // 600 sec - cache purge period
+            urls: urlArray
+        });
+
+        // render the sitemap
+        sitemap.toXML(function(err, xml){
+            if(err){
+                return res.status(500).end();
+            }
+            res.header('Content-Type', 'application/xml');
+            res.send(xml);
+        });
+    });
 });
 
 module.exports = router;
