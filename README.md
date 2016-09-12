@@ -43,6 +43,10 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 
 ![Responsive](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_desktop_mobile.png)
 
+**Fully Configurable**
+
+![Fully Configurable](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_settings.png)
+
 **Admin editor**
 
 ![Editor](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_editor.png)
