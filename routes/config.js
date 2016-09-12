@@ -24,6 +24,7 @@
         },
         "allow_voting": true,
         "google_analytics": "",
-        "theme": ""
+        "theme": "",
+        "show_logon": true
     }
 }

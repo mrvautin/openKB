@@ -113,12 +113,14 @@
 								</ul>
 							</li>
                             {{/ifCond}}
-							<li><a href="{{app_context}}/logout">Logout</a></li>
+                            <li><a href="{{app_context}}/logout">Logout</a></li>
 						{{else}}
 							{{#if config.settings.suggest_allowed}}
 								<li><a href="{{app_context}}/suggest">Suggest</a></li>
 							{{/if}}
-							<li><a href="{{app_context}}/login">Login</a></li>
+                            {{#ifCond config.settings.show_logon '==' true}}
+							    <li><a href="{{app_context}}/login">Login</a></li>
+                            {{/ifCond}}
 						{{/if}}	
 					</ul>
 				</div>

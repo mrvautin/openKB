@@ -120,6 +120,16 @@
                     </p>	
                 </div>
                 <div class="form-group">
+                    <label class="control-label" for="show_logon">Show logon link:</label>
+                    <select class="form-control" name="show_logon">
+                        <option {{select_state config.settings.show_logon true}}>true</option>
+                        <option {{select_state config.settings.show_logon false}}>false</option>
+                    </select>
+                    <p class="help-block">
+                        Whether to show/hide the logon link in the top right of screen
+                    </p>	
+                </div>
+                <div class="form-group">
                     <label class="control-label" for="show_kb_meta">Show article meta data:</label>
                     <select class="form-control" name="show_kb_meta">
                         <option {{select_state config.settings.show_kb_meta true}}>true</option>
