@@ -19,7 +19,10 @@ $(document).ready(function(){
         $(this).addClass('table table-hover');
     });
 
-    $('.toggle-menu').jPushMenu();
+    // setup the push menu
+    if(typeof jPushMenu !== 'undefined'){
+        $('.toggle-menu').jPushMenu();
+    }
 
     // highlight any code blocks
     $('pre code').each(function(i, block){
@@ -27,7 +30,9 @@ $(document).ready(function(){
     });
 
 	// add the token field to the keywords input
-	$('#frm_kb_keywords').tokenfield();
+    if(typeof tokenfield !== 'undefined'){
+	    $('#frm_kb_keywords').tokenfield();
+    }
 
     if($('#editor').length){
         // setup editors
