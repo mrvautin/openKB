@@ -116,7 +116,8 @@ router.get('/kb/:id', common.restrict, function(req, res){
                     if(req.session.pw_validated === 'false' || req.session.pw_validated === undefined || req.session.pw_validated == null){
                         res.render('protected_kb', {
                             title: 'Protected Article',
-                            'result': result,
+                            result: result,
+                            config: config,
                             session: req.session,
                             helpers: req.handlebars
                         });
