@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /$
+Allow: /kb/*
+Allow: /search
+Allow: /search/*
+Allow: /sitemap.xml
+Disallow: /
