@@ -20,7 +20,7 @@ $(document).ready(function(){
     });
 
     // setup the push menu
-    if(typeof jPushMenu !== 'undefined'){
+    if($('.toggle-menu').length){
         $('.toggle-menu').jPushMenu();
     }
 
@@ -30,8 +30,8 @@ $(document).ready(function(){
     });
 
 	// add the token field to the keywords input
-    if(typeof tokenfield !== 'undefined'){
-	    $('#frm_kb_keywords').tokenfield();
+    if($('#frm_kb_keywords').length){
+        $('#frm_kb_keywords').tokenfield();
     }
 
     if($('#editor').length){
@@ -140,10 +140,8 @@ $(document).ready(function(){
         })
         .done(function(msg){
             show_notification(msg, 'success', true);
-            console.log('success', msg.responseText);
         })
         .fail(function(msg){
-            console.log('fail', msg);
             show_notification(msg.responseText, 'danger');
         });
     });
@@ -157,10 +155,8 @@ $(document).ready(function(){
         })
         .done(function(msg){
             show_notification(msg, 'success', true);
-            console.log('success', msg.responseText, true);
         })
         .fail(function(msg){
-            console.log('fail', msg);
             show_notification(msg.responseText, 'danger');
         });
     });
@@ -246,8 +242,6 @@ function file_delete_confirm(img, id){
 function show_notification(msg, type, reload_page){
     // defaults to false
     reload_page = reload_page || false;
-
-    console.log(reload_page);
 
     $('#notify_message').removeClass();
     $('#notify_message').addClass('notify_message-' + type);
