@@ -1,5 +1,7 @@
 # openKB
 
+![logo](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_logo_full.png)
+
 ![npm downloads badge](https://img.shields.io/npm/dm/openkb.svg "npm download badge")
 ![npm version badge](https://img.shields.io/npm/v/openkb.svg "npm version badge")
 [![Build Status](https://travis-ci.org/mrvautin/openKB.svg?branch=master)](https://travis-ci.org/mrvautin/opnkb)
