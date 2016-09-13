@@ -137,6 +137,18 @@ Here is an example `config.js` for a MongoDB server. You can use your own localh
 }
 ```
 
+### Migrating from NeDB to MongoDB (experimental)
+
+You can upgrade from NeDB to Mongodb by running the following command:
+
+Note: You will first need to setup a valid MongoDB connection as per the "Database setup" instructions.
+
+```
+npm run-script dbUpgrade
+```
+
+**please raise a Github issue if errors are encountered**
+
 ### Running in production
 
 Using [PM2](https://github.com/Unitech/pm2) seems to be the easiest and best option for running production websites.

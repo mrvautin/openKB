@@ -4,9 +4,11 @@
   "description": "openKB is an Open Source Nodejs Markdown based knowledge base/FAQ/Wiki app with powerful lunr search",
   "private": false,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "dbUpgrade": "node data/mongodbUpgrade.js"
   },
   "dependencies": {
+    "async": "^2.0.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.8.4",
     "bootstrap": "^3.3.7",

@@ -101,6 +101,9 @@ exports.getId = function(id){
     if(config.settings.database.type === 'embedded'){
         return id;
     }
+    if(id.length !== 24){
+        return id;
+    }
     return ObjectID(id);
 };
 
