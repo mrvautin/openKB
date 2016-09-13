@@ -96,6 +96,7 @@ Most of the configuration can be done on the `/settings` page but there are some
 |`enable_mermaid_charts`|Whether to allow Mermaid charts within articles|
 |`app_context`|Allows for the website to be run from a non root path. Eg: http://127.0.0.1:4444/openkb/|
 |`links_blank_page`|Controls whether links within articles open a new page (tab)|
+|`add_header_anchors`|Whether to add HTML anchors to all heading tags for linking within articles or direct linking from other articles|
 |`database`|The database type to use. See **Database setup**|
 |`google_analytics`|Adds Google Analytics to public facing pages. Include the entire code from Google including the &lt;script&gt; tags.|
 
