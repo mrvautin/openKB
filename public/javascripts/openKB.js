@@ -5,7 +5,7 @@ $(document).ready(function(){
     });
 
     // make all links in articles open in new window/tab
-    if($('#blank_links').val() === 'true'){
+    if(config.links_blank_page === true){
         $('.body_text a').attr('target', '_blank');
     }
 
@@ -28,6 +28,23 @@ $(document).ready(function(){
     $('pre code').each(function(i, block){
         hljs.highlightBlock(block);
     });
+
+    // add the table class to all tables
+    if(config.add_header_anchors === true){
+        $('.body_text > h1, .body_text > h2, .body_text > h3, .body_text > h4, .body_text > h5').each(function(){
+            $(this).attr('id', convertToSlug($(this).text()));
+            $(this).prepend('<a class="headerAnchor" href="#' + convertToSlug($(this).text()) + '">#</a> ');
+        });
+    }
+
+    // scroll to hash point
+    if(window.location.hash){
+        // if element is found, scroll to it
+        if($(window.location.hash).length){
+            var element = $(window.location.hash);
+            $(window).scrollTop(element.offset().top).scrollLeft(element.offset().left);
+        }
+    }
 
 	// add the token field to the keywords input
     if($('#frm_kb_keywords').length){
@@ -255,4 +272,11 @@ function show_notification(msg, type, reload_page){
 
 function search_form(id){
 	$('form#' + id).submit();
+}
+
+function convertToSlug(text){
+    return text
+        .toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^\w-]+/g, '');
 }
