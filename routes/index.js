@@ -8,6 +8,7 @@ var config = common.read_config();
 // The homepage of the site
 router.get('/', common.restrict, function(req, res, next){
     var db = req.app.db;
+    common.config_expose(req.app);
     var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
 
     // set the template dir
@@ -91,9 +92,11 @@ router.post('/vote', function(req, res){
 
 router.get('/kb/:id', common.restrict, function(req, res){
     var db = req.app.db;
+    common.config_expose(req.app);
 	var classy = require('../public/javascripts/markdown-it-classy');
 	var markdownit = req.markdownit;
 	markdownit.use(classy);
+
     var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
 
     // set the template dir
@@ -1173,6 +1176,7 @@ router.get('/insert', common.restrict, function(req, res){
 // search kb's
 router.get('/search/:tag', common.restrict, function(req, res){
     var db = req.app.db;
+    common.config_expose(req.app);
 	var search_term = req.params.tag;
 	var lunr_index = req.lunr_index;
 
@@ -1218,6 +1222,7 @@ router.get('/search/:tag', common.restrict, function(req, res){
 // search kb's
 router.post('/search', common.restrict, function(req, res){
     var db = req.app.db;
+    common.config_expose(req.app);
 	var search_term = req.body.frm_search;
 	var lunr_index = req.lunr_index;
 

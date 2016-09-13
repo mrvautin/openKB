@@ -46,6 +46,7 @@
 		<link rel="stylesheet" href="{{app_context}}/stylesheets/bootstrap-tokenfield.css">
         <link rel="stylesheet" href="{{app_context}}/stylesheets/jpushmenu.css">
 		<script src="{{app_context}}/jquery/jquery.min.js"></script>
+        <script>{{{state}}}</script>
 		<script src="{{app_context}}/bootstrap/js/bootstrap.min.js"></script>
         <script src="{{app_context}}/javascripts/bootstrap-validator.js"></script>
         {{#ifCond config.settings.enable_mermaid_charts '===' true}}
@@ -64,7 +65,7 @@
         {{#if config.settings.google_analytics}}
         {{{config.settings.google_analytics}}}
         {{/if}}
-        {{/ifCond}}
+        {{/ifCond}} 
 	</head>
 	<body class="{{show_footer}}">	
 		<!-- Static navbar -->

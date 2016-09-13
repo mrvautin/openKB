@@ -17,6 +17,7 @@
     "express": "~4.9.0",
     "express-handlebars": "^2.0.1",
     "express-session": "^1.11.3",
+    "express-state": "^1.4.0",
     "font-awesome": "^4.6.3",
     "glob": "^5.0.14",
     "hbs": "~2.7.0",

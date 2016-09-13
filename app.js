@@ -17,11 +17,18 @@ var remove_md = require('remove-markdown');
 var common = require('./routes/common');
 var config = common.read_config();
 var MongoClient = require('mongodb').MongoClient;
+var expstate = require('express-state');
 
 // require the routes
 var index = require('./routes/index');
 
 var app = express();
+
+// setup express-state
+expstate.extend(app);
+
+// add the config items we want to expose to the client
+common.config_expose(app);
 
 // check theme directory exists if set
 if(config.settings.theme){

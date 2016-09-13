@@ -78,6 +78,15 @@ exports.check_login = function(req, res, next){
 	}
 };
 
+// exposes select server side settings to the client
+exports.config_expose = function(app){
+    var config = exports.read_config();
+    var clientConfig = {};
+    clientConfig.add_header_anchors = config.settings.add_header_anchors !== undefined ? config.settings.add_header_anchors : false;
+    clientConfig.links_blank_page = config.settings.links_blank_page !== undefined ? config.settings.links_blank_page : true;
+    app.expose(clientConfig, 'config');
+};
+
 exports.setTemplateDir = function(type, req){
     var config = exports.read_config();
     if(type !== 'admin'){
