@@ -19,6 +19,42 @@ $(document).ready(function(){
         $(this).addClass('table table-hover');
     });
 
+    if(config.typeahead_search === true){
+        // on pages which have the search form
+        if($('#frm_search').length){
+            // grab the index from server
+            $.ajax({
+                method: 'POST',
+                url: $('#app_context').val() + '/search_api',
+                data: {id: this.id, state: this.checked}
+            })
+            .done(function(response){
+                var index = lunr.Index.load(response.index);
+                var store = response.store;
+
+                $('#frm_search').on('keyup', function(){
+                    var query = $(this).val();
+                    var results = index.search(query);
+                    if(results.length === 0){
+                        $('#searchResult').addClass('hidden');
+                    }else{
+                        $('.searchResultList').empty();
+                        $('.searchResultList').append('<li class="list-group-item list-group-heading">Search results</li>');
+                        for(var result in results){
+                            var ref = results[result].ref;
+                            var searchitem = '<li class="list-group-item"><a href="/kb/' + store[ref].p + '">' + store[ref].t + '</a></li>';
+                            $('.searchResultList').append(searchitem);
+                        }
+                        $('#searchResult').removeClass('hidden');
+                    }
+                });
+            })
+            .fail(function(msg){
+                show_notification(msg.responseText, 'danger');
+            });
+        }
+    }
+
     // setup the push menu
     if($('.toggle-menu').length){
         $('.toggle-menu').jPushMenu();

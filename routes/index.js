@@ -58,6 +58,12 @@ router.post('/protected/action', function(req, res){
 	});
 });
 
+router.post('/search_api', function(req, res){
+    var lunr_index = req.lunr_index;
+    var lunr_store = req.lunr_store;
+    res.status(200).json({index: lunr_index, store: lunr_store});
+});
+
 // vote on articles
 router.post('/vote', function(req, res){
     var db = req.app.db;
@@ -353,6 +359,10 @@ router.post('/insert_kb', common.restrict, function(req, res){
 						id: newId
 					};
 
+                    // add to store
+                    var href = req.body.frm_kb_permalink !== '' ? req.body.frm_kb_permalink : newId;
+                    req.lunr_store[newId] = {t: req.body.frm_kb_title, p: href};
+
 					// add to lunr index
 					lunr_index.add(lunr_doc);
 
@@ -429,6 +439,10 @@ router.post('/insert_suggest', common.suggest_allowed, function(req, res){
 				kb_keywords: keywords,
 				id: newId
 			};
+
+            // update store
+            var href = newId;
+            req.lunr_store[newId] = {t: req.body.frm_kb_title, p: href};
 
 			// add to lunr index
 			lunr_index.add(lunr_doc);
@@ -519,6 +533,10 @@ router.post('/save_kb', common.restrict, function(req, res){
 							kb_keywords: keywords,
 							id: req.body.frm_kb_id
 						};
+
+                        // update store
+                        var href = req.body.frm_kb_permalink !== '' ? req.body.frm_kb_permalink : req.body.frm_kb_id;
+                        req.lunr_store[req.body.frm_kb_id] = {t: req.body.frm_kb_title, p: href};
 
 						// update the index
 						lunr_index.update(lunr_doc, false);
@@ -970,10 +988,11 @@ router.get('/delete/:id', common.restrict, function(req, res){
 
 		// create lunr doc
 		var lunr_doc = {
-			kb_title: req.body.frm_kb_title,
-			kb_keywords: keywords,
-			id: req.body.frm_kb_id
+			id: req.params.id
 		};
+
+        // remove from store
+        delete req.lunr_store[req.params.id];
 
 		// remove the index
 		lunr_index.remove(lunr_doc, false);

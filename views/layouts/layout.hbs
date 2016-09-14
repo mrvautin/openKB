@@ -59,6 +59,9 @@
         <script src="{{app_context}}/javascripts/highlight.min.js"></script>
         <script src="{{app_context}}/simplemde/simplemde.min.js"></script>
 		<script src="{{app_context}}/markdown-it/markdown-it.min.js"></script>
+        {{#ifCond config.settings.typeahead_search '===' true}}
+        <script src="{{app_context}}/lunr/lunr.min.js"></script>
+        {{/ifCond}}
         <script src="{{app_context}}/javascripts/jpushmenu.js"></script>
 		<script src="{{app_context}}/javascripts/openKB.js"></script>
         {{#ifCond user_page '===' true}}

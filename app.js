@@ -18,6 +18,7 @@ var common = require('./routes/common');
 var config = common.read_config();
 var MongoClient = require('mongodb').MongoClient;
 var expstate = require('express-state');
+var lunr_store = {};
 
 // require the routes
 var index = require('./routes/index');
@@ -183,6 +184,7 @@ app.use(app_context + '/markdown-it', express.static(path.join(__dirname, 'node_
 app.use(app_context + '/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
 app.use(app_context + '/fonts', express.static(path.join(__dirname, 'public/fonts')));
 app.use(app_context + '/javascripts', express.static(path.join(__dirname, 'public/javascripts')));
+app.use(app_context + '/lunr', express.static(path.join(__dirname, 'node_modules/lunr')));
 app.use(app_context + '/favicon.ico', express.static(path.join(__dirname, 'public/favicon.ico')));
 
 // serving static content
@@ -194,6 +196,7 @@ app.use(function (req, res, next){
 	req.handlebars = handlebars.helpers;
     req.bcrypt = bcrypt;
     req.lunr_index = lunr_index;
+    req.lunr_store = lunr_store;
     req.app_context = app_context;
 	next();
 });
@@ -298,7 +301,7 @@ var lunr_index = lunr(function (){
 function indexArticles(db, callback){
     // get all articles on startup
     if(config.settings.database.type === 'embedded'){
-        db.kb.find({}, function (err, kb_list){
+        db.kb.find({kb_published: 'true'}, function (err, kb_list){
             // add to lunr index
             kb_list.forEach(function(kb){
                 // only if defined
@@ -306,18 +309,24 @@ function indexArticles(db, callback){
                 if(kb.kb_keywords !== undefined){
                     keywords = kb.kb_keywords.toString().replace(/,/g, ' ');
                 }
+
                 var doc = {
                     'kb_title': kb.kb_title,
                     'kb_keywords': keywords,
                     'id': kb._id
                 };
+
+                // add to store
+                var href = kb.kb_permalink !== '' ? kb.kb_permalink : kb._id;
+                lunr_store[kb._id] = {t: kb.kb_title, p: href};
+
                 lunr_index.add(doc);
             });
 
             callback(null);
         });
     }else{
-        db.kb.find({}).toArray(function (err, kb_list){
+        db.kb.find({kb_published: 'true'}).toArray(function (err, kb_list){
             // add to lunr index
             kb_list.forEach(function(kb){
                 // only if defined
@@ -325,11 +334,17 @@ function indexArticles(db, callback){
                 if(kb.kb_keywords !== undefined){
                     keywords = kb.kb_keywords.toString().replace(/,/g, ' ');
                 }
+
                 var doc = {
                     'kb_title': kb.kb_title,
                     'kb_keywords': keywords,
                     'id': kb._id
                 };
+
+                // add to store
+                var href = kb.kb_permalink !== '' ? kb.kb_permalink : kb._id;
+                lunr_store[kb._id] = {t: kb.kb_title, p: href};
+
                 lunr_index.add(doc);
             });
 

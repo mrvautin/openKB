@@ -97,6 +97,7 @@ Most of the configuration can be done on the `/settings` page but there are some
 |`app_context`|Allows for the website to be run from a non root path. Eg: http://127.0.0.1:4444/openkb/|
 |`links_blank_page`|Controls whether links within articles open a new page (tab)|
 |`add_header_anchors`|Whether to add HTML anchors to all heading tags for linking within articles or direct linking from other articles|
+|`typeahead_search`|Add live typeahead search results on the search inputs|
 |`database`|The database type to use. See **Database setup**|
 |`google_analytics`|Adds Google Analytics to public facing pages. Include the entire code from Google including the &lt;script&gt; tags.|
 
@@ -149,6 +150,16 @@ npm run-script dbUpgrade
 ```
 
 **please raise a Github issue if errors are encountered**
+
+### Typeahead search
+
+The typeahead search is great! Your user types in the word or phrase and the results pop up under the search box. But... One of the things to consider is that
+there is a little more data being transmitted from server to browser to enable this functionality. This is not normally a big issue for most browsers
+as the data is cached but you **may** run into issues if the number of articles in your app is quite large.
+
+As a general rule there is about 3KB of compressed data being transferred from server to browser for 20 articles with long titles and keywords. If you have 
+hundreds of articles, the amount of data will increase and could cause performance issues. It is something to consider if your app seems to slow down once the
+article numbers increase. If this is the case, you can simply just turn it off.
 
 ### Running in production
 

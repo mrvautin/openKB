@@ -26,6 +26,7 @@
         "google_analytics": "",
         "theme": "",
         "show_logon": true,
-        "add_header_anchors": false
+        "add_header_anchors": false,
+        "typeahead_search": true
     }
 }

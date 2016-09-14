@@ -6,11 +6,16 @@
             <div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 search_bar">
         {{/ifBoth}}
 			<div class="input-group">
-				<input type="text" name="frm_search" id="frm_search" class="form-control input-lg" placeholder="Search the knowledge base">
+				<input type="text" name="frm_search" id="frm_search" autocomplete="off" class="form-control input-lg" placeholder="Search the knowledge base">
 				<span class="input-group-btn">
 					<button class="btn btn-success btn-lg" id="btn_search" type="submit">Search</button>
 				</span>
 			</div>
+            {{#ifCond config.settings.typeahead_search '===' true}}
+            <div id="searchResult" class="hidden col-lg-12">
+                <ul class="list-group searchResultList"></ul>
+            </div>
+            {{/ifCond}}
 		</div>
 	</form>
 </div>
