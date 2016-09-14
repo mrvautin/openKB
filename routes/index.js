@@ -219,7 +219,7 @@ router.post('/update_settings', common.restrict, function(req, res){
 
     // loop settings, update config
     for(var key in settings){
-        if(settings.hasOwnProperty(key)){
+        if(Object.prototype.hasOwnProperty.call(settings, key)){
             // if true/false, convert to boolean - TODO: Figure a better way of doing this?
             var settingValue = settings[key];
             if(booleanArray.indexOf(settingValue) > -1){
@@ -1337,7 +1337,7 @@ router.get('/sitemap.xml', function(req, res, next){
 
         // get the article URL's
         for(var key in articles){
-            if(articles.hasOwnProperty(key)){
+            if(Object.prototype.hasOwnProperty.call(articles, key)){
                 // check for permalink
                 var pageUrl = '/kb/' + articles[key]._id;
                 if(articles[key].kb_permalink !== ''){
