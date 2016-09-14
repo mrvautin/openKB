@@ -102,6 +102,7 @@ Most of the configuration can be done on the `/settings` page but there are some
 |`links_blank_page`|Controls whether links within articles open a new page (tab)|
 |`add_header_anchors`|Whether to add HTML anchors to all heading tags for linking within articles or direct linking from other articles|
 |`typeahead_search`|Add live typeahead search results on the search inputs|
+|`index_article_body`|Whether to add the body of your articles to the search index (requires restart)|
 |`database`|The database type to use. See **Database setup**|
 |`google_analytics`|Adds Google Analytics to public facing pages. Include the entire code from Google including the &lt;script&gt; tags.|
 

@@ -302,6 +302,11 @@ var lunr_index = lunr(function (){
     this.field('kb_keywords');
 });
 
+// if index body is switched on
+if(config.settings.index_article_body === true){
+    lunr_index.field('kb_body');
+}
+
 function indexArticles(db, callback){
     // get all articles on startup
     if(config.settings.database.type === 'embedded'){
@@ -319,6 +324,11 @@ function indexArticles(db, callback){
                     'kb_keywords': keywords,
                     'id': kb._id
                 };
+
+                // if index body is switched on
+                if(config.settings.index_article_body === true){
+                    doc['kb_body'] = kb.kb_body;
+                }
 
                 // add to store
                 var href = kb.kb_permalink !== '' ? kb.kb_permalink : kb._id;
@@ -344,6 +354,11 @@ function indexArticles(db, callback){
                     'kb_keywords': keywords,
                     'id': kb._id
                 };
+
+                // if index body is switched on
+                if(config.settings.index_article_body === true){
+                    doc['kb_body'] = kb.kb_body;
+                }
 
                 // add to store
                 var href = kb.kb_permalink !== '' ? kb.kb_permalink : kb._id;

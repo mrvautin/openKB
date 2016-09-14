@@ -37,6 +37,16 @@
                     </p>
                 </div>
                 <div class="form-group">
+                    <label class="control-label" for="index_article_body">Index article body:</label>
+                    <select class="form-control" name="index_article_body">
+                        <option {{select_state config.settings.index_article_body true}}>true</option>
+                        <option {{select_state config.settings.index_article_body false}}>false</option>
+                    </select>
+                    <p class="help-block">
+                        Whether to add the body of your articles to the search index (requires restart)
+                    </p>
+                </div>
+                <div class="form-group">
                     <label class="control-label" for="date_format">Date format:</label>
                     <input type="text" class="form-control" name="date_format" value="{{config.settings.date_format}}" required>
                     <p class="help-block">

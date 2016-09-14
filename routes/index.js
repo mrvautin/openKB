@@ -359,6 +359,11 @@ router.post('/insert_kb', common.restrict, function(req, res){
 						id: newId
 					};
 
+                    // if index body is switched on
+                    if(config.settings.index_article_body === true){
+                        lunr_doc['kb_body'] = req.body.frm_kb_body;
+                    }
+
                     // add to store
                     var href = req.body.frm_kb_permalink !== '' ? req.body.frm_kb_permalink : newId;
                     req.lunr_store[newId] = {t: req.body.frm_kb_title, p: href};
@@ -439,6 +444,11 @@ router.post('/insert_suggest', common.suggest_allowed, function(req, res){
 				kb_keywords: keywords,
 				id: newId
 			};
+
+            // if index body is switched on
+            if(config.settings.index_article_body === true){
+                lunr_doc['kb_body'] = req.body.frm_kb_body;
+            }
 
             // update store
             var href = newId;
@@ -533,6 +543,11 @@ router.post('/save_kb', common.restrict, function(req, res){
 							kb_keywords: keywords,
 							id: req.body.frm_kb_id
 						};
+
+                        // if index body is switched on
+                        if(config.settings.index_article_body === true){
+                            lunr_doc['kb_body'] = req.body.frm_kb_body;
+                        }
 
                         // update store
                         var href = req.body.frm_kb_permalink !== '' ? req.body.frm_kb_permalink : req.body.frm_kb_id;

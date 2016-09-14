@@ -27,6 +27,7 @@
         "theme": "",
         "show_logon": true,
         "add_header_anchors": false,
-        "typeahead_search": true
+        "typeahead_search": true,
+        "index_article_body": false
     }
 }
