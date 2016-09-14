@@ -18,12 +18,16 @@ var common = require('./routes/common');
 var config = common.read_config();
 var MongoClient = require('mongodb').MongoClient;
 var expstate = require('express-state');
+var compression = require('compression')
 var lunr_store = {};
 
 // require the routes
 var index = require('./routes/index');
 
 var app = express();
+
+// compress all requests
+app.use(compression());
 
 // setup express-state
 expstate.extend(app);
