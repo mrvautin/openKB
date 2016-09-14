@@ -67,6 +67,10 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 
 ![Theme](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_theme_example.png)
 
+**Live search/typeahead**
+
+![typeahead](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_typeahead.png)
+
 ### Admin
 
 Visit: [http://127.0.0.1:4444/login](http://127.0.0.1:4444/login) 
