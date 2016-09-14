@@ -776,6 +776,11 @@ router.post('/user_update', common.restrict, function(req, res){
             return;
         }
 
+        // if editing your own account, retain admin true/false
+        if(user.user_email === req.session.user){
+            is_admin = user.is_admin;
+        }
+
         // create the update doc
         var update_doc = {};
         update_doc.is_admin = is_admin;
