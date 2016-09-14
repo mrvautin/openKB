@@ -19,8 +19,8 @@
                             {{/is_an_admin}}
                             
                             {{#is_an_admin ../session.is_admin}}
-                                <a href="{{app_context}}/user/edit/{{this._id}}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></a>
-                                <a href="{{app_context}}/user/delete/{{this._id}}" onclick="return confirm('Are you sure you want to delete?')"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>
+                                <a href="{{app_context}}/user/edit/{{this._id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                <a href="{{app_context}}/user/delete/{{this._id}}" onclick="return confirm('Are you sure you want to delete?')"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                             {{/is_an_admin}}
 						</span>
 					</li>
