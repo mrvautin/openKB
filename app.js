@@ -1,6 +1,5 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
 var handlebars = require('express-handlebars');
 var cookieParser = require('cookie-parser');
@@ -150,8 +149,6 @@ handlebars = handlebars.create({
     }
 });
 
-// uncomment after placing your favicon in /public
-app.use(favicon(path.join(__dirname, '/public/favicon.ico')));
 app.enable('trust proxy');
 app.set('port', process.env.PORT || 4444);
 app.use(logger('dev'));
@@ -190,7 +187,7 @@ app.use(app_context + '/stylesheets', express.static(path.join(__dirname, 'publi
 app.use(app_context + '/fonts', express.static(path.join(__dirname, 'public/fonts')));
 app.use(app_context + '/javascripts', express.static(path.join(__dirname, 'public/javascripts')));
 app.use(app_context + '/lunr', express.static(path.join(__dirname, 'node_modules/lunr')));
-app.use(app_context + '/favicon.ico', express.static(path.join(__dirname, 'public/favicon.ico')));
+app.use(app_context + '/favicon.png', express.static(path.join(__dirname, 'public/favicon.png')));
 
 // serving static content
 app.use(express.static(path.join(__dirname, 'public')));
