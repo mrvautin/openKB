@@ -85,7 +85,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>    
-                    {{#ifCond show_website_logo '===' true}}
+                    {{#ifCond config.settings.show_website_logo '===' true}}
                     <a class="navbar-brand brand-image" href="{{app_context}}/"><img src="/logo.png" width="140"></a>
                     {{else}}
                         {{#ifCond config.settings.website_title '===' 'openKB'}}
