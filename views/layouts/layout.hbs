@@ -24,8 +24,13 @@
         <meta name="description" content="{{substring (strip_md result.kb_body) 160}}">
         <meta property="og:description" content="{{substring (strip_md result.kb_body) 160}}" />
         {{else}}
+        {{#ifCond homepage '===' true}}
+        <meta name="description" content="{{config.settings.website_description}}">
+        <meta property="og:description" content="{{config.settings.website_description}}" />
+        {{else}}
         <meta name="description" content="Powered by openKB">
         <meta property="og:description" content="Powered by openKB" />
+        {{/ifCond}}
         {{/if}}
         {{/if}}
         {{#if result.kb_keywords}}

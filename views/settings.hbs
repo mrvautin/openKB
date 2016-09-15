@@ -28,6 +28,13 @@
                             </p>	
                         </div>
                         <div class="form-group">
+                            <label class="control-label" for="website_description">Website description:</label>
+                            <input type="text" class="form-control" name="website_description" value="{{config.settings.website_description}}" required>
+                            <p class="help-block">
+                                A short website description when listing the homepage URL in search engines
+                            </p>	
+                        </div>
+                        <div class="form-group">
                             <label class="control-label" for="show_website_logo">Show website logo:</label>
                             <select class="form-control" name="show_website_logo">
                                 <option {{select_state config.settings.show_website_logo true}}>true</option>

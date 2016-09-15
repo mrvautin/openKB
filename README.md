@@ -104,6 +104,7 @@ Most of the configuration can be done on the `/settings` page but there are some
 |`typeahead_search`|Add live typeahead search results on the search inputs|
 |`index_article_body`|Whether to add the body of your articles to the search index (requires restart)|
 |`show_website_logo`|Controls whether to show the `website_title` text or a logo located: `/public/logo.png` (by default).|
+|`website_description`|A short website description when listing the homepage URL in search engines|
 |`database`|The database type to use. See **Database setup**|
 |`google_analytics`|Adds Google Analytics to public facing pages. Include the entire code from Google including the &lt;script&gt; tags.|
 

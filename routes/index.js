@@ -26,6 +26,7 @@ router.get('/', common.restrict, function(req, res, next){
             res.render('index', {
                 title: 'openKB',
                 user_page: true,
+                homepage: true,
                 top_results: top_results,
                 featured_results: featured_results,
                 session: req.session,
