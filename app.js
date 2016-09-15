@@ -183,6 +183,7 @@ app.use(app_context + '/static', express.static(path.join(__dirname, 'public/'))
 app.use(app_context + '/font-awesome', express.static(path.join(__dirname, 'node_modules/font-awesome/')));
 app.use(app_context + '/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist/')));
 app.use(app_context + '/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/')));
+app.use(app_context + '/bootstrapTabs', express.static(path.join(__dirname, 'node_modules/bootstrap/js/')));
 app.use(app_context + '/simplemde', express.static(path.join(__dirname, 'node_modules/simplemde/dist/')));
 app.use(app_context + '/markdown-it', express.static(path.join(__dirname, 'node_modules/markdown-it/dist/')));
 app.use(app_context + '/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));

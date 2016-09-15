@@ -48,6 +48,9 @@
 		<script src="{{app_context}}/jquery/jquery.min.js"></script>
         <script>{{{state}}}</script>
 		<script src="{{app_context}}/bootstrap/js/bootstrap.min.js"></script>
+        {{#ifCond title '===' 'Settings'}}
+        <script src="{{app_context}}/bootstrapTabs/tab.js"></script>
+        {{/ifCond}}
         <script src="{{app_context}}/javascripts/bootstrap-validator.js"></script>
         {{#ifCond config.settings.enable_mermaid_charts '===' true}}
 		<script src="{{app_context}}/javascripts/mermaid.min.js"></script>

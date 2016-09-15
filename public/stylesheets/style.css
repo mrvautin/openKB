@@ -92,6 +92,10 @@ html{
     overflow: auto;
 }
 
+.btnSettingsUpdate{
+    padding-top: 25px;
+}
+
 #editor-wrapper-suggest > .CodeMirror{
     height: calc(100vh - 110px - 175px - 110px) !important;
     overflow: auto;
