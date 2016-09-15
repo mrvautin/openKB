@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	// add the responsive image class to all images
-    $('img').each(function(){
+    $('.body_text img').each(function(){
         $(this).addClass('img-responsive');
     });
 
