@@ -83,8 +83,16 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="{{app_context}}/">{{config.settings.website_title}}</a>
+					</button>    
+                    {{#ifCond show_website_logo '===' true}}
+                    <a class="navbar-brand brand-image" href="{{app_context}}/"><img src="/logo.png" width="140"></a>
+                    {{else}}
+                        {{#ifCond config.settings.website_title '===' 'openKB'}}
+                        <a class="navbar-brand brand-image" href="{{app_context}}/"><img src="/logo.png" width="140"></a>
+                        {{else}}
+                        <a class="navbar-brand" href="{{app_context}}/">{{config.settings.website_title}}</a>
+                        {{/ifCond}}
+                    {{/ifCond}}
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">

@@ -28,6 +28,16 @@
                             </p>	
                         </div>
                         <div class="form-group">
+                            <label class="control-label" for="show_website_logo">Show website logo:</label>
+                            <select class="form-control" name="show_website_logo">
+                                <option {{select_state config.settings.show_website_logo true}}>true</option>
+                                <option {{select_state config.settings.show_website_logo false}}>false</option>
+                            </select>
+                            <p class="help-block">
+                                Controls whether to show the "Website title" text or a logo located: "/public/logo.png" (by default).
+                            </p>	
+                        </div>
+                        <div class="form-group">
                             <label class="control-label" for="app_context">Website context/base URL:</label>
                             <input type="text" class="form-control" name="app_context" value="{{config.settings.app_context}}" >
                             <p class="help-block">

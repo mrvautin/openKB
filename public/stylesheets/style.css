@@ -58,6 +58,14 @@ html{
     height: 50px;
 }
 
+.brand-image{
+    padding: 12px 10px 0 30px;    
+}
+
+.navbar-brand{
+    padding-left: 30px;
+}
+
 .view_count{
     font-size: 14px;
 }

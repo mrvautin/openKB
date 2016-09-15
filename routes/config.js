@@ -29,6 +29,7 @@
         "add_header_anchors": false,
         "typeahead_search": true,
         "index_article_body": false,
-        "enable_spellchecker": true
+        "enable_spellchecker": true,
+        "show_website_logo": true
     }
 }
