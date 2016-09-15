@@ -91,6 +91,7 @@ $(document).ready(function(){
         // setup editors
         var simplemde = new SimpleMDE({
             element: $('#editor')[0],
+            spellChecker: config.enable_spellchecker,
             toolbar: ['bold', 'italic', 'heading', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'link', 'image', '|', 'table', 'horizontal-rule', 'code', 'guide']
         });
 

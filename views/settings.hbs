@@ -148,6 +148,16 @@
                                 Whether to add HTML anchors to all heading tags for linking within articles or direct linking from other articles
                             </p>	
                         </div>
+                        <div class="form-group">
+                            <label class="control-label" for="enable_spellchecker">Enable editor spellchecker:</label>
+                            <select class="form-control" name="enable_spellchecker">
+                                <option {{select_state config.settings.enable_spellchecker true}}>true</option>
+                                <option {{select_state config.settings.enable_spellchecker false}}>false</option>
+                            </select>
+                            <p class="help-block">
+                                Controls whether to enable the editor spellchecker
+                            </p>	
+                        </div>
                     </div>
                     <!-- Article settings -->
 

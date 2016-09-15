@@ -277,6 +277,7 @@ router.get('/kb/resetvoteCount/:id', common.restrict, function(req, res){
 // render the editor
 router.get('/edit/:id', common.restrict, function(req, res){
     var db = req.app.db;
+    common.config_expose(req.app);
     db.kb.findOne({_id: common.getId(req.params.id)}, function (err, result){
         res.render('edit', {
             title: 'Edit article',
