@@ -4,14 +4,14 @@
             <div class="col-xs-12 col-lg-6">
                 <div class="form-group">
                     <label for="frm_kb_title">Article title *</label><br/>
-                    <input type="text" name="frm_kb_title" class="form-control input-normal" minlength="5" maxlength="200" value="{{result.kb_title}}" required/>
+                    <input type="text" name="frm_kb_title" id="frm_kb_title" class="form-control input-normal" minlength="5" maxlength="200" value="{{result.kb_title}}" required/>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
                 <label for="frm_kb_password">Password</label><br/>
                 <input id="frm_kb_password" class="form-control" name="frm_kb_password" type="text" value="{{result.kb_password}}" />
             </div>
-            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-2">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
                 <label for="frm_kb_published">Status</label><br/>
                 <select class="form-control" id="frm_kb_published" name="frm_kb_published">
                     {{#ifCond result.kb_published "==" "true"}}
@@ -24,11 +24,14 @@
                     {{/ifCond}}
                 </select>
             </div>
-            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-2">
-                <label for="frm_kb_published">&nbsp;</label><br/>
-                <div class="btn-group pull-right" role="group" aria-label="...">
-                    <button class="btn btn-default toggle-menu menu-right push-body"><i class="fa fa-cog"></i></button>
-                    <button id="frm_edit_kb_save" class="btn btn-success editor_btn_action" type="submit">Save <i class="fa fa-floppy-o"></i></button>
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
+                <label for="">&nbsp;</label><br/>
+                <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                    {{#ifCond config.settings.article_versioning '===' true}}
+                    <a href="#" class="btn btn-warning toggle-menu menu-left push-body"><i class="fa fa-code-fork" aria-hidden="true"></i></a>
+                    {{/ifCond}}
+                    <a href="#" class="btn btn-default toggle-menu menu-right push-body"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                    <a href="#" id="frm_edit_kb_save" class="btn btn-success editor_btn_action"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
@@ -53,7 +56,6 @@
                         <input type="text" class="form-control" name="frm_kb_keywords" id="frm_kb_keywords" placeholder="keyword" value="{{result.kb_keywords}}">
                     </div>
                 </div>
-                
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
                     <input type="text" class="form-control" name="frm_kb_permalink" id="frm_kb_permalink" placeholder="permalink" value="{{result.kb_permalink}}">
                 </div>
@@ -69,7 +71,7 @@
         <input type="hidden" id="frm_editor" value="true" />
     
         <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right">
-            <div class="cbp-spmenu-header"><div class="pull-left">Settings</div><button class="btn btn-default pull-right toggle-menu menu-right push-body"><i class="fa fa-cog"></i></div></button>
+            <div class="cbp-spmenu-header"><div class="pull-left">Settings</div><button id="btnSettingsMenu" class="btn btn-default pull-right toggle-menu menu-right push-body"><i class="fa fa-cog"></i></div></button>
             <ul class="list-group list-group-sidemenu">
                 <li class="list-group-item">
                     <div class="btn-group btn-group-justified" role="group" aria-label="...">
@@ -99,5 +101,34 @@
                 </li>
             </ul>
         </nav>
+        {{#ifCond config.settings.article_versioning '===' true}}
+            <nav id="versionSidebar" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" style="overflow-y: auto;">
+                <div class="cbp-spmenu-header"><div class="pull-left">Versions</div><button id="btnVersionMenu" class="btn btn-warning pull-right toggle-menu menu-left push-body"><i class="fa fa-code-fork" aria-hidden="true"></i></div></button>
+                <ul class="list-group list-group-sidemenu">
+                    <li class="list-group-item">
+                        <label for="frm_kb_edit_reason">Edit reason</label>
+                        <textarea class="form-control" name="frm_kb_edit_reason" id="frm_kb_edit_reason" rows="3"></textarea>
+                    </li>
+                    <li class="list-group-item">
+                        {{#if versions}}
+                            <h4>Previous versions</h4>            
+                                {{#each versions}}
+                                    <div class="versionWrapper">
+                                        <span>Date: {{format_date this.kb_last_updated}}</span>                              
+                                        <textarea class="form-control versionArea" readonly rows="2">{{this.kb_edit_reason}}</textarea>
+                                        <div id="{{this._id}}" class="btn-group btn-group-justified">
+                                            <a href="#" class="btnDeleteVersion btn btn-xs btn-danger">Delete</a>
+                                            <a href="#"  class="btnEditVersion btn btn-xs btn-warning">Edit</a>
+                                            <a target="_blank" href="/kb/{{this._id}}/version" class=" btn btn-xs btn-info">Preview</a>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                {{/each}}
+                            </select>
+                        {{/if}}
+                    </li>
+                </ul>
+            </nav>
+        {{/ifCond}}
     </form>
 </div>

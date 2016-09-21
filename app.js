@@ -22,6 +22,7 @@ var lunr_store = {};
 
 // require the routes
 var index = require('./routes/index');
+var api = require('./routes/api');
 
 var app = express();
 
@@ -91,7 +92,10 @@ handlebars = handlebars.create({
             return val;
         },
         strip_md: function(md){
-            return remove_md(md);
+            if(md !== null && md !== ''){
+                return remove_md(md);
+            }
+            return md;
         },
         view_count: function(value){
             if(value === '' || value === undefined){
@@ -206,8 +210,10 @@ app.use(function (req, res, next){
 // setup the routes
 if(app_context !== ''){
     app.use(app_context, index);
+    app.use(app_context, api);
 }else{
     app.use('/', index);
+    app.use('/', api);
 }
 
 // catch 404 and forward to error handler

@@ -19,6 +19,25 @@ $(document).ready(function(){
         $(this).addClass('table table-hover');
     });
 
+    // When the version dropdown changes
+    $(document).on('change', '#kb_versions', function(){
+        // get the article from the API
+        $.ajax({
+            method: 'POST',
+            url: $('#app_context').val() + '/api/getArticleJson',
+            data: {kb_id: $(this).val()}
+        })
+        .done(function(article){
+            $('#frm_kb_title').val(article.kb_title);
+            simplemde.value(article.kb_body);
+            $('#btnSettingsMenu').trigger('click');
+        })
+        .fail(function(msg){
+            show_notification(msg.responseText, 'danger');
+        });
+    });
+
+    // hookup the typeahead search
     if(config.typeahead_search === true){
         // on pages which have the search form
         if($('#frm_search').length){
@@ -57,7 +76,7 @@ $(document).ready(function(){
 
     // setup the push menu
     if($('.toggle-menu').length){
-        $('.toggle-menu').jPushMenu();
+        $('.toggle-menu').jPushMenu({closeOnClickOutside: false});
     }
 
     // highlight any code blocks
@@ -138,6 +157,65 @@ $(document).ready(function(){
             };
         }
     }
+
+    // Editor save button clicked
+    $(document).on('click', '#frm_edit_kb_save', function(e){
+        e.preventDefault();
+
+        if($('#versionSidebar').length){
+            // only save if a version is edited
+            if($('#frm_kb_edit_reason').val() === ''){
+                show_notification('Please enter a reason for editing article', 'danger');
+                $('#btnVersionMenu').trigger('click');
+                $('#frm_kb_edit_reason').focus();
+            }else{
+                $('#edit_form').submit();
+            }
+        }else{
+            $('#edit_form').submit();
+        }
+    });
+
+    // Version edit button clicked
+    $(document).on('click', '.btnEditVersion', function(e){
+        $('#btnVersionMenu').trigger('click');
+        $.LoadingOverlay('show', {zIndex: 9999});
+        $.ajax({
+			method: 'POST',
+            url: $('#app_context').val() + '/api/getArticleJson',
+			data: {kb_id: $(this).parent().attr('id')}
+		})
+		.done(function(article){
+            $.LoadingOverlay('hide');
+            // populate data from fetched article
+            $('#frm_kb_title').val(article.kb_title);
+            simplemde.value(article.kb_body);
+        })
+        .fail(function(msg){
+            $.LoadingOverlay('hide');
+            show_notification(msg, 'danger');
+        });
+    });
+
+    // Version delete button clicked
+    $(document).on('click', '.btnDeleteVersion', function(e){
+        var groupElement = $(this).closest('.versionWrapper');
+        $('#btnVersionMenu').trigger('click');
+        $.ajax({
+			method: 'POST',
+            url: $('#app_context').val() + '/api/deleteVersion',
+			data: {kb_id: $(this).parent().attr('id')}
+		})
+		.done(function(article){
+            // remove the version elements from DOM
+            groupElement.remove();
+            show_notification('Version removed successfully', 'success');
+        })
+        .fail(function(msg){
+            show_notification(JSON.parse(msg.responseText).message, 'danger');
+        });
+    });
+
 
     // if in the editor, trap ctrl+s and cmd+s shortcuts and save the article
     if($('#frm_editor').val() === 'true'){

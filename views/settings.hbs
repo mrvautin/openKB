@@ -182,6 +182,16 @@
                                 Controls whether to enable the editor spellchecker
                             </p>	
                         </div>
+                        <div class="form-group">
+                            <label class="control-label" for="article_versioning">Allow article versioning:</label>
+                            <select class="form-control" name="article_versioning">
+                                <option {{select_state config.settings.article_versioning true}}>true</option>
+                                <option {{select_state config.settings.article_versioning false}}>false</option>
+                            </select>
+                            <p class="help-block">
+                                Whether to track article versions with each save of the editor
+                            </p>	
+                        </div>
                     </div>
                     <!-- Article settings -->
 

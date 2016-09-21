@@ -16,10 +16,6 @@
         padding-top: 20px;
     }
 
-    #frm_edit_kb_save, #frm_kb_published{
-        float:right;
-    }
-
     .permalink_buttons{
         padding-top: 15px;
     }
@@ -79,6 +75,8 @@ html{
 .list-group-sidemenu li{
     background-color: transparent;
     border: none;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
 #searchResult{
