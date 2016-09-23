@@ -159,7 +159,7 @@ router.get('/kb/:id', common.restrict, function(req, res){
     var sortBy = {};
     sortBy[sortByField] = sortByOrder;
 
-	db.kb.findOne({$or: [{_id: common.getId(req.params.id)}, {kb_permalink: req.params.id}], kb_versioned_doc: {$eq: null}}, function (err, result){
+	db.kb.findOne({$or: [{_id: common.getId(req.params.id)}, {kb_permalink: req.params.id}], kb_versioned_doc: {$ne: true}}, function (err, result){
 		// render 404 if page is not published
 		if(result == null || result.kb_published === 'false'){
             res.render('error', {message: '404 - Page not found', helpers: req.handlebars, config: config});
@@ -323,7 +323,7 @@ router.get('/kb/resetvoteCount/:id', common.restrict, function(req, res){
 router.get('/edit/:id', common.restrict, function(req, res){
     var db = req.app.db;
     common.config_expose(req.app);
-    db.kb.findOne({_id: common.getId(req.params.id), kb_versioned_doc: {$eq: null}}, function (err, result){
+    db.kb.findOne({_id: common.getId(req.params.id), kb_versioned_doc: {$ne: true}}, function (err, result){
         if(!result){
             res.render('error', {message: '404 - Page not found', helpers: req.handlebars, config: config});
             return;
@@ -738,7 +738,7 @@ router.get('/users/new', common.restrict, function(req, res){
 // kb list
 router.get('/articles', common.restrict, function(req, res){
     var db = req.app.db;
-    common.dbQuery(db.kb, {kb_versioned_doc: {$eq: null}}, {kb_published_date: -1}, 10, function(err, articles){
+    common.dbQuery(db.kb, {kb_versioned_doc: {$ne: true}}, {kb_published_date: -1}, 10, function(err, articles){
         res.render('articles', {
             title: 'Articles',
             articles: articles,
@@ -753,7 +753,7 @@ router.get('/articles', common.restrict, function(req, res){
 
 router.get('/articles/all', common.restrict, function(req, res){
     var db = req.app.db;
-    common.dbQuery(db.kb, {kb_versioned_doc: {$eq: null}}, {kb_published_date: -1}, null, function(err, articles){
+    common.dbQuery(db.kb, {kb_versioned_doc: {$ne: true}}, {kb_published_date: -1}, null, function(err, articles){
         res.render('articles', {
             title: 'Articles',
             articles: articles,
@@ -1304,7 +1304,7 @@ router.get('/search/:tag', common.restrict, function(req, res){
     sortBy[sortByField] = sortByOrder;
 
 	// we search on the lunr indexes
-    common.dbQuery(db.kb, {_id: {$in: lunr_id_array}, kb_published: 'true', kb_versioned_doc: {$eq: null}}, null, null, function(err, results){
+    common.dbQuery(db.kb, {_id: {$in: lunr_id_array}, kb_published: 'true', kb_versioned_doc: {$ne: true}}, null, null, function(err, results){
         common.dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function(err, featured_results){
             res.render('index', {
                 title: 'Search results: ' + search_term,
@@ -1350,7 +1350,7 @@ router.post('/search', common.restrict, function(req, res){
     sortBy[sortByField] = sortByOrder;
 
 	// we search on the lunr indexes
-    common.dbQuery(db.kb, {_id: {$in: lunr_id_array}, kb_published: 'true', kb_versioned_doc: {$eq: null}}, null, null, function(err, results){
+    common.dbQuery(db.kb, {_id: {$in: lunr_id_array}, kb_published: 'true', kb_versioned_doc: {$ne: true}}, null, null, function(err, results){
         common.dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function(err, featured_results){
             res.render('index', {
                 title: 'Search results: ' + search_term,
