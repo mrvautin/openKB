@@ -1,6 +1,6 @@
 {
   "name": "openkb",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "openKB is an Open Source Nodejs Markdown based knowledge base/FAQ/Wiki app with powerful lunr search",
   "private": false,
   "scripts": {
@@ -23,6 +23,7 @@
     "glob": "^5.0.14",
     "hbs": "~2.7.0",
     "jquery": "^3.1.0",
+    "jsonschema": "^1.1.0",
     "jszip": "^2.6.1",
     "junk": "^2.0.0",
     "lunr": "^0.7.1",

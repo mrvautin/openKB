@@ -349,7 +349,7 @@ function indexArticles(db, callback){
             kb_list.forEach(function(kb){
                 // only if defined
                 var keywords = '';
-                if(kb.kb_keywords !== undefined){
+                if(typeof kb.kb_keywords !== 'undefined' && kb.kb_keywords !== null){
                     keywords = kb.kb_keywords.toString().replace(/,/g, ' ');
                 }
 

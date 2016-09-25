@@ -32,6 +32,8 @@
         "enable_spellchecker": true,
         "show_website_logo": true,
         "website_description": "openKB is an Open Source Node.js Markdown based knowledge base/FAQ/Wiki app with powerful lunr search",
-        "article_versioning": true
+        "article_versioning": true,
+        "api_auth_token": "",
+        "api_allowed": false
     }
 }

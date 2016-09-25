@@ -22,6 +22,21 @@ exports.suggest_allowed = function(req, res, next){
     res.render('error', {message: '403 - Forbidden', helpers: req.handlebars});
 };
 
+exports.validate_permalink = function(db, data, callback){
+    // only validate permalink if it exists
+    if(typeof data.kb_permalink === 'undefined' || data.kb_permalink === ''){
+		callback(null, 'All good');
+	}else{
+        db.kb.count({'kb_permalink': data.kb_permalink}, function (err, kb){
+            if(kb > 0){
+                callback('Permalink already exists', null);
+            }else{
+                callback(null, 'All good');
+            }
+        });
+    }
+};
+
 // This is called on all URL's. If the "password_protect" config is set to true
 // we check for a login on thsoe normally public urls. All other URL's get
 // checked for a login as they are considered to be protected. The only exception

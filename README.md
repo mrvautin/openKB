@@ -146,6 +146,47 @@ Here is an example `config.js` for a MongoDB server. You can use your own localh
 }
 ```
 
+### Public API
+
+An optional public API can be enabled through `/settings` to allow inserting of documents by HTTP POST using services like IFTTT etc.
+
+**Note:The API is disabled by default**
+
+Once turned on, the API is hosted on route: `example.com/api/newArticle` via POST of a Object. The JSON schema is:
+
+``` javascript
+    'type': 'object',
+    'properties': {
+        'api_auth_token': {'type': 'string'},
+        'kb_title': {'type': 'string'},
+        'kb_body': {'type': 'string'},
+        'kb_permalink': {'type': 'string'},
+        'kb_published': {'type': 'boolean'},
+        'kb_keywords': {'type': 'string'},
+        'kb_author_email': {'type': 'string'},
+        'kb_password': {'type': 'string'},
+        'kb_featured': {'type': 'boolean'},
+        'kb_seo_title': {'type': 'string'},
+        'kb_seo_description': {'type': 'string'}
+    },
+    'required': ['api_auth_token', 'kb_title', 'kb_body', 'kb_author_email', 'kb_published']
+```
+
+**Note: An API access token is required to be able to use the API. If the API is turned on without a token, all requests will reject. Please use a hard to guess token**
+
+The return Object from the API will be as follows:
+
+``` javascript
+{
+  "result": false,
+  "errors": [
+    "Any error messages"
+  ]
+}
+```
+
+The `errors` value will have any validation or error message which have occured. The `result` is an approval boolean. Eg: `true` was successful and `false` wasn't.
+
 ### Migrating from NeDB to MongoDB (experimental)
 
 You can upgrade from NeDB to Mongodb by running the following command:

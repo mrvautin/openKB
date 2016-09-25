@@ -52,6 +52,23 @@
                             </p>	
                         </div>
                         <div class="form-group">
+                            <label class="control-label" for="api_allowed">Allow API access:</label>
+                            <select class="form-control" name="api_allowed">
+                                <option {{select_state config.settings.api_allowed true}}>true</option>
+                                <option {{select_state config.settings.api_allowed false}}>false</option>
+                            </select>
+                            <p class="help-block">
+                                Whether to allow API access to insert articles - See documentation for further information
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="api_auth_token">API access token:</label>
+                            <input type="text" class="form-control" name="api_auth_token" value="{{config.settings.api_auth_token}}" >
+                            <p class="help-block">
+                                Requires "Allow API access" to be set to "true". The value is the access token required to access the public API. Please set to a hard to guess value.
+                            </p>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label" for="password_protect">Password protect:</label>
                             <select class="form-control" name="password_protect">
                                 <option {{select_state config.settings.password_protect true}}>true</option>
