@@ -10,7 +10,7 @@
                 <li role="presentation"><a href="#article" aria-controls="article" role="tab" data-toggle="tab">Article</a></li>
                 <li role="presentation"><a href="#display" aria-controls="display" role="tab" data-toggle="tab">Display</a></li>
             </ul>
-            <form method="post" action="/update_settings">
+            <form method="post" action="{{app_context}}/update_settings">
                 <div class="clearfix">
                     <h1 class="pull-left">Settings</h1>
                     <div class="pull-right btnSettingsUpdate">
@@ -25,14 +25,14 @@
                             <input type="text" class="form-control" name="website_title" value="{{config.settings.website_title}}" required>
                             <p class="help-block">
                                 The title of your website
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="website_description">Website description:</label>
                             <input type="text" class="form-control" name="website_description" value="{{config.settings.website_description}}" required>
                             <p class="help-block">
                                 A short website description when listing the homepage URL in search engines
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="show_website_logo">Show website logo:</label>
@@ -42,14 +42,14 @@
                             </select>
                             <p class="help-block">
                                 Controls whether to show the "Website title" text or a logo located: "/public/logo.png" (by default).
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="app_context">Website context/base URL:</label>
                             <input type="text" class="form-control" name="app_context" value="{{config.settings.app_context}}" >
                             <p class="help-block">
                                 Allows for the website to be run from a non root path. Eg: http://127.0.0.1:4444/openkb/
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="api_allowed">Allow API access:</label>
@@ -98,7 +98,7 @@
                             </select>
                             <p class="help-block">
                                 The theme to use for public facing pages. Leave blank for default.
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="show_logon">Show logon link:</label>
@@ -108,14 +108,14 @@
                             </select>
                             <p class="help-block">
                                 Whether to show/hide the logon link in the top right of screen
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="date_format">Date format:</label>
                             <input type="text" class="form-control" name="date_format" value="{{config.settings.date_format}}" required>
                             <p class="help-block">
                                 Sets the global date formatting. Uses moment.js date formatting, see more here: http://momentjs.com/docs/#/displaying
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="suggest_allowed">Article suggestions allowed:</label>
@@ -125,14 +125,14 @@
                             </select>
                             <p class="help-block">
                                 If enabled non authenticated users can submit article suggestions for approval
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="links_blank_page">Google analytics code:</label>
                             <textarea rows="5" class="form-control" name="google_analytics">{{config.settings.google_analytics}}</textarea>
                             <p class="help-block">
                                 Adds Google Analytics to public facing pages. Include the entire code from Google including the &lt;script&gt; tags.
-                            </p>	
+                            </p>
                         </div>
                     </div>
                     <!-- Website settings -->
@@ -147,7 +147,7 @@
                             </select>
                             <p class="help-block">
                                 Whether to allow users to vote on an article
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="show_kb_meta">Show article meta data:</label>
@@ -157,7 +157,7 @@
                             </select>
                             <p class="help-block">
                                 Whether to show article meta data including published date, last updated date, author etc
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="show_author_email">Show author email:</label>
@@ -167,7 +167,7 @@
                             </select>
                             <p class="help-block">
                                 Controls whether the authors email address is displayed in the meta. Requires "Show article meta data" to be true.
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="links_blank_page">Article links open new page:</label>
@@ -177,7 +177,7 @@
                             </select>
                             <p class="help-block">
                                 Controls whether links within articles open a new page (tab)
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="add_header_anchors">Add header anchors:</label>
@@ -187,7 +187,7 @@
                             </select>
                             <p class="help-block">
                                 Whether to add HTML anchors to all heading tags for linking within articles or direct linking from other articles
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="enable_spellchecker">Enable editor spellchecker:</label>
@@ -197,7 +197,7 @@
                             </select>
                             <p class="help-block">
                                 Controls whether to enable the editor spellchecker
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="article_versioning">Allow article versioning:</label>
@@ -207,7 +207,7 @@
                             </select>
                             <p class="help-block">
                                 Whether to track article versions with each save of the editor
-                            </p>	
+                            </p>
                         </div>
                     </div>
                     <!-- Article settings -->
@@ -219,7 +219,7 @@
                             <input type="number" class="form-control" name="num_top_results" value="{{config.settings.num_top_results}}" required>
                             <p class="help-block">
                                 Sets the number of results shown on the home page
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="show_published_date">Show published date:</label>
@@ -229,7 +229,7 @@
                             </select>
                             <p class="help-block">
                                 Shows the published date next to the results on the homepage and search
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="show_view_count">Show view count:</label>
@@ -239,7 +239,7 @@
                             </select>
                             <p class="help-block">
                                 Shows the view count next to the results on the homepage and search
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="show_featured_articles">Show featured articles:</label>
@@ -249,7 +249,7 @@
                             </select>
                             <p class="help-block">
                                 Whether to show any articles set to featured in a sidebar
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="show_featured_in_article">Show featured articles when viewing article:</label>
@@ -259,14 +259,14 @@
                             </select>
                             <p class="help-block">
                                 Whether to show any articles set to featured in a sidebar when viewing an article
-                            </p>	
+                            </p>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="featured_articles_count">Featured article count:</label>
                             <input type="number" class="form-control" name="featured_articles_count" value="{{config.settings.featured_articles_count}}" required>
                             <p class="help-block">
                                 The number of featured articles shown
-                            </p>	
+                            </p>
                         </div>
                     </div>
                     <!-- Dislay settings -->
