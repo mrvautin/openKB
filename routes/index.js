@@ -282,7 +282,7 @@ router.post('/update_settings', common.restrict, function(req, res){
     req.session.message_type = 'success';
 
     // redirect back
-    res.redirect('/settings');
+    res.redirect(req.app_context + '/settings');
 });
 
 // resets the view count of a given article ID
