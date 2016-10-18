@@ -302,7 +302,7 @@ $(document).ready(function(){
 				data: {'permalink': $('#frm_kb_permalink').val(), 'doc_id': $('#frm_kb_id').val()}
 			})
 			.done(function(msg){
-				show_notification(msg, 'success', true);
+				show_notification(msg, 'success');
 			})
 			.fail(function(msg){
 				show_notification(msg.responseText, 'danger');
