@@ -241,6 +241,16 @@
                                 Shows the view count next to the results on the homepage and search
                             </p>
                         </div>
+						<div class="form-group">
+							<label class="control-label" for="update_view_count_logged_in">Update view count when logged in:</label>
+							<select class="form-control" name="update_view_count_logged_in">
+								<option {{select_state config.settings.update_view_count_logged_in true}}>true</option>
+								<option {{select_state config.settings.update_view_count_logged_in false}}>false</option>
+							</select>
+							<p class="help-block">
+								Updates the view count also when users are logged in
+							</p>
+						</div>
                         <div class="form-group">
                             <label class="control-label" for="show_featured_articles">Show featured articles:</label>
                             <select class="form-control" name="show_featured_articles">
