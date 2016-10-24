@@ -27,16 +27,16 @@
         {{else}}
         <meta name="keywords" content="openKB">
         {{/if}}
-		<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/simplemde/simplemde.min.css">
+		<link rel="stylesheet" href="{{app_context}}/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{app_context}}/simplemde/simplemde.min.css">
         <link rel="stylesheet" href="/stylesheets/github.css">
 		<link rel="stylesheet" href="/themes/twitter/css/style.css">
-		<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="{{app_context}}/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="/stylesheets/mermaid.css">
 		<link rel="stylesheet" href="/stylesheets/bootstrap-tokenfield.css">
         <link rel="stylesheet" href="/stylesheets/jpushmenu.css">
-		<script src="/jquery/jquery.min.js"></script>
-		<script src="/bootstrap/js/bootstrap.min.js"></script>
+		<script src="{{app_context}}/jquery/jquery.min.js"></script>
+		<script src="{{app_context}}/bootstrap/js/bootstrap.min.js"></script>
         <script src="/javascripts/bootstrap-validator.js"></script>
 		<script src="/javascripts/mermaid.min.js"></script>
 		<script src="/javascripts/markdown-it-classy.js"></script>
@@ -44,12 +44,12 @@
         <script src="/javascripts/inline-attachment.js"></script>
 		<script src="/javascripts/codemirror.inline-attachment.js"></script>
         <script src="/javascripts/highlight.min.js"></script>
-        <script src="/simplemde/simplemde.min.js"></script>
-		<script src="/markdown-it/markdown-it.min.js"></script>
+        <script src="{{app_context}}/simplemde/simplemde.min.js"></script>
+		<script src="{{app_context}}/markdown-it/markdown-it.min.js"></script>
         <script src="/javascripts/jpushmenu.js"></script>
 		<script src="/javascripts/openKB.js"></script>
 	</head>
-	<body class="{{show_footer}}">
+	<body class="{{show_footer}}">	
 		<!-- Static navbar -->
 		<div class="container-fluid">
 			{{{body}}}
