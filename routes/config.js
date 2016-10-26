@@ -3,6 +3,7 @@
         "num_top_results": "10",
         "date_format": "DD/MM/YYYY h:mmA",
         "show_view_count": true,
+        "update_view_count_logged_in": true,
         "show_published_date": true,
         "sort_by": {
             "field": "kb_viewcount",

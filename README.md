@@ -7,7 +7,7 @@
 [![Build Status](https://travis-ci.org/mrvautin/openKB.svg?branch=master)](https://travis-ci.org/mrvautin/opnkb)
 [![Github stars](https://img.shields.io/github/stars/mrvautin/openkb.svg?style=social&label=Star)](https://github.com/mrvautin/openkb)
 
-openKB is a Markdown Knowledge base application (FAQ) built with [Nodejs](https://nodejs.org/) and [ExpressJS](http://expressjs.com/). The application uses an embedded database ([nedb](https://github.com/louischatriot/nedb)) 
+openKB is a Markdown Knowledge base application (FAQ) built with [Nodejs](https://nodejs.org/) and [ExpressJS](http://expressjs.com/). The application uses an embedded database ([nedb](https://github.com/louischatriot/nedb))
 by default but can also use a MongoDB server by changing the config (see below). The application is designed to be easy to use and install and based around search rather than nested categories. Simply search for what you want and select from the results.
 
 Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
@@ -25,7 +25,7 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 
 ### Features
 
-- **Search**: openKB is a search based Knowledgebase (FAQ) backed by [Lunr.js](https://github.com/olivernn/lunr.js/) indexing to create the best possible results on searches. 
+- **Search**: openKB is a search based Knowledgebase (FAQ) backed by [Lunr.js](https://github.com/olivernn/lunr.js/) indexing to create the best possible results on searches.
 - **Backend**: openKB uses the pure Javascript [nedb](https://github.com/louischatriot/nedb) embedded database by default or a MongoDB server.
 - **Design/Themes**: openKB is meant to be simple flat design. Themes can be added by creating a theme folder within `public/themes/`. See the example theme for more information.
 - **Responsive**: openKB is built using Bootstrap allowing it to be responsive and work on all devices. The `admin` can be a little difficult editing Markdown on smaller screens.
@@ -63,7 +63,7 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 
 ![Files](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_files.png)
 
-**This is a deliberate rip from [https://twitter.com](https://twitter.com) to show an example. All design and credit goes to [https://twitter.com](https://twitter.com) and not openKB.** 
+**This is a deliberate rip from [https://twitter.com](https://twitter.com) to show an example. All design and credit goes to [https://twitter.com](https://twitter.com) and not openKB.**
 
 ![Theme](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_theme_example.png)
 
@@ -73,7 +73,7 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 
 ### Admin
 
-Visit: [http://127.0.0.1:4444/login](http://127.0.0.1:4444/login) 
+Visit: [http://127.0.0.1:4444/login](http://127.0.0.1:4444/login)
 
 A new user form will be shown where a user can be created.
 
@@ -86,6 +86,7 @@ Most of the configuration can be done on the `/settings` page but there are some
 |`num_top_results`|Sets the number of results shown on the home page|
 |`date_format`|Sets the global date formatting. Uses moment.js date formatting, see more here: http://momentjs.com/docs/#/displaying|
 |`show_view_count`|Shows the view count next to the results on the homepage and search|
+|`update_view_count_logged_in`|Updates the view count if the user is logged in, as well as for anonymous users|
 |`show_published_date`|Shows the published date next to the results on the homepage and search|
 |`sort_by`|The order to sort articles|
 |`website_title`|The title of your website|
@@ -205,7 +206,7 @@ The typeahead search is great! Your user types in the word or phrase and the res
 there is a little more data being transmitted from server to browser to enable this functionality. This is not normally a big issue for most browsers
 as the data is cached but you **may** run into issues if the number of articles in your app is quite large.
 
-As a general rule there is about 3KB of compressed data being transferred from server to browser for 20 articles with long titles and keywords. If you have 
+As a general rule there is about 3KB of compressed data being transferred from server to browser for 20 articles with long titles and keywords. If you have
 hundreds of articles, the amount of data will increase and could cause performance issues. It is something to consider if your app seems to slow down once the
 article numbers increase. If this is the case, you can simply just turn it off.
 
