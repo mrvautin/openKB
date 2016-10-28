@@ -4,6 +4,7 @@ var router = express.Router();
 var fs = require('fs');
 var common = require('./common');
 var config = common.read_config();
+var i18n = require('node-translate');
 
 // The homepage of the site
 router.get('/', common.restrict, function(req, res, next){
@@ -284,7 +285,7 @@ router.post('/update_settings', common.restrict, function(req, res){
     fs.writeFileSync(path.join(__dirname, 'config.js'), JSON.stringify(config, null, 4), 'utf8');
 
     // set notification
-    req.session.message = 'Settings successfully updated';
+    req.session.message = i18n.t('settings_updated');
     req.session.message_type = 'success';
 
     // redirect back
@@ -296,7 +297,7 @@ router.get('/kb/resetviewCount/:id', common.restrict, function(req, res){
     var db = req.app.db;
     db.kb.update({_id: common.getId(req.params.id)}, {$set: {kb_viewcount: 0}}, {multi: false}, function (err, numReplaced){
         if(err){
-            req.session.message = 'View count could not be reset. Try again.';
+            req.session.message = i18n.t('view_count_not_reset');
 			req.session.message_type = 'danger';
         }else{
             req.session.message = 'View count successfully reset to zero.';

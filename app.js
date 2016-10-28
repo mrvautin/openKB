@@ -26,6 +26,15 @@ var api = require('./routes/api');
 
 var app = express();
 
+// localisation with node-translate
+var i18n = require('node-translate');
+i18n.requireLocales({
+  'en': require('./lang/en'),
+  'de': require('./lang/de')
+});
+
+i18n.setLocale('de');
+
 // compress all requests
 app.use(compression());
 
