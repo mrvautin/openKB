@@ -3,7 +3,7 @@
         "num_top_results": "10",
         "date_format": "DD/MM/YYYY h:mmA",
         "show_view_count": true,
-        "update_view_count_logged_in": true,
+        "update_view_count_logged_in": false,
         "show_published_date": true,
         "sort_by": {
             "field": "kb_viewcount",
@@ -33,7 +33,7 @@
         "enable_spellchecker": true,
         "show_website_logo": true,
         "website_description": "openKB is an Open Source Node.js Markdown based knowledge base/FAQ/Wiki app with powerful lunr search",
-        "article_versioning": true,
+        "article_versioning": false,
         "api_auth_token": "",
         "api_allowed": false
     }
