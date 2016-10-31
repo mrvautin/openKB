@@ -28,7 +28,7 @@
 						{{#each files}}
 							<li class="list-group-item" id="file-{{this.id}}">
 								<span><i class="fa fa-file-image-o"></i></span>
-								<span class="align-left"><a class="imgPreview" href="{{app_context}}/{{this.path}}" target="_blank">{{this.path}}</a></span>
+								<span class="align-left"><a href="{{app_context}}{{this.path}}" target="_blank">{{this.path}}</a></span>
 								<span class="pull-right" style="padding-left: 10px;"><button class="btn btn-danger btn-xs" onclick="file_delete_confirm('{{this.path}}','{{this.id}}')"><i class="fa fa-trash-o"></i></button></span>
 							</li>
 						{{/each}}

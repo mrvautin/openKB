@@ -17,8 +17,7 @@
                     {{#ifCond result.kb_published "==" "true"}}
                         <option value="true" selected>Published</option>
                         <option value="false">Draft</option>
-                    {{/ifCond}}
-                    {{#ifCond result.kb_published "==" "false"}}
+                    {{else}}
                         <option value="true">Published</option>
                         <option value="false" selected>Draft</option>
                     {{/ifCond}}
