@@ -6,9 +6,9 @@
             <div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 search_bar">
         {{/ifBoth}}
 			<div class="input-group">
-				<input type="text" name="frm_search" id="frm_search" autocomplete="off" class="form-control input-lg" placeholder="Search the knowledge base">
+				<input type="text" name="frm_search" id="frm_search" autocomplete="off" class="form-control input-lg" placeholder="{{__ "Search the knowledge base"}}">
 				<span class="input-group-btn">
-					<button class="btn btn-success btn-lg" id="btn_search" type="submit">Search</button>
+					<button class="btn btn-success btn-lg" id="btn_search" type="submit">{{__ "Search"}}</button>
 				</span>
 			</div>
             {{#ifCond config.settings.typeahead_search '===' true}}
@@ -24,7 +24,7 @@
         <div class="col-md-2 col-md-offset-1 col-lg-2 col-lg-offset-1">
             <div style="margin-top: 30px;">
                 <ul class="list-group">
-                    <li class="list-group-item list-group-heading">Featured articles</li>
+                    <li class="list-group-item list-group-heading">{{__ "Featured articles"}}</li>
                     {{#each featured_results}}
                         {{#if this.kb_permalink}}
                             <li class="list-group-item"><h5><a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a></h5></li>
@@ -46,16 +46,16 @@
         {{#if config.settings.allow_voting}}
             <div class="row">
                 <div class="voting text-right col-lg-12">
-                    <span>Was this article helpful?</span>
+                    <span>{{__ "Was this article helpful?"}}</span>
                     <button id="btnUpvote" class="btn btn-sm btn-default"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
                     <button id="btnDownvote" class="btn btn-sm btn-default"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button>
                     <span>
-                        <strong>Votes:</strong> 
+                        <strong>{{__ "Votes"}}:</strong>
                         {{#if result.kb_votes}}
                             {{result.kb_votes}}
                         {{else}}
                             0
-                        {{/if}}                  
+                        {{/if}}
                     </span>
                 </div>
             </div>
@@ -64,13 +64,13 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-primary" style="margin-top: 35px;">
-                        <div class="panel-heading">Article details:</div>
+                        <div class="panel-heading">{{__ "Article details"}}:</div>
                         <div class="panel-body">
                             <h5 class="col-sm-12 col-lg-6">
-                                <strong>Published date:</strong> {{format_date result.kb_published_date}}
+                                <strong>{{__ "Published date"}}:</strong> {{format_date result.kb_published_date}}
                             </h5>
                             <h5 class="col-sm-12 col-lg-6">
-                                <strong>Last updated:</strong> {{format_date result.kb_last_updated}}
+                                <strong>{{__ "Last updated"}}:</strong> {{format_date result.kb_last_updated}}
                                 {{#if result.kb_last_update_user}}
                                     <span class="text-info">
                                         {{#ifCond config.settings.show_author_email '===' false}}
@@ -83,21 +83,21 @@
                             </h5>
                             {{#if result.kb_permalink}}
                                 <h5 class="col-sm-12 col-lg-6">
-                                    <strong>Share article:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/kb/{{encodeURI result.kb_permalink}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                                    <strong>{{__ "Share article"}}:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/kb/{{encodeURI result.kb_permalink}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
                                 </h5>
                             {{else}}
                                 <h5 class="col-sm-12 col-lg-6">
-                                    <strong>Share article:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/kb/{{result._id}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                                    <strong>{{__ "Share article"}}:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/kb/{{result._id}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
                                 </h5>
                             {{/if}}
                             {{#if result.kb_author}}
                                 <h5 class="col-sm-12 col-lg-6">
-                                    <strong>Author:</strong> <span class="text-info">{{result.kb_author}} {{#ifCond config.settings.show_author_email '===' true}}({{result.kb_author_email}}){{/ifCond}}</span>
+                                    <strong>{{__ "Author"}}:</strong> <span class="text-info">{{result.kb_author}} {{#ifCond config.settings.show_author_email '===' true}}({{result.kb_author_email}}){{/ifCond}}</span>
                                 </h5>
                             {{/if}}
                             {{#if result.kb_permalink}}
                             <h5 class="col-sm-12 col-lg-6">
-                                <strong>Permalink:</strong> <a href="{{current_url}}/kb/{{result.kb_permalink}}" target="_blank">{{current_url}}/kb/{{result.kb_permalink}}</a>
+                                <strong>{{__ "Permalink"}}:</strong> <a href="{{current_url}}/kb/{{result.kb_permalink}}" target="_blank">{{current_url}}/kb/{{result.kb_permalink}}</a>
                             </h5>
                             {{/if}}
                         </div>

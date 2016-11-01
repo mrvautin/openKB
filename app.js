@@ -26,14 +26,11 @@ var api = require('./routes/api');
 
 var app = express();
 
-// localisation with node-translate
-var i18n = require('node-translate');
-i18n.requireLocales({
-  'en': require('./lang/en'),
-  'de': require('./lang/de')
+// setup the translation
+var i18n = new (require('i18n-2'))({
+    locales: ['en', 'de'],
+    directory: path.join(__dirname, 'locales/')
 });
-
-i18n.setLocale('de');
 
 // compress all requests
 app.use(compression());
@@ -60,6 +57,9 @@ app.set('view engine', 'hbs');
 // helpers for the handlebar templating platform
 handlebars = handlebars.create({
     helpers: {
+        __: function (value){
+            return i18n.__(value);
+        },
         split_keywords: function (keywords){
             if(keywords){
                 var array = keywords.split(','); var links = '';
@@ -210,6 +210,7 @@ app.use(function (req, res, next){
 	req.markdownit = markdownit;
 	req.handlebars = handlebars.helpers;
     req.bcrypt = bcrypt;
+    req.i18n = i18n;
     req.lunr_index = lunr_index;
     req.lunr_store = lunr_store;
     req.app_context = app_context;
