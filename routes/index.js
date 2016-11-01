@@ -1104,7 +1104,7 @@ router.post('/file/upload_file', common.restrict, inline_upload.single('file'), 
 	if(req.file){
 		// check for upload select
 		var upload_dir = path.join('public', 'uploads', 'inline_files');
-		var relative_upload_dir = path.join('/uploads', 'inline_files');
+		var relative_upload_dir = '/uploads/inline_files';
 
 		var file = req.file;
 		var source = fs.createReadStream(file.path);
@@ -1119,7 +1119,7 @@ router.post('/file/upload_file', common.restrict, inline_upload.single('file'), 
 
 		// uploaded
 		res.writeHead(200, {'Content-Type': 'application/json'});
-		res.end(JSON.stringify({'filename': path.join(relative_upload_dir, file.originalname)}, null, 3));
+		res.end(JSON.stringify({'filename': relative_upload_dir + '/' + file.originalname}));
 		return;
 	}
     res.writeHead(500, {'Content-Type': 'application/json'});
@@ -1153,20 +1153,20 @@ router.post('/file/new_dir', common.restrict, function (req, res, next){
 
 // upload the file
 var multer = require('multer');
-var upload = multer({dest: 'public/uploads/'});
+var upload = multer({dest: path.join('public', 'uploads')});
 router.post('/file/upload', common.restrict, upload.single('upload_file'), function (req, res, next){
 	var fs = require('fs');
 
 	if(req.file){
 		// check for upload select
-		var upload_dir = 'public/uploads/';
+		var upload_dir = path.join('public', 'uploads');
 		if(req.body.directory !== '/uploads'){
-			upload_dir = 'public/' + req.body.directory;
+			upload_dir = path.join('public/', req.body.directory);
 		}
 
 		var file = req.file;
 		var source = fs.createReadStream(file.path);
-		var dest = fs.createWriteStream(upload_dir + '/' + file.originalname.replace(/ /g, '_'));
+		var dest = fs.createWriteStream(path.join(upload_dir, file.originalname.replace(/ /g, '_')));
 
 		// save the new file
 		source.pipe(dest);
