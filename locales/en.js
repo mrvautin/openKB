@@ -88,5 +88,18 @@
 	"Whether to show any articles set to featured in a sidebar when viewing an article": "Whether to show any articles set to featured in a sidebar when viewing an article",
 	"Featured article count": "Featured article count",
 	"The number of featured articles shown": "The number of featured articles shown",
-	"Adds Google Analytics to public facing pages. Include the entire code from Google including the <script> tags": "Adds Google Analytics to public facing pages. Include the entire code from Google including the <script> tags"
+	"Adds Google Analytics to public facing pages. Include the entire code from Google including the <script> tags": "Adds Google Analytics to public facing pages. Include the entire code from Google including the <script> tags",
+	"New user": "New user",
+	"Users name": "Users name",
+	"User email": "User email",
+	"User password": "User password",
+	"Password confirm": "Password confirm",
+	"Create": "Create",
+	"A user with that email address already exists": "A user with that email address already exists",
+	"User": "User",
+	"Role": "Role",
+	"Admin": "Admin",
+	"Are you sure you want to delete?": "Are you sure you want to delete?",
+	"User edit": "User edit",
+	"Password values do not match": "Password values do not match"
 }

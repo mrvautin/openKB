@@ -4,7 +4,6 @@ var router = express.Router();
 var fs = require('fs');
 var common = require('./common');
 var config = common.read_config();
-var i18n = require('node-translate');
 
 // The homepage of the site
 router.get('/', common.restrict, function(req, res, next){
@@ -314,10 +313,10 @@ router.get('/kb/resetvoteCount/:id', common.restrict, function(req, res){
     var db = req.app.db;
     db.kb.update({_id: common.getId(req.params.id)}, {$set: {kb_votes: 0}}, {multi: false}, function (err, numReplaced){
         if(err){
-            req.session.message = 'Vote count could not be reset. Try again.';
+            req.session.message = req.i18n.__('Vote count could not be reset. Try again.');
 			req.session.message_type = 'danger';
         }else{
-            req.session.message = 'Vote count successfully reset to zero.';
+            req.session.message = req.i18n.__('Vote count successfully reset to zero.');
             req.session.message_type = 'success';
         }
 
@@ -373,7 +372,7 @@ router.post('/insert_kb', common.restrict, function(req, res){
 	db.kb.count({'kb_permalink': req.body.frm_kb_permalink}, function (err, kb){
 		if(kb > 0 && req.body.frm_kb_permalink !== ''){
 			// permalink exits
-			req.session.message = 'Permalink already exists. Pick a new one.';
+			req.session.message = req.i18n.__('Permalink already exists. Pick a new one.');
 			req.session.message_type = 'danger';
 
 			// keep the current stuff
@@ -395,7 +394,7 @@ router.post('/insert_kb', common.restrict, function(req, res){
 					req.session.kb_keywords = req.body.frm_kb_keywords;
 					req.session.kb_permalink = req.body.frm_kb_permalink;
 
-					req.session.message = 'Error: ' + err;
+					req.session.message = req.i18n.__('Error') + ': ' + err;
 					req.session.message_type = 'danger';
 
 					// redirect to insert
@@ -432,7 +431,7 @@ router.post('/insert_kb', common.restrict, function(req, res){
 					// add to lunr index
 					lunr_index.add(lunr_doc);
 
-					req.session.message = 'New article successfully created';
+					req.session.message = req.i18n.__('New article successfully created');
 					req.session.message_type = 'success';
 
 					// redirect to new doc
@@ -483,7 +482,7 @@ router.post('/insert_suggest', common.suggest_allowed, function(req, res){
 	db.kb.insert(doc, function (err, newDoc){
 		if(err){
 			console.error('Error inserting suggestion: ' + err);
-			req.session.message = 'Suggestion failed. Please contact admin.';
+			req.session.message = req.i18n.__('Suggestion failed. Please contact admin.');
 			req.session.message_type = 'danger';
 			res.redirect(req.app_context + '/');
 		}else{
@@ -519,7 +518,7 @@ router.post('/insert_suggest', common.suggest_allowed, function(req, res){
 			lunr_index.add(lunr_doc);
 
 			// redirect to new doc
-			req.session.message = 'Suggestion successfully processed';
+			req.session.message = req.i18n.__('Suggestion successfully processed');
 			req.session.message_type = 'success';
 			res.redirect(req.app_context + '/');
 		}
@@ -541,7 +540,7 @@ router.post('/save_kb', common.restrict, function(req, res){
     db.kb.count({'kb_permalink': req.body.frm_kb_permalink, $not: {_id: common.getId(req.body.frm_kb_id)}}, function (err, kb){
 		if(kb > 0 && req.body.frm_kb_permalink !== ''){
 			// permalink exits
-			req.session.message = 'Permalink already exists. Pick a new one.';
+			req.session.message = req.i18n.__('Permalink already exists. Pick a new one.');
 			req.session.message_type = 'danger';
 
 			// keep the current stuff
@@ -589,7 +588,7 @@ router.post('/save_kb', common.restrict, function(req, res){
                     }}, {}, function(err, numReplaced){
 					if(err){
 						console.error('Failed to save KB: ' + err);
-						req.session.message = 'Failed to save. Please try again';
+						req.session.message = req.i18n.__('Failed to save. Please try again');
 						req.session.message_type = 'danger';
 						res.redirect(req.app_context + '/edit/' + req.body.frm_kb_id);
 					}else{
@@ -645,12 +644,12 @@ router.post('/save_kb', common.restrict, function(req, res){
 
                             // insert a doc to track versioning
                             db.kb.insert(version_doc, function (err, version_doc){
-                                req.session.message = 'Successfully saved';
+                                req.session.message = req.i18n.__('Successfully saved');
                                 req.session.message_type = 'success';
                                 res.redirect(req.app_context + '/edit/' + req.body.frm_kb_id);
                             });
                         }else{
-                            req.session.message = 'Successfully saved';
+                            req.session.message = req.i18n.__('Successfully saved');
                             req.session.message_type = 'success';
                             res.redirect(req.app_context + '/edit/' + req.body.frm_kb_id);
                         }
@@ -702,7 +701,7 @@ router.get('/user/edit/:id', common.restrict, function(req, res){
         // if the user we want to edit is not the current logged in user and the current user is not
         // an admin we render an access denied message
         if(user.user_email !== req.session.user && req.session.is_admin === 'false'){
-            req.session.message = 'Access denied';
+            req.session.message = req.i18n.__('Access denied');
             req.session.message_type = 'danger';
             res.redirect(req.app_context + '/Users/');
             return;
@@ -839,7 +838,7 @@ router.post('/user_insert', common.restrict, function(req, res){
         if(user){
             // user already exists with that email address
             console.error('Failed to insert user, possibly already exists: ' + err);
-            req.session.message = 'A user with that email address already exists';
+            req.session.message = req.i18n.__('A user with that email address already exists');
             req.session.message_type = 'danger';
             res.redirect(req.app_context + '/users/new');
         }else{
@@ -848,11 +847,11 @@ router.post('/user_insert', common.restrict, function(req, res){
                 // show the view
                 if(err){
                     console.error('Failed to insert user: ' + err);
-                    req.session.message = 'User exists';
+                    req.session.message = req.i18n.__('User exists');
                     req.session.message_type = 'danger';
                     res.redirect(req.app_context + '/user/edit/' + doc._id);
                 }else{
-                    req.session.message = 'User account inserted';
+                    req.session.message = req.i18n.__('User account inserted');
                     req.session.message_type = 'success';
 
                     // if from setup we add user to session and redirect to login.
@@ -880,7 +879,7 @@ router.post('/user_update', common.restrict, function(req, res){
         // if the user we want to edit is not the current logged in user and the current user is not
         // an admin we render an access denied message
         if(user.user_email !== req.session.user && req.session.is_admin === 'false'){
-            req.session.message = 'Access denied';
+            req.session.message = req.i18n.__('Access denied');
             req.session.message_type = 'danger';
             res.redirect(req.app_context + '/Users/');
             return;
@@ -905,12 +904,12 @@ router.post('/user_update', common.restrict, function(req, res){
             }, {multi: false}, function (err, numReplaced){
             if(err){
                 console.error('Failed updating user: ' + err);
-                req.session.message = 'Failed to update user';
+                req.session.message = req.i18n.__('Failed to update user');
                 req.session.message_type = 'danger';
                 res.redirect(req.app_context + '/user/edit/' + req.body.user_id);
             }else{
                 // show the view
-                req.session.message = 'User account updated.';
+                req.session.message = req.i18n.__('User account updated.');
                 req.session.message_type = 'success';
                 res.redirect(req.app_context + '/user/edit/' + req.body.user_id);
             }
@@ -997,7 +996,7 @@ router.get('/file_cleanup', common.restrict, function(req, res){
     });
 
     walker.on('end', function (){
-        req.session.message = 'All unused files have been removed';
+        req.session.message = req.i18n.__('All unused files have been removed');
         req.session.message_type = 'success';
         res.redirect(req.app_context + req.header('Referer'));
     });
@@ -1012,7 +1011,7 @@ router.post('/login_action', function(req, res){
 	db.users.findOne({user_email: req.body.email}, function (err, user){
 		// check if user exists with that email
 		if(user === undefined || user === null){
-			req.session.message = 'A user with that email does not exist.';
+			req.session.message = req.i18n.__('A user with that email does not exist.');
 			req.session.message_type = 'danger';
 			res.redirect(req.app_context + '/login');
 		}else{
@@ -1034,7 +1033,7 @@ router.post('/login_action', function(req, res){
 				}
 			}else{
 				// password is not correct
-				req.session.message = 'Access denied. Check password and try again.';
+				req.session.message = req.i18n.__('Access denied. Check password and try again.');
 				req.session.message_type = 'danger';
 				res.redirect(req.app_context + '/login');
 			}
@@ -1054,12 +1053,12 @@ router.get('/user/delete/:id', common.restrict, function(req, res){
     // remove the article
     if(req.session.is_admin === 'true'){
         db.users.remove({_id: common.getId(req.params.id)}, {}, function (err, numRemoved){
-            req.session.message = 'User deleted.';
+            req.session.message = req.i18n.__('User deleted.');
             req.session.message_type = 'success';
             res.redirect(req.app_context + '/users');
         });
     }else{
-        req.session.message = 'Access denied.';
+        req.session.message = req.i18n.__('Access denied.');
         req.session.message_type = 'danger';
         res.redirect(req.app_context + '/users');
     }
@@ -1090,7 +1089,7 @@ router.get('/delete/:id', common.restrict, function(req, res){
 		lunr_index.remove(lunr_doc, false);
 
 		// redirect home
-		req.session.message = 'Article successfully deleted';
+		req.session.message = req.i18n.__('Article successfully deleted');
 		req.session.message_type = 'success';
 		res.redirect(req.app_context + '/articles');
     });
@@ -1135,17 +1134,17 @@ router.post('/file/new_dir', common.restrict, function (req, res, next){
 		mkdirp(path.join('public', 'uploads', req.body.custom_dir), function (err){
 			if(err){
 				console.error('Directory creation error: ' + err);
-				req.session.message = 'Directory creation error. Please try again';
+				req.session.message = req.i18n.__('Directory creation error. Please try again');
 				req.session.message_type = 'danger';
 				res.redirect(req.app_context + '/files');
 			}else{
-				req.session.message = 'Directory successfully created';
+				req.session.message = req.i18n.__('Directory successfully created');
 				req.session.message_type = 'success';
 				res.redirect(req.app_context + '/files');
 			}
 		});
 	}else{
-		req.session.message = 'Please enter a directory name';
+		req.session.message = req.i18n.__('Please enter a directory name');
 		req.session.message_type = 'danger';
 		res.redirect(req.app_context + '/files');
 	}
@@ -1175,11 +1174,11 @@ router.post('/file/upload', common.restrict, upload.single('upload_file'), funct
 		// delete the temp file.
 		fs.unlink(file.path, function (err){});
 
-		req.session.message = 'File uploaded successfully';
+		req.session.message = req.i18n.__('File uploaded successfully');
 		req.session.message_type = 'success';
 		res.redirect(req.app_context + '/files');
 	}else{
-		req.session.message = 'File upload error. Please select a file.';
+		req.session.message = req.i18n.__('File upload error. Please select a file.');
 		req.session.message_type = 'danger';
 		res.redirect(req.app_context + '/files');
 	}
