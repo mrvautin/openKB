@@ -101,5 +101,7 @@
 	"Admin": "Admin",
 	"Are you sure you want to delete?": "Are you sure you want to delete?",
 	"User edit": "User edit",
-	"Password values do not match": "Password values do not match"
+	"Password values do not match": "Password values do not match",
+	"Date": "Date",
+	"View count": "View count"
 }
