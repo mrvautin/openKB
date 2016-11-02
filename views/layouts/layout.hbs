@@ -28,8 +28,8 @@
         <meta name="description" content="{{config.settings.website_description}}">
         <meta property="og:description" content="{{config.settings.website_description}}" />
         {{else}}
-        <meta name="description" content="Powered by openKB">
-        <meta property="og:description" content="Powered by openKB" />
+        <meta name="description" content="{{__ "Powered by"}} openKB">
+        <meta property="og:description" content="{{__ "Powered by"}} openKB" />
         {{/ifCond}}
         {{/if}}
         {{/if}}
@@ -78,19 +78,19 @@
         {{#if config.settings.google_analytics}}
         {{{config.settings.google_analytics}}}
         {{/if}}
-        {{/ifCond}} 
+        {{/ifCond}}
 	</head>
-	<body class="{{show_footer}}">	
+	<body class="{{show_footer}}">
 		<!-- Static navbar -->
 	    <nav class="navbar navbar-default navbar-static-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only">Toggle navigation</span>
+						<span class="sr-only">{{__ "Toggle navigation"}}</span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
-					</button>    
+					</button>
                     {{#ifCond config.settings.show_website_logo '===' true}}
                     <a class="navbar-brand brand-image" href="{{app_context}}/"><img src="/logo.png" width="140"></a>
                     {{else}}
@@ -105,49 +105,49 @@
 					<ul class="nav navbar-nav navbar-right">
 						{{#if session.user}}
 							{{#if result._id}}
-								<li><a href="{{app_context}}/edit/{{result._id}}">Edit</a></li>
+								<li><a href="{{app_context}}/edit/{{result._id}}">{{__ "Edit"}}</a></li>
 							{{/if}}
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{__ "Users"}} <span class="caret"></span></a>
 								<ul class="dropdown-menu">
                                     {{#ifCond session.is_admin '==' 'true'}}
-									<li><a href="{{app_context}}/users/new"><i class="fa fa-user-plus fa-fw"></i>&nbsp; New</a></li>
-									<li><a href="{{app_context}}/users"><i class="fa fa-users fa-fw"></i>&nbsp; Edit</a></li>
+									<li><a href="{{app_context}}/users/new"><i class="fa fa-user-plus fa-fw"></i>&nbsp; {{__ "New"}}</a></li>
+									<li><a href="{{app_context}}/users"><i class="fa fa-users fa-fw"></i>&nbsp; {{__ "Edit"}}</a></li>
                                     {{/ifCond}}
-									<li><a href="{{app_context}}/user/edit/{{session.user_id}}"><i class="fa fa-user fa-fw"></i>&nbsp; My account</a></li>
+									<li><a href="{{app_context}}/user/edit/{{session.user_id}}"><i class="fa fa-user fa-fw"></i>&nbsp; {{__ "My account"}}</a></li>
 								</ul>
 							</li>
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Article <span class="caret"></span></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{__ "Article"}} <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-									<li><a href="{{app_context}}/insert"><i class="fa fa-plus fa-fw"></i>&nbsp; New</a></li>
-									<li><a href="{{app_context}}/articles"><i class="fa fa-pencil fa-fw"></i>&nbsp; Edit</a></li>
+									<li><a href="{{app_context}}/insert"><i class="fa fa-plus fa-fw"></i>&nbsp; {{__ "New"}}</a></li>
+									<li><a href="{{app_context}}/articles"><i class="fa fa-pencil fa-fw"></i>&nbsp; {{__ "Edit"}}</a></li>
 								</ul>
 							</li>
                             {{#ifCond session.is_admin '==' 'true'}}
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
 								<ul class="dropdown-menu">
-                                    <li><a href="{{app_context}}/settings"><i class="fa fa-cog fa-fw"></i>&nbsp; Settings</a></li>
-									<li><a href="{{app_context}}/files"><i class="fa fa-files-o fa-fw"></i>&nbsp; Files</a></li>
-									<li><a href="{{app_context}}/export"><i class="fa fa-file-archive-o fa-fw"></i>&nbsp; Export</a></li>
-									<li><a href="{{app_context}}/file_cleanup"><i class="fa fa-trash fa-fw"></i>&nbsp; Cleanup files</a></li>
+                                    <li><a href="{{app_context}}/settings"><i class="fa fa-cog fa-fw"></i>&nbsp; {{__ "Settings"}}</a></li>
+									<li><a href="{{app_context}}/files"><i class="fa fa-files-o fa-fw"></i>&nbsp; {{__ "Files"}}</a></li>
+									<li><a href="{{app_context}}/export"><i class="fa fa-file-archive-o fa-fw"></i>&nbsp; {{__ "Export"}}</a></li>
+									<li><a href="{{app_context}}/file_cleanup"><i class="fa fa-trash fa-fw"></i>&nbsp; {{__ "Cleanup files"}}</a></li>
 								</ul>
 							</li>
                             {{/ifCond}}
-                            <li><a href="{{app_context}}/logout">Logout</a></li>
+                            <li><a href="{{app_context}}/logout">{{__ "Logout"}}</a></li>
 						{{else}}
 							{{#if config.settings.suggest_allowed}}
-								<li><a href="{{app_context}}/suggest">Suggest</a></li>
+								<li><a href="{{app_context}}/suggest">{{__ "Suggest"}}</a></li>
 							{{/if}}
                             {{#ifCond config.settings.show_logon '==' true}}
-							    <li><a href="{{app_context}}/login">Login</a></li>
+							    <li><a href="{{app_context}}/login">{{__ "Login"}}</a></li>
                             {{/ifCond}}
-						{{/if}}	
+						{{/if}}
 					</ul>
 				</div>
 	      </div>
-	    </nav>	
+	    </nav>
 		<div class="container-fluid">
 			{{{body}}}
 		</div>
@@ -159,7 +159,7 @@
 		{{#if show_footer}}
 			<footer class="footer">
 				<div class="container">
-					<p class="text-muted">Powered by openKB</p>
+					<p class="text-muted">{{__ "Powered by"}} openKB</p>
 				</div>
 			</footer>
 		{{/if}}

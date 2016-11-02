@@ -2,94 +2,94 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<ol class="breadcrumb">
-	  			<li><a href="{{app_context}}/">Home</a></li>
-	  			<li class="active">Settings</li>
+	  			<li><a href="{{app_context}}/">{{__ "Home"}}</a></li>
+	  			<li class="active">{{__ "Settings"}}</li>
 			</ol>
             <ul class="nav nav-tabs" role="tablist" id="settingsTabs">
-                <li role="presentation" class="active"><a href="#website" aria-controls="website" role="tab" data-toggle="tab">Website</a></li>
-                <li role="presentation"><a href="#article" aria-controls="article" role="tab" data-toggle="tab">Article</a></li>
-                <li role="presentation"><a href="#display" aria-controls="display" role="tab" data-toggle="tab">Display</a></li>
+                <li role="presentation" class="active"><a href="#website" aria-controls="website" role="tab" data-toggle="tab">{{__ "Website"}}</a></li>
+                <li role="presentation"><a href="#article" aria-controls="article" role="tab" data-toggle="tab">{{__ "Article"}}</a></li>
+                <li role="presentation"><a href="#display" aria-controls="display" role="tab" data-toggle="tab">{{__ "Display"}}</a></li>
             </ul>
             <form method="post" action="{{app_context}}/update_settings">
                 <div class="clearfix">
-                    <h1 class="pull-left">Settings</h1>
+                    <h1 class="pull-left">{{__ "Settings"}}</h1>
                     <div class="pull-right btnSettingsUpdate">
-                        <button class="btn btn-success" type="submit">Update</button>
+                        <button class="btn btn-success" type="submit">{{__ "Update"}}</button>
                     </div>
                 </div>
                 <div class="tab-content">
                     <!-- Website settings -->
                     <div role="tabpanel" class="tab-pane active" id="website">
                         <div class="form-group">
-                            <label class="control-label" for="website_title">Website title:</label>
+                            <label class="control-label" for="website_title">{{__ "Website title"}}:</label>
                             <input type="text" class="form-control" name="website_title" value="{{config.settings.website_title}}" required>
                             <p class="help-block">
-                                The title of your website
+                                {{__ "The title of your website"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="website_description">Website description:</label>
+                            <label class="control-label" for="website_description">{{__ "Website description"}}:</label>
                             <input type="text" class="form-control" name="website_description" value="{{config.settings.website_description}}" required>
                             <p class="help-block">
-                                A short website description when listing the homepage URL in search engines
+                                {{__ "A short website description when listing the homepage URL in search engines"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="show_website_logo">Show website logo:</label>
+                            <label class="control-label" for="show_website_logo">{{__ "Show website logo"}}:</label>
                             <select class="form-control" name="show_website_logo">
-                                <option {{select_state config.settings.show_website_logo true}}>true</option>
-                                <option {{select_state config.settings.show_website_logo false}}>false</option>
+                                <option {{select_state config.settings.show_website_logo true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_website_logo false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Controls whether to show the "Website title" text or a logo located: "/public/logo.png" (by default).
+                                {{__ "Controls whether to show the \"Website title\" text or a logo located: \"/public/logo.png\" (by default)"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="app_context">Website context/base URL:</label>
+                            <label class="control-label" for="app_context">{{__ "Website context/base URL"}}:</label>
                             <input type="text" class="form-control" name="app_context" value="{{config.settings.app_context}}" >
                             <p class="help-block">
-                                Allows for the website to be run from a non root path. Eg: http://127.0.0.1:4444/openkb/
+                                {{__ "Allows for the website to be run from a non root path. Eg: http://127.0.0.1:4444/openkb/"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="api_allowed">Allow API access:</label>
+                            <label class="control-label" for="api_allowed">{{__ "Allow API access"}}:</label>
                             <select class="form-control" name="api_allowed">
-                                <option {{select_state config.settings.api_allowed true}}>true</option>
-                                <option {{select_state config.settings.api_allowed false}}>false</option>
+                                <option {{select_state config.settings.api_allowed true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.api_allowed false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Whether to allow API access to insert articles - See documentation for further information
+                                {{__ "Whether to allow API access to insert articles - See documentation for further information"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="api_auth_token">API access token:</label>
+                            <label class="control-label" for="api_auth_token">{{__ "API access token"}}:</label>
                             <input type="text" class="form-control" name="api_auth_token" value="{{config.settings.api_auth_token}}" >
                             <p class="help-block">
-                                Requires "Allow API access" to be set to "true". The value is the access token required to access the public API. Please set to a hard to guess value.
+                                {{__ "Requires \"Allow API access\" to be set to \"true\". The value is the access token required to access the public API. Please set to a hard to guess value"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="password_protect">Password protect:</label>
+                            <label class="control-label" for="password_protect">{{__ "Password protect"}}:</label>
                             <select class="form-control" name="password_protect">
-                                <option {{select_state config.settings.password_protect true}}>true</option>
-                                <option {{select_state config.settings.password_protect false}}>false</option>
+                                <option {{select_state config.settings.password_protect true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.password_protect false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Setting to "true" will require a user to login before viewing any pages
+                                {{__ "Setting to \"true\" will require a user to login before viewing any pages"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="index_article_body">Index article body:</label>
+                            <label class="control-label" for="index_article_body">{{__ "Index article body"}}:</label>
                             <select class="form-control" name="index_article_body">
-                                <option {{select_state config.settings.index_article_body true}}>true</option>
-                                <option {{select_state config.settings.index_article_body false}}>false</option>
+                                <option {{select_state config.settings.index_article_body true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.index_article_body false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Whether to add the body of your articles to the search index (requires restart)
+                                {{__ "Whether to add the body of your articles to the search index (requires restart)"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="show_kb_meta">Select a theme:</label>
+                            <label class="control-label" for="show_kb_meta">{{__ "Select a theme"}}:</label>
                             <select class="form-control" name="theme">
                                 <option></option>
                                 {{#each themes}}
@@ -97,41 +97,41 @@
                                 {{/each}}
                             </select>
                             <p class="help-block">
-                                The theme to use for public facing pages. Leave blank for default.
+                                {{__ "The theme to use for public facing pages. Leave blank for default"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="show_logon">Show logon link:</label>
+                            <label class="control-label" for="show_logon">{{__ "Show logon link"}}:</label>
                             <select class="form-control" name="show_logon">
-                                <option {{select_state config.settings.show_logon true}}>true</option>
-                                <option {{select_state config.settings.show_logon false}}>false</option>
+                                <option {{select_state config.settings.show_logon true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_logon false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Whether to show/hide the logon link in the top right of screen
+                                {{__ "Whether to show/hide the logon link in the top right of screen"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="date_format">Date format:</label>
+                            <label class="control-label" for="date_format">{{__ "Date format"}}:</label>
                             <input type="text" class="form-control" name="date_format" value="{{config.settings.date_format}}" required>
                             <p class="help-block">
-                                Sets the global date formatting. Uses moment.js date formatting, see more here: http://momentjs.com/docs/#/displaying
+                                {{__ "Sets the global date formatting. Uses moment.js date formatting, see more here: http://momentjs.com/docs/#/displaying"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="suggest_allowed">Article suggestions allowed:</label>
+                            <label class="control-label" for="suggest_allowed">{{__ "Article suggestions allowed"}}:</label>
                             <select class="form-control" name="suggest_allowed">
-                                <option {{select_state config.settings.suggest_allowed true}}>true</option>
-                                <option {{select_state config.settings.suggest_allowed false}}>false</option>
+                                <option {{select_state config.settings.suggest_allowed true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.suggest_allowed false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                If enabled non authenticated users can submit article suggestions for approval
+                                {{__ "If enabled non authenticated users can submit article suggestions for approval"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="links_blank_page">Google analytics code:</label>
+                            <label class="control-label" for="links_blank_page">{{__ "Google analytics code"}}:</label>
                             <textarea rows="5" class="form-control" name="google_analytics">{{config.settings.google_analytics}}</textarea>
                             <p class="help-block">
-                                Adds Google Analytics to public facing pages. Include the entire code from Google including the &lt;script&gt; tags.
+                                {{__ "Adds Google Analytics to public facing pages. Include the entire code from Google including the <script> tags"}}.
                             </p>
                         </div>
                     </div>
@@ -140,73 +140,73 @@
                     <!-- Article settings -->
                     <div role="tabpanel" class="tab-pane" id="article">
                         <div class="form-group">
-                            <label class="control-label" for="allow_voting">Allow voting:</label>
+                            <label class="control-label" for="allow_voting">{{__ "Allow voting"}}:</label>
                             <select class="form-control" name="allow_voting">
-                                <option {{select_state config.settings.allow_voting true}}>true</option>
-                                <option {{select_state config.settings.allow_voting false}}>false</option>
+                                <option {{select_state config.settings.allow_voting true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.allow_voting false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Whether to allow users to vote on an article
+                                {{__ "Whether to allow users to vote on an article"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="show_kb_meta">Show article meta data:</label>
+                            <label class="control-label" for="show_kb_meta">{{__ "Show article meta data"}}:</label>
                             <select class="form-control" name="show_kb_meta">
-                                <option {{select_state config.settings.show_kb_meta true}}>true</option>
-                                <option {{select_state config.settings.show_kb_meta false}}>false</option>
+                                <option {{select_state config.settings.show_kb_meta true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_kb_meta false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Whether to show article meta data including published date, last updated date, author etc
+                                {{__ "Whether to show article meta data including published date, last updated date, author etc"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="show_author_email">Show author email:</label>
+                            <label class="control-label" for="show_author_email">{{__ "Show author email"}}:</label>
                             <select class="form-control" name="show_author_email">
-                                <option {{select_state config.settings.show_author_email true}}>true</option>
-                                <option {{select_state config.settings.show_author_email false}}>false</option>
+                                <option {{select_state config.settings.show_author_email true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_author_email false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Controls whether the authors email address is displayed in the meta. Requires "Show article meta data" to be true.
+                                {{__ "Controls whether the authors email address is displayed in the meta. Requires \"Show article meta data\" to be true"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="links_blank_page">Article links open new page:</label>
+                            <label class="control-label" for="links_blank_page">{{__ "Article links open new page"}}:</label>
                             <select class="form-control" name="links_blank_page">
-                                <option {{select_state config.settings.links_blank_page true}}>true</option>
-                                <option {{select_state config.settings.links_blank_page false}}>false</option>
+                                <option {{select_state config.settings.links_blank_page true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.links_blank_page false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Controls whether links within articles open a new page (tab)
+                                {{__ "Controls whether links within articles open a new page (tab)"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="add_header_anchors">Add header anchors:</label>
+                            <label class="control-label" for="add_header_anchors">{{__ "Add header anchors"}}:</label>
                             <select class="form-control" name="add_header_anchors">
-                                <option {{select_state config.settings.add_header_anchors true}}>true</option>
-                                <option {{select_state config.settings.add_header_anchors false}}>false</option>
+                                <option {{select_state config.settings.add_header_anchors true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.add_header_anchors false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Whether to add HTML anchors to all heading tags for linking within articles or direct linking from other articles
+                                {{__ "Whether to add HTML anchors to all heading tags for linking within articles or direct linking from other articles"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="enable_spellchecker">Enable editor spellchecker:</label>
+                            <label class="control-label" for="enable_spellchecker">{{__ "Enable editor spellchecker"}}:</label>
                             <select class="form-control" name="enable_spellchecker">
-                                <option {{select_state config.settings.enable_spellchecker true}}>true</option>
-                                <option {{select_state config.settings.enable_spellchecker false}}>false</option>
+                                <option {{select_state config.settings.enable_spellchecker true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.enable_spellchecker false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Controls whether to enable the editor spellchecker
+                                {{__ "Controls whether to enable the editor spellchecker"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="article_versioning">Allow article versioning:</label>
+                            <label class="control-label" for="article_versioning">{{__ "Allow article versioning"}}:</label>
                             <select class="form-control" name="article_versioning">
-                                <option {{select_state config.settings.article_versioning true}}>true</option>
-                                <option {{select_state config.settings.article_versioning false}}>false</option>
+                                <option {{select_state config.settings.article_versioning true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.article_versioning false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Whether to track article versions with each save of the editor
+                                {{__ "Whether to track article versions with each save of the editor"}}.
                             </p>
                         </div>
                     </div>
@@ -215,67 +215,67 @@
                     <!-- Dislay settings -->
                     <div role="tabpanel" class="tab-pane" id="display">
                         <div class="form-group">
-                            <label class="control-label" for="num_top_results">Number of top articles shown on homepage:</label>
+                            <label class="control-label" for="num_top_results">{{__ "Number of top articles shown on homepage"}}:</label>
                             <input type="number" class="form-control" name="num_top_results" value="{{config.settings.num_top_results}}" required>
                             <p class="help-block">
-                                Sets the number of results shown on the home page
+                                {{__ "Sets the number of results shown on the home page"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="show_published_date">Show published date:</label>
+                            <label class="control-label" for="show_published_date">{{__ "Show published date"}}:</label>
                             <select class="form-control" name="show_published_date">
-                                <option {{select_state config.settings.show_published_date true}}>true</option>
-                                <option {{select_state config.settings.show_published_date false}}>false</option>
+                                <option {{select_state config.settings.show_published_date true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_published_date false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Shows the published date next to the results on the homepage and search
+                                {{__ "Shows the published date next to the results on the homepage and search"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="show_view_count">Show view count:</label>
+                            <label class="control-label" for="show_view_count">{{__ "Show view count"}}:</label>
                             <select class="form-control" name="show_view_count">
-                                <option {{select_state config.settings.show_view_count true}}>true</option>
-                                <option {{select_state config.settings.show_view_count false}}>false</option>
+                                <option {{select_state config.settings.show_view_count true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_view_count false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Shows the view count next to the results on the homepage and search
+                                {{__ "Shows the view count next to the results on the homepage and search"}}.
                             </p>
                         </div>
 						<div class="form-group">
-							<label class="control-label" for="update_view_count_logged_in">Update view count when logged in:</label>
+							<label class="control-label" for="update_view_count_logged_in">{{__ "Update view count when logged in"}}:</label>
 							<select class="form-control" name="update_view_count_logged_in">
-								<option {{select_state config.settings.update_view_count_logged_in true}}>true</option>
-								<option {{select_state config.settings.update_view_count_logged_in false}}>false</option>
+								<option {{select_state config.settings.update_view_count_logged_in true}}>{{__ "true"}}</option>
+								<option {{select_state config.settings.update_view_count_logged_in false}}>{{__ "false"}}</option>
 							</select>
 							<p class="help-block">
-								Updates the view count also when users are logged in
+								{{__ "Updates the view count also when users are logged in"}}.
 							</p>
 						</div>
                         <div class="form-group">
-                            <label class="control-label" for="show_featured_articles">Show featured articles:</label>
+                            <label class="control-label" for="show_featured_articles">{{__ "Show featured articles"}}:</label>
                             <select class="form-control" name="show_featured_articles">
-                                <option {{select_state config.settings.show_featured_articles true}}>true</option>
-                                <option {{select_state config.settings.show_featured_articles false}}>false</option>
+                                <option {{select_state config.settings.show_featured_articles true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_featured_articles false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Whether to show any articles set to featured in a sidebar
+                                {{__ "Whether to show any articles set to featured in a sidebar"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="show_featured_in_article">Show featured articles when viewing article:</label>
+                            <label class="control-label" for="show_featured_in_article">{{__ "Show featured articles when viewing article"}}:</label>
                             <select class="form-control" name="show_featured_in_article">
-                                <option {{select_state config.settings.show_featured_in_article true}}>true</option>
-                                <option {{select_state config.settings.show_featured_in_article false}}>false</option>
+                                <option {{select_state config.settings.show_featured_in_article true}}>{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_featured_in_article false}}>{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
-                                Whether to show any articles set to featured in a sidebar when viewing an article
+                                {{__ "Whether to show any articles set to featured in a sidebar when viewing an article"}}.
                             </p>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="featured_articles_count">Featured article count:</label>
+                            <label class="control-label" for="featured_articles_count">{{__ "Featured article count"}}:</label>
                             <input type="number" class="form-control" name="featured_articles_count" value="{{config.settings.featured_articles_count}}" required>
                             <p class="help-block">
-                                The number of featured articles shown
+                                {{__ "The number of featured articles shown"}}.
                             </p>
                         </div>
                     </div>

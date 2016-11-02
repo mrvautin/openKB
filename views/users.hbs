@@ -2,25 +2,25 @@
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<ol class="breadcrumb">
-	  			<li><a href="{{app_context}}/">Home</a></li>
-	 			<li class="active">Users</li>
+	  			<li><a href="{{app_context}}/">{{__ "Home"}}</a></li>
+	 			<li class="active">{{__ "Users"}}</li>
 			</ol>
-			<h1>Users <span class="pull-right"><a href="{{app_context}}/users/new" class="btn btn-primary">New user</a></span></h1>
+			<h1>{{__ "Users"}} <span class="pull-right"><a href="{{app_context}}/users/new" class="btn btn-primary">{{__ "New user"}}</a></span></h1>
 			<ul class="list-group">
 				{{#each users}}
 					<li class="list-group-item">
-						<strong>User:</strong> {{this.users_name}} - ({{this.user_email}}) 
-				  		<span class="pull-right">	
-                            <strong>Role: </strong>
+						<strong>{{__ "User"}}:</strong> {{this.users_name}} - ({{this.user_email}})
+				  		<span class="pull-right">
+                            <strong>{{__ "Role"}}: </strong>
                             {{#is_an_admin this.is_admin}}
-                                <span>Admin</span>
+                                <span>{{__ "Admin"}}</span>
                             {{else}}
-                                <span>User</span>
+                                <span>{{__ "User"}}</span>
                             {{/is_an_admin}}
-                            
+
                             {{#is_an_admin ../session.is_admin}}
                                 <a href="{{app_context}}/user/edit/{{this._id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                <a href="{{app_context}}/user/delete/{{this._id}}" onclick="return confirm('Are you sure you want to delete?')"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                <a href="{{app_context}}/user/delete/{{this._id}}" onclick="return confirm('{{__ "Are you sure you want to delete?"}}')"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                             {{/is_an_admin}}
 						</span>
 					</li>

@@ -35,6 +35,8 @@
     "multer": "^1.2.0",
     "nedb": "^1.8.0",
     "nedb-session-store": "^1.1.1",
+    "node-polyglot": "0.4.3",
+    "i18n-2": "^0.6.3",
     "remove-markdown": "^0.1.0",
     "simplemde": "^1.11.2",
     "sitemap": "^1.8.1",

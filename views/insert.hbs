@@ -3,38 +3,38 @@
         <div class="row">
             <div class="col-xs-12 col-lg-6">
                 <div class="form-group">
-                    <label for="frm_kb_title">Article title *</label><br/>
+                    <label for="frm_kb_title">{{__ "Article title"}} *</label><br/>
                     <input type="text" name="frm_kb_title" class="form-control input-normal" minlength="5" maxlength="200" value="{{kb_title}}" required/>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
-                <label for="frm_kb_password">Password</label><br/>
+                <label for="frm_kb_password">{{__ "Password"}}</label><br/>
                 <input id="frm_kb_password" class="form-control" name="frm_kb_password" type="text" value="{{kb_password}}" />
             </div>
             <div class="col-xs-6 col-sm-4 col-md-4 col-lg-2">
-                <label for="frm_kb_published">Status</label><br/>
+                <label for="frm_kb_published">{{__ "Status"}}</label><br/>
                 <select class="form-control" id="frm_kb_published" name="frm_kb_published">
-                    <option value="true" selected>Published</option>
-                    <option value="false">Draft</option>
+                    <option value="true" selected>{{__ "Published"}}</option>
+                    <option value="false">{{__ "Draft"}}</option>
                 </select>
             </div>
             <div class="col-xs-6 col-sm-4 col-md-4 col-lg-2">
                 <label for="frm_kb_published">&nbsp;</label><br/>
                 <div class="btn-group pull-right" role="group" aria-label="...">
-                    <button id="frm_edit_kb_save" class="btn btn-success editor_btn_action pull-right" type="submit">Insert <i class="fa fa-plus"></i></button>
+                    <button id="frm_edit_kb_save" class="btn btn-success editor_btn_action pull-right" type="submit">{{__ "Insert"}} <i class="fa fa-plus"></i></button>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-12 col-md-6 col-lg-6">
                 <div class="form-group" id="editor-wrapper">
-                    <label for="editor">Article body (Markdown) *</label>
+                    <label for="editor">{{__ "Article body"}} (Markdown) *</label>
                     <textarea id="editor" minlength="5" name="frm_kb_body" data-provide="markdown" data-hidden-buttons="cmdPreview" data-iconlibrary="fa" class="form-control" required>{{kb_body}}</textarea>
                 </div>
             </div>
             <div class="col-xs-12 col-md-6 col-lg-6">
                 <div class="form-group" id="preview-wrapper">
-                    <label for="preview">Preview</label>
+                    <label for="preview">{{__ "Preview"}}</label>
                     <div id="preview" name="preview" class="form-control" rows="10"></div>
                 </div>
             </div>
@@ -43,16 +43,16 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="form-group">
-                        <input type="text" class="tokenfield form-control" name="frm_kb_keywords" id="frm_kb_keywords" placeholder="comma, separated, list" value={{kb_keywords}}>
+                        <input type="text" class="tokenfield form-control" name="frm_kb_keywords" id="frm_kb_keywords" placeholder="{{__ "comma, separated, list"}}" value={{kb_keywords}}>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-                    <input type="text" class="form-control" name="frm_kb_permalink" id="frm_kb_permalink" placeholder="Permalink for the article" value={{kb_permalink}}>
+                    <input type="text" class="form-control" name="frm_kb_permalink" id="frm_kb_permalink" placeholder="{{__ "Permalink for the article"}}" value={{kb_permalink}}>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
                     <div class="btn-group btn-group-justified pull-right permalink_buttons" role="group" aria-label="...">
-                        <a href="#" class="btn btn-success" id="validate_permalink" type="button">Validate</a>
-                        <a href="#" class="btn btn-warning" id="generate_permalink" type="button">Generate</a>
+                        <a href="#" class="btn btn-success" id="validate_permalink" type="button">{{__ "Validate"}}</a>
+                        <a href="#" class="btn btn-warning" id="generate_permalink" type="button">{{__ "Generate"}}</a>
                     </div>
                 </div>
             </div>

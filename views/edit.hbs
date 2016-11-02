@@ -3,23 +3,23 @@
         <div class="row">
             <div class="col-xs-12 col-lg-6">
                 <div class="form-group">
-                    <label for="frm_kb_title">Article title *</label><br/>
+                    <label for="frm_kb_title">{{__ "Article title"}} *</label><br/>
                     <input type="text" name="frm_kb_title" id="frm_kb_title" class="form-control input-normal" minlength="5" maxlength="200" value="{{result.kb_title}}" required/>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
-                <label for="frm_kb_password">Password</label><br/>
+                <label for="frm_kb_password">{{__ "Password"}}</label><br/>
                 <input id="frm_kb_password" class="form-control" name="frm_kb_password" type="text" value="{{result.kb_password}}" />
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
-                <label for="frm_kb_published">Status</label><br/>
+                <label for="frm_kb_published">{{__ "Status"}}</label><br/>
                 <select class="form-control" id="frm_kb_published" name="frm_kb_published">
                     {{#ifCond result.kb_published "==" "true"}}
-                        <option value="true" selected>Published</option>
-                        <option value="false">Draft</option>
+                        <option value="true" selected>{{__ "Published"}}</option>
+                        <option value="false">{{__ "Draft"}}</option>
                     {{else}}
-                        <option value="true">Published</option>
-                        <option value="false" selected>Draft</option>
+                        <option value="true">{{__ "Published"}}</option>
+                        <option value="false" selected>{{__ "Draft"}}</option>
                     {{/ifCond}}
                 </select>
             </div>
@@ -37,13 +37,13 @@
         <div class="row">
             <div class="col-xs-12 col-md-6 col-lg-6">
                 <div class="form-group" id="editor-wrapper">
-                    <label for="editor">Article body (Markdown) *</label>
+                    <label for="editor">{{__ "Article body"}} (Markdown) *</label>
                     <textarea id="editor" minlength="5" name="frm_kb_body" data-provide="markdown" data-hidden-buttons="cmdPreview" data-iconlibrary="fa" class="form-control" required>{{{result.kb_body}}}</textarea>
                 </div>
             </div>
             <div class="col-xs-12 col-md-6 col-lg-6">
                 <div class="form-group" id="preview-wrapper">
-                    <label for="preview">Preview</label>
+                    <label for="preview">{{__ "Preview"}}</label>
                     <div id="preview" name="preview" class="form-control" rows="10"></div>
                 </div>
             </div>
@@ -52,73 +52,73 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="frm_kb_keywords" id="frm_kb_keywords" placeholder="keyword" value="{{result.kb_keywords}}">
+                        <input type="text" class="form-control" name="frm_kb_keywords" id="frm_kb_keywords" placeholder="{{__ "keyword"}}" value="{{result.kb_keywords}}">
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-                    <input type="text" class="form-control" name="frm_kb_permalink" id="frm_kb_permalink" placeholder="permalink" value="{{result.kb_permalink}}">
+                    <input type="text" class="form-control" name="frm_kb_permalink" id="frm_kb_permalink" placeholder="{{__ "permalink"}}" value="{{result.kb_permalink}}">
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
                     <div class="btn-group btn-group-justified pull-right permalink_buttons" role="group" aria-label="...">
-                        <a href="#" class="btn btn-success" id="validate_permalink" type="button">Validate</a>
-                        <a href="#" class="btn btn-warning" id="generate_permalink" type="button">Generate</a>
+                        <a href="#" class="btn btn-success" id="validate_permalink" type="button">{{__ "Validate"}}</a>
+                        <a href="#" class="btn btn-warning" id="generate_permalink" type="button">{{__ "Generate"}}</a>
                     </div>
                 </div>
             </div>
         </footer>
         <input type="hidden" name="frm_kb_id" id="frm_kb_id" value="{{result._id}}" />
         <input type="hidden" id="frm_editor" value="true" />
-    
+
         <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right">
-            <div class="cbp-spmenu-header"><div class="pull-left">Settings</div><button id="btnSettingsMenu" class="btn btn-default pull-right toggle-menu menu-right push-body"><i class="fa fa-cog"></i></div></button>
+            <div class="cbp-spmenu-header"><div class="pull-left">{{__ "Settings"}}</div><button id="btnSettingsMenu" class="btn btn-default pull-right toggle-menu menu-right push-body"><i class="fa fa-cog"></i></div></button>
             <ul class="list-group list-group-sidemenu">
                 <li class="list-group-item">
                     <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                        <a class="btn btn-sm btn-warning" target="_blank" href="{{app_context}}/kb/{{result._id}}">Preview</a>
-                        <a class="btn btn-sm btn-danger" href="{{app_context}}/delete/{{result._id}}" id="del_post" onclick="return confirm('Are you sure you want to delete this article?');">Delete</a>
+                        <a class="btn btn-sm btn-warning" target="_blank" href="{{app_context}}/kb/{{result._id}}">{{__ "Preview"}}</a>
+                        <a class="btn btn-sm btn-danger" href="{{app_context}}/delete/{{result._id}}" id="del_post" onclick="return confirm('Are you sure you want to delete this article?');">{{__ "Delete"}}</a>
                     </div>
                     &nbsp;
                      <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                        <a class="btn btn-sm btn-info" target="_blank" href="{{app_context}}/kb/resetviewCount/{{result._id}}">Reset views</a>
-                        <a class="btn btn-sm btn-default" target="_blank" href="{{app_context}}/kb/resetvoteCount/{{result._id}}">Reset votes</a>
+                        <a class="btn btn-sm btn-info" target="_blank" href="{{app_context}}/kb/resetviewCount/{{result._id}}">{{__ "Reset views"}}</a>
+                        <a class="btn btn-sm btn-default" target="_blank" href="{{app_context}}/kb/resetvoteCount/{{result._id}}">{{__ "Reset votes"}}</a>
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="frm_kb_featured" {{checked_state result.kb_featured}}> Featured article
+                            <input type="checkbox" name="frm_kb_featured" {{checked_state result.kb_featured}}> {{__ "Featured article"}}
                         </label>
                     </div>
                 </li>
                 <li class="list-group-item">
-                    <label for="frm_kb_seo_title">SEO title</label>
+                    <label for="frm_kb_seo_title">{{__ "SEO title"}}</label>
                     <textarea class="form-control" name="frm_kb_seo_title" rows="3">{{if_null result.kb_seo_title result.kb_title}}</textarea>
                 </li>
                 <li class="list-group-item">
-                    <label for="frm_kb_seo_title">SEO description</label>
+                    <label for="frm_kb_seo_title">{{__ "SEO description"}}</label>
                     <textarea class="form-control" name="frm_kb_seo_description" rows="3">{{if_null result.kb_seo_description (substring (strip_md result.kb_body) 160)}}</textarea>
                 </li>
             </ul>
         </nav>
         {{#ifCond config.settings.article_versioning '===' true}}
             <nav id="versionSidebar" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" style="overflow-y: auto;">
-                <div class="cbp-spmenu-header"><div class="pull-left">Versions</div><button id="btnVersionMenu" class="btn btn-warning pull-right toggle-menu menu-left push-body"><i class="fa fa-code-fork" aria-hidden="true"></i></div></button>
+                <div class="cbp-spmenu-header"><div class="pull-left">{{__ "Versions"}}</div><button id="btnVersionMenu" class="btn btn-warning pull-right toggle-menu menu-left push-body"><i class="fa fa-code-fork" aria-hidden="true"></i></div></button>
                 <ul class="list-group list-group-sidemenu">
                     <li class="list-group-item">
-                        <label for="frm_kb_edit_reason">Edit reason</label>
+                        <label for="frm_kb_edit_reason">{{__ "Edit reason"}}</label>
                         <textarea class="form-control" name="frm_kb_edit_reason" id="frm_kb_edit_reason" rows="3"></textarea>
                     </li>
                     <li class="list-group-item">
                         {{#if versions}}
-                            <h4>Previous versions</h4>            
+                            <h4>{{__ "Previous versions"}}</h4>
                                 {{#each versions}}
                                     <div class="versionWrapper">
-                                        <span>Date: {{format_date this.kb_last_updated}}</span>                              
+                                        <span>{{__ "Date"}}: {{format_date this.kb_last_updated}}</span>
                                         <textarea class="form-control versionArea" readonly rows="2">{{this.kb_edit_reason}}</textarea>
                                         <div id="{{this._id}}" class="btn-group btn-group-justified">
-                                            <a href="#" class="btnDeleteVersion btn btn-xs btn-danger">Delete</a>
-                                            <a href="#"  class="btnEditVersion btn btn-xs btn-warning">Edit</a>
-                                            <a target="_blank" href="/kb/{{this._id}}/version" class=" btn btn-xs btn-info">Preview</a>
+                                            <a href="#" class="btnDeleteVersion btn btn-xs btn-danger">{{__ "Delete"}}</a>
+                                            <a href="#"  class="btnEditVersion btn btn-xs btn-warning">{{__ "Edit"}}</a>
+                                            <a target="_blank" href="/kb/{{this._id}}/version" class=" btn btn-xs btn-info">{{__ "Preview"}}</a>
                                         </div>
                                         <hr>
                                     </div>

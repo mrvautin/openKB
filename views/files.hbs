@@ -2,19 +2,19 @@
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<ol class="breadcrumb">
-	  			<li><a href="{{app_context}}/">Home</a></li>
-	 			<li class="active">Files</li>
+	  			<li><a href="{{app_context}}/">{{__ "Home"}}</a></li>
+	 			<li class="active">{{__ "Files"}}</li>
 			</ol>
-			<h1 class="file-form">Files</h1>
+			<h1 class="file-form">{{__ "Files"}}</h1>
 			<div class="col-md-12">
 				<form class="form-horizontal" role="form" method="post" action="{{app_context}}/file/upload" enctype="multipart/form-data">
 					<div class="form-group file-form">
 						<span class="btn btn-info btn-file">
-							Select file<input type="file" name="upload_file" id="upload_file">
+							{{__ "Select file"}}<input type="file" name="upload_file" id="upload_file">
 						</span>
 					</div>
 					<div class="form-group file-form">
-						<label for="custom_dir">Upload directory</label>
+						<label for="custom_dir">{{__ "Upload directory"}}</label>
 						<select class="form-control" name="directory">
 							{{#each dirs}}
 								<option>{{path}}</option>
@@ -22,7 +22,7 @@
 						</select>
 					</div>
 					<div class="form-group file-form">
-						<button type="submit" class="btn btn-success pull-right">Upload file</button>
+						<button type="submit" class="btn btn-success pull-right">{{__ "Upload file"}}</button>
 					</div>
 					<ul class="list-group">
 						{{#each files}}
@@ -33,17 +33,17 @@
 							</li>
 						{{/each}}
 					</ul>
-					<p class="text-warning">Tip: To insert an image right click the link, copy the link address and add it to your Markdown</p>
+					<p class="text-warning">{{__ "Tip"}}: {{__ "To insert an image right click the link, copy the link address and add it to your Markdown"}}</p>
 				</form>
 				<form class="form-horizontal" role="form" method="post" action="{{app_context}}/file/new_dir">
-					<label for="directory">New directory</label>
+					<label for="directory">{{__ "New directory"}}</label>
 					<div class="input-group">
 						<input type="text" class="form-control" name="custom_dir" id="custom_dir" placeholder="new/directory">
 						<span class="input-group-btn">
-							<button class="btn btn-success" type="submit">Create</button>
+							<button class="btn btn-success" type="submit">{{__ "Create"}}</button>
 						</span>
 					</div>
-					<p class="help-block">Multiple directories can be created using a "/" separator</p>
+					<p class="help-block">{{__ "Multiple directories can be created using a \"/\" separator"}}</p>
 				</form>
 			</div>
 		</div>
