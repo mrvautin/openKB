@@ -23,6 +23,11 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mrvautin/openKB)
 
+### Hosted/Managed
+
+Don't want to manage, upgrade and install `openKB` yourself? [ezyFAQ](https://www.ezyfaq.com) is a hosted solution with all the benefits and features of `openKB` and more but using a fully managed/hosted
+platform. 
+
 ### Features
 
 - **Search**: openKB is a search based Knowledgebase (FAQ) backed by [Lunr.js](https://github.com/olivernn/lunr.js/) indexing to create the best possible results on searches.
