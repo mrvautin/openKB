@@ -5,6 +5,8 @@ var fs = require('fs');
 var common = require('./common');
 var config = common.read_config();
 
+var appDir = path.dirname(require.main.filename);
+
 // The homepage of the site
 router.get('/', common.restrict, function(req, res, next){
     var db = req.app.db;
@@ -973,7 +975,7 @@ router.get('/file_cleanup', common.restrict, function(req, res){
 	var path = require('path');
 	var fs = require('fs');
 	var walk = require('walk');
-    var walkPath = path.join('public', 'uploads', 'inline_files');
+    var walkPath = path.join(appDir, 'public', 'uploads', 'inline_files');
     var walker = walk.walk(walkPath, {followLinks: false});
 
     // only allow admin
@@ -1096,13 +1098,13 @@ router.get('/delete/:id', common.restrict, function(req, res){
 });
 
 var multer_upload = require('multer');
-var inline_upload = multer_upload({dest: path.join('public', 'uploads', 'inline_files')});
+var inline_upload = multer_upload({dest: path.join(appDir, 'public', 'uploads', 'inline_files')});
 router.post('/file/upload_file', common.restrict, inline_upload.single('file'), function (req, res, next){
 	var fs = require('fs');
 
 	if(req.file){
 		// check for upload select
-		var upload_dir = path.join('public', 'uploads', 'inline_files');
+		var upload_dir = path.join(appDir, 'public', 'uploads', 'inline_files');
 		var relative_upload_dir = '/uploads/inline_files';
 
 		var file = req.file;
@@ -1131,7 +1133,7 @@ router.post('/file/new_dir', common.restrict, function (req, res, next){
 
 	// if new directory exists
 	if(req.body.custom_dir){
-		mkdirp(path.join('public', 'uploads', req.body.custom_dir), function (err){
+		mkdirp(path.join(appDir, 'public', 'uploads', req.body.custom_dir), function (err){
 			if(err){
 				console.error('Directory creation error: ' + err);
 				req.session.message = req.i18n.__('Directory creation error. Please try again');
@@ -1152,15 +1154,15 @@ router.post('/file/new_dir', common.restrict, function (req, res, next){
 
 // upload the file
 var multer = require('multer');
-var upload = multer({dest: path.join('public', 'uploads')});
+var upload = multer({dest: path.join(appDir, 'public', 'uploads')});
 router.post('/file/upload', common.restrict, upload.single('upload_file'), function (req, res, next){
 	var fs = require('fs');
 
 	if(req.file){
 		// check for upload select
-		var upload_dir = path.join('public', 'uploads');
+		var upload_dir = path.join(appDir, 'public', 'uploads');
 		if(req.body.directory !== '/uploads'){
-			upload_dir = path.join('public/', req.body.directory);
+			upload_dir = path.join(appDir, 'public/', req.body.directory);
 		}
 
 		var file = req.file;
