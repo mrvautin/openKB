@@ -2,7 +2,10 @@ var express = require('express');
 var path = require('path');
 var router = express.Router();
 var fs = require('fs');
+var getSlug = require('speakingurl');
 var common = require('./common');
+var _ = require('lodash');
+var mime = require('mime-types');
 var config = common.read_config();
 
 var appDir = path.dirname(require.main.filename);
@@ -1375,6 +1378,88 @@ router.post('/search', common.restrict, function(req, res){
             });
         });
 	});
+});
+
+// import form
+router.get('/import', common.restrict, function(req, res){
+	res.render('import', {
+		title: 'Import',
+		session: req.session,
+		helpers: req.handlebars,
+        message: common.clear_session_value(req.session, 'message'),
+		message_type: common.clear_session_value(req.session, 'message_type'),
+		config: config
+	});
+});
+
+router.post('/importer', common.restrict, upload.single('import_file'), function (req, res, next){
+	var fs = require('fs');
+    var path = require('path');
+    var zipExtract = require('extract-zip');
+    var rimraf = require('rimraf');
+    var db = req.app.db;
+    var file = req.file;
+
+    // check for allowed file type
+    var checkMime = _.includes('application/zip', mime.lookup(file.originalname));
+    if(checkMime === false){
+        // clean up temp file
+        fs.unlinkSync(file.path);
+
+        // return error
+        res.writeHead(400, {'Content-Type': 'application/text'});
+        res.end('File type not permitted. Please upload a zip of Markdown documents.');
+        return;
+    }
+
+    // extract our zip
+    zipExtract(file.path, {dir: path.join(__dirname, '..', 'public', 'temp', 'import')}, function (err){
+        // remove the zip
+        fs.unlinkSync(file.path);
+
+        // loop extracted files
+        fs.readdir(path.join(__dirname, '..', 'public', 'temp', 'import'), (err, files) => {
+            files.forEach(file => {
+                // check for blank permalink field and set a nice one base on the title of the FAQ
+                var fileNoExt = file.replace(/\.[^/.]+$/, '');
+                var permalink = getSlug(fileNoExt);
+                var faq_body = fs.readFileSync(path.join(__dirname, '..', 'public', 'temp', 'import', file), 'utf-8');
+                if(faq_body === ''){
+                    faq_body = 'FAQ body';
+                }
+
+                // setup the doc to insert
+                var doc = {
+                    kb_permalink: permalink,
+                    kb_title: fileNoExt,
+                    kb_body: faq_body,
+                    kb_published: 'false',
+                    kb_keywords: '',
+                    kb_published_date: new Date(),
+                    kb_last_updated: new Date(),
+                    kb_featured: 'false',
+                    kb_last_update_user: req.session.users_name + ' - ' + req.session.user,
+                    kb_author: req.session.users_name,
+                    kb_author_email: req.session.user
+                };
+
+                // check permalink if it exists
+                common.validate_permalink(db, doc, function(err, result){
+                    // duplicate permalink
+                    if(!err){
+                        // insert article
+                        db.kb.insert(doc, function (err, newDoc){});
+                    }
+                });
+            });
+
+            // clean up dir
+            rimraf.sync('public/temp/import');
+            req.session.message = 'Articles imported successfully';
+            req.session.message_type = 'success';
+            res.redirect('/import');
+        });
+    });
 });
 
 // export files into .md files and serve to browser
