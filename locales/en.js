@@ -103,5 +103,16 @@
 	"User edit": "User edit",
 	"Password values do not match": "Password values do not match",
 	"Date": "Date",
-	"View count": "View count"
+	"View count": "View count",
+	"Article title": "Article title",
+	"Status": "Status",
+	"Draft": "Draft",
+	"Insert": "Insert",
+	"Article body": "Article body",
+	"Preview": "Preview",
+	"comma, separated, list": "comma, separated, list",
+	"Permalink for the article": "Permalink for the article",
+	"Validate": "Validate",
+	"Generate": "Generate",
+	"Slug from title": "Slug from title"
 }
