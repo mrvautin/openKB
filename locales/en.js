@@ -145,5 +145,7 @@
 	"Multiple directories can be created using a \"/\" separator": "Multiple directories can be created using a \"/\" separator",
 	"Article successfully deleted": "Article successfully deleted",
 	"Keywords": "Keywords",
-	"Import": "Import"
+	"Import": "Import",
+	"New article successfully created": "New article successfully created",
+	"Successfully saved": "Successfully saved"
 }
