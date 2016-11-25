@@ -26,7 +26,7 @@ Demo: [http://openkb.mrvautin.com](http://openkb.mrvautin.com)
 ### Hosted/Managed
 
 Don't want to manage, upgrade and install `openKB` yourself? [ezyFAQ](https://www.ezyfaq.com) is a hosted solution with all the benefits and features of `openKB` and more but using a fully managed/hosted
-platform. 
+platform.
 
 ### Features
 
@@ -99,6 +99,7 @@ Most of the configuration can be done on the `/settings` page but there are some
 |`show_featured_in_article`|Whether to show any articles set to featured in a sidebar when viewing an article|
 |`featured_articles_count`|The number of featured articles shown|
 |`theme`|The theme to use for public facing pages. Leave blank for default.|
+|`locale`|The language to use for public facing pages. Leave blank for default (English).|
 |`password_protect`|Setting to "true" will require a user to login before viewing ANY pages|
 |`show_kb_meta`|Whether to show article meta data including published date, last updated date, author etc|
 |`suggest_allowed`|If enabled non authenticated users can submit article suggestions for approval|

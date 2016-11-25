@@ -28,9 +28,17 @@ var app = express();
 
 // setup the translation
 var i18n = new (require('i18n-2'))({
-    locales: ['en', 'de', 'es'],
-    directory: path.join(__dirname, 'locales/')
+    locales: ['en', 'de', 'da', 'es'],
+    directory: path.join(__dirname, 'locales/'),
+    defaultLocale: 'en',
+    cookieName: 'locale'
 });
+
+if(config.settings.locale){
+    i18n.setLocale(config.settings.locale);
+//    cookie('locale', config.settings.locale);
+    i18n.setLocaleFromCookie();
+}
 
 // compress all requests
 app.use(compression());
@@ -214,6 +222,7 @@ app.use(function (req, res, next){
     req.lunr_index = lunr_index;
     req.lunr_store = lunr_store;
     req.app_context = app_context;
+    req.i18n.setLocaleFromCookie();
 	next();
 });
 

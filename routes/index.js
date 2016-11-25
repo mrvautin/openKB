@@ -251,6 +251,7 @@ router.get('/settings', common.restrict, function(req, res){
             title: 'Settings',
             session: req.session,
             themes: files.filter(junk.not),
+            locale: Object.keys(req.i18n.locales),
             message: common.clear_session_value(req.session, 'message'),
             message_type: common.clear_session_value(req.session, 'message_type'),
             config: config,
@@ -287,6 +288,12 @@ router.post('/update_settings', common.restrict, function(req, res){
 
     // write settings to file
     fs.writeFileSync(path.join(__dirname, 'config.js'), JSON.stringify(config, null, 4), 'utf8');
+
+    if(config.settings.locale){
+        req.i18n.setLocale(config.settings.locale);
+        res.cookie('locale', config.settings.locale);
+        req.i18n.setLocaleFromCookie();
+    }
 
     // set notification
     req.session.message = req.i18n.__('Settings successfully updated.');

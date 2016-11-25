@@ -103,5 +103,13 @@
 	"User edit": "Rediger bruger",
 	"Password values do not match": "Adgangskoderne matcher ikke",
 	"Date": "Dato",
-	"View count": "Visningstal"
+	"View count": "Visningstal",
+	"Settings successfully updated.": "Settings successfully updated.",
+	"Controls whether to show the \"Website title\" text or a logo located: \"/public/logo.png\" (by default)": "Controls whether to show the \"Website title\" text or a logo located: \"/public/logo.png\" (by default)",
+	"Requires \"Allow API access\" to be set to \"true\". The value is the access token required to access the public API. Please set to a hard to guess value": "Requires \"Allow API access\" to be set to \"true\". The value is the access token required to access the public API. Please set to a hard to guess value",
+	"Setting to \"true\" will require a user to login before viewing any pages": "Setting to \"true\" will require a user to login before viewing any pages",
+	"Select a language": "Select a language",
+	"The language to use for public facing pages. Leave blank for default (English)": "The language to use for public facing pages. Leave blank for default (English)",
+	"Controls whether the authors email address is displayed in the meta. Requires \"Show article meta data\" to be true": "Controls whether the authors email address is displayed in the meta. Requires \"Show article meta data\" to be true",
+	"Import": "Import"
 }
