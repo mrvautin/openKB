@@ -100,6 +100,18 @@
                                 {{__ "The theme to use for public facing pages. Leave blank for default"}}.
                             </p>
                         </div>
+						<div class="form-group">
+                            <label class="control-label" for="show_kb_meta">{{__ "Select a language"}}:</label>
+                            <select class="form-control" name="locale">
+                                <option></option>
+                                {{#each locale}}
+                                    <option {{select_state ../config.settings.locale this}}>{{this}}</option>
+                                {{/each}}
+                            </select>
+                            <p class="help-block">
+                                {{__ "The language to use for public facing pages. Leave blank for default (English)"}}.
+                            </p>
+                        </div>
                         <div class="form-group">
                             <label class="control-label" for="show_logon">{{__ "Show logon link"}}:</label>
                             <select class="form-control" name="show_logon">

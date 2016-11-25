@@ -35,6 +35,7 @@
         "website_description": "openKB is an Open Source Node.js Markdown based knowledge base/FAQ/Wiki app with powerful lunr search",
         "article_versioning": false,
         "api_auth_token": "",
-        "api_allowed": false
+        "api_allowed": false,
+        "locale": "en"
     }
 }
