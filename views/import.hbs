@@ -1,0 +1,33 @@
+<div class="col-md-12">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<ol class="breadcrumb">
+	  			<li><a href="/">Home</a></li>
+	 			<li class="active">Import</li>
+			</ol>
+            <h1 class="file-form">Import</h1>
+			<div class="col-md-12">
+                <p class="text-muted">
+                   You are able to bulk import articles by uploading a Zip file containing files with Markdown content. When new articles are created, the name of the file will become
+                   the title/permalink. All imported articles will be set to a draft status.
+                </p>
+				<form class="form-horizontal" role="form" method="post" action="/importer" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <span class="btn btn-default btn-file"><span class="fileinput-new">Select zip</span><span class="fileinput-exists">Change</span><input type="file" name="import_file" id="import_file"></span>
+                                <span class="fileinput-filename"></span>
+                                <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group file-form">
+                                <button type="submit" class="btn btn-success pull-right">Import zip</button>
+                            </div>
+                        </div>
+                    </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	// add the responsive image class to all images
+    // add the responsive image class to all images
     $('.body_text img').each(function(){
         $(this).addClass('img-responsive');
     });
@@ -9,12 +9,12 @@ $(document).ready(function(){
         $('.body_text a').attr('target', '_blank');
     }
 
-	// setup mermaid charting
+    // setup mermaid charting
     if(typeof mermaid !== 'undefined'){
         mermaid.initialize({startOnLoad: true});
     }
 
-	// add the table class to all tables
+    // add the table class to all tables
     $('table').each(function(){
         $(this).addClass('table table-hover');
     });
@@ -101,7 +101,7 @@ $(document).ready(function(){
         }
     }
 
-	// add the token field to the keywords input
+    // add the token field to the keywords input
     if($('#frm_kb_keywords').length){
         $('#frm_kb_keywords').tokenfield();
     }
@@ -181,11 +181,11 @@ $(document).ready(function(){
         $('#btnVersionMenu').trigger('click');
         $.LoadingOverlay('show', {zIndex: 9999});
         $.ajax({
-			method: 'POST',
+            method: 'POST',
             url: $('#app_context').val() + '/api/getArticleJson',
-			data: {kb_id: $(this).parent().attr('id')}
-		})
-		.done(function(article){
+            data: {kb_id: $(this).parent().attr('id')}
+        })
+        .done(function(article){
             $.LoadingOverlay('hide');
             // populate data from fetched article
             $('#frm_kb_title').val(article.kb_title);
@@ -202,11 +202,11 @@ $(document).ready(function(){
         var groupElement = $(this).closest('.versionWrapper');
         $('#btnVersionMenu').trigger('click');
         $.ajax({
-			method: 'POST',
+            method: 'POST',
             url: $('#app_context').val() + '/api/deleteVersion',
-			data: {kb_id: $(this).parent().attr('id')}
-		})
-		.done(function(article){
+            data: {kb_id: $(this).parent().attr('id')}
+        })
+        .done(function(article){
             // remove the version elements from DOM
             groupElement.remove();
             show_notification('Version removed successfully', 'success');
@@ -229,20 +229,20 @@ $(document).ready(function(){
         });
     }
 
-	// Call to API for a change to the published state of a KB
-	$("input[class='published_state']").change(function(){
-		$.ajax({
-			method: 'POST',
-			url: $('#app_context').val() + '/published_state',
-			data: {id: this.id, state: this.checked}
-		})
-		.done(function(msg){
+    // Call to API for a change to the published state of a KB
+    $("input[class='published_state']").change(function(){
+        $.ajax({
+            method: 'POST',
+            url: $('#app_context').val() + '/published_state',
+            data: {id: this.id, state: this.checked}
+        })
+        .done(function(msg){
             show_notification(msg, 'success');
         })
         .fail(function(msg){
             show_notification(msg.responseText, 'danger');
         });
-	});
+    });
 
     // convert editor markdown to HTML and display in #preview div
     function convertTextAreaToMarkdown(){
@@ -293,81 +293,110 @@ $(document).ready(function(){
         });
     });
 
-	// Call to API to check if a permalink is available
-	$('#validate_permalink').click(function(){
-		if($('#frm_kb_permalink').val() !== ''){
-			$.ajax({
-				method: 'POST',
-				url: $('#app_context').val() + '/api/validate_permalink',
-				data: {'permalink': $('#frm_kb_permalink').val(), 'doc_id': $('#frm_kb_id').val()}
-			})
-			.done(function(msg){
-				show_notification(msg, 'success');
-			})
-			.fail(function(msg){
-				show_notification(msg.responseText, 'danger');
-			});
-		}else{
-			show_notification('Please enter a permalink to validate', 'danger');
-		}
-	});
+    // Call to API to check if a permalink is available
+    $('#validate_permalink').click(function(){
+        if($('#frm_kb_permalink').val() !== ''){
+            $.ajax({
+                method: 'POST',
+                url: $('#app_context').val() + '/api/validate_permalink',
+                data: {'permalink': $('#frm_kb_permalink').val(), 'doc_id': $('#frm_kb_id').val()}
+            })
+            .done(function(msg){
+                show_notification(msg, 'success');
+            })
+            .fail(function(msg){
+                show_notification(msg.responseText, 'danger');
+            });
+        }else{
+            show_notification('Please enter a permalink to validate', 'danger');
+        }
+    });
 
-	// generates a random permalink
-	$('#generate_permalink').click(function(){
-		var min = 100000;
-		var max = 999999;
-		var num = Math.floor(Math.random() * (max - min + 1)) + min;
-		$('#frm_kb_permalink').val(num);
-	});
+    // generates a random permalink
+    $('#generate_permalink').click(function(){
+        var min = 100000;
+        var max = 999999;
+        var num = Math.floor(Math.random() * (max - min + 1)) + min;
+        $('#frm_kb_permalink').val(num);
+    });
 
-	// applies an article filter
-	$('#btn_articles_filter').click(function(){
-		window.location.href = $('#app_context').val() + '/articles/' + $('#article_filter').val();
-	});
+    // function to slugify strings
+    function slugify(str) {
+        var $slug = '';
+        var trimmed = $.trim(str);
+        $slug = trimmed.replace(/[^a-z0-9-æøå]/gi, '-').
+        replace(/-+/g, '-').
+        replace(/^-|-$/g, '').
+        replace(/æ/gi, 'ae').
+        replace(/ø/gi, 'oe').
+        replace(/å/gi, 'a');
+        return $slug.toLowerCase();
+    }
 
-	// resets the article filter
-	$('#btn_articles_reset').click(function(){
-		window.location.href = $('#app_context').val() + '/articles';
-	});
+    // generates a permalink from title with form validation
+    $('#frm_kb_title').change(function(){
+        var title = $(this).val();
+        if (title && title.length > 5) {
+            $('#generate_permalink_from_title').removeClass('disabled');
+            $('#generate_permalink_from_title').click(function(){
+                var title = $('#frm_kb_title').val();
+                if (title && title.length > 5) {
+                    $('#frm_kb_permalink').val(slugify(title));
+                }
+            });
+        } else {
+            $('#generate_permalink_from_title').addClass('disabled');
+        }
+    });
 
-	// search button click event
-	$('#btn_search').click(function(event){
-		if($('#frm_search').val() === ''){
-			show_notification('Please enter a search value', 'danger');
-			event.preventDefault();
-		}
-	});
+    // applies an article filter
+    $('#btn_articles_filter').click(function(){
+        window.location.href = $('#app_context').val() + '/articles/' + $('#article_filter').val();
+    });
 
-	if($('#input_notify_message').val() !== ''){
-		// save values from inputs
-		var message_val = $('#input_notify_message').val();
-		var message_type_val = $('#input_notify_message_type').val();
+    // resets the article filter
+    $('#btn_articles_reset').click(function(){
+        window.location.href = $('#app_context').val() + '/articles';
+    });
 
-		// clear inputs
-		$('#input_notify_message').val('');
-		$('#input_notify_message_type').val('');
+    // search button click event
+    $('#btn_search').click(function(event){
+        if($('#frm_search').val() === ''){
+            show_notification('Please enter a search value', 'danger');
+            event.preventDefault();
+        }
+    });
 
-		// alert
-		show_notification(message_val, message_type_val, false);
-	}
+    if($('#input_notify_message').val() !== ''){
+        // save values from inputs
+        var message_val = $('#input_notify_message').val();
+        var message_type_val = $('#input_notify_message_type').val();
+
+        // clear inputs
+        $('#input_notify_message').val('');
+        $('#input_notify_message_type').val('');
+
+        // alert
+        show_notification(message_val, message_type_val, false);
+    }
 });
 
 // Calls the API to delete a file
 function file_delete_confirm(img, id){
-	if(window.confirm('Are you sure you want to delete the file?')){
-		$.ajax({
-			method: 'POST',
-			url: $('#app_context').val() + '/file/delete',
-			data: {img: img}
-		})
-		.done(function(msg){
-			$('#file-' + id).remove();
-			show_notification(msg, 'success');
-		})
-		.fail(function(msg){
-			show_notification(msg, 'danger');
-		});
-	}
+    if(window.confirm('Are you sure you want to delete the file?')){
+        $.ajax({
+            method: 'POST',
+            url: $('#app_context').val() + '/file/delete',
+            data: {img: img}
+        })
+        .done(function(msg){
+            $('#file-' + id).remove();
+            show_notification(msg, 'success');
+        })
+        .fail(function(msg){
+            show_notification(msg, 'danger');
+        });
+    }
 }
 
 // show notification popup
@@ -386,7 +415,7 @@ function show_notification(msg, type, reload_page){
 }
 
 function search_form(id){
-	$('form#' + id).submit();
+    $('form#' + id).submit();
 }
 
 function convertToSlug(text){
