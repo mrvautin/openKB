@@ -152,5 +152,8 @@
 	"Access denied. Check password and try again.": "Access denied. Check password and try again.",
 	"Select a language": "Select a language",
 	"The language to use for public facing pages. Leave blank for default (English)": "The language to use for public facing pages. Leave blank for default (English)",
-	"Settings successfully updated.": "Settings successfully updated."
+	"Settings successfully updated.": "Settings successfully updated.",
+	"Results for": "Results for",
+	"No results found": "No results found",
+	"Access denied": "Access denied"
 }
