@@ -151,5 +151,8 @@
 	"Last updated": "Zuletzt aktualisiert",
 	"Share article": "Artikel teilen",
 	"Author": "Autor",
-	"Keywords": "Keywords"
+	"Keywords": "Keywords",
+	"Import": "Import",
+	"Select a language": "Select a language",
+	"The language to use for public facing pages. Leave blank for default (English)": "The language to use for public facing pages. Leave blank for default (English)"
 }
