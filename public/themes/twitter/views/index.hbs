@@ -100,12 +100,12 @@
     {{else}}
         <div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
     {{/if}}
-		{{#if results.length}}
+		{{#if search_results.length}}
 			<div class="panel panel-default" style="margin-top: 30px;">
 				<div class="panel-heading">Results for: {{search_term}}</div>
 				<div class="panel-body">
 					<ul class="list-group">
-						{{#each results}}
+						{{#each search_results}}
 							{{#if this.kb_permalink}}
 								<li class="list-group-item">
 									<h4>
