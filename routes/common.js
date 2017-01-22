@@ -8,7 +8,13 @@ exports.clear_session_value = function(session, session_var){
 };
 
 exports.read_config = function(){
-    return JSON.parse(fs.readFileSync(path.join(__dirname, 'config.js')));
+    var loadedConfig = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.js')));
+
+    if(loadedConfig.settings.database.type === 'mongodb'){
+        loadedConfig.settings.database.connection_string = process.env.MONGODB_CONNECTION_STRING || loadedConfig.settings.database.connection_string;
+    }
+
+    return loadedConfig;
 };
 
 // This is called on the suggest url. If the value is set to false in the config

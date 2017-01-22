@@ -153,6 +153,11 @@ Here is an example `config.js` for a MongoDB server. You can use your own localh
 }
 ```
 
+Alternately, for security reasons, you can use the Node environment variable (below) to store your MongoDB connection string.
+``` javascript
+MONGODB_CONNECTION_STRING
+```
+
 ### Public API
 
 An optional public API can be enabled through `/settings` to allow inserting of documents by HTTP POST using services like IFTTT etc.
