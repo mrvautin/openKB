@@ -383,7 +383,7 @@ router.post('/insert_kb', common.restrict, function(req, res){
 
 	db.kb.count({'kb_permalink': req.body.frm_kb_permalink}, function (err, kb){
 		if(kb > 0 && req.body.frm_kb_permalink !== ''){
-			// permalink exits
+			// permalink exists
 			req.session.message = req.i18n.__('Permalink already exists. Pick a new one.');
 			req.session.message_type = 'danger';
 
@@ -551,7 +551,7 @@ router.post('/save_kb', common.restrict, function(req, res){
 
     db.kb.count({'kb_permalink': req.body.frm_kb_permalink, $not: {_id: common.getId(req.body.frm_kb_id)}, kb_versioned_doc: {$ne: true}}, function (err, kb){
 		if(kb > 0 && req.body.frm_kb_permalink !== ''){
-			// permalink exits
+			// permalink exists
 			req.session.message = req.i18n.__('Permalink already exists. Pick a new one.');
 			req.session.message_type = 'danger';
 

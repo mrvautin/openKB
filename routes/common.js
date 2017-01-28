@@ -135,7 +135,11 @@ exports.getId = function(id){
     }
     if(id.length !== 24){
         return id;
-    }
+    } else {
+		if (parseInt(id,16).toString(16) !== id.toLowerCase()){
+			return id;
+		}
+	}
     return ObjectID(id);
 };
 
