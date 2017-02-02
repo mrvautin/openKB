@@ -739,18 +739,14 @@ router.get('/users/new', common.restrict, function(req, res){
         return;
     }
 
-    var db = req.app.db;
-    db.users.findOne({_id: common.getId(req.params.id)}, function (err, user){
-        res.render('user_new', {
-            title: 'User - New',
-            user: user,
-            session: req.session,
-            message: common.clear_session_value(req.session, 'message'),
-            message_type: common.clear_session_value(req.session, 'message_type'),
-            config: config,
-            helpers: req.handlebars
-        });
-	});
+    res.render('user_new', {
+        title: 'User - New',
+        session: req.session,
+        message: common.clear_session_value(req.session, 'message'),
+        message_type: common.clear_session_value(req.session, 'message_type'),
+        config: config,
+        helpers: req.handlebars
+    });
 });
 
 // kb list

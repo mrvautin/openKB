@@ -155,5 +155,6 @@
 	"Settings successfully updated.": "Settings successfully updated.",
 	"Results for": "Results for",
 	"No results found": "No results found",
-	"Access denied": "Access denied"
+	"Access denied": "Access denied",
+	"User account inserted": "User account inserted"
 }
