@@ -88,6 +88,7 @@ Most of the configuration can be done on the `/settings` page but there are some
 
 |Setting|Description|
 |--- |--- |
+|`route_name`|Sets the value in the URL for viewing an article (defaults to `kb`)|
 |`num_top_results`|Sets the number of results shown on the home page|
 |`date_format`|Sets the global date formatting. Uses moment.js date formatting, see more here: http://momentjs.com/docs/#/displaying|
 |`show_view_count`|Shows the view count next to the results on the homepage and search|

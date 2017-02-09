@@ -23,9 +23,9 @@
                     <li class="list-group-item list-group-heading">Featured articles</li>
                     {{#each featured_results}}
                         {{#if this.kb_permalink}}
-                            <li class="list-group-item"><h5><a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a></h5></li>
+                            <li class="list-group-item"><h5><a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this.kb_permalink}}">{{this.kb_title}}</a></h5></li>
                         {{else}}
-                            <li class="list-group-item"><h5><a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a></h5></li>
+                            <li class="list-group-item"><h5><a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this._id}}">{{this.kb_title}}</a></h5></li>
                         {{/if}}
                     {{/each}}
                 </ul>
@@ -43,15 +43,15 @@
                         {{#if this.kb_permalink}}
                             <li class="list-group-item">
                                 <h5>
-                                    <a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a>
-                                    {{#if ../../config.settings.show_published_date}}
-                                        {{#if ../../../config.settings.show_view_count}}
+                                    <a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this.kb_permalink}}">{{this.kb_title}}</a>
+                                    {{#if @root.config.settings.show_published_date}}
+                                        {{#if @root.config.settings.show_view_count}}
                                             <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
                                         {{else}}
                                             <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
                                         {{/if}}
                                     {{/if}}
-                                    {{#if ../../config.settings.show_view_count}}
+                                    {{#if @root.config.settings.show_view_count}}
                                         <span class="pull-right view_count"><strong>View count:</strong> {{view_count this.kb_viewcount}}</span>
                                     {{/if}}
                                 </h5>
@@ -59,15 +59,15 @@
                         {{else}}
                             <li class="list-group-item">
                                 <h5>
-                                    <a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a>
-                                    {{#if ../../config.settings.show_published_date}}
-                                        {{#if ../../../config.settings.show_view_count}}
+                                    <a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this._id}}">{{this.kb_title}}</a>
+                                    {{#if @root.config.settings.show_published_date}}
+                                        {{#if @root.config.settings.show_view_count}}
                                             <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
                                         {{else}}
                                             <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
                                         {{/if}}
                                     {{/if}}
-                                    {{#if ../../config.settings.show_view_count}}
+                                    {{#if @root.onfig.settings.show_view_count}}
                                         <span class="pull-right view_count"><strong>View count: </strong>{{view_count this.kb_viewcount}}</span>
                                     {{/if}}
                                 </h5>
@@ -88,9 +88,9 @@
                             <li class="list-group-item col-md-6">
                                 <h5>
                                 {{#if kb_permalink}}
-                                    <a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a>
+                                    <a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this.kb_permalink}}">{{this.kb_title}}</a>
                                 {{else}}
-                                    <a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a>
+                                    <a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this._id}}">{{this.kb_title}}</a>
                                 {{/if}}
                                 </h5>
                             </li>

@@ -103,7 +103,7 @@ router.post('/vote', function(req, res){
 });
 
 // Render a version of the article to logged in users
-router.get('/kb/:id/version', common.restrict, function(req, res){
+router.get('/' + config.settings.route_name + '/:id/version', common.restrict, function(req, res){
     var db = req.app.db;
     common.config_expose(req.app);
 	var classy = require('../public/javascripts/markdown-it-classy');
@@ -146,7 +146,7 @@ router.get('/kb/:id/version', common.restrict, function(req, res){
     });
 });
 
-router.get('/kb/:id', common.restrict, function(req, res){
+router.get('/' + config.settings.route_name + '/:id', common.restrict, function(req, res){
     var db = req.app.db;
     common.config_expose(req.app);
 	var classy = require('../public/javascripts/markdown-it-classy');
@@ -304,7 +304,7 @@ router.post('/update_settings', common.restrict, function(req, res){
 });
 
 // resets the view count of a given article ID
-router.get('/kb/resetviewCount/:id', common.restrict, function(req, res){
+router.get('/' + config.settings.route_name + '/resetviewCount/:id', common.restrict, function(req, res){
     var db = req.app.db;
     db.kb.update({_id: common.getId(req.params.id)}, {$set: {kb_viewcount: 0}}, {multi: false}, function (err, numReplaced){
         if(err){
@@ -321,7 +321,7 @@ router.get('/kb/resetviewCount/:id', common.restrict, function(req, res){
 });
 
 // resets the vote count of a given article ID
-router.get('/kb/resetvoteCount/:id', common.restrict, function(req, res){
+router.get('/' + config.settings.route_name + '/resetvoteCount/:id', common.restrict, function(req, res){
     var db = req.app.db;
     db.kb.update({_id: common.getId(req.params.id)}, {$set: {kb_votes: 0}}, {multi: false}, function (err, numReplaced){
         if(err){
@@ -1515,9 +1515,9 @@ router.get('/sitemap.xml', function(req, res, next){
         for(var key in articles){
             if(Object.prototype.hasOwnProperty.call(articles, key)){
                 // check for permalink
-                var pageUrl = '/kb/' + articles[key]._id;
+                var pageUrl = '/' + config.settings.route_name + '/' + articles[key]._id;
                 if(articles[key].kb_permalink !== ''){
-                    pageUrl = '/kb/' + articles[key].kb_permalink;
+                    pageUrl = '/' + config.settings.route_name + '/' + articles[key].kb_permalink;
                 }
                 urlArray.push({url: pageUrl, changefreq: 'weekly', priority: 1.0});
             }

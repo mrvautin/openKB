@@ -1,5 +1,6 @@
 {
     "settings": {
+        "route_name": "kb",
         "num_top_results": "10",
         "date_format": "DD/MM/YYYY h:mmA",
         "show_view_count": true,

@@ -61,7 +61,7 @@ $(document).ready(function(){
                         $('.searchResultList').append('<li class="list-group-item list-group-heading">Search results</li>');
                         for(var result in results){
                             var ref = results[result].ref;
-                            var searchitem = '<li class="list-group-item"><a href="/kb/' + store[ref].p + '">' + store[ref].t + '</a></li>';
+                            var searchitem = '<li class="list-group-item"><a href="/' + config.route_name + '/' + store[ref].p + '">' + store[ref].t + '</a></li>';
                             $('.searchResultList').append(searchitem);
                         }
                         $('#searchResult').removeClass('hidden');

@@ -23,9 +23,9 @@
                     <li class="list-group-item list-group-heading">Featured articles</li>
                     {{#each featured_results}}
                         {{#if this.kb_permalink}}
-                            <li class="list-group-item"><h5><a href="{{app_context}}/kb/{{this.kb_permalink}}">{{this.kb_title}}</a></h5></li>
+                            <li class="list-group-item"><h5><a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this.kb_permalink}}">{{this.kb_title}}</a></h5></li>
                         {{else}}
-                            <li class="list-group-item"><h5><a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a></h5></li>
+                            <li class="list-group-item"><h5><a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this._id}}">{{this.kb_title}}</a></h5></li>
                         {{/if}}
                     {{/each}}
                 </ul>
@@ -79,11 +79,11 @@
                             </h5>
                             {{#if result.kb_permalink}}
                                 <h5 class="col-sm-12 col-lg-6">
-                                    <strong>Share article:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/kb/{{encodeURI result.kb_permalink}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                                    <strong>Share article:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/{{@root.config.settings.route_name}}/{{encodeURI result.kb_permalink}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
                                 </h5>
                             {{else}}
                                 <h5 class="col-sm-12 col-lg-6">
-                                    <strong>Share article:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/kb/{{result._id}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                                    <strong>Share article:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/{{@root.config.settings.route_name}}/{{result._id}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
                                 </h5>
                             {{/if}}
                             {{#if result.kb_author}}
@@ -93,7 +93,7 @@
                             {{/if}}
                             {{#if result.kb_permalink}}
                             <h5 class="col-sm-12 col-lg-6">
-                                <strong>Permalink:</strong> <a href="{{current_url}}/kb/{{result.kb_permalink}}" target="_blank">{{current_url}}/kb/{{result.kb_permalink}}</a>
+                                <strong>Permalink:</strong> <a href="{{current_url}}/{{@root.config.settings.route_name}}/{{result.kb_permalink}}" target="_blank">{{current_url}}/{{@root.config.settings.route_name}}/{{result.kb_permalink}}</a>
                             </h5>
                             {{/if}}
                         </div>

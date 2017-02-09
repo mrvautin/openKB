@@ -86,9 +86,9 @@
                             </div>
                              <div class="panel-footer featuredArticlesFooter">
                                 {{#if this.kb_permalink}}
-                                    <a href="/kb/{{this.kb_permalink}}">MORE</a>
+                                    <a href="/{{@root.config.settings.route_name}}/{{this.kb_permalink}}">MORE</a>
                                 {{else}}
-                                    <a href="/kb/{{this._id}}">MORE</a>
+                                    <a href="/{{@root.config.settings.route_name}}kb/{{this._id}}">MORE</a>
                                 {{/if}}  
                             </div>
                         </div>
@@ -109,15 +109,15 @@
 							{{#if this.kb_permalink}}
 								<li class="list-group-item">
 									<h4>
-										<a href="/kb/{{this.kb_permalink}}">{{this.kb_title}}</a>
-                                        {{#if ../../config.settings.show_published_date}}
-                                            {{#if ../../../config.settings.show_view_count}}
+										<a href="/{{@root.config.settings.route_name}}/{{this.kb_permalink}}">{{this.kb_title}}</a>
+                                        {{#if @root.config.settings.show_published_date}}
+                                            {{#if @root.config.settings.show_view_count}}
                                                 <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
                                             {{else}}
                                                 <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
                                             {{/if}}
                                         {{/if}}
-										{{#if ../../config.settings.show_view_count}}
+										{{#if @root.config.settings.show_view_count}}
                                             <span class="pull-right view_count"><strong>View count:</strong> {{view_count this.kb_viewcount}}</span>
 										{{/if}}
 									</h4>
@@ -125,15 +125,15 @@
 							{{else}}
 								<li class="list-group-item">
 									<h4>
-										<a href="/kb/{{this._id}}">{{this.kb_title}}</a>
-                                        {{#if ../../config.settings.show_published_date}}
-                                            {{#if ../../../config.settings.show_view_count}}
+										<a href="/{{@root.config.settings.route_name}}/{{this._id}}">{{this.kb_title}}</a>
+                                        {{#if @root.config.settings.show_published_date}}
+                                            {{#if @root.config.settings.show_view_count}}
                                                 <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
                                             {{else}}
                                                 <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
                                             {{/if}}
                                         {{/if}}
-										{{#if ../../config.settings.show_view_count}}
+										{{#if @root.config.settings.show_view_count}}
                                             <span class="pull-right view_count"><strong>View count: </strong>{{view_count this.kb_viewcount}}</span>
 										{{/if}}
 									</h4>
@@ -152,18 +152,18 @@
 							 <li class="list-group-item">
 								 <h4>
 									{{#if kb_permalink}}
-										<a href="/kb/{{this.kb_permalink}}">{{this.kb_title}}</a>
+										<a href="/{{@root.config.settings.route_name}}/{{this.kb_permalink}}">{{this.kb_title}}</a>
 									{{else}}
-										<a href="/kb/{{this._id}}">{{this.kb_title}}</a>
+										<a href="/{{@root.config.settings.route_name}}/{{this._id}}">{{this.kb_title}}</a>
 									{{/if}}
-                                    {{#if ../../config.settings.show_published_date}}
-                                        {{#if ../../config.settings.show_view_count}}
+                                    {{#if @root.config.settings.show_published_date}}
+                                        {{#if @root.config.settings.show_view_count}}
                                             <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
                                         {{else}}
                                             <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
                                         {{/if}}
                                     {{/if}}
-									{{#if ../config.settings.show_view_count}}
+									{{#if @root.config.settings.show_view_count}}
 								 		<span class="pull-right view_count"><strong>View count:</strong> {{view_count this.kb_viewcount}}</span>
 									{{/if}}
 									{{#if this.kb_password}}

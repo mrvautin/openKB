@@ -93,7 +93,7 @@
                             <select class="form-control" name="theme">
                                 <option></option>
                                 {{#each themes}}
-                                    <option {{select_state ../config.settings.theme this}}>{{this}}</option>
+                                    <option {{select_state @root.config.settings.theme this}}>{{this}}</option>
                                 {{/each}}
                             </select>
                             <p class="help-block">
@@ -105,7 +105,7 @@
                             <select class="form-control" name="locale">
                                 <option></option>
                                 {{#each locale}}
-                                    <option {{select_state ../config.settings.locale this}}>{{this}}</option>
+                                    <option {{select_state @root.config.settings.locale this}}>{{this}}</option>
                                 {{/each}}
                             </select>
                             <p class="help-block">

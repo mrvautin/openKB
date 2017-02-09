@@ -1,6 +1,6 @@
 {
   "name": "openkb",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "openKB is an Open Source Nodejs Markdown based knowledge base/FAQ/Wiki app with powerful lunr search",
   "private": false,
   "scripts": {

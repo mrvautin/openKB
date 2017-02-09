@@ -14,6 +14,10 @@ exports.read_config = function(){
         loadedConfig.settings.database.connection_string = process.env.MONGODB_CONNECTION_STRING || loadedConfig.settings.database.connection_string;
     }
 
+    if(typeof loadedConfig.settings.route_name === 'undefined' || loadedConfig.settings.route_name === ''){
+        loadedConfig.settings.route_name = 'kb';
+    }
+
     return loadedConfig;
 };
 
@@ -64,7 +68,8 @@ exports.restrict = function(req, res, next){
 			return;
 		}
 	}
-	if(url_path.substring(0, 3) === '/kb'){
+
+	if(url_path.substring(0, config.settings.route_name.length + 1) === '/' + config.settings.route_name){
 		if(config.settings.password_protect === false){
 			next();
 			return;
@@ -103,6 +108,7 @@ exports.check_login = function(req, res, next){
 exports.config_expose = function(app){
     var config = exports.read_config();
     var clientConfig = {};
+    clientConfig.route_name = config.settings.route_name !== undefined ? config.settings.route_name : 'kb';
     clientConfig.add_header_anchors = config.settings.add_header_anchors !== undefined ? config.settings.add_header_anchors : false;
     clientConfig.links_blank_page = config.settings.links_blank_page !== undefined ? config.settings.links_blank_page : true;
     clientConfig.typeahead_search = config.settings.typeahead_search !== undefined ? config.settings.typeahead_search : true;

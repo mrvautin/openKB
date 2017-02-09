@@ -75,13 +75,13 @@
             <ul class="list-group list-group-sidemenu">
                 <li class="list-group-item">
                     <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                        <a class="btn btn-sm btn-warning" target="_blank" href="{{app_context}}/kb/{{result._id}}">{{__ "Preview"}}</a>
+                        <a class="btn btn-sm btn-warning" target="_blank" href="{{app_context}}/{{@root.config.settings.route_name}}/{{result._id}}">{{__ "Preview"}}</a>
                         <a class="btn btn-sm btn-danger" href="{{app_context}}/delete/{{result._id}}" id="del_post" onclick="return confirm('Are you sure you want to delete this article?');">{{__ "Delete"}}</a>
                     </div>
                     &nbsp;
                      <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                        <a class="btn btn-sm btn-info" target="_blank" href="{{app_context}}/kb/resetviewCount/{{result._id}}">{{__ "Reset views"}}</a>
-                        <a class="btn btn-sm btn-default" target="_blank" href="{{app_context}}/kb/resetvoteCount/{{result._id}}">{{__ "Reset votes"}}</a>
+                        <a class="btn btn-sm btn-info" target="_blank" href="{{app_context}}/{{@root.config.settings.route_name}}/resetviewCount/{{result._id}}">{{__ "Reset views"}}</a>
+                        <a class="btn btn-sm btn-default" target="_blank" href="{{app_context}}/{{@root.config.settings.route_name}}/resetvoteCount/{{result._id}}">{{__ "Reset votes"}}</a>
                     </div>
                 </li>
                 <li class="list-group-item">
@@ -119,7 +119,7 @@
                                         <div id="{{this._id}}" class="btn-group btn-group-justified">
                                             <a href="#" class="btnDeleteVersion btn btn-xs btn-danger">{{__ "Delete"}}</a>
                                             <a href="#"  class="btnEditVersion btn btn-xs btn-warning">{{__ "Edit"}}</a>
-                                            <a target="_blank" href="/kb/{{this._id}}/version" class=" btn btn-xs btn-info">{{__ "Preview"}}</a>
+                                            <a target="_blank" href="/{{@root.config.settings.route_name}}/{{this._id}}/version" class=" btn btn-xs btn-info">{{__ "Preview"}}</a>
                                         </div>
                                         <hr>
                                     </div>
