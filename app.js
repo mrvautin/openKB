@@ -172,6 +172,7 @@ handlebars = handlebars.create({
 
 app.enable('trust proxy');
 app.set('port', process.env.PORT || 4444);
+app.set('bind', process.env.BIND || '127.0.0.1');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -287,8 +288,8 @@ if(config.settings.database.type === 'embedded'){
     // add articles to index
     indexArticles(db, function(err){
         // lift the app
-        app.listen(app.get('port'), function (){
-            console.log('openKB running on host: http://localhost:' + app.get('port'));
+        app.listen(app.get('port'), app.get('bind'), function (){
+            console.log('openKB running on host: http://' + app.get('bind') + ':' + app.get('port'));
             app.emit('openKBstarted');
         });
     });
@@ -311,8 +312,8 @@ if(config.settings.database.type === 'embedded'){
         // add articles to index
         indexArticles(db, function(err){
             // lift the app
-            app.listen(app.get('port'), function (){
-                console.log('openKB running on host: http://localhost:' + app.get('port'));
+            app.listen(app.get('port'), app.get('bind'), function (){
+                console.log('openKB running on host: http://' + app.get('bind') + ':' + app.get('port'));
                 app.emit('openKBstarted');
             });
         });
