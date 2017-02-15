@@ -156,5 +156,7 @@
 	"Results for": "Results for",
 	"No results found": "No results found",
 	"Access denied": "Access denied",
-	"User account inserted": "User account inserted"
+	"User account inserted": "User account inserted",
+	"Directory successfully created": "Directory successfully created",
+	"File uploaded successfully": "File uploaded successfully"
 }

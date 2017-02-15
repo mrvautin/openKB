@@ -1239,25 +1239,26 @@ router.get('/files', common.restrict, function(req, res){
 
 		// loop these files
 		for(var i = 0; i < files.length; i++){
-			// only want files
-			if(fs.lstatSync(files[i]).isDirectory() === false){
-				// declare the file object and set its values
-				var file = {
-					id: i,
-					path: files[i].substring(6)
-				};
+            if(fs.existsSync(files[i])){
+                if(fs.lstatSync(files[i]).isDirectory() === false){
+                    // declare the file object and set its values
+                    var file = {
+                        id: i,
+                        path: files[i].substring(6)
+                    };
 
-				// push the file object into the array
-				file_list.push(file);
-			}else{
-				var dir = {
-					id: i,
-					path: files[i].substring(6)
-				};
+                    // push the file object into the array
+                    file_list.push(file);
+                }else{
+                    var dir = {
+                        id: i,
+                        path: files[i].substring(6)
+                    };
 
-				// push the dir object into the array
-				dir_list.push(dir);
-			}
+                    // push the dir object into the array
+                    dir_list.push(dir);
+                }
+            }
 		}
 
 		// render the files route
