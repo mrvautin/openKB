@@ -132,7 +132,7 @@
 	"Delete": "Löschen",
 	"Reset views": "Ansichten zurücksetzen",
 	"Reset votes": "Bewertungen zurücksetzen",
-	"Featured article": "Gefeatureter Artikel",
+	"Featured article": "Vorgestellte Artikel",
 	"SEO title": "SEO-Titel",
 	"SEO description": "SEO-Beschreibung",
 	"Successfully saved": "Erfolgreich gespeichert",
