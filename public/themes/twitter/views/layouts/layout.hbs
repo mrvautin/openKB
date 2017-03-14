@@ -29,29 +29,29 @@
         {{/if}}
 		<link rel="stylesheet" href="{{app_context}}/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="{{app_context}}/simplemde/simplemde.min.css">
-        <link rel="stylesheet" href="/stylesheets/github.css">
-		<link rel="stylesheet" href="/themes/twitter/css/style.css">
+        <link rel="stylesheet" href="{{app_context}}/stylesheets/github.css">
+		<link rel="stylesheet" href="{{app_context}}/themes/twitter/css/style.css">
 		<link rel="stylesheet" href="{{app_context}}/font-awesome/css/font-awesome.min.css">
-		<link rel="stylesheet" href="/stylesheets/mermaid.css">
-		<link rel="stylesheet" href="/stylesheets/bootstrap-tokenfield.css">
-        <link rel="stylesheet" href="/stylesheets/jpushmenu.css">
+		<link rel="stylesheet" href="{{app_context}}/stylesheets/mermaid.css">
+		<link rel="stylesheet" href="{{app_context}}/stylesheets/bootstrap-tokenfield.css">
+        <link rel="stylesheet" href="{{app_context}}/stylesheets/jpushmenu.css">
 		<script src="{{app_context}}/jquery/jquery.min.js"></script>
         <script>{{{state}}}</script>
 		<script src="{{app_context}}/bootstrap/js/bootstrap.min.js"></script>
-        <script src="/javascripts/bootstrap-validator.js"></script>
-		<script src="/javascripts/mermaid.min.js"></script>
-		<script src="/javascripts/markdown-it-classy.js"></script>
-		<script src="/javascripts/bootstrap-tokenfield.min.js"></script>
-        <script src="/javascripts/inline-attachment.js"></script>
-		<script src="/javascripts/codemirror.inline-attachment.js"></script>
-        <script src="/javascripts/highlight.min.js"></script>
+        <script src="{{app_context}}/javascripts/bootstrap-validator.js"></script>
+		<script src="{{app_context}}/javascripts/mermaid.min.js"></script>
+		<script src="{{app_context}}/javascripts/markdown-it-classy.js"></script>
+		<script src="{{app_context}}/javascripts/bootstrap-tokenfield.min.js"></script>
+        <script src="{{app_context}}/javascripts/inline-attachment.js"></script>
+		<script src="{{app_context}}/javascripts/codemirror.inline-attachment.js"></script>
+        <script src="{{app_context}}/javascripts/highlight.min.js"></script>
         <script src="{{app_context}}/simplemde/simplemde.min.js"></script>
 		<script src="{{app_context}}/markdown-it/markdown-it.min.js"></script>
         {{#ifCond config.settings.typeahead_search '===' true}}
         <script src="{{app_context}}/lunr/lunr.min.js"></script>
         {{/ifCond}}
-        <script src="/javascripts/jpushmenu.js"></script>
-		<script src="/javascripts/openKB.js"></script>
+        <script src="{{app_context}}/javascripts/jpushmenu.js"></script>
+		<script src="{{app_context}}/javascripts/openKB.js"></script>
         {{#ifCond user_page '===' true}}
         {{#if config.settings.google_analytics}}
         {{{config.settings.google_analytics}}}
