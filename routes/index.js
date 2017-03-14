@@ -1111,7 +1111,7 @@ router.post('/file/upload_file', common.restrict, inline_upload.single('file'), 
 	if(req.file){
 		// check for upload select
 		var upload_dir = path.join(appDir, 'public', 'uploads', 'inline_files');
-		var relative_upload_dir = '/uploads/inline_files';
+		var relative_upload_dir = req.app_context + '/uploads/inline_files';
 
 		var file = req.file;
 		var source = fs.createReadStream(file.path);
