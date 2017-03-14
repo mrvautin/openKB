@@ -115,7 +115,7 @@ $(document).ready(function(){
         });
 
         // setup inline attachments
-        inlineAttachment.editors.codemirror4.attach(simplemde.codemirror, {uploadUrl: '/file/upload_file'});
+        inlineAttachment.editors.codemirror4.attach(simplemde.codemirror, {uploadUrl: $('#app_context').val() + '/file/upload_file'});
 
         // do initial convert on load
         convertTextAreaToMarkdown();
