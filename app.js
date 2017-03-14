@@ -69,11 +69,15 @@ handlebars = handlebars.create({
             return i18n.__(value);
         },
         split_keywords: function (keywords){
+            var app_context = config.settings.app_context;
+            if(app_context !== ''){
+                app_context = '/' + app_context;
+            }
             if(keywords){
                 var array = keywords.split(','); var links = '';
                 for(var i = 0; i < array.length; i++){
                     if(array[i].trim() !== ''){
-                        links += "<a href='/search/" + array[i].trim() + "'>" + array[i].trim() + '</a>&nbsp;|&nbsp;';
+                        links += '<a href="' + app_context + '/search/' + array[i].trim() + '">' + array[i].trim() + '</a>&nbsp;|&nbsp;';
                     }
                 }return links.substring(0, links.length - 1);
             }
