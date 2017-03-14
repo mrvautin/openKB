@@ -94,10 +94,10 @@
 						<span class="icon-bar"></span>
 					</button>
                     {{#ifCond config.settings.show_website_logo '===' true}}
-                    <a class="navbar-brand brand-image" href="{{app_context}}/"><img src="static/logo.png" width="140"></a>
+                    <a class="navbar-brand brand-image" href="{{app_context}}/"><img src="{{app_context}}/static/logo.png" width="140"></a>
                     {{else}}
                         {{#ifCond config.settings.website_title '===' 'openKB'}}
-                        <a class="navbar-brand brand-image" href="{{app_context}}/"><img src="{{app_context}}/logo.png" width="140"></a>
+                        <a class="navbar-brand brand-image" href="{{app_context}}/"><img src="{{app_context}}/static/logo.png" width="140"></a>
                         {{else}}
                         <a class="navbar-brand" href="{{app_context}}/">{{config.settings.website_title}}</a>
                         {{/ifCond}}
