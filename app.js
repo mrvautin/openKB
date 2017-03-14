@@ -59,7 +59,7 @@ if(config.settings.theme){
 
 // view engine setup
 app.set('views', path.join(__dirname, '/views'));
-app.engine('hbs', handlebars({extname: 'hbs', layoutsDir: path.join(__dirname, '/views/layouts'), defaultLayout: 'layout.hbs'}));
+app.engine('hbs', handlebars({extname: 'hbs', layoutsDir: path.join(__dirname, '/views/layouts'), defaultLayout: 'layout.hbs', partialsDir: 'public/themes/'}));
 app.set('view engine', 'hbs');
 
 // helpers for the handlebar templating platform

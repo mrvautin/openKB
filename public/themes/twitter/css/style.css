@@ -115,6 +115,20 @@ p.subheading {
     font-size: 14px;
 }
 
+.searchResultList li a{
+    text-align: left;
+    color: #337ab7;
+}
+
+#searchResult{
+    right: -2px;
+    left: 0px;
+    min-height: 200px;
+    position: absolute;
+    padding-top: 5px;
+    z-index: 1000;
+}
+
 .panel-default>.panel-heading {
     color: #333;
     background: #f5f8fa;

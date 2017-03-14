@@ -1,55 +1,5 @@
 <div class="row searchBar">
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">{{config.settings.website_title}}</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    {{#if session.user}}
-                        {{#if result._id}}
-                            <li><a href="/edit/{{result._id}}">Edit</a></li>
-                        {{/if}}
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/users/new"><i class="fa fa-user-plus fa-fw"></i>&nbsp; New</a></li>
-                                <li><a href="/users"><i class="fa fa-users fa-fw"></i>&nbsp; Edit</a></li>
-                                <li><a href="/user/edit/{{session.user_id}}"><i class="fa fa-user fa-fw"></i>&nbsp; My account</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Article <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/insert"><i class="fa fa-plus fa-fw"></i>&nbsp; New</a></li>
-                                <li><a href="/articles"><i class="fa fa-pencil fa-fw"></i>&nbsp; Edit</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/files"><i class="fa fa-files-o fa-fw"></i>&nbsp; Files</a></li>
-                                <li><a href="/export"><i class="fa fa-file-archive-o fa-fw"></i>&nbsp; Export</a></li>
-                                <li><a href="/file_cleanup"><i class="fa fa-trash fa-fw"></i>&nbsp; Cleanup files</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="/logout">Logout</a></li>
-                    {{else}}
-                        {{#if config.settings.suggest_allowed}}
-                            <li><a href="/suggest">Suggest</a></li>
-                        {{/if}}
-                        <li><a href="/login">Login</a></li>
-                    {{/if}}	
-                </ul>
-            </div>
-        </div>
-    </nav>	
+    {{> twitter/views/partials/navbar}}
     <div class="">
         <h1>Help Center</h1>
     </div>
@@ -65,6 +15,11 @@
 					<button class="btn btn-default btn-lg" id="btn_search" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 				</span>
 			</div>
+            {{#ifCond config.settings.typeahead_search '===' true}}
+            <div id="searchResult" class="hidden col-lg-12">
+                <ul class="list-group searchResultList"></ul>
+            </div>
+            {{/ifCond}}
 		</div>
 	</form>
 </div>
