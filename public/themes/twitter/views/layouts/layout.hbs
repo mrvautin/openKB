@@ -52,6 +52,11 @@
         {{/ifCond}}
         <script src="/javascripts/jpushmenu.js"></script>
 		<script src="/javascripts/openKB.js"></script>
+        {{#ifCond user_page '===' true}}
+        {{#if config.settings.google_analytics}}
+        {{{config.settings.google_analytics}}}
+        {{/if}}
+        {{/ifCond}}
 	</head>
 	<body class="{{show_footer}}">	
 		<!-- Static navbar -->
