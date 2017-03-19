@@ -1,4 +1,6 @@
-FROM node:7
+FROM alpine:3.5
+
+RUN apk add --update nodejs
 
 WORKDIR /var/openKB
 
@@ -14,5 +16,4 @@ RUN npm install
 VOLUME /var/openKB/data
 
 EXPOSE 4444
-
-ENTRYPOINT node app.js
+ENTRYPOINT ["npm", "start"]

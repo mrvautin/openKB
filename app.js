@@ -176,7 +176,7 @@ handlebars = handlebars.create({
 
 app.enable('trust proxy');
 app.set('port', process.env.PORT || 4444);
-app.set('bind', process.env.BIND || '127.0.0.1');
+app.set('bind', process.env.BIND || '0.0.0.0');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
