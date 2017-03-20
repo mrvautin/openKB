@@ -18,7 +18,9 @@
         "show_kb_meta": true,
         "suggest_allowed": true,
         "show_author_email": true,
-        "enable_mermaid_charts": false,
+        "mermaid": false,
+        "mathjax": false,
+        "mathjax_input_mode": "TeX-MML-AM_CHTML",
         "app_context": "",
         "links_blank_page": true,
         "database": {
