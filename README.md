@@ -105,7 +105,8 @@ Most of the configuration can be done on the `/settings` page but there are some
 |`show_kb_meta`|Whether to show article meta data including published date, last updated date, author etc|
 |`suggest_allowed`|If enabled non authenticated users can submit article suggestions for approval|
 |`show_author_email`|Controls whether the authors email address is displayed in the meta. Requires "Show article meta data" to be true.|
-|`enable_mermaid_charts`|Whether to allow Mermaid charts within articles|
+|`mermaid`|Whether to allow Mermaid charts within articles|
+|`mathjax`|Whether to allow MathJax inputs within articles|
 |`app_context`|Allows for the website to be run from a non root path. Eg: http://127.0.0.1:4444/openkb/|
 |`links_blank_page`|Controls whether links within articles open a new page (tab)|
 |`add_header_anchors`|Whether to add HTML anchors to all heading tags for linking within articles or direct linking from other articles|
