@@ -158,5 +158,10 @@
 	"Access denied": "Access denied",
 	"User account inserted": "User account inserted",
 	"Directory successfully created": "Directory successfully created",
-	"File uploaded successfully": "File uploaded successfully"
+	"File uploaded successfully": "File uploaded successfully",
+	"Allow Mermaid": "Allow Mermaid",
+	"Whether to enable ": "Whether to enable ",
+	"Allow MathJax": "Allow MathJax",
+	"MathJax input mode": "MathJax input mode",
+	"Configure the mode MathJax operates in - ": "Configure the mode MathJax operates in - "
 }

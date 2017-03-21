@@ -1,15 +1,15 @@
 <div class="col-md-12">
-  <div class="row">
+    <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <ol class="breadcrumb">
-          <li><a href="{{app_context}}/">{{__ "Home"}}</a></li>
-          <li class="active">{{__ "Settings"}}</li>
-      </ol>
-            <ul class="nav nav-tabs" role="tablist" id="settingsTabs">
-                <li role="presentation" class="active"><a href="#website" aria-controls="website" role="tab" data-toggle="tab">{{__ "Website"}}</a></li>
-                <li role="presentation"><a href="#article" aria-controls="article" role="tab" data-toggle="tab">{{__ "Article"}}</a></li>
-                <li role="presentation"><a href="#display" aria-controls="display" role="tab" data-toggle="tab">{{__ "Display"}}</a></li>
-            </ul>
+    <ol class="breadcrumb">
+        <li><a href="{{app_context}}/">{{__ "Home"}}</a></li>
+        <li class="active">{{__ "Settings"}}</li>
+    </ol>
+        <ul class="nav nav-tabs" role="tablist" id="settingsTabs">
+            <li role="presentation" class="active"><a href="#website" aria-controls="website" role="tab" data-toggle="tab">{{__ "Website"}}</a></li>
+            <li role="presentation"><a href="#article" aria-controls="article" role="tab" data-toggle="tab">{{__ "Article"}}</a></li>
+            <li role="presentation"><a href="#display" aria-controls="display" role="tab" data-toggle="tab">{{__ "Display"}}</a></li>
+        </ul>
             <form method="post" action="{{app_context}}/update_settings">
                 <div class="clearfix">
                     <h1 class="pull-left">{{__ "Settings"}}</h1>
@@ -100,7 +100,7 @@
                                 {{__ "The theme to use for public facing pages. Leave blank for default"}}.
                             </p>
                         </div>
-            <div class="form-group">
+                        <div class="form-group">
                             <label class="control-label" for="show_kb_meta">{{__ "Select a language"}}:</label>
                             <select class="form-control" name="locale">
                                 <option></option>
@@ -280,16 +280,16 @@
                                 {{__ "Shows the view count next to the results on the homepage and search"}}.
                             </p>
                         </div>
-            <div class="form-group">
-              <label class="control-label" for="update_view_count_logged_in">{{__ "Update view count when logged in"}}:</label>
-              <select class="form-control" name="update_view_count_logged_in">
-                <option {{select_state config.settings.update_view_count_logged_in true}}>{{__ "true"}}</option>
-                <option {{select_state config.settings.update_view_count_logged_in false}}>{{__ "false"}}</option>
-              </select>
-              <p class="help-block">
-                {{__ "Updates the view count also when users are logged in"}}.
-              </p>
-            </div>
+                        <div class="form-group">
+                        <label class="control-label" for="update_view_count_logged_in">{{__ "Update view count when logged in"}}:</label>
+                        <select class="form-control" name="update_view_count_logged_in">
+                            <option {{select_state config.settings.update_view_count_logged_in true}}>{{__ "true"}}</option>
+                            <option {{select_state config.settings.update_view_count_logged_in false}}>{{__ "false"}}</option>
+                        </select>
+                        <p class="help-block">
+                            {{__ "Updates the view count also when users are logged in"}}.
+                        </p>
+                        </div>
                         <div class="form-group">
                             <label class="control-label" for="show_featured_articles">{{__ "Show featured articles"}}:</label>
                             <select class="form-control" name="show_featured_articles">
@@ -321,6 +321,6 @@
                     <!-- Dislay settings -->
                 </div>
             </form>
+        </div>
     </div>
-  </div>
 </div>
