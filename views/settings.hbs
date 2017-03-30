@@ -37,8 +37,8 @@
                         <div class="form-group">
                             <label class="control-label" for="show_website_logo">{{__ "Show website logo"}}:</label>
                             <select class="form-control" name="show_website_logo">
-                                <option {{select_state config.settings.show_website_logo true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.show_website_logo false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.show_website_logo true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_website_logo false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Controls whether to show the \"Website title\" text or a logo located: \"/public/logo.png\" (by default)"}}.
@@ -54,8 +54,8 @@
                         <div class="form-group">
                             <label class="control-label" for="api_allowed">{{__ "Allow API access"}}:</label>
                             <select class="form-control" name="api_allowed">
-                                <option {{select_state config.settings.api_allowed true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.api_allowed false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.api_allowed true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.api_allowed false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Whether to allow API access to insert articles - See documentation for further information"}}.
@@ -71,8 +71,8 @@
                         <div class="form-group">
                             <label class="control-label" for="password_protect">{{__ "Password protect"}}:</label>
                             <select class="form-control" name="password_protect">
-                                <option {{select_state config.settings.password_protect true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.password_protect false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.password_protect true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.password_protect false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Setting to \"true\" will require a user to login before viewing any pages"}}.
@@ -81,8 +81,8 @@
                         <div class="form-group">
                             <label class="control-label" for="index_article_body">{{__ "Index article body"}}:</label>
                             <select class="form-control" name="index_article_body">
-                                <option {{select_state config.settings.index_article_body true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.index_article_body false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.index_article_body true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.index_article_body false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Whether to add the body of your articles to the search index (requires restart)"}}.
@@ -115,8 +115,8 @@
                         <div class="form-group">
                             <label class="control-label" for="show_logon">{{__ "Show logon link"}}:</label>
                             <select class="form-control" name="show_logon">
-                                <option {{select_state config.settings.show_logon true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.show_logon false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.show_logon true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_logon false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Whether to show/hide the logon link in the top right of screen"}}.
@@ -132,8 +132,8 @@
                         <div class="form-group">
                             <label class="control-label" for="suggest_allowed">{{__ "Article suggestions allowed"}}:</label>
                             <select class="form-control" name="suggest_allowed">
-                                <option {{select_state config.settings.suggest_allowed true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.suggest_allowed false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.suggest_allowed true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.suggest_allowed false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "If enabled non authenticated users can submit article suggestions for approval"}}.
@@ -154,8 +154,8 @@
                         <div class="form-group">
                             <label class="control-label" for="allow_voting">{{__ "Allow voting"}}:</label>
                             <select class="form-control" name="allow_voting">
-                                <option {{select_state config.settings.allow_voting true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.allow_voting false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.allow_voting true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.allow_voting false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Whether to allow users to vote on an article"}}.
@@ -164,8 +164,8 @@
                         <div class="form-group">
                             <label class="control-label" for="show_kb_meta">{{__ "Show article meta data"}}:</label>
                             <select class="form-control" name="show_kb_meta">
-                                <option {{select_state config.settings.show_kb_meta true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.show_kb_meta false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.show_kb_meta true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_kb_meta false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Whether to show article meta data including published date, last updated date, author etc"}}.
@@ -174,8 +174,8 @@
                         <div class="form-group">
                             <label class="control-label" for="show_author_email">{{__ "Show author email"}}:</label>
                             <select class="form-control" name="show_author_email">
-                                <option {{select_state config.settings.show_author_email true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.show_author_email false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.show_author_email true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_author_email false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Controls whether the authors email address is displayed in the meta. Requires \"Show article meta data\" to be true"}}.
@@ -184,8 +184,8 @@
                         <div class="form-group">
                             <label class="control-label" for="links_blank_page">{{__ "Article links open new page"}}:</label>
                             <select class="form-control" name="links_blank_page">
-                                <option {{select_state config.settings.links_blank_page true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.links_blank_page false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.links_blank_page true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.links_blank_page false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Controls whether links within articles open a new page (tab)"}}.
@@ -194,8 +194,8 @@
                         <div class="form-group">
                             <label class="control-label" for="add_header_anchors">{{__ "Add header anchors"}}:</label>
                             <select class="form-control" name="add_header_anchors">
-                                <option {{select_state config.settings.add_header_anchors true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.add_header_anchors false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.add_header_anchors true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.add_header_anchors false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Whether to add HTML anchors to all heading tags for linking within articles or direct linking from other articles"}}.
@@ -204,8 +204,8 @@
                         <div class="form-group">
                             <label class="control-label" for="enable_spellchecker">{{__ "Enable editor spellchecker"}}:</label>
                             <select class="form-control" name="enable_spellchecker">
-                                <option {{select_state config.settings.enable_spellchecker true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.enable_spellchecker false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.enable_spellchecker true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.enable_spellchecker false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Controls whether to enable the editor spellchecker"}}.
@@ -214,8 +214,8 @@
                         <div class="form-group">
                             <label class="control-label" for="article_versioning">{{__ "Allow article versioning"}}:</label>
                             <select class="form-control" name="article_versioning">
-                                <option {{select_state config.settings.article_versioning true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.article_versioning false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.article_versioning true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.article_versioning false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Whether to track article versions with each save of the editor"}}.
@@ -224,8 +224,8 @@
                         <div class="form-group">
                             <label class="control-label" for="mermaid">{{__ "Allow Mermaid"}}:</label>
                             <select class="form-control" name="mermaid">
-                                <option {{select_state config.settings.mermaid true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.mermaid false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.mermaid true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.mermaid false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Whether to enable "}} <a href="http://knsv.github.io/mermaid/" target="_blank">mermaid</a>.
@@ -234,8 +234,8 @@
                         <div class="form-group">
                             <label class="control-label" for="mathjax">{{__ "Allow MathJax"}}:</label>
                             <select class="form-control" name="mathjax">
-                                <option {{select_state config.settings.mathjax true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.mathjax false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.mathjax true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.mathjax false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Whether to enable "}} <a href="https://www.mathjax.org/" target="_blank">MathJax</a>.
@@ -263,8 +263,8 @@
                         <div class="form-group">
                             <label class="control-label" for="show_published_date">{{__ "Show published date"}}:</label>
                             <select class="form-control" name="show_published_date">
-                                <option {{select_state config.settings.show_published_date true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.show_published_date false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.show_published_date true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_published_date false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Shows the published date next to the results on the homepage and search"}}.
@@ -273,8 +273,8 @@
                         <div class="form-group">
                             <label class="control-label" for="show_view_count">{{__ "Show view count"}}:</label>
                             <select class="form-control" name="show_view_count">
-                                <option {{select_state config.settings.show_view_count true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.show_view_count false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.show_view_count true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_view_count false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Shows the view count next to the results on the homepage and search"}}.
@@ -283,8 +283,8 @@
                         <div class="form-group">
                         <label class="control-label" for="update_view_count_logged_in">{{__ "Update view count when logged in"}}:</label>
                         <select class="form-control" name="update_view_count_logged_in">
-                            <option {{select_state config.settings.update_view_count_logged_in true}}>{{__ "true"}}</option>
-                            <option {{select_state config.settings.update_view_count_logged_in false}}>{{__ "false"}}</option>
+                            <option {{select_state config.settings.update_view_count_logged_in true}} value="true">{{__ "true"}}</option>
+                            <option {{select_state config.settings.update_view_count_logged_in false}} value="false">{{__ "false"}}</option>
                         </select>
                         <p class="help-block">
                             {{__ "Updates the view count also when users are logged in"}}.
@@ -293,8 +293,8 @@
                         <div class="form-group">
                             <label class="control-label" for="show_featured_articles">{{__ "Show featured articles"}}:</label>
                             <select class="form-control" name="show_featured_articles">
-                                <option {{select_state config.settings.show_featured_articles true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.show_featured_articles false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.show_featured_articles true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_featured_articles false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Whether to show any articles set to featured in a sidebar"}}.
@@ -303,8 +303,8 @@
                         <div class="form-group">
                             <label class="control-label" for="show_featured_in_article">{{__ "Show featured articles when viewing article"}}:</label>
                             <select class="form-control" name="show_featured_in_article">
-                                <option {{select_state config.settings.show_featured_in_article true}}>{{__ "true"}}</option>
-                                <option {{select_state config.settings.show_featured_in_article false}}>{{__ "false"}}</option>
+                                <option {{select_state config.settings.show_featured_in_article true}} value="true">{{__ "true"}}</option>
+                                <option {{select_state config.settings.show_featured_in_article false}} value="false">{{__ "false"}}</option>
                             </select>
                             <p class="help-block">
                                 {{__ "Whether to show any articles set to featured in a sidebar when viewing an article"}}.
