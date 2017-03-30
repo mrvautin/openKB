@@ -223,6 +223,10 @@ As a general rule there is about 3KB of compressed data being transferred from s
 hundreds of articles, the amount of data will increase and could cause performance issues. It is something to consider if your app seems to slow down once the
 article numbers increase. If this is the case, you can simply just turn it off.
 
+### Contributing
+
+Have design skills? Want to design theme(s) for `openKB`? Please design and submit PR.
+
 ### openKB examples
 
 Have openKB running on a public facing server? Submit a PR with your URL and it will be updated here.
