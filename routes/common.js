@@ -1,17 +1,34 @@
 var path = require('path');
 var fs = require('fs');
 
-exports.clear_session_value = function(session, session_var){
-	var temp = session[session_var];
-	session[session_var] = null;
-	return temp;
+exports.clear_session_value = function (session, session_var){
+    var temp = session[session_var];
+    session[session_var] = null;
+    return temp;
 };
 
-exports.read_config = function(){
-    var configFile = path.join(__dirname, '..', 'config', 'config.js'),
-        defaultConfigFile = path.join(__dirname, 'config.js'),
-        rawData = fs.existsSync(configFile) ? fs.readFileSync(configFile) : fs.readFileSync(defaultConfigFile),
-        loadedConfig = JSON.parse(rawData);
+exports.read_config = function (){
+    // preferred path
+    var configFile = path.join(__dirname, '..', 'config', 'config.json');
+
+    // depreciated path
+    var defaultConfigFile = path.join(__dirname, 'config.js');
+    if(fs.existsSync(defaultConfigFile) === true){
+        // create config dir if doesnt exist
+        var dir = path.join(__dirname, '..', 'config');
+        if(!fs.existsSync(dir)){
+            fs.mkdirSync(dir);
+        }
+
+        // if exists, copy our config from /routes to /config
+        var tempconfig = fs.readFileSync(defaultConfigFile, 'utf8');
+        fs.writeFileSync(configFile, tempconfig, 'utf8');
+        // remove old file
+        fs.unlinkSync(defaultConfigFile);
+    }
+    // load config file
+    var rawData = fs.readFileSync(configFile, 'utf8');
+    var loadedConfig = JSON.parse(rawData);
 
     if(loadedConfig.settings.database.type === 'mongodb'){
         loadedConfig.settings.database.connection_string = process.env.MONGODB_CONNECTION_STRING || loadedConfig.settings.database.connection_string;
@@ -26,20 +43,20 @@ exports.read_config = function(){
 
 // This is called on the suggest url. If the value is set to false in the config
 // a 403 error is rendered.
-exports.suggest_allowed = function(req, res, next){
+exports.suggest_allowed = function (req, res, next){
     var config = exports.read_config();
-	if(config.settings.suggest_allowed === true){
-		next();
-		return;
-	}
+    if(config.settings.suggest_allowed === true){
+        next();
+        return;
+    }
     res.render('error', {message: '403 - Forbidden', helpers: req.handlebars});
 };
 
-exports.validate_permalink = function(db, data, callback){
+exports.validate_permalink = function (db, data, callback){
     // only validate permalink if it exists
     if(typeof data.kb_permalink === 'undefined' || data.kb_permalink === ''){
-		callback(null, 'All good');
-	}else{
+        callback(null, 'All good');
+    }else{
         db.kb.count({'kb_permalink': data.kb_permalink}, function (err, kb){
             if(kb > 0){
                 callback('Permalink already exists', null);
@@ -54,61 +71,61 @@ exports.validate_permalink = function(db, data, callback){
 // we check for a login on thsoe normally public urls. All other URL's get
 // checked for a login as they are considered to be protected. The only exception
 // is the "setup", "login" and "login_action" URL's which is not checked at all.
-exports.restrict = function(req, res, next){
+exports.restrict = function (req, res, next){
     var config = exports.read_config();
-	var url_path = req.url;
+    var url_path = req.url;
 
-	// if not protecting we check for public pages and don't check_login
-	if(url_path.substring(0, 5).trim() === '/'){
-		if(config.settings.password_protect === false){
-			next();
-			return;
-		}
-	}
-	if(url_path.substring(0, 7) === '/search'){
-		if(config.settings.password_protect === false){
-			next();
-			return;
-		}
-	}
+    // if not protecting we check for public pages and don't check_login
+    if(url_path.substring(0, 5).trim() === '/'){
+        if(config.settings.password_protect === false){
+            next();
+            return;
+        }
+    }
+    if(url_path.substring(0, 7) === '/search'){
+        if(config.settings.password_protect === false){
+            next();
+            return;
+        }
+    }
 
-	if(url_path.substring(0, config.settings.route_name.length + 1) === '/' + config.settings.route_name){
-		if(config.settings.password_protect === false){
-			next();
-			return;
-		}
-	}
+    if(url_path.substring(0, config.settings.route_name.length + 1) === '/' + config.settings.route_name){
+        if(config.settings.password_protect === false){
+            next();
+            return;
+        }
+    }
 
-	if(url_path.substring(0, 12) === '/user_insert'){
-		next();
-		return;
-	}
+    if(url_path.substring(0, 12) === '/user_insert'){
+        next();
+        return;
+    }
 
-	// if the "needs_setup" session variable is set, we allow as
-	// this means there is no user existing
-	if(req.session.needs_setup === true){
-		res.redirect(req.app_context + '/setup');
-		return;
-	}
+    // if the "needs_setup" session variable is set, we allow as
+    // this means there is no user existing
+    if(req.session.needs_setup === true){
+        res.redirect(req.app_context + '/setup');
+        return;
+    }
 
-	// if not a public page we
-	exports.check_login(req, res, next);
+    // if not a public page we
+    exports.check_login(req, res, next);
 };
 
 // does the actual login check
-exports.check_login = function(req, res, next){
+exports.check_login = function (req, res, next){
     // set template dir
     exports.setTemplateDir('admin', req);
 
-	if(req.session.user){
-		next();
-	}else{
-		res.redirect(req.app_context + '/login');
-	}
+    if(req.session.user){
+        next();
+    }else{
+        res.redirect(req.app_context + '/login');
+    }
 };
 
 // exposes select server side settings to the client
-exports.config_expose = function(app){
+exports.config_expose = function (app){
     var config = exports.read_config();
     var clientConfig = {};
     clientConfig.route_name = config.settings.route_name !== undefined ? config.settings.route_name : 'kb';
@@ -119,7 +136,7 @@ exports.config_expose = function(app){
     app.expose(clientConfig, 'config');
 };
 
-exports.setTemplateDir = function(type, req){
+exports.setTemplateDir = function (type, req){
     var config = exports.read_config();
     if(type !== 'admin'){
         // if theme selected, override the layout dir
@@ -136,7 +153,7 @@ exports.setTemplateDir = function(type, req){
     }
 };
 
-exports.getId = function(id){
+exports.getId = function (id){
     var config = exports.read_config();
     var ObjectID = require('mongodb').ObjectID;
     if(config.settings.database.type === 'embedded'){
@@ -148,34 +165,34 @@ exports.getId = function(id){
     return ObjectID(id);
 };
 
-exports.dbQuery = function(db, query, sort, limit, callback){
+exports.dbQuery = function (db, query, sort, limit, callback){
     var config = exports.read_config();
     if(config.settings.database.type === 'embedded'){
         if(sort && limit){
-            db.find(query).sort(sort).limit(parseInt(limit)).exec(function(err, results){
+            db.find(query).sort(sort).limit(parseInt(limit)).exec(function (err, results){
                 callback(null, results);
             });
         }else{
-            db.find(query).exec(function(err, results){
+            db.find(query).exec(function (err, results){
                 callback(null, results);
             });
         }
     }else{
         if(sort && limit){
-            db.find(query).sort(sort).limit(parseInt(limit)).toArray(function(err, results){
+            db.find(query).sort(sort).limit(parseInt(limit)).toArray(function (err, results){
                 callback(null, results);
             });
         }else{
-            db.find(query).toArray(function(err, results){
+            db.find(query).toArray(function (err, results){
                 callback(null, results);
             });
         }
     }
 };
 
-exports.safe_trim = function(str){
-	if(str !== undefined){
-		return str.trim();
-	}
+exports.safe_trim = function (str){
+    if(str !== undefined){
+        return str.trim();
+    }
     return str;
 };

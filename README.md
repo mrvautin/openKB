@@ -84,7 +84,7 @@ A new user form will be shown where a user can be created.
 
 ### Config
 
-Most of the configuration can be done on the `/settings` page but there are some addition values which require setting manually in the `/routes/config.js` file.
+Most of the configuration can be done on the `/settings` page but there are some addition values which require setting manually in the `/config/config.json` file.
 
 |Setting|Description|
 |--- |--- |
@@ -120,7 +120,7 @@ Most of the configuration can be done on the `/settings` page but there are some
 **Data sorting**
 You can control the sort order or articles. You can sort on anything but popular fields are `kb_viewcount`,  `kb_published_date`,  `kb_last_updated` or `kb_votes`
 
-Setting the `sort_by` field in the `config.js` like so:
+Setting the `sort_by` field in the `config.json` like so:
 
 ``` javascript
 {field: 'kb_viewcount', order: -1};
@@ -138,7 +138,7 @@ Valid `order` values are: `-1` or `1`
 By default, `openKB` uses an embedded Javascript database called [nedb](https://github.com/louischatriot/nedb) for easy installation. This works really well for small to medium sized applications but
 has it's limitations if you wanted to scale your application to handle many articles and concurrent users. For this reason, `openKB` also supports using a MongoDB server by simply changing the config file.
 
-Here is the `config.js` for the embedded database (NeDB):
+Here is the `config.json` for the embedded database (NeDB):
 
 ``` javascript
 "database": {
@@ -146,7 +146,7 @@ Here is the `config.js` for the embedded database (NeDB):
 }
 ```
 
-Here is an example `config.js` for a MongoDB server. You can use your own localhost MongoDB instance or you may choose a hosted MongoDB server like [mLab](https://mlab.com/).
+Here is an example `config.json` for a MongoDB server. You can use your own localhost MongoDB instance or you may choose a hosted MongoDB server like [mLab](https://mlab.com/).
 
 ``` javascript
 "database": {
@@ -226,4 +226,4 @@ article numbers increase. If this is the case, you can simply just turn it off.
 ### Running in production
 
 Using [PM2](https://github.com/Unitech/pm2) seems to be the easiest and best option for running production websites.
-See the [PM2](https://github.com/Unitech/pm2) for more information or a short guide here: [http://mrvautin.com/Running-Nodejs-applications-in-production-forever-vs-supervisord-vs-pm2](http://mrvautin.com/Running-Nodejs-applications-in-production-forever-vs-supervisord-vs-pm2).
+See the [PM2](https://github.com/Unitech/pm2) for more information or a short guide here: [https://mrvautin.com/Running-Nodejs-applications-in-production-forever-vs-supervisord-vs-pm2](https://mrvautin.com/Running-Nodejs-applications-in-production-forever-vs-supervisord-vs-pm2).

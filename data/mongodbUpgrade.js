@@ -1,7 +1,7 @@
 // This code is largely borrowed from: github.com/louischatriot/nedb-to-mongodb
 
 // This code moves your data from NeDB to MongoDB
-// You will first need to create the MongoDB connection in your /routes/config.js file
+// You will first need to create the MongoDB connection in your /routes/config.json file
 // You then need to ensure your MongoDB Database has been created.
 
 // ** IMPORTANT **
