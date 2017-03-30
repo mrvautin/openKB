@@ -287,7 +287,11 @@ router.post('/update_settings', common.restrict, function(req, res){
     }
 
     // write settings to file
-    fs.writeFileSync(path.join(__dirname, 'config.js'), JSON.stringify(config, null, 4), 'utf8');
+    var dir = path.join(__dirname, '..', 'config');
+    if (! fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+    }
+    fs.writeFileSync(path.join(dir, 'config.js'), JSON.stringify(config, null, 4), 'utf8');
 
     if(config.settings.locale){
         req.i18n.setLocale(config.settings.locale);
