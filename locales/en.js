@@ -163,5 +163,9 @@
 	"Whether to enable ": "Whether to enable ",
 	"Allow MathJax": "Allow MathJax",
 	"MathJax input mode": "MathJax input mode",
-	"Configure the mode MathJax operates in - ": "Configure the mode MathJax operates in - "
+	"Configure the mode MathJax operates in - ": "Configure the mode MathJax operates in - ",
+	"Setup": "Setup",
+	"Email address": "Email address",
+	"Confirm password": "Confirm password",
+	"Complete setup": "Complete setup"
 }
