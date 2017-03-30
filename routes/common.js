@@ -8,7 +8,10 @@ exports.clear_session_value = function(session, session_var){
 };
 
 exports.read_config = function(){
-    var loadedConfig = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.js')));
+    var configFile = path.join(__dirname, '..', 'config', 'config.js'),
+        defaultConfigFile = path.join(__dirname, 'config.js'),
+        rawData = fs.existsSync(configFile) ? fs.readFileSync(configFile) : fs.readFileSync(defaultConfigFile),
+        loadedConfig = JSON.parse(rawData);
 
     if(loadedConfig.settings.database.type === 'mongodb'){
         loadedConfig.settings.database.connection_string = process.env.MONGODB_CONNECTION_STRING || loadedConfig.settings.database.connection_string;
