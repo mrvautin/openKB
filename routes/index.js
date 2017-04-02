@@ -835,11 +835,18 @@ router.post('/user_insert', common.restrict, function (req, res){
     // set the account to admin if using the setup form. Eg: First user account
     var url_parts = url.parse(req.header('Referer'));
 
+    // check if account being setup from the /setup route.
+    // probably not the most elegent code but does the job.
     var is_admin = 'false';
-    if(url_parts.path === '/setup'){
+    if(typeof config.settings.app_context !== 'undefined' && config.settings.app_context !== ''){
+        if(url_parts.path === '/' + config.settings.app_context + '/setup'){
+            is_admin = 'true';
+        }
+    }else if(url_parts.path === '/setup'){
         is_admin = 'true';
     }
 
+    // sets up the document
     var doc = {
         users_name: req.body.users_name,
         user_email: req.body.user_email,
