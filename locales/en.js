@@ -167,5 +167,9 @@
 	"Setup": "Setup",
 	"Email address": "Email address",
 	"Confirm password": "Confirm password",
-	"Complete setup": "Complete setup"
+	"Complete setup": "Complete setup",
+	"404 - Page not found": "404 - Page not found",
+	"Versions": "Versions",
+	"Edit reason": "Edit reason",
+	"Previous versions": "Previous versions"
 }
