@@ -203,6 +203,7 @@ if(config.settings.app_context !== undefined && config.settings.app_context !== 
 
 // frontend modules loaded from NPM
 app.use(app_context + '/static', express.static(path.join(__dirname, 'public/')));
+app.use(app_context + '/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 app.use(app_context + '/font-awesome', express.static(path.join(__dirname, 'node_modules/font-awesome/')));
 app.use(app_context + '/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist/')));
 app.use(app_context + '/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/')));
