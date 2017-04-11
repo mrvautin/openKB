@@ -115,6 +115,27 @@ p.subheading {
     font-size: 14px;
 }
 
+#notify_message{
+    position: fixed;
+    display: none;
+    z-index: 9999;
+    padding-top: 10px;
+    height: 50px;
+    bottom: 0px; 
+    width: 100%; 
+    text-align: center;
+    font-size: 22px;
+    color: white;
+}
+
+.notify_message-success{
+    background-color: #18bc9c;
+}
+
+.notify_message-danger{
+    background-color: #e74c3c;
+}
+
 .searchResultList li a{
     text-align: left;
     color: #337ab7;
