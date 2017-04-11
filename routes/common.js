@@ -82,7 +82,7 @@ exports.restrict = function (req, res, next){
             return;
         }
     }
-    if(url_path.substring(0, 7) === '/search'){
+    if(url_path.substring(0, 7) === '/search' || url_path.substring(0, 6) === '/topic'){
         if(config.settings.password_protect === false){
             next();
             return;

@@ -1305,12 +1305,23 @@ router.get('/insert', common.restrict, function (req, res){
     });
 });
 
+// redirect home with a null topic
+router.get('/topic', function(req, res){
+    res.redirect('/');
+});
+
 // search kb's
-router.get('/search/:tag', common.restrict, function (req, res){
+router.get(['/search/:tag', '/topic/:tag'], common.restrict, function (req, res){
     var db = req.app.db;
     common.config_expose(req.app);
     var search_term = req.params.tag;
     var lunr_index = req.lunr_index;
+
+    // determine whether its a search or a topic
+    var routeType = 'search';
+    if(req.path.split('/')[1] === 'topic'){
+        routeType = 'topic';
+    }
 
     // we strip the ID's from the lunr index search
     var lunr_id_array = [];
@@ -1340,6 +1351,7 @@ router.get('/search/:tag', common.restrict, function (req, res){
                 user_page: true,
                 session: req.session,
                 featured_results: featured_results,
+                routeType: routeType,
                 message: common.clear_session_value(req.session, 'message'),
                 message_type: common.clear_session_value(req.session, 'message_type'),
                 search_term: search_term,

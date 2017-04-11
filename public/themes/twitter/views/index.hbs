@@ -57,7 +57,11 @@
     {{/if}}
 		{{#if search_results.length}}
 			<div class="panel panel-default" style="margin-top: 30px;">
-				<div class="panel-heading">Results for: {{search_term}}</div>
+				{{#ifCond routeType '===' 'topic'}}
+                    <li class="list-group-item list-group-heading">{{__ "Topic"}}: {{search_term}}</li>
+                {{else}}
+                    <li class="list-group-item list-group-heading">{{__ "Results for"}}: {{search_term}}</li>
+                {{/ifCond}}
 				<div class="panel-body">
 					<ul class="list-group">
 						{{#each search_results}}

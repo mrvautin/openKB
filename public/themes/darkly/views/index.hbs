@@ -38,7 +38,11 @@
 		{{#if search_term}}
 			<div style="margin-top: 30px;">
                 <ul class="list-group">
-                    <li class="list-group-item list-group-heading">Results for: {{search_term}}</li>
+                    {{#ifCond routeType '===' 'topic'}}
+                        <li class="list-group-item list-group-heading">{{__ "Topic"}}: {{search_term}}</li>
+                    {{else}}
+                        <li class="list-group-item list-group-heading">{{__ "Results for"}}: {{search_term}}</li>
+                    {{/ifCond}}
                     {{#each search_results}}
                         {{#if this.kb_permalink}}
                             <li class="list-group-item">
