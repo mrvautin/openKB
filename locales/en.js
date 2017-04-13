@@ -171,6 +171,6 @@
 	"404 - Page not found": "404 - Page not found",
 	"Versions": "Versions",
 	"Edit reason": "Edit reason",
-	"Previous versions": "Previous versions"
+	"Previous versions": "Previous versions",
 	"Topic": "Topic"
 }
