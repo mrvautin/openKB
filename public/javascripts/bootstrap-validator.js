@@ -103,7 +103,6 @@
         })
     }
 
-
     Validator.prototype.runValidators = function ($el) {
         var errors = []
         var deferred = $.Deferred()
@@ -285,14 +284,12 @@
     $.fn.validator = Plugin
     $.fn.validator.Constructor = Validator
 
-
     // VALIDATOR NO CONFLICT
     // =====================
     $.fn.validator.noConflict = function () {
         $.fn.validator = old
         return this
     }
-
 
     // VALIDATOR DATA-API
     // ==================

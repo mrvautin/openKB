@@ -1,34 +1,34 @@
 <div class="col-md-12">
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<ol class="breadcrumb">
-	  			<li><a href="{{app_context}}/">{{__ "Home"}}</a></li>
-	 			<li><a href="{{app_context}}/Users">{{__ "Users"}}</a></li>
-	  			<li class="active">{{__ "New user"}}</li>
-			</ol>
-			<h1>{{__ "New user"}}</h1>
-			<form method="post" id="edit_form" action="{{app_context}}/user_insert" data-toggle="validator">
-            <div class="form-group">
-		    	<label>{{__ "Users name"}} *</label>
-		    	<input type="text" class="form-control" name="users_name" value="{{user.users_name}}" required>
-		  	</div>
-			<div class="form-group">
-		    	<label>{{__ "User email"}} *</label>
-		    	<input type="email" class="form-control" name="user_email" value="{{user.user_email}}" required>
-		  	</div>
-		  	<div class="form-group">
-			    <label>{{__ "User password"}} *</label>
-			    <input type="password" class="form-control" id="user_password" name="user_password" required>
-		  	</div>
-		  	<div class="form-group">
-			    <label>{{__ "Password confirm"}} *</label>
-			    <input type="password" data-match="#user_password"  class="form-control" name="frm_user_password_confirm" required>
-		  	</div>
-		  	<div class="form-group">
-    			<div class="pull-right">
-      				<button type="submit" class="btn btn-primary">{{__ "Create"}}</button>
-    			</div>
-  			</div>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <ol class="breadcrumb">
+                <li><a href="{{app_context}}/">{{__ "Home"}}</a></li>
+                <li><a href="{{app_context}}/Users">{{__ "Users"}}</a></li>
+                <li class="active">{{__ "New user"}}</li>
+            </ol>
+            <h1>{{__ "New user"}}</h1>
+            <form method="post" id="edit_form" action="{{app_context}}/user_insert" data-toggle="validator">
+                <div class="form-group">
+                    <label>{{__ "Users name"}} *</label>
+                    <input type="text" class="form-control" name="users_name" value="{{user.users_name}}" required>
+                </div>
+                <div class="form-group">
+                    <label>{{__ "User email"}} *</label>
+                    <input type="email" class="form-control" name="user_email" value="{{user.user_email}}" required>
+                </div>
+                <div class="form-group">
+                    <label>{{__ "User password"}} *</label>
+                    <input type="password" class="form-control" id="user_password" name="user_password" required>
+                </div>
+                <div class="form-group">
+                    <label>{{__ "Password confirm"}} *</label>
+                    <input type="password" data-match="#user_password" class="form-control" name="frm_user_password_confirm" required>
+                </div>
+                <div class="form-group">
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-primary">{{__ "Create"}}</button>
+                    </div>
+                </div>
+        </div>
+    </div>
 </div>

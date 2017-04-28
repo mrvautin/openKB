@@ -1,51 +1,51 @@
 <div class="col-md-12">
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<ol class="breadcrumb">
-	  			<li><a href="{{app_context}}/">{{__ "Home"}}</a></li>
-	 			<li class="active">{{__ "Files"}}</li>
-			</ol>
-			<h1 class="file-form">{{__ "Files"}}</h1>
-			<div class="col-md-12">
-				<form class="form-horizontal" role="form" method="post" action="{{app_context}}/file/upload" enctype="multipart/form-data">
-					<div class="form-group file-form">
-						<span class="btn btn-info btn-file">
-							{{__ "Select file"}}<input type="file" name="upload_file" id="upload_file">
-						</span>
-					</div>
-					<div class="form-group file-form">
-						<label for="custom_dir">{{__ "Upload directory"}}</label>
-						<select class="form-control" name="directory">
-							{{#each dirs}}
-								<option>{{path}}</option>
-							{{/each}}
-						</select>
-					</div>
-					<div class="form-group file-form">
-						<button type="submit" class="btn btn-success pull-right">{{__ "Upload file"}}</button>
-					</div>
-					<ul class="list-group">
-						{{#each files}}
-							<li class="list-group-item" id="file-{{this.id}}">
-								<span><i class="fa fa-file-image-o"></i></span>
-								<span class="align-left"><a href="{{app_context}}{{this.path}}" target="_blank">{{this.path}}</a></span>
-								<span class="pull-right" style="padding-left: 10px;"><button class="btn btn-danger btn-xs" onclick="file_delete_confirm('{{this.path}}','{{this.id}}')"><i class="fa fa-trash-o"></i></button></span>
-							</li>
-						{{/each}}
-					</ul>
-					<p class="text-warning">{{__ "Tip"}}: {{__ "To insert an image right click the link, copy the link address and add it to your Markdown"}}</p>
-				</form>
-				<form class="form-horizontal" role="form" method="post" action="{{app_context}}/file/new_dir">
-					<label for="directory">{{__ "New directory"}}</label>
-					<div class="input-group">
-						<input type="text" class="form-control" name="custom_dir" id="custom_dir" placeholder="new/directory">
-						<span class="input-group-btn">
-							<button class="btn btn-success" type="submit">{{__ "Create"}}</button>
-						</span>
-					</div>
-					<p class="help-block">{{__ "Multiple directories can be created using a \"/\" separator"}}</p>
-				</form>
-			</div>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <ol class="breadcrumb">
+                <li><a href="{{app_context}}/">{{__ "Home"}}</a></li>
+                <li class="active">{{__ "Files"}}</li>
+            </ol>
+            <h1 class="file-form">{{__ "Files"}}</h1>
+            <div class="col-md-12">
+                <form class="form-horizontal" role="form" method="post" action="{{app_context}}/file/upload" enctype="multipart/form-data">
+                    <div class="form-group file-form">
+                        <span class="btn btn-info btn-file">
+                            {{__ "Select file"}}<input type="file" name="upload_file" id="upload_file">
+                        </span>
+                    </div>
+                    <div class="form-group file-form">
+                        <label for="custom_dir">{{__ "Upload directory"}}</label>
+                        <select class="form-control" name="directory">
+                            {{#each dirs}}
+                                <option>{{path}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="form-group file-form">
+                        <button type="submit" class="btn btn-success pull-right">{{__ "Upload file"}}</button>
+                    </div>
+                    <ul class="list-group">
+                        {{#each files}}
+                            <li class="list-group-item" id="file-{{this.id}}">
+                                <span><i class="fa fa-file-image-o"></i></span>
+                                <span class="align-left"><a href="{{app_context}}{{this.path}}" target="_blank">{{this.path}}</a></span>
+                                <span class="pull-right" style="padding-left: 10px;"><button class="btn btn-danger btn-xs" onclick="file_delete_confirm('{{this.path}}','{{this.id}}')"><i class="fa fa-trash-o"></i></button></span>
+                            </li>
+                        {{/each}}
+                    </ul>
+                    <p class="text-warning">{{__ "Tip"}}: {{__ "To insert an image right click the link, copy the link address and add it to your Markdown"}}</p>
+                </form>
+                <form class="form-horizontal" role="form" method="post" action="{{app_context}}/file/new_dir">
+                    <label for="directory">{{__ "New directory"}}</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="custom_dir" id="custom_dir" placeholder="new/directory">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" type="submit">{{__ "Create"}}</button>
+                        </span>
+                    </div>
+                    <p class="help-block">{{__ "Multiple directories can be created using a \"/\" separator"}}</p>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

@@ -27,7 +27,7 @@
                 <label for="">&nbsp;</label><br/>
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     {{#ifCond config.settings.article_versioning '===' true}}
-                    <a href="#" class="btn btn-warning toggle-menu menu-left push-body"><i class="fa fa-code-fork" aria-hidden="true"></i></a>
+                        <a href="#" class="btn btn-warning toggle-menu menu-left push-body"><i class="fa fa-code-fork" aria-hidden="true"></i></a>
                     {{/ifCond}}
                     <a href="#" class="btn btn-default toggle-menu menu-right push-body"><i class="fa fa-cog" aria-hidden="true"></i></a>
                     <a href="#" id="frm_edit_kb_save" class="btn btn-success editor_btn_action"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
@@ -71,63 +71,65 @@
         <input type="hidden" id="frm_editor" value="true" />
 
         <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right">
-            <div class="cbp-spmenu-header"><div class="pull-left">{{__ "Settings"}}</div><button id="btnSettingsMenu" class="btn btn-default pull-right toggle-menu menu-right push-body"><i class="fa fa-cog"></i></div></button>
-            <ul class="list-group list-group-sidemenu">
-                <li class="list-group-item">
-                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                        <a class="btn btn-sm btn-warning" target="_blank" href="{{app_context}}/{{@root.config.settings.route_name}}/{{result._id}}">{{__ "Preview"}}</a>
-                        <a class="btn btn-sm btn-danger" href="{{app_context}}/delete/{{result._id}}" id="del_post" onclick="return confirm('Are you sure you want to delete this article?');">{{__ "Delete"}}</a>
-                    </div>
-                    &nbsp;
-                     <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                        <a class="btn btn-sm btn-info" target="_blank" href="{{app_context}}/{{@root.config.settings.route_name}}/resetviewCount/{{result._id}}">{{__ "Reset views"}}</a>
-                        <a class="btn btn-sm btn-default" target="_blank" href="{{app_context}}/{{@root.config.settings.route_name}}/resetvoteCount/{{result._id}}">{{__ "Reset votes"}}</a>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="checkbox">
-                        <label>
+            <div class="cbp-spmenu-header">
+                <div class="pull-left">{{__ "Settings"}}</div><button id="btnSettingsMenu" class="btn btn-default pull-right toggle-menu menu-right push-body"><i class="fa fa-cog"></i></div></button>
+                <ul class="list-group list-group-sidemenu">
+                    <li class="list-group-item">
+                        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                            <a class="btn btn-sm btn-warning" target="_blank" href="{{app_context}}/{{@root.config.settings.route_name}}/{{result._id}}">{{__ "Preview"}}</a>
+                            <a class="btn btn-sm btn-danger" href="{{app_context}}/delete/{{result._id}}" id="del_post" onclick="return confirm('Are you sure you want to delete this article?');">{{__ "Delete"}}</a>
+                        </div>
+                        &nbsp;
+                        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                            <a class="btn btn-sm btn-info" target="_blank" href="{{app_context}}/{{@root.config.settings.route_name}}/resetviewCount/{{result._id}}">{{__ "Reset views"}}</a>
+                            <a class="btn btn-sm btn-default" target="_blank" href="{{app_context}}/{{@root.config.settings.route_name}}/resetvoteCount/{{result._id}}">{{__ "Reset votes"}}</a>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="checkbox">
+                            <label>
                             <input type="checkbox" name="frm_kb_featured" {{checked_state result.kb_featured}}> {{__ "Featured article"}}
                         </label>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <label for="frm_kb_seo_title">{{__ "SEO title"}}</label>
-                    <textarea class="form-control" name="frm_kb_seo_title" rows="3">{{if_null result.kb_seo_title result.kb_title}}</textarea>
-                </li>
-                <li class="list-group-item">
-                    <label for="frm_kb_seo_title">{{__ "SEO description"}}</label>
-                    <textarea class="form-control" name="frm_kb_seo_description" rows="3">{{if_null result.kb_seo_description (substring (strip_md result.kb_body) 160)}}</textarea>
-                </li>
-            </ul>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <label for="frm_kb_seo_title">{{__ "SEO title"}}</label>
+                        <textarea class="form-control" name="frm_kb_seo_title" rows="3">{{if_null result.kb_seo_title result.kb_title}}</textarea>
+                    </li>
+                    <li class="list-group-item">
+                        <label for="frm_kb_seo_title">{{__ "SEO description"}}</label>
+                        <textarea class="form-control" name="frm_kb_seo_description" rows="3">{{if_null result.kb_seo_description (substring (strip_md result.kb_body) 160)}}</textarea>
+                    </li>
+                </ul>
         </nav>
         {{#ifCond config.settings.article_versioning '===' true}}
             <nav id="versionSidebar" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" style="overflow-y: auto;">
-                <div class="cbp-spmenu-header"><div class="pull-left">{{__ "Versions"}}</div><button id="btnVersionMenu" class="btn btn-warning pull-right toggle-menu menu-left push-body"><i class="fa fa-code-fork" aria-hidden="true"></i></div></button>
-                <ul class="list-group list-group-sidemenu">
-                    <li class="list-group-item">
-                        <label for="frm_kb_edit_reason">{{__ "Edit reason"}}</label>
-                        <textarea class="form-control" name="frm_kb_edit_reason" id="frm_kb_edit_reason" rows="3"></textarea>
-                    </li>
-                    <li class="list-group-item">
-                        {{#if versions}}
-                            <h4>{{__ "Previous versions"}}</h4>
+                <div class="cbp-spmenu-header">
+                    <div class="pull-left">{{__ "Versions"}}</div><button id="btnVersionMenu" class="btn btn-warning pull-right toggle-menu menu-left push-body"><i class="fa fa-code-fork" aria-hidden="true"></i></div></button>
+                    <ul class="list-group list-group-sidemenu">
+                        <li class="list-group-item">
+                            <label for="frm_kb_edit_reason">{{__ "Edit reason"}}</label>
+                            <textarea class="form-control" name="frm_kb_edit_reason" id="frm_kb_edit_reason" rows="3"></textarea>
+                        </li>
+                        <li class="list-group-item">
+                            {{#if versions}}
+                                <h4>{{__ "Previous versions"}}</h4>
                                 {{#each versions}}
                                     <div class="versionWrapper">
                                         <span>{{__ "Date"}}: {{format_date this.kb_last_updated}}</span>
                                         <textarea class="form-control versionArea" readonly rows="2">{{this.kb_edit_reason}}</textarea>
                                         <div id="{{this._id}}" class="btn-group btn-group-justified">
                                             <a href="#" class="btnDeleteVersion btn btn-xs btn-danger">{{__ "Delete"}}</a>
-                                            <a href="#"  class="btnEditVersion btn btn-xs btn-warning">{{__ "Edit"}}</a>
+                                            <a href="#" class="btnEditVersion btn btn-xs btn-warning">{{__ "Edit"}}</a>
                                             <a target="_blank" href="{{app_context}}/{{@root.config.settings.route_name}}/{{this._id}}/version" class=" btn btn-xs btn-info">{{__ "Preview"}}</a>
                                         </div>
                                         <hr>
                                     </div>
                                 {{/each}}
-                            </select>
-                        {{/if}}
-                    </li>
-                </ul>
+                                </select>
+                            {{/if}}
+                        </li>
+                    </ul>
             </nav>
         {{/ifCond}}
     </form>

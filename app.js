@@ -142,29 +142,29 @@ handlebars = handlebars.create({
             }return'';
         },
         ifCond: function(v1, operator, v2, options){
-			switch(operator){
-				case'==':
-					return(v1 === v2) ? options.fn(this) : options.inverse(this);
-				case'!=':
-					return(v1 !== v2) ? options.fn(this) : options.inverse(this);
-				case'===':
-					return(v1 === v2) ? options.fn(this) : options.inverse(this);
-				case'<':
-					return(v1 < v2) ? options.fn(this) : options.inverse(this);
-				case'<=':
-					return(v1 <= v2) ? options.fn(this) : options.inverse(this);
-				case'>':
-					return(v1 > v2) ? options.fn(this) : options.inverse(this);
-				case'>=':
-					return(v1 >= v2) ? options.fn(this) : options.inverse(this);
-				case'&&':
-					return(v1 && v2) ? options.fn(this) : options.inverse(this);
-				case'||':
-					return(v1 || v2) ? options.fn(this) : options.inverse(this);
-				default:
-					return options.inverse(this);
-			}
-		},
+            switch(operator){
+                case'==':
+                    return(v1 === v2) ? options.fn(this) : options.inverse(this);
+                case'!=':
+                    return(v1 !== v2) ? options.fn(this) : options.inverse(this);
+                case'===':
+                    return(v1 === v2) ? options.fn(this) : options.inverse(this);
+                case'<':
+                    return(v1 < v2) ? options.fn(this) : options.inverse(this);
+                case'<=':
+                    return(v1 <= v2) ? options.fn(this) : options.inverse(this);
+                case'>':
+                    return(v1 > v2) ? options.fn(this) : options.inverse(this);
+                case'>=':
+                    return(v1 >= v2) ? options.fn(this) : options.inverse(this);
+                case'&&':
+                    return(v1 && v2) ? options.fn(this) : options.inverse(this);
+                case'||':
+                    return(v1 || v2) ? options.fn(this) : options.inverse(this);
+                default:
+                    return options.inverse(this);
+            }
+        },
         is_an_admin: function (value, options){
             if(value === 'true'){
                 return options.fn(this);
@@ -221,15 +221,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Make stuff accessible to our router
 app.use(function (req, res, next){
-	req.markdownit = markdownit;
-	req.handlebars = handlebars.helpers;
+    req.markdownit = markdownit;
+    req.handlebars = handlebars.helpers;
     req.bcrypt = bcrypt;
     req.i18n = i18n;
     req.lunr_index = lunr_index;
     req.lunr_store = lunr_store;
     req.app_context = app_context;
     req.i18n.setLocaleFromCookie();
-	next();
+    next();
 });
 
 // setup the routes

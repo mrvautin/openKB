@@ -1,44 +1,44 @@
 <div class="col-md-12">
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<ol class="breadcrumb">
-	  			<li><a href="{{app_context}}/">{{__ "Home"}}</a></li>
-	 			<li><a href="{{app_context}}/Users">{{__ "Users"}}</a></li>
-	  			<li class="active">{{__ "User edit"}}</li>
-			</ol>
-			<h1>{{__ "User edit"}}</h1>
-			<form method="post" id="edit_form" action="{{app_context}}/user_update" data-toggle="validator">
-			<input type="hidden" name="user_id" value="{{user._id}}" />
-            <div class="form-group">
-		    	<label>{{__ "Users name"}}</label>
-		    	<input type="text" class="form-control" name="users_name" value="{{user.users_name}}" required>
-		  	</div>
-			<div class="form-group">
-		    	<label>{{__ "User email"}}</label>
-		    	<input type="text" class="form-control" name="user_email" value="{{user.user_email}}" readonly>
-		  	</div>
-		  	<div class="form-group">
-			    <label>{{__ "User password"}} {{#ifCond session.user '==' user.user_email}}*{{/ifCond}}</label>
-			    <input type="password" class="form-control" name="user_password" {{#ifCond session.user '==' user.user_email}}required{{/ifCond}}>
-		  	</div>
-		  	<div class="form-group">
-			    <label>{{__ "Password confirm"}} {{#ifCond session.user '==' user.user_email}}*{{/ifCond}}</label>
-			    <input type="password" data-validation-match-match="user_password" data-validation-match-message="{{__ "Password values do not match"}}" class="form-control" name="frm_user_password_confirm" {{#ifCond session.user '==' user.user_email}}required{{/ifCond}}>
-		  	</div>
-            {{#is_an_admin session.is_admin}}
-                {{#ifCond session.user '!=' user.user_email}}
-                    <div class="checkbox">
-                        <label>
-                            <input name="user_admin" {{#checked_state user.is_admin}}{{/checked_state}} type="checkbox"> {{__ "User is admin?"}}
-                        </label>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <ol class="breadcrumb">
+                <li><a href="{{app_context}}/">{{__ "Home"}}</a></li>
+                <li><a href="{{app_context}}/Users">{{__ "Users"}}</a></li>
+                <li class="active">{{__ "User edit"}}</li>
+            </ol>
+            <h1>{{__ "User edit"}}</h1>
+            <form method="post" id="edit_form" action="{{app_context}}/user_update" data-toggle="validator">
+                <input type="hidden" name="user_id" value="{{user._id}}" />
+                <div class="form-group">
+                    <label>{{__ "Users name"}}</label>
+                    <input type="text" class="form-control" name="users_name" value="{{user.users_name}}" required>
+                </div>
+                <div class="form-group">
+                    <label>{{__ "User email"}}</label>
+                    <input type="text" class="form-control" name="user_email" value="{{user.user_email}}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>{{__ "User password"}} {{#ifCond session.user '==' user.user_email}}*{{/ifCond}}</label>
+                    <input type="password" class="form-control" name="user_password" {{#ifCond session.user '==' user.user_email}} required {{/ifCond}}>
+                </div>
+                <div class="form-group">
+                    <label>{{__ "Password confirm"}} {{#ifCond session.user '==' user.user_email}}*{{/ifCond}}</label>
+                    <input type="password" data-validation-match-match="user_password" data-validation-match-message="{{__ "Password values do not match"}}" class="form-control" name="frm_user_password_confirm" {{#ifCond session.user '==' user.user_email}} required {{/ifCond}}>
+                </div>
+                {{#is_an_admin session.is_admin}}
+                    {{#ifCond session.user '!=' user.user_email}}
+                        <div class="checkbox">
+                            <label>
+                                <input name="user_admin" {{#checked_state user.is_admin}}{{/checked_state}} type="checkbox"> {{__ "User is admin?"}}
+                            </label>
+                        </div>
+                    {{/ifCond}}
+                {{/is_an_admin}}
+                <div class="form-group">
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-primary">{{__ "Update"}}</button>
                     </div>
-                {{/ifCond}}
-            {{/is_an_admin}}
-		  	<div class="form-group">
-    			<div class="pull-right">
-      				<button type="submit" class="btn btn-primary">{{__ "Update"}}</button>
-    			</div>
-  			</div>
-		</div>
-	</div>
+                </div>
+        </div>
+    </div>
 </div>
