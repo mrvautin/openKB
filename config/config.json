@@ -10,19 +10,19 @@
             "field": "kb_viewcount",
             "order": -1
         },
-        "website_title": "openKB",
+        "website_title": "CDD",
         "show_featured_articles": true,
-        "show_featured_in_article": false,
-        "featured_articles_count": "4",
+        "show_featured_in_article": true,
+        "featured_articles_count": "10",
         "password_protect": false,
         "show_kb_meta": true,
         "suggest_allowed": true,
-        "show_author_email": true,
-        "mermaid": false,
+        "show_author_email": false,
+        "mermaid": true,
         "mathjax": false,
         "mathjax_input_mode": "TeX-MML-AM_CHTML",
         "app_context": "",
-        "links_blank_page": true,
+        "links_blank_page": false,
         "database": {
             "type": "embedded"
         },
@@ -30,15 +30,15 @@
         "google_analytics": "",
         "theme": "",
         "show_logon": true,
-        "add_header_anchors": false,
+        "add_header_anchors": true,
         "typeahead_search": true,
-        "index_article_body": false,
+        "index_article_body": true,
         "enable_spellchecker": true,
         "show_website_logo": true,
-        "website_description": "openKB is an Open Source Node.js Markdown based knowledge base/FAQ/Wiki app with powerful lunr search",
-        "article_versioning": false,
+        "website_description": "Central de Documentação devCoffee",
+        "article_versioning": true,
         "api_auth_token": "",
         "api_allowed": false,
-        "locale": "en"
+        "locale": "pt-br"
     }
 }
