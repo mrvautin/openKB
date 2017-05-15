@@ -1,32 +1,32 @@
 <div class="col-md-12">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<ol class="breadcrumb">
-	  			<li><a href="{{app_context}}/">{{__ "Home"}}</a></li>
-	 			<li class="active">{{__ "Articles"}}</li>
-			</ol>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <ol class="breadcrumb">
+                <li><a href="{{app_context}}/">{{__ "Home"}}</a></li>
+                <li class="active">{{__ "Articles"}}</li>
+            </ol>
             <div class="col-lg-12">
                 <h1>{{__ "Articles"}}</h1>
             </div>
-			<div class="col-lg-12 search_bar pad-bottom">
-				<div class="input-group">
-					<input type="text" name="article_filter" id="article_filter" class="form-control input-lg" placeholder='{{__ "Filter articles"}}'>
-					<span class="input-group-btn">
-						<button class="btn btn-success btn-lg" id="btn_articles_filter">{{__ "Filter"}}</button>
-						<button class="btn btn-warning btn-lg" id="btn_articles_reset">{{__ "Reset"}}</button>
+            <div class="col-lg-12 search_bar pad-bottom">
+                <div class="input-group">
+                    <input type="text" name="article_filter" id="article_filter" class="form-control input-lg" placeholder='{{__ "Filter articles"}}'>
+                    <span class="input-group-btn">
+                        <button class="btn btn-success btn-lg" id="btn_articles_filter">{{__ "Filter"}}</button>
+                        <button class="btn btn-warning btn-lg" id="btn_articles_reset">{{__ "Reset"}}</button>
                         <a class="btn btn-info btn-lg" href="{{app_context}}/articles/all">{{__ "All"}}</a>
-					</span>
-				</div>
-			</div>
-			{{#if results}}
-				<div class="col-lg-12">
-					<ul class="list-group">
-						<li class="list-group-item">
-							<span class="pull-right"><strong>{{__ "Published"}}</strong></span>
-							<strong>{{__ "Articles"}} - <span class="text-danger">{{__ "Filtered term"}}: {{search_term}} </span></strong>
-						</li>
-						{{#each results}}
-							<li class="list-group-item">
+                    </span>
+                </div>
+            </div>
+            {{#if results}}
+                <div class="col-lg-12">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="pull-right"><strong>{{__ "Published"}}</strong></span>
+                            <strong>{{__ "Articles"}} - <span class="text-danger">{{__ "Filtered term"}}: {{search_term}} </span></strong>
+                        </li>
+                        {{#each results}}
+                            <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-lg-8"><a href="{{app_context}}/edit/{{this._id}}">{{this.kb_title}}</a></div>
                                     <div class="col-lg-4 text-right">
@@ -34,19 +34,19 @@
                                         <a href="{{app_context}}/delete/{{this._id}}" onclick="return confirm('{{__ "Are you sure you want to delete this article?"}}');"> <i class="fa fa-trash-o"></i></a>
                                     </div>
                                 </div>
-							</li>
-						{{/each}}
-					</ul>
-				</div>
-			{{else}}
-				<div class="col-lg-12">
-					<ul class="list-group">
-						<li class="list-group-item">
-							<span class="pull-right"><strong>{{__ "Published"}}</strong></span>
-							<strong>{{__ "Article"}} - {{__ "Recent"}}</strong>
-						</li>
-						{{#each articles}}
-							<li class="list-group-item">
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            {{else}}
+                <div class="col-lg-12">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="pull-right"><strong>{{__ "Published"}}</strong></span>
+                            <strong>{{__ "Article"}} - {{__ "Recent"}}</strong>
+                        </li>
+                        {{#each articles}}
+                            <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-lg-8"><a href="{{app_context}}/edit/{{this._id}}">{{this.kb_title}}</a></div>
                                     <div class="col-lg-4 text-right">
@@ -54,11 +54,11 @@
                                         <a href="{{app_context}}/delete/{{this._id}}" onclick="return confirm('{{__ "Are you sure you want to delete this article?"}}');"> <i class="fa fa-trash-o"></i></a>
                                     </div>
                                 </div>
-							</li>
-						{{/each}}
-					</ul>
-				</div>
-			{{/if}}
-		</div>
-	</div>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            {{/if}}
+        </div>
+    </div>
 </div>
