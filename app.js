@@ -28,7 +28,7 @@ var app = express();
 
 // setup the translation
 var i18n = new (require('i18n-2'))({
-    locales: ['en', 'de', 'da', 'es', 'cn', 'ru'],
+    locales: ['en', 'de', 'da', 'es', 'cn', 'ru', 'pr-br'],
     directory: path.join(__dirname, 'locales/'),
     defaultLocale: 'en',
     cookieName: 'locale'
@@ -36,7 +36,6 @@ var i18n = new (require('i18n-2'))({
 
 if(config.settings.locale){
     i18n.setLocale(config.settings.locale);
-//    cookie('locale', config.settings.locale);
     i18n.setLocaleFromCookie();
 }
 
