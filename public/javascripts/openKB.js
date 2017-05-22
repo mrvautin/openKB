@@ -351,7 +351,7 @@ $(document).ready(function(){
 
     // applies an article filter
     $('#btn_articles_filter').click(function(){
-        window.location.href = $('#app_context').val() + '/articles/' + $('#article_filter').val();
+        window.location.href = $('#app_context').val() + '/articles/' + encodeURIComponent($('#article_filter').val());
     });
 
     // resets the article filter
