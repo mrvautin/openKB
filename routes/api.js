@@ -60,7 +60,6 @@ router.post('/api/validate_permalink', function(req, res){
 // public API for inserting posts
 router.post('/api/newArticle', function(req, res){
     var db = req.app.db;
-    var lunr_index = req.lunr_index;
     var Validator = require('jsonschema').Validator;
     var v = new Validator();
 
@@ -149,11 +148,6 @@ router.post('/api/newArticle', function(req, res){
                                 res.status(400).json({result: false, errors: [err]});
                                 return;
                             }
-                            // setup keywords
-                            var keywords = '';
-                            if(req.body.kb_keywords !== undefined){
-                                keywords = req.body.kb_keywords.toString().replace(/,/g, ' ');
-                            }
 
                             // get the new ID
                             var newId = newDoc._id;
@@ -161,26 +155,14 @@ router.post('/api/newArticle', function(req, res){
                                 newId = newDoc.insertedIds;
                             }
 
-                            // create lunr doc
-                            var lunr_doc = {
-                                kb_title: req.body.kb_title,
-                                kb_keywords: keywords,
-                                id: newId
-                            };
-
-                            // if index body is switched on
-                            if(config.settings.index_article_body === true){
-                                lunr_doc['kb_body'] = req.body.kb_body;
-                            }
-
                             // add to store
                             var href = req.body.kb_permalink !== '' ? req.body.kb_permalink : newId;
-                            req.lunr_store[newId] = {t: req.body.kb_title, p: href};
+                            common.updateStore(newId, {t: req.body.kb_title, p: href});
 
-                            // add to lunr index
-                            lunr_index.add(lunr_doc);
-
-                            res.status(200).json({result: true, message: 'All good'});
+                            // rebuild index
+                            common.buildIndex(db, function(){
+                                res.status(200).json({result: true, message: 'All good'});
+                            });
                         });
                     });
                 }else{

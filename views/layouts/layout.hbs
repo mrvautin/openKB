@@ -44,13 +44,13 @@
     <link rel="canonical" href="{{fullUrl}}" />
     <link rel="stylesheet" href="{{app_context}}/stylesheets/flatly.bootstrap.min.css">
     <link rel="stylesheet" href="{{app_context}}/simplemde/simplemde.min.css">
-    <link rel="stylesheet" href="{{app_context}}/stylesheets/github.css">
-    <link rel="stylesheet" href="{{app_context}}/stylesheets/style.css">
+    <link rel="stylesheet" href="{{app_context}}/stylesheets/github{{config.settings.env}}.css">
+    <link rel="stylesheet" href="{{app_context}}/stylesheets/style{{config.settings.env}}.css">
     <link rel="stylesheet" href="{{app_context}}/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{app_context}}/stylesheets/mermaid.css">
-    <link rel="stylesheet" href="{{app_context}}/stylesheets/bootstrap-tokenfield.css">
+    <link rel="stylesheet" href="{{app_context}}/stylesheets/mermaid{{config.settings.env}}.css">
+    <link rel="stylesheet" href="{{app_context}}/stylesheets/bootstrap-tokenfield{{config.settings.env}}.css">
     <link rel="stylesheet" href="{{app_context}}/stylesheets/jasny-bootstrap.min.css">
-    <link rel="stylesheet" href="{{app_context}}/stylesheets/jpushmenu.css">
+    <link rel="stylesheet" href="{{app_context}}/stylesheets/jpushmenu{{config.settings.env}}.css">
     <link rel='icon' href='{{app_context}}/favicon.png' />
     <script src="{{app_context}}/jquery/jquery.min.js"></script>
     <script>{{{state}}}</script>
@@ -58,7 +58,7 @@
     {{#ifCond title '===' 'Settings'}}
       <script src="{{app_context}}/bootstrapTabs/tab.js"></script>
     {{/ifCond}}
-    <script src="{{app_context}}/javascripts/bootstrap-validator.js"></script>
+    <script src="{{app_context}}/javascripts/bootstrap-validator{{config.settings.env}}.js"></script>
     {{#ifCond config.settings.mermaid '===' true}}
       <script src="{{app_context}}/javascripts/mermaid.min.js"></script>
     {{/ifCond}}
@@ -68,9 +68,9 @@
       </script>
       <script async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config={{config.settings.mathjax_input_mode}}"></script>
     {{/ifCond}}
-    <script src="{{app_context}}/javascripts/markdown-it-classy.js"></script>
+    <script src="{{app_context}}/javascripts/markdown-it-classy{{config.settings.env}}.js"></script>
     <script src="{{app_context}}/javascripts/bootstrap-tokenfield.min.js"></script>
-    <script src="{{app_context}}/javascripts/inline-attachment.js"></script>
+    <script src="{{app_context}}/javascripts/inline-attachment{{config.settings.env}}.js"></script>
     <script src="{{app_context}}/javascripts/codemirror.inline-attachment.js"></script>
     <script src="{{app_context}}/javascripts/highlight.min.js"></script>
     <script src="{{app_context}}/javascripts/loadingoverlay.min.js"></script>
@@ -78,10 +78,10 @@
     <script src="{{app_context}}/javascripts/jasny-bootstrap.min.js"></script>
     <script src="{{app_context}}/markdown-it/markdown-it.min.js"></script>
     {{#ifCond config.settings.typeahead_search '===' true}}
-      <script src="{{app_context}}/lunr/lunr.min.js"></script>
+      <script src="{{app_context}}/lunr/lunr{{config.settings.env}}.js"></script>
     {{/ifCond}}
-    <script src="{{app_context}}/javascripts/jpushmenu.js"></script>
-    <script src="{{app_context}}/javascripts/openKB.js"></script>
+    <script src="{{app_context}}/javascripts/jpushmenu{{config.settings.env}}.js"></script>
+    <script src="{{app_context}}/javascripts/openKB{{config.settings.env}}.js"></script>
     {{#ifCond user_page '===' true}}
       {{#if config.settings.google_analytics}}
         {{{config.settings.google_analytics}}}
@@ -109,6 +109,7 @@
                 {{/ifCond}}
             {{/ifCond}}
         </div>
+        <h1>Test: {{config.settings.env}}</h1>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             {{#if session.user}}

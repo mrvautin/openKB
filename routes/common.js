@@ -1,5 +1,6 @@
 var path = require('path');
 var fs = require('fs');
+var lunr = require('lunr');
 
 exports.clear_session_value = function (session, session_var){
     var temp = session[session_var];
@@ -7,7 +8,7 @@ exports.clear_session_value = function (session, session_var){
     return temp;
 };
 
-exports.read_config = function (){
+exports.read_config = function(){
     // preferred path
     var configFile = path.join(__dirname, '..', 'config', 'config.json');
 
@@ -38,8 +39,91 @@ exports.read_config = function (){
         loadedConfig.settings.route_name = 'kb';
     }
 
+    // set the environment depending on the NODE_ENV
+    var environment = '.min';
+    if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === undefined){
+        environment = '';
+    }
+    loadedConfig.settings.env = environment;
+
     return loadedConfig;
 };
+
+exports.getIndex = function(){
+    var index = {};
+    if(fs.existsSync(path.join('data', 'searchIndex.json'))){
+        index.index = fs.readFileSync(path.join('data', 'searchIndex.json'), 'utf8');
+    };
+    if(fs.existsSync(path.join('data', 'searchStore.json'))){
+        index.store = fs.readFileSync(path.join('data', 'searchStore.json'), 'utf8');
+    };
+
+    return index;
+}
+
+exports.updateStore = function(id, doc){
+    var lunr_store = this.getIndex().store;
+    lunr_store[id] = doc;
+    fs.writeFileSync(path.join('data', 'searchStore.json'), JSON.stringify(lunr_store), 'utf-8');
+}
+
+exports.removeStore = function(id){
+    var lunr_store = this.getIndex().store;
+    delete lunr_store[id];
+    fs.writeFileSync(path.join('data', 'searchStore.json'), JSON.stringify(lunr_store), 'utf-8');
+}
+
+exports.buildIndex = function(db, callback){
+    var config = this.read_config();
+    // get all articles on startup
+    db.kb.find({kb_published: 'true'}, function (err, kb_list){
+        // build the index
+        var lunr_store = {};
+        var idx = lunr(function(){
+            this.field('kb_title');
+            this.field('kb_keywords')
+            this.ref('id');
+
+            if(config.settings.index_article_body === true){
+                this.field('kb_body');
+            }
+
+            var index = this;
+
+            // add to lunr index
+            kb_list.forEach(function(kb){
+                // only if defined
+                var keywords = '';
+                if(kb.kb_keywords !== undefined){
+                    keywords = kb.kb_keywords.toString().replace(/,/g, ' ');
+                }
+
+                var doc = {
+                    'kb_title': kb.kb_title,
+                    'kb_keywords': keywords,
+                    'id': kb._id
+                };
+
+                // if index body is switched on
+                if(config.settings.index_article_body === true){
+                    doc['kb_body'] = kb.kb_body;
+                }
+
+                // add to store
+                var href = kb.kb_permalink !== '' ? kb.kb_permalink : kb._id;
+                lunr_store[kb._id] = {t: kb.kb_title, p: href};
+
+                index.add(doc);
+            });
+        });
+
+        // write out our index
+        fs.writeFileSync(path.join('data', 'searchIndex.json'), JSON.stringify(idx), 'utf-8');
+        fs.writeFileSync(path.join('data', 'searchStore.json'), JSON.stringify(lunr_store), 'utf-8');
+
+        callback(null);
+    });
+}
 
 // This is called on the suggest url. If the value is set to false in the config
 // a 403 error is rendered.

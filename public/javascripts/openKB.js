@@ -48,23 +48,25 @@ $(document).ready(function(){
                 data: {id: this.id, state: this.checked}
             })
             .done(function(response){
-                var index = lunr.Index.load(response.index);
-                var store = response.store;
+                var index = lunr.Index.load(JSON.parse(response.index));
+                var store = JSON.parse(response.store);
 
                 $('#frm_search').on('keyup', function(){
                     var query = $(this).val();
-                    var results = index.search(query);
-                    if(results.length === 0){
-                        $('#searchResult').addClass('hidden');
-                    }else{
-                        $('.searchResultList').empty();
-                        $('.searchResultList').append('<li class="list-group-item list-group-heading">Search results</li>');
-                        for(var result in results){
-                            var ref = results[result].ref;
-                            var searchitem = '<li class="list-group-item"><a href="' + $('#app_context').val() + '/' + config.route_name + '/' + store[ref].p + '">' + store[ref].t + '</a></li>';
-                            $('.searchResultList').append(searchitem);
+                    if(query.length > 2){
+                        var results = index.search(query);
+                        if(results.length === 0){
+                            $('#searchResult').addClass('hidden');
+                        }else{
+                            $('.searchResultList').empty();
+                            $('.searchResultList').append('<li class="list-group-item list-group-heading">Search results</li>');
+                            for(var result in results){
+                                var ref = results[result].ref;
+                                var searchitem = '<li class="list-group-item"><a href="' + $('#app_context').val() + '/' + config.route_name + '/' + store[ref].p + '">' + store[ref].t + '</a></li>';
+                                $('.searchResultList').append(searchitem);
+                            }
+                            $('#searchResult').removeClass('hidden');
                         }
-                        $('#searchResult').removeClass('hidden');
                     }
                 });
             })

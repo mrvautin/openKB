@@ -65,9 +65,8 @@ router.post('/protected/action', function (req, res){
 });
 
 router.post('/search_api', function (req, res){
-    var lunr_index = req.lunr_index;
-    var lunr_store = req.lunr_store;
-    res.status(200).json({index: lunr_index, store: lunr_store});
+    var index = common.getIndex();
+    res.status(200).json(index);
 });
 
 // vote on articles
@@ -370,7 +369,6 @@ router.get('/edit/:id', common.restrict, function (req, res){
 // insert new KB form action
 router.post('/insert_kb', common.restrict, function (req, res){
     var db = req.app.db;
-    var lunr_index = req.lunr_index;
 
     var doc = {
         kb_permalink: req.body.frm_kb_permalink,
@@ -428,30 +426,18 @@ router.post('/insert_kb', common.restrict, function (req, res){
                         newId = newDoc.insertedIds;
                     }
 
-                    // create lunr doc
-                    var lunr_doc = {
-                        kb_title: req.body.frm_kb_title,
-                        kb_keywords: keywords,
-                        id: newId
-                    };
-
-                    // if index body is switched on
-                    if(config.settings.index_article_body === true){
-                        lunr_doc['kb_body'] = req.body.frm_kb_body;
-                    }
-
                     // add to store
                     var href = req.body.frm_kb_permalink !== '' ? req.body.frm_kb_permalink : newId;
-                    req.lunr_store[newId] = {t: req.body.frm_kb_title, p: href};
+                    common.updateStore(newId, {t: req.body.frm_kb_title, p: href});
 
                     // add to lunr index
-                    lunr_index.add(lunr_doc);
+                    common.buildIndex(db, function(){
+                        req.session.message = req.i18n.__('New article successfully created');
+                        req.session.message_type = 'success';
 
-                    req.session.message = req.i18n.__('New article successfully created');
-                    req.session.message_type = 'success';
-
-                    // redirect to new doc
-                    res.redirect(req.app_context + '/edit/' + newId);
+                        // redirect to new doc
+                        res.redirect(req.app_context + '/edit/' + newId);
+                    });
                 }
             });
         }
@@ -478,7 +464,6 @@ router.get('/suggest', common.suggest_allowed, function (req, res){
 // Update an existing KB article form action
 router.post('/insert_suggest', common.suggest_allowed, function (req, res){
     var db = req.app.db;
-    var lunr_index = req.lunr_index;
 
     // if empty, remove the comma and just have a blank string
     var keywords = req.body.frm_kb_keywords;
@@ -502,41 +487,18 @@ router.post('/insert_suggest', common.suggest_allowed, function (req, res){
             req.session.message_type = 'danger';
             res.redirect(req.app_context + '/');
         }else{
-            // setup keywords
-            var keywords = '';
-            if(req.body.frm_kb_keywords !== undefined){
-                keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
-            }
-
-            // get the new ID
-            var newId = newDoc._id;
-            if(config.settings.database.type !== 'embedded'){
-                newId = newDoc.insertedIds;
-            }
-
-            // create lunr doc
-            var lunr_doc = {
-                kb_title: req.body.frm_kb_title,
-                kb_keywords: keywords,
-                id: newId
-            };
-
-            // if index body is switched on
-            if(config.settings.index_article_body === true){
-                lunr_doc['kb_body'] = req.body.frm_kb_body;
-            }
 
             // update store
             var href = newId;
-            req.lunr_store[newId] = {t: req.body.frm_kb_title, p: href};
+            common.updateStore(newId, {t: req.body.frm_kb_title, p: href})
 
-            // add to lunr index
-            lunr_index.add(lunr_doc);
-
-            // redirect to new doc
-            req.session.message = req.i18n.__('Suggestion successfully processed');
-            req.session.message_type = 'success';
-            res.redirect(req.app_context + '/');
+            // rebuild index
+            common.buildIndex(db, function(){
+                // redirect to new doc
+                req.session.message = req.i18n.__('Suggestion successfully processed');
+                req.session.message_type = 'success';
+                res.redirect(req.app_context + '/');
+            });
         }
     });
 });
@@ -544,7 +506,6 @@ router.post('/insert_suggest', common.suggest_allowed, function (req, res){
 // Update an existing KB article form action
 router.post('/save_kb', common.restrict, function (req, res){
     var db = req.app.db;
-    var lunr_index = req.lunr_index;
     var kb_featured = req.body.frm_kb_featured === 'on' ? 'true' : 'false';
 
     // if empty, remove the comma and just have a blank string
@@ -616,61 +577,49 @@ router.post('/save_kb', common.restrict, function (req, res){
                             keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
                         }
 
-                        // create lunr doc
-                        var lunr_doc = {
-                            kb_title: req.body.frm_kb_title,
-                            kb_keywords: keywords,
-                            id: req.body.frm_kb_id
-                        };
-
-                        // if index body is switched on
-                        if(config.settings.index_article_body === true){
-                            lunr_doc['kb_body'] = req.body.frm_kb_body;
-                        }
-
                         // update store
                         var href = req.body.frm_kb_permalink !== '' ? req.body.frm_kb_permalink : req.body.frm_kb_id;
-                        req.lunr_store[req.body.frm_kb_id] = {t: req.body.frm_kb_title, p: href};
+                        common.updateStore(req.body.frm_kb_id, {t: req.body.frm_kb_title, p: href});
 
-                        // update the index
-                        lunr_index.update(lunr_doc, false);
+                        // rebuild the index
+                        common.buildIndex(db, function(){
+                            var article_versioning = config.settings.article_versioning ? config.settings.article_versioning : false;
 
-                        var article_versioning = config.settings.article_versioning ? config.settings.article_versioning : false;
+                            // if versions turned on, insert a doc to track versioning
+                            if(article_versioning === true){
+                                // version doc
+                                var version_doc = {
+                                    kb_title: req.body.frm_kb_title,
+                                    kb_parent_id: req.body.frm_kb_id,
+                                    kb_versioned_doc: true,
+                                    kb_edit_reason: req.body.frm_kb_edit_reason,
+                                    kb_body: req.body.frm_kb_body,
+                                    kb_published: false,
+                                    kb_keywords: keywords,
+                                    kb_last_updated: new Date(),
+                                    kb_last_update_user: req.session.users_name + ' - ' + req.session.user,
+                                    kb_author: author,
+                                    kb_author_email: author_email,
+                                    kb_published_date: published_date,
+                                    kb_password: req.body.frm_kb_password,
+                                    kb_permalink: req.body.frm_kb_permalink,
+                                    kb_featured: kb_featured,
+                                    kb_seo_title: req.body.frm_kb_seo_title,
+                                    kb_seo_description: req.body.frm_kb_seo_description
+                                };
 
-                        // if versions turned on, insert a doc to track versioning
-                        if(article_versioning === true){
-                            // version doc
-                            var version_doc = {
-                                kb_title: req.body.frm_kb_title,
-                                kb_parent_id: req.body.frm_kb_id,
-                                kb_versioned_doc: true,
-                                kb_edit_reason: req.body.frm_kb_edit_reason,
-                                kb_body: req.body.frm_kb_body,
-                                kb_published: false,
-                                kb_keywords: keywords,
-                                kb_last_updated: new Date(),
-                                kb_last_update_user: req.session.users_name + ' - ' + req.session.user,
-                                kb_author: author,
-                                kb_author_email: author_email,
-                                kb_published_date: published_date,
-                                kb_password: req.body.frm_kb_password,
-                                kb_permalink: req.body.frm_kb_permalink,
-                                kb_featured: kb_featured,
-                                kb_seo_title: req.body.frm_kb_seo_title,
-                                kb_seo_description: req.body.frm_kb_seo_description
-                            };
-
-                            // insert a doc to track versioning
-                            db.kb.insert(version_doc, function (err, version_doc){
+                                // insert a doc to track versioning
+                                db.kb.insert(version_doc, function (err, version_doc){
+                                    req.session.message = req.i18n.__('Successfully saved');
+                                    req.session.message_type = 'success';
+                                    res.redirect(req.app_context + '/edit/' + req.body.frm_kb_id);
+                                });
+                            }else{
                                 req.session.message = req.i18n.__('Successfully saved');
                                 req.session.message_type = 'success';
                                 res.redirect(req.app_context + '/edit/' + req.body.frm_kb_id);
-                            });
-                        }else{
-                            req.session.message = req.i18n.__('Successfully saved');
-                            req.session.message_type = 'success';
-                            res.redirect(req.app_context + '/edit/' + req.body.frm_kb_id);
-                        }
+                            }
+                        });
                     }
                 });
             });
@@ -788,7 +737,7 @@ router.get('/articles/all', common.restrict, function (req, res){
 
 router.get('/articles/:tag', function (req, res){
     var db = req.app.db;
-    var lunr_index = req.lunr_index;
+    var lunr_index = common.getIndex().index;
 
     // we strip the ID's from the lunr index search
     var lunr_id_array = [];
@@ -1088,7 +1037,6 @@ router.get('/user/delete/:id', common.restrict, function (req, res){
 // delete article
 router.get('/delete/:id', common.restrict, function (req, res){
     var db = req.app.db;
-    var lunr_index = req.lunr_index;
 
     // remove the article
     db.kb.remove({_id: common.getId(req.params.id)}, {}, function (err, numRemoved){
@@ -1104,15 +1052,15 @@ router.get('/delete/:id', common.restrict, function (req, res){
         };
 
         // remove from store
-        delete req.lunr_store[req.params.id];
+        common.removeStore(req.params.id);
 
-        // remove the index
-        lunr_index.remove(lunr_doc, false);
-
-        // redirect home
-        req.session.message = req.i18n.__('Article successfully deleted');
-        req.session.message_type = 'success';
-        res.redirect(req.app_context + '/articles');
+        // remove from index
+        common.buildIndex(db, function(){
+            // redirect home
+            req.session.message = req.i18n.__('Article successfully deleted');
+            req.session.message_type = 'success';
+            res.redirect(req.app_context + '/articles');
+        })
     });
 });
 
@@ -1315,7 +1263,7 @@ router.get(['/search/:tag', '/topic/:tag'], common.restrict, function (req, res)
     var db = req.app.db;
     common.config_expose(req.app);
     var search_term = req.params.tag;
-    var lunr_index = req.lunr_index;
+    var lunr_index = common.getIndex().index;
 
     // determine whether its a search or a topic
     var routeType = 'search';
@@ -1368,7 +1316,7 @@ router.post('/search', common.restrict, function (req, res){
     var db = req.app.db;
     common.config_expose(req.app);
     var search_term = req.body.frm_search;
-    var lunr_index = req.lunr_index;
+    var lunr_index = common.getIndex().index;
 
     // we strip the ID's from the lunr index search
     var lunr_id_array = [];
@@ -1550,15 +1498,14 @@ router.get('/sitemap.xml', function (req, res, next){
         }
 
         // create the sitemap
-        var sitemap = sm.createSitemap(
-            {
-                hostname: req.protocol + '://' + req.headers.host,
-                cacheTime: 600000,        // 600 sec - cache purge period
-                urls: urlArray
-            });
+        var sitemap = sm.createSitemap({
+            hostname: req.protocol + '://' + req.headers.host,
+            cacheTime: 600000,        // 600 sec - cache purge period
+            urls: urlArray
+        });
 
         // render the sitemap
-        sitemap.toXML(function (err, xml){
+        sitemap.toXML(function(err, xml){
             if(err){
                 return res.status(500).end();
             }
