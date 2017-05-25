@@ -19,6 +19,8 @@ Demo: [http://openkb.markmoffat.com](http://openkb.markmoffat.com)
 3. Start application: `npm start`
 4. Go to  [http://127.0.0.1:4444](http://127.0.0.1:4444) in your browser
 
+> Note: `openKB` supports Nodejs version 0.12 and above.
+
 ### Deploy on Heroku
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mrvautin/openKB)

@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var Nedb = require('nedb');
 var session = require('express-session');
 var bcrypt = require('bcrypt-nodejs');
-var lunr = require('lunr');
 var markdownit = require('markdown-it')({html: true, linkify: true, typographer: true});
 var moment = require('moment');
 var fs = require('fs');
@@ -18,7 +17,6 @@ var config = common.read_config();
 var MongoClient = require('mongodb').MongoClient;
 var expstate = require('express-state');
 var compression = require('compression');
-var lunr_store = {};
 
 // require the routes
 var index = require('./routes/index');
@@ -224,8 +222,6 @@ app.use(function (req, res, next){
 	req.handlebars = handlebars.helpers;
     req.bcrypt = bcrypt;
     req.i18n = i18n;
-    req.lunr_index = lunr_index;
-    req.lunr_store = lunr_store;
     req.app_context = app_context;
     req.i18n.setLocaleFromCookie();
 	next();
@@ -290,7 +286,7 @@ if(config.settings.database.type === 'embedded'){
     app.db = db;
 
     // add articles to index
-    indexArticles(db, function(err){
+    common.buildIndex(db, function(err){
         // lift the app
         app.listen(app.get('port'), app.get('bind'), function (){
             console.log('openKB running on host: http://' + app.get('bind') + ':' + app.get('port'));
@@ -314,7 +310,7 @@ if(config.settings.database.type === 'embedded'){
         app.db = db;
 
         // add articles to index
-        indexArticles(db, function(err){
+        common.buildIndex(db, function(err){
             // lift the app
             app.listen(app.get('port'), app.get('bind'), function (){
                 console.log('openKB running on host: http://' + app.get('bind') + ':' + app.get('port'));
@@ -322,82 +318,6 @@ if(config.settings.database.type === 'embedded'){
             });
         });
     });
-}
-
-// setup lunr indexing
-var lunr_index = lunr(function (){
-    this.field('kb_title', {boost: 10});
-    this.field('kb_keywords');
-});
-
-// if index body is switched on
-if(config.settings.index_article_body === true){
-    lunr_index.field('kb_body');
-}
-
-function indexArticles(db, callback){
-    // get all articles on startup
-    if(config.settings.database.type === 'embedded'){
-        db.kb.find({kb_published: 'true'}, function (err, kb_list){
-            // add to lunr index
-            kb_list.forEach(function(kb){
-                // only if defined
-                var keywords = '';
-                if(kb.kb_keywords !== undefined){
-                    keywords = kb.kb_keywords.toString().replace(/,/g, ' ');
-                }
-
-                var doc = {
-                    'kb_title': kb.kb_title,
-                    'kb_keywords': keywords,
-                    'id': kb._id
-                };
-
-                // if index body is switched on
-                if(config.settings.index_article_body === true){
-                    doc['kb_body'] = kb.kb_body;
-                }
-
-                // add to store
-                var href = kb.kb_permalink !== '' ? kb.kb_permalink : kb._id;
-                lunr_store[kb._id] = {t: kb.kb_title, p: href};
-
-                lunr_index.add(doc);
-            });
-
-            callback(null);
-        });
-    }else{
-        db.kb.find({kb_published: 'true'}).toArray(function (err, kb_list){
-            // add to lunr index
-            kb_list.forEach(function(kb){
-                // only if defined
-                var keywords = '';
-                if(typeof kb.kb_keywords !== 'undefined' && kb.kb_keywords !== null){
-                    keywords = kb.kb_keywords.toString().replace(/,/g, ' ');
-                }
-
-                var doc = {
-                    'kb_title': kb.kb_title,
-                    'kb_keywords': keywords,
-                    'id': kb._id
-                };
-
-                // if index body is switched on
-                if(config.settings.index_article_body === true){
-                    doc['kb_body'] = kb.kb_body;
-                }
-
-                // add to store
-                var href = kb.kb_permalink !== '' ? kb.kb_permalink : kb._id;
-                lunr_store[kb._id] = {t: kb.kb_title, p: href};
-
-                lunr_index.add(doc);
-            });
-
-            callback(null);
-        });
-    }
 }
 
 module.exports = app;
