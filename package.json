@@ -7,7 +7,7 @@
     "start": "node app.js",
     "dbUpgrade": "node data/mongodbUpgrade.js",
     "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "prepublish": "npm run snyk-protect",
     "uglify": "node bin/uglify.js"
   },
   "dependencies": {
