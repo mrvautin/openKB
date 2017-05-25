@@ -5,7 +5,9 @@
   "private": false,
   "scripts": {
     "start": "node app.js",
-    "dbUpgrade": "node data/mongodbUpgrade.js"
+    "dbUpgrade": "node data/mongodbUpgrade.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "async": "^2.0.1",
@@ -44,7 +46,8 @@
     "simplemde": "^1.11.2",
     "sitemap": "^1.8.1",
     "speakingurl": "^10.0.0",
-    "walk": "^2.3.9"
+    "walk": "^2.3.9",
+    "snyk": "^1.30.1"
   },
   "main": "app.js",
   "devDependencies": {},
@@ -72,5 +75,6 @@
   "bugs": {
     "url": "https://github.com/mrvautin/openKB/issues"
   },
-  "homepage": "http://openkb.mrvautin.com"
+  "homepage": "http://openkb.mrvautin.com",
+  "snyk": true
 }
