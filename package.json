@@ -1,11 +1,12 @@
 {
   "name": "openkb",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "openKB is an Open Source Nodejs Markdown based knowledge base/FAQ/Wiki app with powerful lunr search",
   "private": false,
   "scripts": {
     "start": "node app.js",
-    "dbUpgrade": "node data/mongodbUpgrade.js"
+    "dbUpgrade": "node data/mongodbUpgrade.js",
+    "uglify": "node bin/uglify.js"
   },
   "dependencies": {
     "async": "^2.0.1",
@@ -44,6 +45,8 @@
     "simplemde": "^1.11.2",
     "sitemap": "^1.8.1",
     "speakingurl": "^10.0.0",
+    "uglify-js": "^3.0.11",
+    "uglifycss": "0.0.27",
     "walk": "^2.3.9"
   },
   "main": "app.js",

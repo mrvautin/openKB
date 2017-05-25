@@ -39,6 +39,13 @@ exports.read_config = function(){
         loadedConfig.settings.route_name = 'kb';
     }
 
+    // set the environment depending on the NODE_ENV
+    var environment = '.min';
+    if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === undefined){
+        environment = '';
+    }
+    loadedConfig.settings.env = environment;
+
     return loadedConfig;
 };
 

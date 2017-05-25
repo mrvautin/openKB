@@ -19,6 +19,12 @@ Demo: [http://openkb.markmoffat.com](http://openkb.markmoffat.com)
 3. Start application: `npm start`
 4. Go to  [http://127.0.0.1:4444](http://127.0.0.1:4444) in your browser
 
+
+Running the application in Production using minified code can be done by:
+
+1. Create the minified/ugly files: `npm run uglify`
+2. Ensure the minified/ugly files are being used: `NODE_ENV=production node app.js`
+
 > Note: `openKB` supports Nodejs version 0.12 and above.
 
 ### Deploy on Heroku

@@ -10,3 +10,14 @@ data/export.zip
 .vscode
 jsconfig.json
 .idea/
+public/javascripts/bootstrap-validator.min.js
+public/javascripts/codemirror.inline-attachment.min.js
+public/javascripts/inline-attachment.min.js
+public/javascripts/jpushmenu.min.js
+public/javascripts/markdown-it-classy.min.js
+public/javascripts/openKB.min.js
+public/stylesheets/bootstrap-tokenfield.min.css
+public/stylesheets/github.min.css
+public/stylesheets/jpushmenu.min.css
+public/stylesheets/mermaid.min.css
+public/stylesheets/style.min.css
