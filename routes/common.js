@@ -76,8 +76,7 @@ exports.removeStore = function(id){
 
 exports.buildIndex = function(db, callback){
     var config = this.read_config();
-    // get all articles on startup
-    db.kb.find({kb_published: 'true'}, function (err, kb_list){
+    exports.dbQuery(db.kb, {kb_published: 'true'}, null, null, function (err, kb_list){
         // build the index
         var lunr_store = {};
         var idx = lunr(function(){
