@@ -130,7 +130,7 @@ router.get('/' + config.settings.route_name + '/:id/version', common.restrict, f
                 title: result.kb_title,
                 result: result,
                 user_page: true,
-                kb_body: markdownit.render(result.kb_body),
+                kb_body: common.sanitizeHTML(markdownit.render(result.kb_body)),
                 featured_results: featured_results,
                 config: config,
                 session: req.session,
@@ -215,7 +215,7 @@ router.get('/' + config.settings.route_name + '/:id', common.restrict, function 
                         title: result.kb_title,
                         result: result,
                         user_page: true,
-                        kb_body: markdownit.render(result.kb_body),
+                        kb_body: common.sanitizeHTML(markdownit.render(result.kb_body)),
                         featured_results: featured_results,
                         config: config,
                         session: req.session,
@@ -466,7 +466,7 @@ router.post('/insert_suggest', common.suggest_allowed, function (req, res){
     var db = req.app.db;
 
     // if empty, remove the comma and just have a blank string
-    var keywords = req.body.frm_kb_keywords;
+    var keywords = req.body.frm_kb_keywords.replace(/<(?:.|\n)*?>/gm, '');;
     if(common.safe_trim(keywords) === ','){
         keywords = '';
     }
@@ -514,7 +514,7 @@ router.post('/save_kb', common.restrict, function (req, res){
     var kb_featured = req.body.frm_kb_featured === 'on' ? 'true' : 'false';
 
     // if empty, remove the comma and just have a blank string
-    var keywords = req.body.frm_kb_keywords;
+    var keywords = req.body.frm_kb_keywords.replace(/<(?:.|\n)*?>/gm, '');
     if(common.safe_trim(keywords) === ','){
         keywords = '';
     }

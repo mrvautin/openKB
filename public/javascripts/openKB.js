@@ -257,7 +257,15 @@ $(document).ready(function(){
         // add responsive images and tables
         var fixed_html = html.replace(/<img/g, "<img class='img-responsive' ");
         fixed_html = fixed_html.replace(/<table/g, "<table class='table table-hover' ");
-        $('#preview').html(fixed_html);
+
+        var cleanHTML = sanitizeHtml(fixed_html, {
+            allowedTags: [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol',
+                'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div',
+                'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'img' 
+            ]
+        });
+
+        $('#preview').html(cleanHTML);
 
         // re-hightlight the preview
         $('pre code').each(function(i, block){

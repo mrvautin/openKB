@@ -80,6 +80,7 @@
     {{#ifCond config.settings.typeahead_search '===' true}}
       <script src="{{app_context}}/lunr/lunr{{config.settings.env}}.js"></script>
     {{/ifCond}}
+    <script src="{{app_context}}/javascripts/sanitizer.min.js"></script>
     <script src="{{app_context}}/javascripts/jpushmenu{{config.settings.env}}.js"></script>
     <script src="{{app_context}}/javascripts/openKB{{config.settings.env}}.js"></script>
     {{#ifCond user_page '===' true}}
