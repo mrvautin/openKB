@@ -54,7 +54,7 @@ $(document).ready(function(){
                 $('#frm_search').on('keyup', function(){
                     var query = $(this).val();
                     if(query.length > 2){
-                        var results = index.search(query);
+                        var results = index.search(query + '*');
                         if(results.length === 0){
                             $('#searchResult').addClass('hidden');
                         }else{

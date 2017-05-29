@@ -747,7 +747,7 @@ router.get('/articles/:tag', function (req, res){
 
     // we strip the ID's from the lunr index search
     var lunr_id_array = [];
-    lunr_index.search(req.params.tag).forEach(function (id){
+    lunr_index.search(req.params.tag + '*').forEach(function (id){
         lunr_id_array.push(id.ref);
     });
 
@@ -1279,7 +1279,7 @@ router.get(['/search/:tag', '/topic/:tag'], common.restrict, function (req, res)
 
     // we strip the ID's from the lunr index search
     var lunr_id_array = [];
-    lunr_index.search(search_term).forEach(function (id){
+    lunr_index.search(search_term + '*').forEach(function (id){
         // if mongoDB we use ObjectID's, else normal string ID's
         if(config.settings.database.type !== 'embedded'){
             lunr_id_array.push(common.getId(id.ref));
@@ -1326,7 +1326,7 @@ router.post('/search', common.restrict, function (req, res){
 
     // we strip the ID's from the lunr index search
     var lunr_id_array = [];
-    lunr_index.search(search_term).forEach(function (id){
+    lunr_index.search(search_term + '*').forEach(function (id){
         // if mongoDB we use ObjectID's, else normal string ID's
         if(config.settings.database.type !== 'embedded'){
             lunr_id_array.push(common.getId(id.ref));
