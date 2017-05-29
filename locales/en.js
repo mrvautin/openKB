@@ -172,5 +172,6 @@
 	"Versions": "Versions",
 	"Edit reason": "Edit reason",
 	"Previous versions": "Previous versions",
-	"Topic": "Topic"
+	"Topic": "Topic",
+	"Suggestion successfully processed": "Suggestion successfully processed"
 }

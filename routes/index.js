@@ -487,6 +487,11 @@ router.post('/insert_suggest', common.suggest_allowed, function (req, res){
             req.session.message_type = 'danger';
             res.redirect(req.app_context + '/');
         }else{
+            // get the new ID
+            var newId = newDoc._id;
+            if(config.settings.database.type !== 'embedded'){
+                newId = newDoc.insertedIds;
+            }
 
             // update store
             var href = newId;
