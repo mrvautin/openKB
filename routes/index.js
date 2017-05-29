@@ -6,6 +6,7 @@ var getSlug = require('speakingurl');
 var common = require('./common');
 var _ = require('lodash');
 var mime = require('mime-types');
+var lunr = require('lunr');
 var config = common.read_config();
 
 var appDir = path.dirname(require.main.filename);
@@ -1268,7 +1269,7 @@ router.get(['/search/:tag', '/topic/:tag'], common.restrict, function (req, res)
     var db = req.app.db;
     common.config_expose(req.app);
     var search_term = req.params.tag;
-    var lunr_index = common.getIndex().index;
+    var lunr_index = lunr.Index.load(JSON.parse(common.getIndex().index));
 
     // determine whether its a search or a topic
     var routeType = 'search';
@@ -1321,7 +1322,7 @@ router.post('/search', common.restrict, function (req, res){
     var db = req.app.db;
     common.config_expose(req.app);
     var search_term = req.body.frm_search;
-    var lunr_index = common.getIndex().index;
+    var lunr_index = lunr.Index.load(JSON.parse(common.getIndex().index));
 
     // we strip the ID's from the lunr index search
     var lunr_id_array = [];
