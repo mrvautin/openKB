@@ -286,7 +286,10 @@ if(config.settings.database.type === 'embedded'){
     app.db = db;
 
     // add articles to index
-    common.buildIndex(db, function(err){
+    common.buildIndex(db, function(index){
+        // add the index
+        app.index = index;
+
         // lift the app
         app.listen(app.get('port'), app.get('bind'), function (){
             console.log('openKB running on host: http://' + app.get('bind') + ':' + app.get('port'));
@@ -310,7 +313,9 @@ if(config.settings.database.type === 'embedded'){
         app.db = db;
 
         // add articles to index
-        common.buildIndex(db, function(err){
+        common.buildIndex(db, function(index){
+            // add the index
+            app.index = index;
             // lift the app
             app.listen(app.get('port'), app.get('bind'), function (){
                 console.log('openKB running on host: http://' + app.get('bind') + ':' + app.get('port'));

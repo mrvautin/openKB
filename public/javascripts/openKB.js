@@ -41,37 +41,34 @@ $(document).ready(function(){
     if(config.typeahead_search === true){
         // on pages which have the search form
         if($('#frm_search').length){
-            // grab the index from server
-            $.ajax({
-                method: 'POST',
-                url: $('#app_context').val() + '/search_api',
-                data: {id: this.id, state: this.checked}
-            })
-            .done(function(response){
-                var index = lunr.Index.load(JSON.parse(response.index));
-                var store = JSON.parse(response.store);
-
-                $('#frm_search').on('keyup', function(){
-                    var query = $(this).val();
-                    if(query.length > 2){
-                        var results = index.search(query + '*');
-                        if(results.length === 0){
+            $('#frm_search').on('keyup', function(){
+                if($('#frm_search').val().length > 2){
+                    $.ajax({
+                        method: 'POST',
+                        url: $('#app_context').val() + '/search_api',
+                        data: {searchTerm: $('#frm_search').val()}
+                    })
+                    .done(function(response){
+                        if(response.length === 0){
                             $('#searchResult').addClass('hidden');
                         }else{
                             $('.searchResultList').empty();
                             $('.searchResultList').append('<li class="list-group-item list-group-heading">Search results</li>');
-                            for(var result in results){
-                                var ref = results[result].ref;
-                                var searchitem = '<li class="list-group-item"><a href="' + $('#app_context').val() + '/' + config.route_name + '/' + store[ref].p + '">' + store[ref].t + '</a></li>';
+                            $.each(response, function(key, value){
+                                var faqLink = value.kb_permalink;
+                                if(typeof faqLink === 'undefined' || faqLink === ''){
+                                    faqLink = value._id;
+                                }
+                                var searchitem = '<li class="list-group-item"><a href="' + $('#app_context').val() + '/' + config.route_name + '/' + faqLink + '">' + value.kb_title + '</a></li>';
                                 $('.searchResultList').append(searchitem);
-                            }
+                            });
                             $('#searchResult').removeClass('hidden');
                         }
-                    }
-                });
-            })
-            .fail(function(msg){
-                show_notification(msg.responseText, 'danger');
+                    });
+                }else{
+                    $('.searchResultList').empty();
+                    $('#searchResult').addClass('hidden');
+                }
             });
         }
     }

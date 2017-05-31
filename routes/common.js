@@ -50,78 +50,42 @@ exports.read_config = function(){
     return loadedConfig;
 };
 
-exports.getIndex = function(){
-    var index = {};
-    if(fs.existsSync(path.join('data', 'searchIndex.json'))){
-        index.index = fs.readFileSync(path.join('data', 'searchIndex.json'), 'utf8');
-    };
-    if(fs.existsSync(path.join('data', 'searchStore.json'))){
-        index.store = fs.readFileSync(path.join('data', 'searchStore.json'), 'utf8');
-    };
-
-    return index;
-}
-
-exports.updateStore = function(id, doc){
-    var lunr_store = this.getIndex().store;
-    lunr_store[id] = doc;
-    fs.writeFileSync(path.join('data', 'searchStore.json'), JSON.stringify(lunr_store), 'utf-8');
-}
-
-exports.removeStore = function(id){
-    var lunr_store = this.getIndex().store;
-    delete lunr_store[id];
-    fs.writeFileSync(path.join('data', 'searchStore.json'), JSON.stringify(lunr_store), 'utf-8');
-}
-
 exports.buildIndex = function(db, callback){
     var config = this.read_config();
     exports.dbQuery(db.kb, {kb_published: 'true'}, null, null, function (err, kb_list){
         // build the index
-        var lunr_store = {};
-        var idx = lunr(function(){
-            this.field('kb_title');
-            this.field('kb_keywords')
-            this.ref('id');
+        var index = new lunr.Index;
+        index.field('kb_title');
+        index.field('kb_keywords');
+        index.ref('id');
 
-            if(config.settings.index_article_body === true){
-                this.field('kb_body');
+        // add body to index if in config
+        if(config.settings.index_article_body === true){
+            index.field('kb_body');
+        }
+
+        // add to lunr index
+        kb_list.forEach(function(kb){
+            // only if defined
+            var keywords = '';
+            if(kb.kb_keywords !== undefined){
+                keywords = kb.kb_keywords.toString().replace(/,/g, ' ');
             }
 
-            var index = this;
+            var doc = {
+                kb_title: kb.kb_title,
+                kb_keywords: keywords,
+                id: kb._id
+            };
 
-            // add to lunr index
-            kb_list.forEach(function(kb){
-                // only if defined
-                var keywords = '';
-                if(kb.kb_keywords !== undefined){
-                    keywords = kb.kb_keywords.toString().replace(/,/g, ' ');
-                }
+            // if index body is switched on
+            if(config.settings.index_article_body === true){
+                doc['kb_body'] = kb.kb_body;
+            }
 
-                var doc = {
-                    'kb_title': kb.kb_title,
-                    'kb_keywords': keywords,
-                    'id': kb._id
-                };
-
-                // if index body is switched on
-                if(config.settings.index_article_body === true){
-                    doc['kb_body'] = kb.kb_body;
-                }
-
-                // add to store
-                var href = kb.kb_permalink !== '' ? kb.kb_permalink : kb._id;
-                lunr_store[kb._id] = {t: kb.kb_title, p: href};
-
-                index.add(doc);
-            });
+            index.add(doc);
         });
-
-        // write out our index
-        fs.writeFileSync(path.join('data', 'searchIndex.json'), JSON.stringify(idx), 'utf-8');
-        fs.writeFileSync(path.join('data', 'searchStore.json'), JSON.stringify(lunr_store), 'utf-8');
-
-        callback(null);
+        callback(index);
     });
 }
 

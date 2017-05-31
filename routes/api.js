@@ -149,20 +149,34 @@ router.post('/api/newArticle', function(req, res){
                                 return;
                             }
 
+                            // setup keywords
+                            var keywords = '';
+                            if(req.body.kb_keywords !== undefined){
+                                keywords = req.body.kb_keywords.toString().replace(/,/g, ' ');
+                            }
+
                             // get the new ID
                             var newId = newDoc._id;
                             if(config.settings.database.type !== 'embedded'){
-                                newId = newDoc.insertedIds;
+                                newId = newDoc.insertedIds[0];
                             }
 
-                            // add to store
-                            var href = req.body.kb_permalink !== '' ? req.body.kb_permalink : newId;
-                            common.updateStore(newId, {t: req.body.kb_title, p: href});
+                            // create lunr doc		
+                            var lunr_doc = {		
+                                kb_title: req.body.kb_title,		
+                                kb_keywords: keywords,		
+                                id: newId		
+                            };		
 
-                            // rebuild index
-                            common.buildIndex(db, function(){
-                                res.status(200).json({result: true, message: 'All good'});
-                            });
+                            // if index body is switched on		
+                            if(config.settings.index_article_body === true){		
+                                lunr_doc['kb_body'] = req.body.frm_kb_body;		
+                            }		
+
+                            // add to lunr index
+                            lunr_index.add(lunr_doc);
+
+                            res.status(200).json({result: true, message: 'All good'});
                         });
                     });
                 }else{
