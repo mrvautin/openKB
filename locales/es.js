@@ -99,7 +99,7 @@
 	"User": "Usuario",
 	"Role": "Rango",
 	"Admin": "Administrador",
-	"Are you sure you want to delete?": "¿Está seguro de que quieres eliminarlo?",
+	"Are you sure you want to delete?": "¿Estás seguro de que quieres eliminarlo?",
 	"User edit": "Editar usuario",
 	"Password values do not match": "Las contraseñas no son iguales",
 	"Date": "Fecha",
