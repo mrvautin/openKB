@@ -1,5 +1,5 @@
 {
-	"Toggle navigation": "Navegación",
+	"Toggle navigation": "Conmutar navegación",
 	"Users": "Usuarios",
 	"New": "Nuevo",
 	"Edit": "Editar",
