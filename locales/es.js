@@ -92,7 +92,7 @@
 	"New user": "Nuevo usuario",
 	"Users name": "Nombre de usuario",
 	"User email": "Correo electrónico de usuario",
-	"User password": "Contraseña",
+	"User password": "Contraseña de usuario",
 	"Password confirm": "Confirmar contraseña",
 	"Create": "Crear",
 	"A user with that email address already exists": "Ya existe un usuario con ese correo electrónico",
