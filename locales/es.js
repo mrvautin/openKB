@@ -35,7 +35,7 @@
 	"Website title": "Título de la Página",
 	"The title of your website": "El título de tu página",
 	"Website description": "Descripción de la página",
-	"A short website description when listing the homepage URL in search engines": "Una breve descripción de la pagina para cuando se liste en motores de búsqueda",
+	"A short website description when listing the homepage URL in search engines": "Una breve descripción de la pagina para cuando la URL de la página de inicio se liste en motores de búsqueda",
 	"Show website logo": "Mostrar logo de la página",
 	"true": "activo",
 	"false": "inactivo",
