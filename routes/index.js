@@ -204,7 +204,7 @@ router.get('/' + config.settings.route_name + '/:id', common.restrict, function 
             }
 
             // if article is set to private, redirect to login
-            if(typeof result.faq_visible_state !== 'undefined' && result.faq_visible_state === 'private'){
+            if(typeof result.kb_visible_state !== 'undefined' && result.kb_visible_state === 'private'){
                 if(!req.session.user){
                     req.session.refer_url = req.originalUrl;
                     res.redirect('/login');
@@ -968,9 +968,16 @@ router.get('/login', function (req, res){
         if(user_count > 0){
             // set needs_setup to false as a user exists
             req.session.needs_setup = false;
+            
+            // set the referring url
+            var referringUrl = req.header('Referer');
+            if(typeof req.session.refer_url !== 'undefined' && req.session.refer_url !== ''){
+                referringUrl = req.session.refer_url;
+            }
+
             res.render('login', {
                 title: 'Login',
-                referring_url: req.header('Referer'),
+                referring_url: referringUrl,
                 config: config,
                 message: common.clear_session_value(req.session, 'message'),
                 message_type: common.clear_session_value(req.session, 'message_type'),
