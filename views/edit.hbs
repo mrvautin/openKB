@@ -92,6 +92,13 @@
                     </div>
                 </li>
                 <li class="list-group-item">
+                    <label>Visible state</label>
+                    <select class="form-control" id="frm_kb_visible_state" name="frm_kb_visible_state">
+                        <option {{select_state result.kb_visible_state 'public'}} value="public">Public</option>
+                        <option {{select_state result.kb_visible_state 'private'}} value="private">Private</option>
+                    </select>
+                </li>
+                <li class="list-group-item">
                     <label for="frm_kb_seo_title">{{__ "SEO title"}}</label>
                     <textarea class="form-control" name="frm_kb_seo_title" rows="3">{{if_null result.kb_seo_title result.kb_title}}</textarea>
                 </li>

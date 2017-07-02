@@ -203,6 +203,14 @@ router.get('/' + config.settings.route_name + '/:id', common.restrict, function 
                 }
             }
 
+            // if article is set to private, redirect to login
+            if(typeof result.faq_visible_state !== 'undefined' && result.faq_visible_state === 'private'){
+                if(!req.session.user){
+                    req.session.refer_url = req.originalUrl;
+                    res.redirect('/login');
+                    return;
+                }
+            }
             // add to old view count
             var old_viewcount = result.kb_viewcount;
             if(old_viewcount == null){
