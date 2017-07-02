@@ -56,17 +56,17 @@
     <script>{{{state}}}</script>
     <script src="{{app_context}}/bootstrap/js/bootstrap.min.js"></script>
     {{#ifCond title '===' 'Settings'}}
-      <script src="{{app_context}}/bootstrapTabs/tab.js"></script>
+        <script src="{{app_context}}/bootstrapTabs/tab.js"></script>
     {{/ifCond}}
     <script src="{{app_context}}/javascripts/bootstrap-validator{{config.settings.env}}.js"></script>
     {{#ifCond config.settings.mermaid '===' true}}
-      <script src="{{app_context}}/javascripts/mermaid.min.js"></script>
+        <script src="{{app_context}}/javascripts/mermaid.min.js"></script>
     {{/ifCond}}
     {{#ifCond config.settings.mathjax '===' true}}
-      <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true}});
-      </script>
-      <script async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config={{config.settings.mathjax_input_mode}}"></script>
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true}});
+        </script>
+        <script async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config={{config.settings.mathjax_input_mode}}"></script>
     {{/ifCond}}
     <script src="{{app_context}}/javascripts/markdown-it-classy{{config.settings.env}}.js"></script>
     <script src="{{app_context}}/javascripts/bootstrap-tokenfield.min.js"></script>
@@ -84,6 +84,7 @@
     <script src="{{app_context}}/javascripts/jpushmenu{{config.settings.env}}.js"></script>
     <script src="{{app_context}}/javascripts/openKB{{config.settings.env}}.js"></script>
     {{#ifCond user_page '===' true}}
+      <style>{{{simpleCSS config}}}</style>
       {{#if config.settings.google_analytics}}
         {{{config.settings.google_analytics}}}
       {{/if}}

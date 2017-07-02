@@ -211,6 +211,7 @@ router.get('/' + config.settings.route_name + '/:id', common.restrict, function 
                     return;
                 }
             }
+
             // add to old view count
             var old_viewcount = result.kb_viewcount;
             if(old_viewcount == null){
@@ -303,12 +304,17 @@ router.post('/update_settings', common.restrict, function (req, res){
     // loop settings, update config
     for(var key in settings){
         if(Object.prototype.hasOwnProperty.call(settings, key)){
-            // if true/false, convert to boolean - TODO: Figure a better way of doing this?
             var settingValue = settings[key];
-            if(booleanArray.indexOf(settingValue) > -1){
-                settingValue = (settingValue === 'true');
+            // check for style keys
+            if(key.split('.')[0] === 'style'){
+                config.settings.style[key.split('.')[1]] = settingValue;
+            }else{
+                // if true/false, convert to boolean - TODO: Figure a better way of doing this?
+                if(booleanArray.indexOf(settingValue) > -1){
+                    settingValue = (settingValue === 'true');
+                }
+                config.settings[key] = settingValue;
             }
-            config.settings[key] = settingValue;
         }
     }
 
@@ -581,7 +587,8 @@ router.post('/save_kb', common.restrict, function (req, res){
             req.session.kb_featured = kb_featured;
             req.session.kb_seo_title = req.body.frm_kb_seo_title;
             req.session.kb_seo_description = req.body.frm_kb_seo_description;
-            req.session.b_edit_reason = req.body.frm_kb_edit_reason;
+            req.session.kb_edit_reason = req.body.frm_kb_edit_reason;
+            req.session.kb_visible_state = req.body.frm_kb_visible_state;
 
             // redirect to insert
             res.redirect(req.app_context + '/edit/' + req.body.frm_kb_id);
@@ -615,7 +622,8 @@ router.post('/save_kb', common.restrict, function (req, res){
                         kb_permalink: req.body.frm_kb_permalink,
                         kb_featured: kb_featured,
                         kb_seo_title: req.body.frm_kb_seo_title,
-                        kb_seo_description: req.body.frm_kb_seo_description
+                        kb_seo_description: req.body.frm_kb_seo_description,
+                        kb_visible_state: req.body.frm_kb_visible_state
                     }
                 }, {}, function (err, numReplaced){
                     if(err){
@@ -1539,7 +1547,7 @@ router.get('/sitemap.xml', function (req, res, next){
     var db = req.app.db;
 
     // get the articles
-    common.dbQuery(db.kb, {kb_published: 'true'}, null, null, function (err, articles){
+    common.dbQuery(db.kb, {kb_published: 'true', kb_visible_state: {$ne: 'private'}}, null, null, function (err, articles){
         var urlArray = [];
 
         // push in the base url

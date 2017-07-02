@@ -9,6 +9,7 @@
             <li role="presentation" class="active"><a href="#website" aria-controls="website" role="tab" data-toggle="tab">{{__ "Website"}}</a></li>
             <li role="presentation"><a href="#article" aria-controls="article" role="tab" data-toggle="tab">{{__ "Article"}}</a></li>
             <li role="presentation"><a href="#display" aria-controls="display" role="tab" data-toggle="tab">{{__ "Display"}}</a></li>
+            <li role="presentation"><a href="#style" aria-controls="style" role="tab" data-toggle="tab">{{__ "Style"}}</a></li>
         </ul>
             <form method="post" action="{{app_context}}/update_settings">
                 <div class="clearfix">
@@ -319,6 +320,71 @@
                         </div>
                     </div>
                     <!-- Dislay settings -->
+                    <!-- Simple styling -->
+                    <div role="tabpanel" class="tab-pane" id="style">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <p class="col-md-12">
+                                    You can add simple styling to various elements of your website below:
+                                </p>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="cssHeaderBackgroundColor">Header background color (HEX):</label>
+                                        <input type="text" class="form-control" name="style.cssHeaderBackgroundColor" value="{{config.settings.style.cssHeaderBackgroundColor}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="cssHeaderTextColor">Header text color (HEX):</label>
+                                        <input type="text" class="form-control" name="style.cssHeaderTextColor" value="{{config.settings.style.cssHeaderTextColor}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="cssFooterBackgroundColor">Footer background color (HEX):</label>
+                                        <input type="input" class="form-control" name="style.cssFooterBackgroundColor" value="{{config.settings.style.cssFooterBackgroundColor}}"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="cssFooterTextColor">Footer text color (HEX):</label>
+                                        <input type="input" class="form-control" name="style.cssFooterTextColor" value="{{config.settings.style.cssFooterTextColor}}"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="cssButtonBackgroundColor">Button background color (HEX):</label>
+                                        <input type="input" class="form-control" name="style.cssButtonBackgroundColor" value="{{config.settings.style.cssButtonBackgroundColor}}"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="cssButtonTextColor">Button text color (HEX):</label>
+                                        <input type="input" class="form-control" name="style.cssButtonTextColor" value="{{config.settings.style.cssButtonTextColor}}"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="cssLinkColor">Link color (HEX):</label>
+                                        <input type="text" class="form-control" name="style.cssLinkColor" value="{{config.settings.style.cssLinkColor}}"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="cssTextColor">Page text color (HEX):</label>
+                                        <input type="text" class="form-control" name="style.cssTextColor" value="{{config.settings.style.cssTextColor}}"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="cssFontFamily">Page font:</label>
+                                        <input type="text" class="form-control" name="style.cssFontFamily" value="{{config.settings.style.cssFontFamily}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Simple styling -->
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

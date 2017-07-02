@@ -39,6 +39,18 @@
         "article_versioning": false,
         "api_auth_token": "",
         "api_allowed": false,
-        "locale": "en"
+        "locale": "en",
+        "env": "",
+        "style": {
+            "cssHeaderBackgroundColor": "",
+            "cssHeaderTextColor": "",
+            "cssFooterBackgroundColor": "",
+            "cssFooterTextColor": "",
+            "cssButtonBackgroundColor": "",
+            "cssButtonTextColor": "",
+            "cssLinkColor": "",
+            "cssTextColor": "",
+            "cssFontFamily": ""
+        }
     }
 }

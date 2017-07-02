@@ -173,5 +173,6 @@
 	"Edit reason": "Edit reason",
 	"Previous versions": "Previous versions",
 	"Topic": "Topic",
-	"Suggestion successfully processed": "Suggestion successfully processed"
+	"Suggestion successfully processed": "Suggestion successfully processed",
+	"Style": "Style"
 }

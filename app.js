@@ -138,6 +138,38 @@ handlebars = handlebars.create({
                 return'/' + config.settings.app_context;
             }return'';
         },
+        simpleCSS: function(config){
+            var cssString = '';
+            if(typeof config.settings.style.cssHeaderBackgroundColor !== 'undefined' && config.settings.style.cssHeaderBackgroundColor !== ''){
+                cssString = cssString + '.navbar-default, .headerText h1 {background-color:' + config.settings.style.cssHeaderBackgroundColor + ';}';
+            }
+            if(typeof config.settings.style.cssHeaderTextColor !== 'undefined' && config.settings.style.cssHeaderTextColor !== ''){
+                cssString = cssString + '.navbar-default .navbar-brand, .headerText h1 {color:' + config.settings.style.cssHeaderTextColor + ';}';
+                cssString = cssString + '.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus, .brand-text, .contactLink {color:' + config.settings.style.cssHeaderTextColor + ' !important;}';
+            }
+            if(typeof config.settings.style.cssFooterBackgroundColor !== 'undefined' && config.settings.style.cssFooterBackgroundColor !== ''){
+                cssString = cssString + '.footer{background-color:' + config.settings.style.cssFooterBackgroundColor + ';}';
+            }
+            if(typeof config.settings.style.cssFooterTextColor !== 'undefined' && config.settings.style.cssFooterTextColor !== ''){
+                cssString = cssString + '.footer p{color:' + config.settings.style.cssFooterTextColor + ';}';
+            }
+            if(typeof config.settings.style.cssButtonBackgroundColor !== 'undefined' && config.settings.style.cssButtonBackgroundColor !== ''){
+                cssString = cssString + '#btn_search, .btn-default{background-color:' + config.settings.style.cssButtonBackgroundColor + ';border-color:' + config.settings.style.cssButtonBackgroundColor + ';}';
+            }
+            if(typeof config.settings.style.cssButtonTextColor !== 'undefined' && config.settings.style.cssButtonTextColor !== ''){
+                cssString = cssString + '#btn_search, .btn-default{color:' + config.settings.style.cssButtonTextColor + ';}';
+            }
+            if(typeof config.settings.style.cssLinkColor !== 'undefined' && config.settings.style.cssLinkColor !== ''){
+                cssString = cssString + 'a, footer a, a:hover, a:focus, .contactLink a{color:' + config.settings.style.cssLinkColor + ' !important;}';
+            }
+            if(typeof config.settings.style.cssTextColor !== 'undefined' && config.settings.style.cssTextColor !== ''){
+                cssString = cssString + 'body, .panel-primary>.panel-heading, .list-group-heading{color:' + config.settings.style.cssTextColor + ';}';
+            }
+            if(typeof config.settings.style.cssFontFamily !== 'undefined' && config.settings.style.cssFontFamily !== ''){
+                cssString = cssString + 'body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{font-family:' + config.settings.style.cssFontFamily + ';}';
+            }
+            return cssString;
+        },
         ifCond: function(v1, operator, v2, options){
 			switch(operator){
 				case'==':
