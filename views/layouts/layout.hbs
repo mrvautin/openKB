@@ -136,7 +136,7 @@
               </li>
               {{#ifCond session.is_admin '==' 'true'}}
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{__ "Admin"}} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="{{app_context}}/settings"><i class="fa fa-cog fa-fw"></i>&nbsp; {{__ "Settings"}}</a></li>
                   <li><a href="{{app_context}}/files"><i class="fa fa-files-o fa-fw"></i>&nbsp; {{__ "Files"}}</a></li>
