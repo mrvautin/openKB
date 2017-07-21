@@ -39,7 +39,7 @@
         "article_versioning": false,
         "api_auth_token": "",
         "api_allowed": false,
-        "locale": "jp",
+        "locale": "en",
         "env": "",
         "style": {
             "cssHeaderBackgroundColor": "",
