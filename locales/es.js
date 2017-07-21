@@ -1,5 +1,5 @@
 {
-	"Toggle navigation": "Conmutar navegación",
+	"Toggle navigation": "Activar / Desactivar navegación",
 	"Users": "Usuarios",
 	"New": "Nuevo",
 	"Edit": "Editar",
@@ -45,7 +45,7 @@
 	"Allow API access": "Permitir acceso a la API",
 	"Whether to allow API access to insert articles - See documentation for further information": "Permitir insertar articulos a través de la API - Lee la documentación para más información",
 	"API access token": "Toquen de acceso a la API",
-	"Requires 'Allow API access' to be set to 'true'. The value is the access token required to access the public API. Please set to a hard to guess value": "Requiere 'Permitir acceso a la API' activada. El valor es el token de acceso necesario para acceder a la API pública. Por favor, establece uno dificil para invitados",
+	"Requires 'Allow API access' to be set to 'true'. The value is the access token required to access the public API. Please set to a hard to guess value": "Requiere 'Permitir acceso a la API' activada. El valor es el token de acceso necesario para acceder a la API pública. Por favor, establece una dificil de adivinar",
 	"Password protect": "Protección con contraseña",
 	"Setting to 'true' will require a user to login before viewing any pages": "Establecerlo como 'activo' requiería que un usuario acceda antes de ver ninguna página",
 	"Index article body": "Indexar contenido del artículo",
