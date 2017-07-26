@@ -261,7 +261,7 @@ $(document).ready(function(){
                 'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'img' 
             ],
             allowedAttributes: {
-                'div': ['class']
+                '*': ['class']
             }
         });
 

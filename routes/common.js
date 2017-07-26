@@ -220,7 +220,7 @@ exports.sanitizeHTML = function(html){
             'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'img' 
         ],
         allowedAttributes: {
-            'div': [ 'class' ]
+            '*': [ 'class' ]
         }
     });
 };
