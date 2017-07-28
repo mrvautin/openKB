@@ -1,8 +1,10 @@
 const express = require('express');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const common = require('../routes/common');
 
 const router = express.Router();
+const config = common.read_config();
 
 router.get('/auth/google', passport.authenticate('google', { scope: 'email' }));
 
@@ -32,9 +34,9 @@ router.get('/auth/google/callback', function(req, res, next) {
 
 
 passport.use(new GoogleStrategy({
-        clientID: "CHANGE",
-        clientSecret: "CHANGE",
-        callbackURL: "CHANGE",
+        clientID: config.settings.sso.google.clientID,
+        clientSecret: config.settings.sso.google.clientSecret,
+        callbackURL: config.settings.sso.google.callbackURL,
         passReqToCallback: true
     },
     function(req, token, tokenSecret, profile, done) {

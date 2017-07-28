@@ -1,0 +1,8 @@
+#login_button_google {
+    background-color: #AF4848;
+    border-color: #C84A4A;
+}
+
+#login_button_google:hover {
+    background-color: #C84A4A;
+}

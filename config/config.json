@@ -51,6 +51,13 @@
             "cssLinkColor": "",
             "cssTextColor": "",
             "cssFontFamily": ""
+        },
+        "sso" : {
+            "google" : {
+                "clientID": "GET YOURS FROM GOOGLE DEVELOPERS CONSOLE",
+                "clientSecret": "GET YOURS FROM GOOGLE DEVELOPERS CONSOLE",
+                "callbackURL": "http://127.0.0.1:4444/auth/google/callback"
+            }
         }
     }
 }
