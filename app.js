@@ -21,6 +21,7 @@ var compression = require('compression');
 // require the routes
 var index = require('./routes/index');
 var api = require('./routes/api');
+var sso = require('./routes/sso');
 
 var app = express();
 
@@ -263,9 +264,11 @@ app.use(function (req, res, next){
 if(app_context !== ''){
     app.use(app_context, index);
     app.use(app_context, api);
+    app.use(app_context, sso);
 }else{
     app.use('/', index);
     app.use('/', api);
+    app.use('/', sso);
 }
 
 // catch 404 and forward to error handler

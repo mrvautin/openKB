@@ -42,6 +42,8 @@
     "multer": "^1.2.0",
     "nedb": "^1.8.0",
     "nedb-session-store": "^1.1.1",
+    "passport": "0.3.2",
+    "passport-google-oauth": "^1.0.0",
     "remove-markdown": "^0.1.0",
     "rimraf": "^2.5.4",
     "sanitize-html": "^1.14.1",
