@@ -76,9 +76,15 @@
                         </h5>
                         <h5 class="col-sm-12 col-lg-12">
                             <strong>Last updated:</strong> {{format_date result.kb_last_updated}}
-                            {{#if result.kb_last_update_user}}
-                                <span class="text-info">({{result.kb_last_update_user}})</span>
-                            {{/if}}
+				{{#if result.kb_last_update_user}}
+                                    <span class="text-info">
+                                        {{#ifCond config.settings.show_author_email '===' false}}
+                                            ({{removeEmail result.kb_last_update_user}})
+                                        {{else}}
+                                            ({{result.kb_last_update_user}})
+                                        {{/ifCond}}
+                                    </span>
+                                {{/if}}
                         </h5>
                         {{#if result.kb_permalink}}
                             <h5 class="col-sm-12 col-lg-12">
