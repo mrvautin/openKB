@@ -261,7 +261,8 @@ $(document).ready(function(){
                 'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'img', 'iframe'
             ],
             allowedAttributes: {
-                iframe: ['class', 'id', 'type', 'width', 'height', 'src', 'frameborder']
+                iframe: ['class', 'id', 'type', 'width', 'height', 'src', 'frameborder'],
+                div: ['class']
             }
         });
 
