@@ -2,6 +2,7 @@ var path = require('path');
 var fs = require('fs');
 var lunr = require('lunr');
 var sanitizeHtml = require('sanitize-html');
+var objectAssign = require('object-assign');
 
 exports.clear_session_value = function (session, session_var){
     var temp = session[session_var];
@@ -219,9 +220,9 @@ exports.sanitizeHTML = function(html){
             'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div',
             'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'img' 
         ],
-        allowedAttributes: {
+        allowedAttributes: objectAssign({},sanitizeHtml.defaults.allowedAttributes, {
             '*': [ 'class' ]
-        }
+        })
     });
 };
 

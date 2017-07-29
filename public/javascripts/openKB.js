@@ -260,12 +260,16 @@ $(document).ready(function(){
                 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div',
                 'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'img' 
             ],
-            allowedAttributes: {
+            allowedAttributes: $.extend({},sanitizeHtml.defaults.allowedAttributes, {
                 '*': ['class']
-            }
+            })
         });
 
         $('#preview').html(cleanHTML);
+
+        if('mermaid' in window){
+            mermaid.init();
+        }
 
         // re-hightlight the preview
         $('pre code').each(function(i, block){
