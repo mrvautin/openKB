@@ -153,7 +153,7 @@ Here is the `config.json` for the embedded database (NeDB):
 }
 ```
 
-Here is an example `config.json` for a MongoDB server. You can use your own localhost MongoDB instance or you may choose a hosted MongoDB server like [mLab](https://mlab.com/).
+Here is an example `config.json` for a MongoDB server. You can use your own localhost MongoDB instance or you may choose a hosted MongoDB server like [mLab](https://mlab.com/) or [Atlas](https://www.mongodb.com/cloud/atlas).
 
 ``` javascript
 "database": {
