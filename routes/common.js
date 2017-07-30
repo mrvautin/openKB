@@ -219,10 +219,7 @@ exports.sanitizeHTML = function(html){
             'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div',
             'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'img', 'iframe'
         ],
-        allowedAttributes: {
-            iframe: ['class', 'id', 'type', 'width', 'height', 'src', 'frameborder'],
-            div: ['class']
-        }
+        allowedAttributes: false
     });
 };
 
