@@ -23,7 +23,7 @@
   "Search": "Etsi",
   "Featured articles": "Suositellut artikkelit",
   "Top articles": "Suosituimmat artikkelit",
-  "Suggest": "Ehdota",
+  "Suggest": "Ehdota artikkelia",
   "Login": "Kirjaudu",
   "Please sign in": "Kirjaudu sisään",
   "email address": "Sähköpostiosoite",
