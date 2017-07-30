@@ -143,7 +143,7 @@
   "To insert an image right click the link, copy the link address and add it to your Markdown": "Lisätäksesi kuvan, klikkaa linkkiä hiiren oikealla, kopioi linkin osoite ja lisää se Markdowniin",
   "New directory": "Uusi hakemisto",
   "Multiple directories can be created using a \"/\" separator": "Useampia hakemistoja voi luoda käyttäen \"/\" -erotinta",
-  "Article successfully deleted": "Artikkeli poistettu onnistuneesti",
+  "Article successfully deleted": "Artikkeli poistettu",
   "Keywords": "Avainsanat",
   "Import": "Tuo",
   "New article successfully created": "Uusi artikkeli luotu",
@@ -157,8 +157,8 @@
   "No results found": "Ei tuloksia",
   "Access denied": "Käyttö estetty",
   "User account inserted": "Käyttäjä lisätty",
-  "Directory successfully created": "Hakemisto luotu onnistuneesti",
-  "File uploaded successfully": "Tiedosto ladattu onnistuneesti",
+  "Directory successfully created": "Hakemisto luotu ",
+  "File uploaded successfully": "Tiedosto ladattu",
   "Allow Mermaid": "Salli Mermaid",
   "Whether to enable ": "Sallitaanko ",
   "Allow MathJax": "Salli MathJax",
@@ -173,6 +173,6 @@
   "Edit reason": "Muokkauksen syy",
   "Previous versions": "Aiemmat versiot",
   "Topic": "Otsikko",
-  "Suggestion successfully processed": "Ehdotus käsitelty onnistuneesti",
+  "Suggestion successfully processed": "Ehdotus lähetetty käsiteltäväksi",
   "Style": "Tyylit"
 }
