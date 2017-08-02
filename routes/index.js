@@ -9,7 +9,7 @@ var mime = require('mime-types');
 var lunr = require('lunr');
 var config = common.read_config();
 
-var appDir = path.dirname(require-main-filename);
+var appDir = path.dirname(require('require-main-filename')());
 
 // The homepage of the site
 router.get('/', common.restrict, function (req, res, next){
