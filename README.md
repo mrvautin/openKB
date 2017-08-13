@@ -23,7 +23,7 @@ Running the application in Production using minified code can be done by:
 1. Create the minified/ugly files: `npm run uglify`
 2. Ensure the minified/ugly files are being used: `NODE_ENV=production node app.js`
 
-> Note: `openKB` supports Nodejs version 0.12 and above.
+> Note: `openKB` supports Nodejs version 4.0 and above.
 
 ### Deploy on Heroku
 
