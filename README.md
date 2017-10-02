@@ -9,6 +9,10 @@
 openKB is a Markdown Knowledge base application (FAQ) built with [Nodejs](https://nodejs.org/) and [ExpressJS](http://expressjs.com/). The application uses an embedded database ([nedb](https://github.com/louischatriot/nedb))
 by default but can also use a MongoDB server by changing the config (see below). The application is designed to be easy to use and install and based around search rather than nested categories. Simply search for what you want and select from the results.
 
+<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/nNhTCmpgciWZ2xLwGrTE61o7/mrvautin/openKB'>
+  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/nNhTCmpgciWZ2xLwGrTE61o7/mrvautin/openKB.svg' />
+</a>
+
 Demo: [http://openkb.markmoffat.com](http://openkb.markmoffat.com)
 
 ### Installation
