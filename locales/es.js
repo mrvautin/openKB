@@ -47,7 +47,7 @@
 	"API access token": "Toquen de acceso a la API",
 	"Requires 'Allow API access' to be set to 'true'. The value is the access token required to access the public API. Please set to a hard to guess value": "Requiere 'Permitir acceso a la API' activada. El valor es el token de acceso necesario para acceder a la API pública. Por favor, establece uno dificil para invitados",
 	"Password protect": "Protección con contraseña",
-	"Setting to 'true' will require a user to login before viewing any pages": "Establecerlo como 'activo' requiería que un usuario acceda antes de ver ninguna página",
+	"Setting to 'true' will require a user to login before viewing any pages": "Establecerlo como 'activo' requiere que un usuario acceda antes de ver ninguna página",
 	"Index article body": "Indexar contenido del artículo",
 	"Whether to add the body of your articles to the search index (requires restart)": "Añadir el contenido del artículo al índice de búsqueda (Requiere reinicio)",
 	"Select a theme": "Seleccionar un tema",
