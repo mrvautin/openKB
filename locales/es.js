@@ -106,7 +106,7 @@
 	"View count": "Contador de visitas",
 	"Settings successfully updated.": "Ajuestes actualizados exitosamente.",
 	"Controls whether to show the \"Website title\" text or a logo located: \"/public/logo.png\" (by default)": "Controla si se muestra el texto \"Título del Sitio\" o un logo ubicado en: \"/public/logo.png\" (por defecto)",
-	"Requires \"Allow API access\" to be set to \"true\". The value is the access token required to access the public API. Please set to a hard to guess value": "Requiere \"Permitir acceso a la API\" para ponerlo en \"Sí\". El valor es el toquen de acceso para ingresar a la API. Por favor ponga un valor dificil de adivinar",
+	"Requires \"Allow API access\" to be set to \"true\". The value is the access token required to access the public API. Please set to a hard to guess value": "Requiere \"Permitir acceso a la API\" para establecer el valor \"Sí\". El valor es el toquen de acceso para ingresar a la API. Por favor establezca un valor dificil de adivinar",
 	"Setting to \"true\" will require a user to login before viewing any pages": "Ponerlo en \"Sí\" requerirá que el usuario inicie sesión antes de ver cualquier página",
 	"Select a language": "Seleccionar un idioma",
 	"The language to use for public facing pages. Leave blank for default (English)": "El idioma a utilizar en las páginas de cara al público. Déjelo en blanco por defecto(Inglés)",
