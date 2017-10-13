@@ -68,7 +68,7 @@ router.post('/protected/action', function (req, res){
 router.post('/search_api', function (req, res){
     var db = req.app.db;
     var index = req.app.index;
-    
+
     // we strip the ID's from the lunr index search
     var index_id_array = [];
     index.search(req.body.searchTerm).forEach(function (id){
@@ -164,14 +164,38 @@ router.get('/' + config.settings.route_name + '/:id/version', common.restrict, f
     });
 });
 
+// Render article
 router.get('/' + config.settings.route_name + '/:id', common.restrict, function (req, res){
     var db = req.app.db;
     common.config_expose(req.app);
     var classy = require('../public/javascripts/markdown-it-classy');
+
+    // my custom plugins
+    var sub = require('markdown-it-sub');
+    var sup = require('markdown-it-sup');
     var toc = require('markdown-it-toc');
+    var underline = require('markdown-it-underline');
+    var video = require('markdown-it-video');
+
     var markdownit = req.markdownit;
     markdownit.use(classy);
+
+    markdownit.use(sub);
+    markdownit.use(sup);
     markdownit.use(toc);
+    markdownit.use(underline);
+    markdownit.use(video);
+
+    //tocbot, this doesn't work sadly
+    var tocbot = require('tocbot');
+    //tocbot.init({
+      // Where to render the table of contents.
+      //tocSelector: 'body',
+      // Where to grab the headings to build the table of contents.
+      //contentSelector: '.js-toc-content',
+      // Which headings to grab inside of the contentSelector element.
+      //headingSelector: 'h1, h2, h3',
+    //});
 
     var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
 
@@ -462,20 +486,20 @@ router.post('/insert_kb', common.restrict, function (req, res){
                         newId = newDoc.insertedIds[0];
                     }
 
-                    // create lunr doc		
-                    var lunr_doc = {		
-                        kb_title: req.body.frm_kb_title,		
-                        kb_keywords: keywords,		
-                        id: newId		
-                    };		
-                    
+                    // create lunr doc
+                    var lunr_doc = {
+                        kb_title: req.body.frm_kb_title,
+                        kb_keywords: keywords,
+                        id: newId
+                    };
+
                     console.log('lunr_doc', lunr_doc);
-            
-                    // if index body is switched on		
-                    if(config.settings.index_article_body === true){		
-                        lunr_doc['kb_body'] = req.body.frm_kb_body;		
-                    }		
-		
+
+                    // if index body is switched on
+                    if(config.settings.index_article_body === true){
+                        lunr_doc['kb_body'] = req.body.frm_kb_body;
+                    }
+
                     // add to lunr index
                     lunr_index.add(lunr_doc);
 
@@ -540,17 +564,17 @@ router.post('/insert_suggest', common.suggest_allowed, function (req, res){
                 newId = newDoc.insertedIds[0];
             }
 
-            // create lunr doc		
-            var lunr_doc = {		
-                kb_title: req.body.frm_kb_title,		
-                kb_keywords: keywords,		
-                id: newId		
-            };		
+            // create lunr doc
+            var lunr_doc = {
+                kb_title: req.body.frm_kb_title,
+                kb_keywords: keywords,
+                id: newId
+            };
 
-            // if index body is switched on		
-            if(config.settings.index_article_body === true){		
-                lunr_doc['kb_body'] = req.body.frm_kb_body;		
-            }		
+            // if index body is switched on
+            if(config.settings.index_article_body === true){
+                lunr_doc['kb_body'] = req.body.frm_kb_body;
+            }
 
             // add to lunr index
             lunr_index.add(lunr_doc);
@@ -640,21 +664,21 @@ router.post('/save_kb', common.restrict, function (req, res){
                             keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
                         }
 
-                        // create lunr doc		
-                        var lunr_doc = {		
-                            kb_title: req.body.frm_kb_title,		
-                            kb_keywords: keywords,		
-                            id: req.body.frm_kb_id		
-                        };		
-	
-                        // if index body is switched on		
-                        if(config.settings.index_article_body === true){		
-                            lunr_doc['kb_body'] = req.body.frm_kb_body;		
-                        }		
- 		
+                        // create lunr doc
+                        var lunr_doc = {
+                            kb_title: req.body.frm_kb_title,
+                            kb_keywords: keywords,
+                            id: req.body.frm_kb_id
+                        };
+
+                        // if index body is switched on
+                        if(config.settings.index_article_body === true){
+                            lunr_doc['kb_body'] = req.body.frm_kb_body;
+                        }
+
                         // update the index
                         lunr_index.update(lunr_doc, false);
-                            
+
                         // check if versioning enabled
                         var article_versioning = config.settings.article_versioning ? config.settings.article_versioning : false;
 
@@ -970,7 +994,7 @@ router.get('/login', function (req, res){
         if(user_count > 0){
             // set needs_setup to false as a user exists
             req.session.needs_setup = false;
-            
+
             // set the referring url
             var referringUrl = req.header('Referer');
             if(typeof req.session.refer_url !== 'undefined' && req.session.refer_url !== ''){
@@ -1131,7 +1155,7 @@ router.get('/delete/:id', common.restrict, function (req, res){
             id: req.params.id
         };
 
-        // remove from index		
+        // remove from index
         lunr_index.remove(lunr_doc, false);
 
         // redirect home

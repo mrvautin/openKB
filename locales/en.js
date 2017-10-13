@@ -174,5 +174,19 @@
 	"Previous versions": "Previous versions",
 	"Topic": "Topic",
 	"Suggestion successfully processed": "Suggestion successfully processed",
-	"Style": "Style"
+	"Style": "Style",
+	"Visible state": "Visible state",
+	"Public": "Public",
+	"Private": "Private",
+	"Index": "Index",
+	"ifboth doesn't match if - 45:5": "ifboth doesn't match if - 45:5",
+	"Missing helper: \"ifboth\"": "Missing helper: \"ifboth\"",
+	"Add article index": "Add article index",
+	"Whether to show an index in articles.": "Whether to show an index in articles.",
+	"Whether to show an index in articles": "Whether to show an index in articles",
+	"ENOENT: no such file or directory, open 'data/sessions.db'": "ENOENT: no such file or directory, open 'data/sessions.db'",
+	"Cannot read property 'init' of undefined": "Cannot read property 'init' of undefined",
+	"alert is not defined": "alert is not defined",
+	"window is not defined": "window is not defined",
+	"req.alert is not a function": "req.alert is not a function"
 }

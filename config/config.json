@@ -12,7 +12,7 @@
         },
         "website_title": "openKB",
         "show_featured_articles": true,
-        "show_featured_in_article": false,
+        "show_featured_in_article": true,
         "featured_articles_count": "4",
         "password_protect": false,
         "show_kb_meta": true,
