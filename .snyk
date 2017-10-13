@@ -11,3 +11,6 @@ patch:
         patched: '2017-05-25T00:31:58.935Z'
     - extract-zip > debug > ms:
         patched: '2017-05-25T00:31:58.935Z'
+  'npm:debug:20170905':
+    - extract-zip > debug:
+        patched: '2017-09-28T05:32:07.494Z'

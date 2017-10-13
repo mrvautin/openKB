@@ -1,6 +1,6 @@
 {
   "name": "openkb",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "openKB is an Open Source Nodejs Markdown based knowledge base/FAQ/Wiki app with powerful lunr search",
   "private": false,
   "scripts": {
@@ -43,11 +43,12 @@
     "nedb": "^1.8.0",
     "nedb-session-store": "^1.1.1",
     "remove-markdown": "^0.1.0",
+    "require-main-filename": "^1.0.1",
     "rimraf": "^2.5.4",
     "sanitize-html": "^1.14.1",
     "simplemde": "^1.11.2",
     "sitemap": "^1.8.1",
-    "snyk": "^1.30.1",
+    "snyk": "^1.41.1",
     "speakingurl": "^10.0.0",
     "uglify-js": "^3.0.11",
     "uglifycss": "0.0.27",

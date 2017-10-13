@@ -9,6 +9,10 @@
 openKB is a Markdown Knowledge base application (FAQ) built with [Nodejs](https://nodejs.org/) and [ExpressJS](http://expressjs.com/). The application uses an embedded database ([nedb](https://github.com/louischatriot/nedb))
 by default but can also use a MongoDB server by changing the config (see below). The application is designed to be easy to use and install and based around search rather than nested categories. Simply search for what you want and select from the results.
 
+<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/nNhTCmpgciWZ2xLwGrTE61o7/mrvautin/openKB'>
+  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/nNhTCmpgciWZ2xLwGrTE61o7/mrvautin/openKB.svg' />
+</a>
+
 Demo: [http://openkb.markmoffat.com](http://openkb.markmoffat.com)
 
 ### Installation
@@ -23,7 +27,7 @@ Running the application in Production using minified code can be done by:
 1. Create the minified/ugly files: `npm run uglify`
 2. Ensure the minified/ugly files are being used: `NODE_ENV=production node app.js`
 
-> Note: `openKB` supports Nodejs version 0.12 and above.
+> Note: `openKB` supports Nodejs version 4.0 and above.
 
 ### Deploy on Heroku
 
@@ -153,7 +157,7 @@ Here is the `config.json` for the embedded database (NeDB):
 }
 ```
 
-Here is an example `config.json` for a MongoDB server. You can use your own localhost MongoDB instance or you may choose a hosted MongoDB server like [mLab](https://mlab.com/).
+Here is an example `config.json` for a MongoDB server. You can use your own localhost MongoDB instance or you may choose a hosted MongoDB server like [mLab](https://mlab.com/) or [Atlas](https://www.mongodb.com/cloud/atlas).
 
 ``` javascript
 "database": {
