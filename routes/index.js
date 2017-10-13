@@ -168,8 +168,10 @@ router.get('/' + config.settings.route_name + '/:id', common.restrict, function 
     var db = req.app.db;
     common.config_expose(req.app);
     var classy = require('../public/javascripts/markdown-it-classy');
+    var toc = require('markdown-it-toc');
     var markdownit = req.markdownit;
     markdownit.use(classy);
+    markdownit.use(toc);
 
     var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
 

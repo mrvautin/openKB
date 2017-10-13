@@ -34,6 +34,7 @@
     "lodash": "^4.17.2",
     "lunr": "^0.7.2",
     "markdown-it": "^7.0.1",
+    "markdown-it-toc": "^3.2.0",
     "mime-types": "^2.1.13",
     "mkdirp": "^0.5.1",
     "moment": "^2.15.0",
