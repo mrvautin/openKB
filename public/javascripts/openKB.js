@@ -91,8 +91,8 @@ $(document).ready(function(){
         });
 
         //tocbot needs refreshing after anchors are included
-        //but I don't know how to access the current theme
-        if(true){
+        //but we can do this only if it exists. it doesn't on many pages.
+        if (typeof tocbot !== "undefined") {
           tocbot.refresh();
         }
     }
