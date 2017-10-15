@@ -1,0 +1,179 @@
+<div class="row">
+	<form action="{{app_context}}/search" id="search_form" method="post">
+		{{#ifBoth config.settings.show_featured_articles config.settings.show_featured_in_article}}
+		    <div class="col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1 search_bar">
+        {{else}}
+            <div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 search_bar">
+        {{/ifBoth}}
+			<div class="input-group">
+				<input type="text" name="frm_search" id="frm_search" autocomplete="off" class="form-control input-lg" placeholder="{{__ "Search the knowledge base"}}">
+				<span class="input-group-btn">
+					<button class="btn btn-success btn-lg" id="btn_search" type="submit">{{__ "Search"}}</button>
+				</span>
+			</div>
+            {{#ifCond config.settings.typeahead_search '===' true}}
+            <div id="searchResult" class="hidden col-lg-12">
+                <ul class="list-group searchResultList"></ul>
+            </div>
+            {{/ifCond}}
+		</div>
+	</form>
+</div>
+<div class="row">
+    {{#ifBoth config.settings.show_featured_articles config.settings.show_featured_in_article}}
+        <div class="col-md-2 col-md-offset-1 col-lg-2 col-lg-offset-1">
+            <div style="margin-top: 30px;">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-heading">{{__ "Featured articles"}}</li>
+                    {{#each featured_results}}
+                        {{#if this.kb_permalink}}
+                            <li class="list-group-item"><h5><a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this.kb_permalink}}">{{this.kb_title}}</a></h5></li>
+                        {{else}}
+                            <li class="list-group-item"><h5><a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this._id}}">{{this.kb_title}}</a></h5></li>
+                        {{/if}}
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-8 col-lg-8">
+    {{else}}
+			<div class="col-md-2 col-md-offset-1 col-lg-2 col-lg-offset-1">
+					<div style="margin-top: 30px;">
+							<li class="list-group-item list-group-heading">{{__ "Table of Content"}}</li>
+							<div id='tocbot'>
+							</div>
+					</div>
+			</div>
+			<div class="col-md-8 col-lg-8">
+    {{/ifBoth}}
+		<h1 style="padding-bottom: 25px;padding-top: 15px;">{{result.kb_title}}</h1>
+		<div class="body_text">
+            {{{kb_body}}}
+        </div>
+        {{#if config.settings.allow_voting}}
+            <div class="row">
+                <div class="voting text-right col-lg-12">
+                    <span>{{__ "Was this article helpful?"}}</span>
+                    <button id="btnUpvote" class="btn btn-sm btn-default"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
+                    <button id="btnDownvote" class="btn btn-sm btn-default"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button>
+                    <span>
+                        <strong>{{__ "Votes"}}:</strong>
+                        {{#if result.kb_votes}}
+                            {{result.kb_votes}}
+                        {{else}}
+                            0
+                        {{/if}}
+                    </span>
+                </div>
+            </div>
+        {{/if}}
+		{{#if config.settings.show_kb_meta}}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-primary" style="margin-top: 35px;">
+                        <div class="panel-heading">{{__ "Article details"}}:</div>
+                        <div class="panel-body">
+                            <h5 class="col-sm-12 col-lg-6">
+                                <strong>{{__ "Published date"}}:</strong> {{format_date result.kb_published_date}}
+                            </h5>
+                            <h5 class="col-sm-12 col-lg-6">
+                                <strong>{{__ "Last updated"}}:</strong> {{format_date result.kb_last_updated}}
+                                {{#if result.kb_last_update_user}}
+                                    <span class="text-info">
+                                        {{#ifCond config.settings.show_author_email '===' false}}
+                                            ({{removeEmail result.kb_last_update_user}})
+                                        {{else}}
+                                            ({{result.kb_last_update_user}})
+                                        {{/ifCond}}
+                                    </span>
+                                {{/if}}
+                            </h5>
+                            {{#if result.kb_permalink}}
+                                <h5 class="col-sm-12 col-lg-6">
+                                    <strong>{{__ "Share article"}}:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/{{@root.config.settings.route_name}}/{{encodeURI result.kb_permalink}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                                </h5>
+                            {{else}}
+                                <h5 class="col-sm-12 col-lg-6">
+                                    <strong>{{__ "Share article"}}:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/{{@root.config.settings.route_name}}/{{result._id}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                                </h5>
+                            {{/if}}
+                            {{#if result.kb_author}}
+                                <h5 class="col-sm-12 col-lg-6">
+                                    <strong>{{__ "Author"}}:</strong> <span class="text-info">{{result.kb_author}} {{#ifCond config.settings.show_author_email '===' true}}({{result.kb_author_email}}){{/ifCond}}</span>
+                                </h5>
+                            {{/if}}
+                            {{#if result.kb_permalink}}
+                            <h5 class="col-sm-12 col-lg-6">
+                                <strong>{{__ "Permalink"}}:</strong> <a href="{{current_url}}/{{@root.config.settings.route_name}}/{{result.kb_permalink}}" target="_blank">{{current_url}}/{{@root.config.settings.route_name}}/{{result.kb_permalink}}</a>
+                            </h5>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+		{{/if}}
+		<h5 class="keywords">
+			{{{split_keywords result.kb_keywords}}}
+		</h5>
+	</div>
+    <input type="hidden" id="doc_id" value={{result._id}}>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/3.0.4/tocbot.min.js"></script>
+<script>
+tocbot.init({
+	// Where to render the table of contents.
+	tocSelector: '#tocbot',
+	// Where to grab the headings to build the table of contents.
+	contentSelector: 'body',
+	// Which headings to grab inside of the contentSelector element.
+	headingSelector: 'h1, h2',
+	// Main class to add to links.
+	linkClass: 'toc-link',
+	// Extra classes to add to links.
+	extraLinkClasses: '',
+	// Class to add to active links,
+	// the link corresponding to the top most heading on the page.
+	activeLinkClass: 'is-active-link',
+	// Main class to add to lists.
+	listClass: 'toc-list',
+	// Extra classes to add to lists.
+	extraListClasses: '',
+	// Class that gets added when a list should be collapsed.
+	isCollapsedClass: 'is-collapsed',
+	// Class that gets added when a list should be able
+	// to be collapsed but isn't necessarily collpased.
+	collapsibleClass: 'is-collapsible',
+	// Class to add to list items.
+	listItemClass: 'toc-list-item',
+	// How many heading levels should not be collpased.
+	// For example, number 6 will show everything since
+	// there are only 6 heading levels and number 0 will collpase them all.
+	// The sections that are hidden will open
+	// and close as you scroll to headings within them.
+	collapseDepth: 0,
+	// Smooth scrolling enabled.
+	smoothScroll: true,
+	// Smooth scroll duration.
+	smoothScrollDuration: 420,
+	// Callback for scroll end (requires: smoothScroll).
+	scrollEndCallback: function (e) {},
+	// Headings offset between the headings and the top of the document (this is meant for minor adjustments).
+	headingsOffset: 1,
+	// Timeout between events firing to make sure it's
+	// not too rapid (for performance reasons).
+	throttleTimeout: 50,
+	// Element to add the positionFixedClass to.
+	positionFixedSelector: null,
+	// Fixed position class to add to make sidebar fixed after scrolling
+	// down past the fixedSidebarOffset.
+	positionFixedClass: 'is-position-fixed',
+	// fixedSidebarOffset can be any number but by default is set
+	// to auto which sets the fixedSidebarOffset to the sidebar
+	// element's offsetTop from the top of the document on init.
+	fixedSidebarOffset: 'auto',
+	// includeHtml can be set to true to include the HTML markup from the
+	// heading node instead of just including the textContent.
+	includeHtml: false
+});
+</script>
