@@ -174,5 +174,12 @@
 	"Previous versions": "Previous versions",
 	"Topic": "Topic",
 	"Suggestion successfully processed": "Suggestion successfully processed",
-	"Style": "Style"
+	"Style": "Style",
+	"Failed to lookup view \"index\" in views directory \"/home/roman/code/openKB/public/themes/tocbot/views\"": "Failed to lookup view \"index\" in views directory \"/home/roman/code/openKB/public/themes/tocbot/views\"",
+	"ENOENT: no such file or directory, open '/home/roman/code/openKB/public/themes/tocbot/views/layouts/layout.hbs'": "ENOENT: no such file or directory, open '/home/roman/code/openKB/public/themes/tocbot/views/layouts/layout.hbs'",
+	"Visible state": "Visible state",
+	"Public": "Public",
+	"Private": "Private",
+	"All unused files have been removed": "All unused files have been removed",
+	"Table of Content": "Table of Content"
 }
