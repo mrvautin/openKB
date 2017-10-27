@@ -35,7 +35,7 @@
 	"Website title": "ウェブサイトのタイトル",
 	"The title of your website": "ウェブサイトのタイトルを設定します",
 	"Website description": "ウェブサイトの概要",
-	"A short website description when listing the homepage URL in search engines": "検索エンジン等で探したときに用事される、ウェブサイトの簡単な概要を設定します",
+	"A short website description when listing the homepage URL in search engines": "検索エンジン等で探したときに表示される、ウェブサイトの簡単な概要を設定します",
 	"Show website logo": "ウェブサイトのロゴを表示",
 	"true": "有効",
 	"false": "無効",
