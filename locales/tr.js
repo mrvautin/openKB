@@ -66,7 +66,7 @@
 	"Whether to show article meta data including published date, last updated date, author etc": "Yayınlanan tarih, son güncellenen tarihi, yazar falan falan makale meta verilerinde dahil olması gösterme",
 	"Show author email": "Yazarın e-postasını göster",
 	"Controls whether the authors email address is displayed in the meta. Requires 'Show article meta data' to be true": "Yazarın e-posta adresinin meta içinde görüntülenip görüntülenmediğini kontrol eder. 'Makale meta verilerini göster' gerçek olmasını gerektirir",
-	"Article links open new page": "Makale bağlantıları yeni sayfa açar"
+	"Article links open new page": "Makale bağlantıları yeni sayfa açar",
 	"Controls whether links within articles open a new page (tab)": "Makaleler içindeki bağlantıları yeni bir sayfa açıp açmadığını kontrol eder (sekme)",
 	"Add header anchors": "Başlık çapaları ekle",
 	"Whether to add HTML anchors to all heading tags for linking within articles or direct linking from other articles": "Makaleler arasında bağlantı kurmak için tüm başlık etiketlerine veya diğer makalelerden doğrudan bağlanmak için HTML çapa ekleyip eklemediğini",
