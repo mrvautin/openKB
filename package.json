@@ -48,7 +48,7 @@
     "sanitize-html": "^1.14.1",
     "simplemde": "^1.11.2",
     "sitemap": "^1.8.1",
-    "snyk": "^1.41.1",
+    "snyk": "^1.47.0",
     "speakingurl": "^10.0.0",
     "uglify-js": "^3.0.11",
     "uglifycss": "0.0.27",
