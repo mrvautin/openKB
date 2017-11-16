@@ -28,7 +28,7 @@
 						{{#each results}}
 							<li class="list-group-item">
                                 <div class="row">
-                                    <div class="col-lg-8"><a href="{{app_context}}/edit/{{this._id}}">{{this.kb_title}}</a></div>
+                                    <div class="col-lg-8"><a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a></div>
                                     <div class="col-lg-4 text-right">
                                         <input id="{{this._id}}" class="published_state" type="checkbox" {{checked_state this.kb_published}}>
                                         <a href="{{app_context}}/delete/{{this._id}}" onclick="return confirm('{{__ "Are you sure you want to delete this article?"}}');"> <i class="fa fa-trash-o"></i></a>
@@ -48,7 +48,7 @@
 						{{#each articles}}
 							<li class="list-group-item">
                                 <div class="row">
-                                    <div class="col-lg-8"><a href="{{app_context}}/edit/{{this._id}}">{{this.kb_title}}</a></div>
+                                    <div class="col-lg-8"><a href="{{app_context}}/kb/{{this._id}}">{{this.kb_title}}</a></div>
                                     <div class="col-lg-4 text-right">
                                         <input id="{{this._id}}" class="published_state" type="checkbox" {{checked_state this.kb_published}}>
                                         <a href="{{app_context}}/delete/{{this._id}}" onclick="return confirm('{{__ "Are you sure you want to delete this article?"}}');"> <i class="fa fa-trash-o"></i></a>
