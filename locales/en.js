@@ -192,5 +192,6 @@
 	"document is not defined": "document is not defined",
 	"Table of Content": "Table of Content",
 	"File upload error. Please select a file.": "File upload error. Please select a file.",
-	"request entity too large": "request entity too large"
+	"request entity too large": "request entity too large",
+	"Articles by Tag": "Articles by Tag"
 }
