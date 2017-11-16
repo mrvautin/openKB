@@ -1,7 +1,7 @@
 {
     "settings": {
         "route_name": "kb",
-        "num_top_results": "250",
+        "num_top_results": "8",
         "date_format": "DD/MM/YYYY h:mmA",
         "show_view_count": true,
         "update_view_count_logged_in": true,
@@ -12,7 +12,7 @@
         },
         "website_title": "RemusKB",
         "show_featured_articles": true,
-        "show_featured_in_article": true,
+        "show_featured_in_article": false,
         "featured_articles_count": "4",
         "password_protect": true,
         "show_kb_meta": false,
