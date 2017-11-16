@@ -514,7 +514,7 @@ router.post('/insert_kb', common.restrict, function (req, res){
     });
 });
 
-// Update an existing KB article form action
+// Suggest a new article
 router.get('/suggest', common.suggest_allowed, function (req, res){
     // set the template dir
     common.setTemplateDir('admin', req);
@@ -806,6 +806,22 @@ router.get('/articles', common.restrict, function (req, res){
     common.dbQuery(db.kb, {kb_versioned_doc: {$ne: true}}, {kb_published_date: -1}, 10, function (err, articles){
         res.render('articles', {
             title: 'Articles',
+            articles: articles,
+            session: req.session,
+            message: common.clear_session_value(req.session, 'message'),
+            message_type: common.clear_session_value(req.session, 'message_type'),
+            config: config,
+            helpers: req.handlebars
+        });
+    });
+});
+
+// list articles by tag
+router.get('/tag', common.restrict, function (req, res){
+    var db = req.app.db;
+    common.dbQuery(db.kb, {kb_versioned_doc: {$ne: true}}, {kb_published_date: -1}, 10, function (err, articles){
+        res.render('tags', {
+            title: 'Articles by Tag',
             articles: articles,
             session: req.session,
             message: common.clear_session_value(req.session, 'message'),

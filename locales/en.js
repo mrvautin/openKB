@@ -196,4 +196,5 @@
 	"403 - Forbidden": "403 - Forbidden",
 	"All unused files have been removed": "All unused files have been removed",
 	"Failed to lookup view \"articles\" in views directory \"/var/www/openkb/public/themes/tocbot/views\"": "Failed to lookup view \"articles\" in views directory \"/var/www/openkb/public/themes/tocbot/views\""
+	"Articles by Tag": "Articles by Tag"
 }
