@@ -13,8 +13,13 @@ var appDir = path.dirname(require('require-main-filename')());
 
 // The homepage of the site
 router.get('/', common.restrict, function (req, res, next){
+
 	var db = req.app.db;
 	common.config_expose(req.app);
+	var classy = require('../public/javascripts/markdown-it-classy');
+	var markdownit = req.markdownit;
+	markdownit.use(classy);
+
 	var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
 
 	// set the template dir
@@ -26,14 +31,36 @@ router.get('/', common.restrict, function (req, res, next){
 	var sortBy = {};
 	sortBy[sortByField] = sortByOrder;
 
-	// get the top results based on sort order
-	common.dbQuery(db.kb, {kb_published: 'true'}, sortBy, config.settings.num_top_results, function (err, top_results){
-		common.dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function (err, featured_results){
-			res.render('index', {
-				title: 'openKB',
+	// get the homepage
+	common.dbQuery(db.kb, {kb_published: 'true', kb_title: 'Homepage'}, sortBy, config.settings.num_top_results, function (err, top_results){
+		// if no page with title Homepage can be found:
+		if(top_results.length < 1){
+			common.dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function (err, featured_results){
+			res.render('homepage', {
+				title: 'Remus KB Homepage',
 				user_page: true,
 				homepage: true,
-				top_results: top_results,
+				featured_results: featured_results,
+				session: req.session,
+				kb_body: '<h1>Empty Homepage!</h1><h2>Create an article with the title "Homepage" and it will appear here.</h2>',
+				message: common.clear_session_value(req.session, 'message'),
+				message_type: common.clear_session_value(req.session, 'message_type'),
+				config: config,
+				current_url: req.protocol + '://' + req.get('host') + req.app_context,
+				fullUrl: req.protocol + '://' + req.get('host') + req.originalUrl,
+				helpers: req.handlebars,
+				show_footer: 'show_footer'
+			});
+		});
+		}
+		else{
+			common.dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function (err, featured_results){
+			res.render('homepage', {
+				title: 'Remus KB Homepage',
+				user_page: true,
+				homepage: true,
+				result: top_results[0],
+				kb_body: common.sanitizeHTML(markdownit.render(top_results[0].kb_body)),
 				featured_results: featured_results,
 				session: req.session,
 				message: common.clear_session_value(req.session, 'message'),
@@ -45,6 +72,7 @@ router.get('/', common.restrict, function (req, res, next){
 				show_footer: 'show_footer'
 			});
 		});
+		}
 	});
 });
 
@@ -1354,20 +1382,96 @@ router.get('/insert', common.restrict, function (req, res){
 // show all available topics (keywords)
 router.get('/topic', function(req, res){
 	var db = req.app.db;
+	
+	
+	//TODO: implement function
+	
+	
+	
+	
 });
 
-// search kb's
-router.get(['/search/:tag', '/topic/:tag'], common.restrict, function (req, res){
+// search kb for topic
+router.get('/topic/:tag', common.restrict, function (req, res){
 	var db = req.app.db;
 	common.config_expose(req.app);
 	var search_term = req.params.tag;
 	var lunr_index = req.app.index;
 
-	// determine whether its a search or a topic
+	routeType = 'topic';
+
+	// we strip the ID's from the lunr index search
+	var lunr_id_array = [];
+	lunr_index.search(search_term).forEach(function (id){
+		// if mongoDB we use ObjectID's, else normal string ID's
+		if(config.settings.database.type !== 'embedded'){
+			lunr_id_array.push(common.getId(id.ref));
+		}else{
+			lunr_id_array.push(id.ref);
+		}
+	});
+
+	var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
+
+	// get sortBy from config, set to 'kb_viewcount' if nothing found
+	var sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
+	var sortByOrder = typeof config.settings.sort_by.order !== 'undefined' ? config.settings.sort_by.order : -1;
+	var sortBy = {};
+	sortBy[sortByField] = sortByOrder;
+
+	
+	//render topic search
+	// make mongo-like query
+	// Use searchString to build rest of regex
+	// -> Note: 'i' for case insensitive
+	var regex = new RegExp(search_term, 'i');
+
+	// Build query, using regex for each searchable field
+	//{_id: {$in: lunr_id_array}, kb_published: 'true', kb_versioned_doc: {$ne: true}, kb_keywords: {$regex : "ToDo"}}
+	var query = {
+		$and: [
+			{
+				"_id": {$in: lunr_id_array},
+			},
+			{
+				kb_published: 'true',
+			},
+			{
+				kb_versioned_doc: {$ne: true},
+			},
+			{
+				kb_keywords: {"$regex": regex},
+			},
+		]
+	};
+	
+	// we search on the lunr indexes
+	common.dbQuery(db.kb, query, null, null, function (err, results){
+		res.render('search', {
+			title: 'Articles with Topic: ' + search_term,
+			search_results: results,
+			user_page: true,
+			session: req.session,
+			routeType: routeType,
+			message: common.clear_session_value(req.session, 'message'),
+			message_type: common.clear_session_value(req.session, 'message_type'),
+			search_term: search_term,
+			config: config,
+			helpers: req.handlebars,
+			show_footer: 'show_footer',
+			kb_keywords: ''
+		});
+	});
+});
+
+// search kb
+router.get('/search/:tag', common.restrict, function (req, res){
+	var db = req.app.db;
+	common.config_expose(req.app);
+	var search_term = req.params.tag;
+	var lunr_index = req.app.index;
+
 	var routeType = 'search';
-	if(req.path.split('/')[1] === 'topic'){
-		routeType = 'topic';
-	}
 
 	// we strip the ID's from the lunr index search
 	var lunr_id_array = [];
@@ -1389,62 +1493,15 @@ router.get(['/search/:tag', '/topic/:tag'], common.restrict, function (req, res)
 	sortBy[sortByField] = sortByOrder;
 
 	//render regular search
-	if(routeType === 'search'){
-		// we search on the lunr indexes
-		common.dbQuery(db.kb, {_id: {$in: lunr_id_array}, kb_published: 'true', kb_versioned_doc: {$ne: true}}, null, null, function (err, results){
-			common.dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function (err, featured_results){
-				res.render('index', {
-					title: 'Search results: ' + search_term,
-					search_results: results,
-					user_page: true,
-					session: req.session,
-					featured_results: featured_results,
-					routeType: routeType,
-					message: common.clear_session_value(req.session, 'message'),
-					message_type: common.clear_session_value(req.session, 'message_type'),
-					search_term: search_term,
-					config: config,
-					helpers: req.handlebars,
-					show_footer: 'show_footer',
-					kb_keywords: ''
-				});
-			});
-		});
-	}
-	
-	//render topic search
-	else{
-		// make mongo-like query
-		// Use searchString to build rest of regex
-		// -> Note: 'i' for case insensitive
-		var regex = new RegExp(search_term, 'i');
-
-		// Build query, using regex for each searchable field
-		//{_id: {$in: lunr_id_array}, kb_published: 'true', kb_versioned_doc: {$ne: true}, kb_keywords: {$regex : "ToDo"}}
-		var query = {
-			$and: [
-				{
-					"_id": {$in: lunr_id_array},
-				},
-				{
-					kb_published: 'true',
-				},
-				{
-					kb_versioned_doc: {$ne: true},
-				},
-				{
-					kb_keywords: {"$regex": regex},
-				},
-			]
-		};
-
-		// we search on the lunr indexes
-		common.dbQuery(db.kb, query, null, null, function (err, results){
-			res.render('index', {
-				title: 'Results for Topic: ' + search_term,
+	// we search on the lunr indexes
+	common.dbQuery(db.kb, {_id: {$in: lunr_id_array}, kb_published: 'true', kb_versioned_doc: {$ne: true}}, null, null, function (err, results){
+		common.dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function (err, featured_results){
+			res.render('search', {
+				title: 'Search results: ' + search_term,
 				search_results: results,
 				user_page: true,
 				session: req.session,
+				featured_results: featured_results,
 				routeType: routeType,
 				message: common.clear_session_value(req.session, 'message'),
 				message_type: common.clear_session_value(req.session, 'message_type'),
@@ -1455,8 +1512,7 @@ router.get(['/search/:tag', '/topic/:tag'], common.restrict, function (req, res)
 				kb_keywords: ''
 			});
 		});
-	}
-
+	});
 });
 
 // search kb's
@@ -1488,7 +1544,7 @@ router.post('/search', common.restrict, function (req, res){
 	// we search on the lunr indexes
 	common.dbQuery(db.kb, {_id: {$in: lunr_id_array}, kb_published: 'true', kb_versioned_doc: {$ne: true}}, null, null, function (err, results){
 		common.dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function (err, featured_results){
-			res.render('index', {
+			res.render('search', {
 				title: 'Search results: ' + search_term,
 				search_results: results,
 				user_page: true,

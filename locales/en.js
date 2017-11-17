@@ -127,9 +127,11 @@
 	"SEO title": "SEO title",
 	"SEO description": "SEO description",
 	"Successfully saved": "Successfully saved",
-	"string is not defined": "string is not defined",
-	"searchString is not defined": "searchString is not defined",
+	"email address": "email address",
+	"404 - Page not found": "404 - Page not found",
+	"Settings successfully updated.": "Settings successfully updated.",
 	"Please sign in": "Please sign in",
 	"email address": "email address",
-	"Sign in": "Sign in"
+	"Sign in": "Sign in",
+	"New article successfully created": "New article successfully created"
 }
