@@ -22,20 +22,20 @@
 <div class="row">
 	{{#if config.settings.show_featured_articles}}
 		{{#ifCond routeType '===' 'search'}}
-		<div class="col-md-2 col-md-offset-1 col-lg-2 col-lg-offset-1">
-			<div style="margin-top: 30px;">
-				<ul class="list-group">
-					<li class="list-group-item list-group-heading">{{__ "Featured articles"}}</li>
-					{{#each featured_results}}
-						{{#if this.kb_permalink}}
-							<li class="list-group-item"><h5><a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this.kb_permalink}}">{{this.kb_title}}</a></h5></li>
-						{{else}}
-							<li class="list-group-item"><h5><a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this._id}}">{{this.kb_title}}</a></h5></li>
-						{{/if}}
-					{{/each}}
-				</ul>
+			<div class="col-md-2 col-md-offset-1 col-lg-2 col-lg-offset-1">
+				<div style="margin-top: 30px;">
+					<ul class="list-group">
+						<li class="list-group-item list-group-heading">{{__ "Featured articles"}}</li>
+						{{#each featured_results}}
+							{{#if this.kb_permalink}}
+								<li class="list-group-item"><h5><a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this.kb_permalink}}">{{this.kb_title}}</a></h5></li>
+							{{else}}
+								<li class="list-group-item"><h5><a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this._id}}">{{this.kb_title}}</a></h5></li>
+							{{/if}}
+						{{/each}}
+					</ul>
+				</div>
 			</div>
-		</div>
 		{{/ifCond}}
 		<div class="col-md-8 col-lg-8">
 	{{else}}
@@ -45,9 +45,9 @@
 			<div style="margin-top: 30px;">
 				<ul class="list-group">
 					{{#ifCond routeType '===' 'topic'}}
-					<li class="list-group-item list-group-heading">{{__ "Topic"}}: {{search_term}}</li>
+						<li class="list-group-item list-group-heading">{{__ "Topic"}}: {{search_term}}</li>
 					{{else}}
-					<li class="list-group-item list-group-heading">{{__ "Results for"}}: {{search_term}}</li>
+						<li class="list-group-item list-group-heading">{{__ "Results for"}}: {{search_term}}</li>
 					{{/ifCond}}
 					{{#each search_results}}
 						{{#if this.kb_permalink}}
