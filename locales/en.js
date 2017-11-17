@@ -128,5 +128,8 @@
 	"SEO description": "SEO description",
 	"Successfully saved": "Successfully saved",
 	"string is not defined": "string is not defined",
-	"searchString is not defined": "searchString is not defined"
+	"searchString is not defined": "searchString is not defined",
+	"Please sign in": "Please sign in",
+	"email address": "email address",
+	"Sign in": "Sign in"
 }
