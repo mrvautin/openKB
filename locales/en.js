@@ -128,5 +128,11 @@
 	"SEO description": "SEO description",
 	"Successfully saved": "Successfully saved",
 	"string is not defined": "string is not defined",
-	"searchString is not defined": "searchString is not defined"
+	"searchString is not defined": "searchString is not defined",
+	"404 - Page not found": "404 - Page not found",
+	"Settings successfully updated.": "Settings successfully updated.",
+	"ifCond doesn't match if - 24:5": "ifCond doesn't match if - 24:5",
+	"Please sign in": "Please sign in",
+	"email address": "email address",
+	"Sign in": "Sign in"
 }
