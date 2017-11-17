@@ -134,5 +134,6 @@
 	"ifCond doesn't match if - 24:5": "ifCond doesn't match if - 24:5",
 	"Please sign in": "Please sign in",
 	"email address": "email address",
-	"Sign in": "Sign in"
+	"Sign in": "Sign in",
+	"New article successfully created": "New article successfully created"
 }
