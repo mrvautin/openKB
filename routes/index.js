@@ -171,31 +171,12 @@ router.get('/' + config.settings.route_name + '/:id', common.restrict, function 
     var classy = require('../public/javascripts/markdown-it-classy');
 
     // my custom plugins
-    var sub = require('markdown-it-sub');
-    var sup = require('markdown-it-sup');
-    var toc = require('markdown-it-toc');
-    var underline = require('markdown-it-underline');
     var video = require('markdown-it-video');
 
     var markdownit = req.markdownit;
     markdownit.use(classy);
 
-    markdownit.use(sub);
-    markdownit.use(sup);
-    markdownit.use(toc);
-    markdownit.use(underline);
     markdownit.use(video);
-
-    //tocbot, this doesn't work sadly
-    var tocbot = require('tocbot');
-    //tocbot.init({
-      // Where to render the table of contents.
-      //tocSelector: 'body',
-      // Where to grab the headings to build the table of contents.
-      //contentSelector: '.js-toc-content',
-      // Which headings to grab inside of the contentSelector element.
-      //headingSelector: 'h1, h2, h3',
-    //});
 
     var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
 
@@ -1370,9 +1351,9 @@ router.get('/insert', common.restrict, function (req, res){
     });
 });
 
-// redirect home with a null topic
+// show all available topics (keywords)
 router.get('/topic', function(req, res){
-    res.redirect('/');
+    var db = req.app.db;
 });
 
 // search kb's
@@ -1422,7 +1403,8 @@ router.get(['/search/:tag', '/topic/:tag'], common.restrict, function (req, res)
                 search_term: search_term,
                 config: config,
                 helpers: req.handlebars,
-                show_footer: 'show_footer'
+                show_footer: 'show_footer',
+                kb_keywords: ''
             });
         });
     });
