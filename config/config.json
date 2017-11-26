@@ -30,7 +30,7 @@
         "google_analytics": "",
         "theme": "",
         "show_logon": true,
-        "add_header_anchors": true,
+        "add_header_anchors": false,
         "typeahead_search": true,
         "index_article_body": true,
         "enable_spellchecker": true,
