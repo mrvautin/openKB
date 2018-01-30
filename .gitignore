@@ -3,6 +3,7 @@ data/users.db
 data/sessions.db
 data/kb.db
 data/votes.db
+data/backup.tar
 Rubbish/
 public/images/
 public/uploads/

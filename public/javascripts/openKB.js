@@ -83,12 +83,18 @@ $(document).ready(function(){
         hljs.highlightBlock(block);
     });
 
-    // add the table class to all tables
+    // add anchors to headings
     if(config.add_header_anchors === true){
         $('.body_text > h1, .body_text > h2, .body_text > h3, .body_text > h4, .body_text > h5').each(function(){
             $(this).attr('id', convertToSlug($(this).text()));
             $(this).prepend('<a class="headerAnchor" href="#' + convertToSlug($(this).text()) + '">#</a> ');
         });
+
+        //tocbot needs refreshing after anchors are included
+        //but we can do this only if it exists. it doesn't on many pages.
+        if (typeof tocbot !== "undefined") {
+          tocbot.refresh();
+        }
     }
 
     // scroll to hash point

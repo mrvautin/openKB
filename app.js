@@ -74,7 +74,7 @@ handlebars = handlebars.create({
                 var array = keywords.split(','); var links = '';
                 for(var i = 0; i < array.length; i++){
                     if(array[i].trim() !== ''){
-                        links += '<a href="' + app_context + '/search/' + array[i].trim() + '">' + array[i].trim() + '</a> <span class="keywordSeporator">|</span> ';
+                        links += '<a href="' + app_context + '/topic/' + array[i].trim() + '">' + array[i].trim() + '</a> <span class="keywordSeporator">|</span> ';
                     }
                 }return links.substring(0, links.length - 1);
             }
@@ -217,7 +217,7 @@ app.use(session({
     cookie: {
         path: '/',
         httpOnly: true,
-        maxAge: 3600000 * 24
+        maxAge: 3600000 * 24 * 30
     },
     store: new Nedb_store({
         filename: 'data/sessions.db'

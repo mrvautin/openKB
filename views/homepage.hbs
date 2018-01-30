@@ -1,10 +1,14 @@
 <div class="row">
 	<form action="{{app_context}}/search" id="search_form" method="post">
-		{{#ifBoth config.settings.show_featured_articles config.settings.show_featured_in_article}}
+		{{#if config.settings.show_featured_articles}}
+			{{#ifCond routeType '===' 'topic'}}
+			<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 search_bar">
+			{{else}}
 			<div class="col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1 search_bar">
+			{{/ifCond}}
 		{{else}}
 			<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 search_bar">
-		{{/ifBoth}}
+		{{/if}}
 			<div class="input-group">
 				<input type="text" name="frm_search" id="frm_search" autocomplete="off" class="form-control input-lg" placeholder="{{__ "Search the knowledge base"}}">
 				<span class="input-group-btn">
@@ -20,26 +24,30 @@
 	</form>
 </div>
 <div class="row">
-	{{#ifBoth config.settings.show_featured_articles config.settings.show_featured_in_article}}
-		<div class="col-md-2 col-md-offset-1 col-lg-2 col-lg-offset-1">
+	{{#if config.settings.show_featured_articles}}
+		{{#ifCond routeType '===' 'topic'}}
+			<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+		{{else}}
+			<div class="col-md-2 col-md-offset-1 col-lg-2 col-lg-offset-1">
 			<div style="margin-top: 30px;">
 				<ul class="list-group">
 					<li class="list-group-item list-group-heading">{{__ "Featured articles"}}</li>
-					{{#each featured_results}}
-						{{#if this.kb_permalink}}
-							<li class="list-group-item"><h5><a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this.kb_permalink}}">{{this.kb_title}}</a></h5></li>
-						{{else}}
-							<li class="list-group-item"><h5><a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this._id}}">{{this.kb_title}}</a></h5></li>
-						{{/if}}
-					{{/each}}
-				</ul>
+						{{#each featured_results}}
+							{{#if this.kb_permalink}}
+								<li class="list-group-item"><h5><a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this.kb_permalink}}">{{this.kb_title}}</a></h5></li>
+							{{else}}
+								<li class="list-group-item"><h5><a href="{{app_context}}/{{@root.config.settings.route_name}}/{{this._id}}">{{this.kb_title}}</a></h5></li>
+							{{/if}}
+						{{/each}}
+					</ul>
+				</div>
 			</div>
-		</div>
 		<div class="col-md-8 col-lg-8">
+		{{/ifCond}}
 	{{else}}
 		<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
-	{{/ifBoth}}
-		<h1 style="padding-bottom: 25px;padding-top: 15px;">{{result.kb_title}}</h1>
+	{{/if}}
+<h1 style="padding-bottom: 25px;padding-top: 15px;">{{result.kb_title}}</h1>
 		<div class="body_text">
 			{{{kb_body}}}
 		</div>
@@ -109,5 +117,4 @@
 			{{{split_keywords result.kb_keywords}}}
 		</h5>
 	</div>
-	<input type="hidden" id="doc_id" value={{result._id}}>
 </div>

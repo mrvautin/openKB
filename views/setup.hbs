@@ -1,22 +1,22 @@
 <div class="col-md-offset-4 col-md-4 col-lg-offset-4 col-lg-4" style="padding-top: 50px">
 	<form class="form-signin" action="{{app_context}}/user_insert" method="post" role="form" data-toggle="validator">
 		<h2 class="form-signin-heading text-center">openKB {{__ "Setup"}}</h2>
-        <div class="form-group">
-	    	<label for="frm_kb_title">{{__ "Users name"}} *</label>
-	    	<input type="text" class="form-control" name="users_name" placeholder="{{__ "Users name"}}" required>
-	  	</div>
 		<div class="form-group">
-	    	<label for="frm_kb_title">{{__ "User email"}} *</label>
-	    	<input type="email" class="form-control" name="user_email" placeholder="{{__ "Email address"}}" required>
-	  	</div>
-	  	<div class="form-group">
-		    <label for="frm_kb_body">{{__ "User password"}} *</label>
-		    <input type="password" class="form-control" id="user_password" name="user_password" placeholder="{{__ "Password"}}" required>
-	  	</div>
-	  	<div class="form-group">
-		    <label for="frm_kb_body">{{__ "Password confirm"}} *</label>
-		    <input type="password" data-match="#user_password" placeholder="{{__ "Confirm password"}}" class="form-control" name="frm_user_password_confirm" required>
-	  	</div>
+			<label for="frm_kb_title">{{__ "Users name"}} *</label>
+			<input type="text" class="form-control" name="users_name" placeholder="{{__ "Users name"}}" required>
+		</div>
+		<div class="form-group">
+			<label for="frm_kb_title">{{__ "User email"}} *</label>
+			<input type="email" class="form-control" name="user_email" placeholder="{{__ "Email address"}}" required>
+		</div>
+		<div class="form-group">
+			<label for="frm_kb_body">{{__ "User password"}} *</label>
+			<input type="password" class="form-control" id="user_password" name="user_password" placeholder="{{__ "Password"}}" required>
+		</div>
+		<div class="form-group">
+			<label for="frm_kb_body">{{__ "Password confirm"}} *</label>
+			<input type="password" data-match="#user_password" placeholder="{{__ "Confirm password"}}" class="form-control" name="frm_user_password_confirm" required>
+		</div>
 		<button class="btn btn-lg btn-primary btn-block" type="submit">{{__ "Complete setup"}}</button>
 	</form>
 </div>
