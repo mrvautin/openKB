@@ -68,7 +68,7 @@ router.post('/protected/action', function (req, res){
 router.post('/search_api', function (req, res){
     var db = req.app.db;
     var index = req.app.index;
-    
+
     // we strip the ID's from the lunr index search
     var index_id_array = [];
     index.search(req.body.searchTerm).forEach(function (id){
@@ -460,20 +460,20 @@ router.post('/insert_kb', common.restrict, function (req, res){
                         newId = newDoc.insertedIds[0];
                     }
 
-                    // create lunr doc		
-                    var lunr_doc = {		
-                        kb_title: req.body.frm_kb_title,		
-                        kb_keywords: keywords,		
-                        id: newId		
-                    };		
-                    
+                    // create lunr doc
+                    var lunr_doc = {
+                        kb_title: req.body.frm_kb_title,
+                        kb_keywords: keywords,
+                        id: newId
+                    };
+
                     console.log('lunr_doc', lunr_doc);
-            
-                    // if index body is switched on		
-                    if(config.settings.index_article_body === true){		
-                        lunr_doc['kb_body'] = req.body.frm_kb_body;		
-                    }		
-		
+
+                    // if index body is switched on
+                    if(config.settings.index_article_body === true){
+                        lunr_doc['kb_body'] = req.body.frm_kb_body;
+                    }
+
                     // add to lunr index
                     lunr_index.add(lunr_doc);
 
@@ -538,17 +538,17 @@ router.post('/insert_suggest', common.suggest_allowed, function (req, res){
                 newId = newDoc.insertedIds[0];
             }
 
-            // create lunr doc		
-            var lunr_doc = {		
-                kb_title: req.body.frm_kb_title,		
-                kb_keywords: keywords,		
-                id: newId		
-            };		
+            // create lunr doc
+            var lunr_doc = {
+                kb_title: req.body.frm_kb_title,
+                kb_keywords: keywords,
+                id: newId
+            };
 
-            // if index body is switched on		
-            if(config.settings.index_article_body === true){		
-                lunr_doc['kb_body'] = req.body.frm_kb_body;		
-            }		
+            // if index body is switched on
+            if(config.settings.index_article_body === true){
+                lunr_doc['kb_body'] = req.body.frm_kb_body;
+            }
 
             // add to lunr index
             lunr_index.add(lunr_doc);
@@ -638,21 +638,21 @@ router.post('/save_kb', common.restrict, function (req, res){
                             keywords = req.body.frm_kb_keywords.toString().replace(/,/g, ' ');
                         }
 
-                        // create lunr doc		
-                        var lunr_doc = {		
-                            kb_title: req.body.frm_kb_title,		
-                            kb_keywords: keywords,		
-                            id: req.body.frm_kb_id		
-                        };		
-	
-                        // if index body is switched on		
-                        if(config.settings.index_article_body === true){		
-                            lunr_doc['kb_body'] = req.body.frm_kb_body;		
-                        }		
- 		
+                        // create lunr doc
+                        var lunr_doc = {
+                            kb_title: req.body.frm_kb_title,
+                            kb_keywords: keywords,
+                            id: req.body.frm_kb_id
+                        };
+
+                        // if index body is switched on
+                        if(config.settings.index_article_body === true){
+                            lunr_doc['kb_body'] = req.body.frm_kb_body;
+                        }
+
                         // update the index
                         lunr_index.update(lunr_doc, false);
-                            
+
                         // check if versioning enabled
                         var article_versioning = config.settings.article_versioning ? config.settings.article_versioning : false;
 
@@ -811,7 +811,7 @@ router.get('/articles/:tag', function (req, res){
 
     // we strip the ID's from the lunr index search
     var lunr_id_array = [];
-    lunr_index.search(req.params.tag + '*').forEach(function (id){
+    lunr_index.search(req.params.tag).forEach(function (id){
         lunr_id_array.push(id.ref);
     });
 
@@ -968,7 +968,7 @@ router.get('/login', function (req, res){
         if(user_count > 0){
             // set needs_setup to false as a user exists
             req.session.needs_setup = false;
-            
+
             // set the referring url
             var referringUrl = req.header('Referer');
             if(typeof req.session.refer_url !== 'undefined' && req.session.refer_url !== ''){
@@ -1129,7 +1129,7 @@ router.get('/delete/:id', common.restrict, function (req, res){
             id: req.params.id
         };
 
-        // remove from index		
+        // remove from index
         lunr_index.remove(lunr_doc, false);
 
         // redirect home
