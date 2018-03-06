@@ -1245,11 +1245,9 @@ router.post('/file/delete', common.restrict, function (req, res){
     fs.unlink('public/' + req.body.img, function (err){
         if(err){
             console.error('File delete error: ' + err);
-            res.writeHead(400, {'Content-Type': 'application/text'});
-            res.end('Failed to delete file: ' + err);
+            res.status(400).send('Failed to delete file')
         }else{
-            res.writeHead(200, {'Content-Type': 'application/text'});
-            res.end('File deleted successfully');
+            res.status(200).send('File deleted successfully');
         }
     });
 });

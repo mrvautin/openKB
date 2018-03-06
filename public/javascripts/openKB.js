@@ -390,22 +390,26 @@ $(document).ready(function(){
 });
 
 // Calls the API to delete a file
-function file_delete_confirm(img, id){
+$(document).on('click', '.file_delete_confirm', function(e){
+    e.preventDefault();
+    var fileId = $(this).attr('data-id');
+    var filePath = $(this).attr('data-path');
+
     if(window.confirm('Are you sure you want to delete the file?')){
         $.ajax({
             method: 'POST',
             url: $('#app_context').val() + '/file/delete',
-            data: {img: img}
+            data: {img: filePath}
         })
         .done(function(msg){
-            $('#file-' + id).remove();
+            $('#file-' + fileId).remove();
             show_notification(msg, 'success');
         })
         .fail(function(msg){
             show_notification(msg, 'danger');
         });
     }
-}
+});
 
 // show notification popup
 function show_notification(msg, type, reload_page){
