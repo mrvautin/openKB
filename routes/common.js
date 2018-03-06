@@ -210,7 +210,14 @@ exports.getId = function (id){
     if(id.length !== 24){
         return id;
     }
-    return ObjectID(id);
+
+    let returnID = '';
+    try{
+        returnID = ObjectID(id);
+        return returnID;
+    }catch(ex){
+        return id;
+    }
 };
 
 exports.sanitizeHTML = function(html){
