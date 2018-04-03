@@ -736,9 +736,11 @@ router.get('/users', common.restrict, function (req, res){
 });
 
 // users
-router.get('/user/edit/:id', common.restrict, function (req, res){
+router.get('/user/edit/:id', common.restrict, function (req, res, next){
     var db = req.app.db;
     db.users.findOne({_id: common.getId(req.params.id)}, function (err, user){
+        if(!user) return next('router');
+
         // if the user we want to edit is not the current logged in user and the current user is not
         // an admin we render an access denied message
         if(user.user_email !== req.session.user && req.session.is_admin === 'false'){
