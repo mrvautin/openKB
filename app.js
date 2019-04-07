@@ -49,7 +49,7 @@ common.config_expose(app);
 // check theme directory exists if set
 if(config.settings.theme){
     if(!fs.existsSync(path.join(__dirname, '/public/themes/', config.settings.theme))){
-        console.error('Theme folder does not exist. Please check theme in /routes/config.json');
+        console.error('Theme folder does not exist. Please check theme in /config/config.json');
         process.exit();
     }
 }
