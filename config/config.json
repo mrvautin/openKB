@@ -15,6 +15,7 @@
         "show_featured_in_article": false,
         "featured_articles_count": "4",
         "password_protect": false,
+        "auth_provider": "db",
         "show_kb_meta": true,
         "suggest_allowed": true,
         "show_author_email": true,

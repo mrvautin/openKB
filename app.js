@@ -256,6 +256,8 @@ app.use(function (req, res, next){
     req.i18n = i18n;
     req.app_context = app_context;
     req.i18n.setLocaleFromCookie();
+    req.common = common;
+    req.config = config;
 	next();
 });
 
