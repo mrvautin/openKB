@@ -246,9 +246,11 @@ $(document).ready(function(){
     // convert editor markdown to HTML and display in #preview div
     function convertTextAreaToMarkdown(){
         var classy = window.markdownItClassy;
+        var platuml = window.markdown_it_plantuml;
 
         var mark_it_down = window.markdownit({html: true, linkify: true, typographer: true, breaks: true});
         mark_it_down.use(classy);
+        mark_it_down.use(platuml);
         var html = mark_it_down.render(simplemde.value());
 
         // add responsive images and tables

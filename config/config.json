@@ -51,6 +51,9 @@
             "cssLinkColor": "",
             "cssTextColor": "",
             "cssFontFamily": ""
+        },
+        "plantuml_server": {
+            "base_url": "http://www.plantuml.com/plantuml"
         }
     }
 }
