@@ -1,7 +1,5 @@
 FROM node:alpine
 
-RUN apk add --update nodejs
-
 WORKDIR /var/openKB
 
 COPY locales/ /var/openKB/locales/
