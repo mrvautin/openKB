@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM node:alpine
 
 RUN apk add --update nodejs
 
