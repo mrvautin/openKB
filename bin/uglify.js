@@ -15,6 +15,7 @@ uglifyFile(path.join('public', 'javascripts', 'openKB.js'), 'js');
 uglifyFile('node_modules/lunr/lunr.js', 'js');
 uglifyFile('public/javascripts/jpushmenu.js', 'js');
 uglifyFile('public/javascripts/markdown-it-classy.js', 'js');
+uglifyFile('public/javascripts/markdown-it-plantuml.js', 'js');
 uglifyFile('public/javascripts/inline-attachment.js', 'js');
 uglifyFile('public/javascripts/bootstrap-validator.js', 'js');
 uglifyFile('public/javascripts/codemirror.inline-attachment.js', 'js');

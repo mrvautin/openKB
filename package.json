@@ -34,6 +34,7 @@
     "lodash": "^4.17.2",
     "lunr": "^0.7.2",
     "markdown-it": "^7.0.1",
+    "markdown-it-plantuml": "^1.4.0",
     "mime-types": "^2.1.13",
     "mkdirp": "^0.5.1",
     "moment": "^2.15.0",
@@ -55,7 +56,9 @@
     "walk": "^2.3.9"
   },
   "main": "app.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "browserify": "^16.2.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mrvautin/openKB.git"

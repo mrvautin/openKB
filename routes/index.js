@@ -125,8 +125,15 @@ router.get('/' + config.settings.route_name + '/:id/version', common.restrict, f
     var db = req.app.db;
     common.config_expose(req.app);
     var classy = require('../public/javascripts/markdown-it-classy');
+    const plantuml = require('markdown-it-plantuml');
+    let plantumlBaseURL = 'http://www.plantuml.com/plantuml';
+    if (config.settings.plantuml_server && config.settings.plantuml_server.base_url) {
+        plantumlBaseURL = config.settings.plantuml_server.base_url;
+    }
     var markdownit = req.markdownit;
     markdownit.use(classy);
+    markdownit.use(plantuml, {server: plantumlBaseURL})
+
 
     // check for logged in user
     if(!req.session.user){
@@ -168,8 +175,14 @@ router.get('/' + config.settings.route_name + '/:id', common.restrict, function 
     var db = req.app.db;
     common.config_expose(req.app);
     var classy = require('../public/javascripts/markdown-it-classy');
+    const plantuml = require('markdown-it-plantuml');
+    let plantumlBaseURL = 'http://www.plantuml.com/plantuml';
+    if (config.settings.plantuml_server && config.settings.plantuml_server.base_url) {
+        plantumlBaseURL = config.settings.plantuml_server.base_url;
+    }
     var markdownit = req.markdownit;
     markdownit.use(classy);
+    markdownit.use(plantuml, {server: plantumlBaseURL})
 
     var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
 

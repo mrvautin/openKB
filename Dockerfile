@@ -1,6 +1,4 @@
-FROM alpine:3.5
-
-RUN apk add --update nodejs
+FROM node:alpine
 
 WORKDIR /var/openKB
 

@@ -174,5 +174,9 @@
 	"Previous versions": "Previous versions",
 	"Topic": "Topic",
 	"Suggestion successfully processed": "Suggestion successfully processed",
-	"Style": "Style"
+	"Style": "Style",
+	"Visible state": "Visible state",
+	"Public": "Public",
+	"Private": "Private",
+	"Cannot read property 'base_url' of undefined": "Cannot read property 'base_url' of undefined"
 }
