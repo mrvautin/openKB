@@ -10,3 +10,4 @@ data/export.zip
 .vscode
 jsconfig.json
 .idea/
+.DS_Store

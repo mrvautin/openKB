@@ -1,31 +1,31 @@
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var handlebars = require('express-handlebars');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var Nedb = require('nedb');
-var session = require('express-session');
-var bcrypt = require('bcrypt-nodejs');
-var markdownit = require('markdown-it')({html: true, linkify: true, typographer: true});
-var moment = require('moment');
-var fs = require('fs');
-var Nedb_store = require('nedb-session-store')(session);
-var remove_md = require('remove-markdown');
-var common = require('./routes/common');
-var config = common.read_config();
-var MongoClient = require('mongodb').MongoClient;
-var expstate = require('express-state');
-var compression = require('compression');
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const Nedb = require('nedb');
+const session = require('express-session');
+const bcrypt = require('bcrypt-nodejs');
+const markdownit = require('markdown-it')({ html: true, linkify: true, typographer: true });
+const moment = require('moment');
+const fs = require('fs');
+const Nedb_store = require('nedb-session-store')(session);
+const remove_md = require('remove-markdown');
+const common = require('./routes/common');
+const config = common.read_config();
+const MongoClient = require('mongodb').MongoClient;
+const expstate = require('express-state');
+const compression = require('compression');
+let handlebars = require('express-handlebars');
 
 // require the routes
-var index = require('./routes/index');
-var api = require('./routes/api');
+const index = require('./routes/index');
+const api = require('./routes/api');
 
-var app = express();
+const app = express();
 
 // setup the translation
-var i18n = new (require('i18n-2'))({
+const i18n = new (require('i18n-2'))({
     locales: ['en', 'de', 'da', 'es', 'cn', 'ru', 'pt-br', 'jp', 'fi', 'sv', 'tr'],
     directory: path.join(__dirname, 'locales/'),
     defaultLocale: 'en',
@@ -56,7 +56,7 @@ if(config.settings.theme){
 
 // view engine setup
 app.set('views', path.join(__dirname, '/views'));
-app.engine('hbs', handlebars({extname: 'hbs', layoutsDir: path.join(__dirname, '/views/layouts'), defaultLayout: 'layout.hbs', partialsDir: 'public/themes/'}));
+app.engine('hbs', handlebars({ extname: 'hbs', layoutsDir: path.join(__dirname, '/views/layouts'), defaultLayout: 'layout.hbs', partialsDir: 'public/themes/' }));
 app.set('view engine', 'hbs');
 
 // helpers for the handlebar templating platform
@@ -66,13 +66,13 @@ handlebars = handlebars.create({
             return i18n.__(value);
         },
         split_keywords: function (keywords){
-            var app_context = config.settings.app_context;
+            let app_context = config.settings.app_context;
             if(app_context !== ''){
                 app_context = '/' + app_context;
             }
             if(keywords){
-                var array = keywords.split(','); var links = '';
-                for(var i = 0; i < array.length; i++){
+                let array = keywords.split(','); let links = '';
+                for(let i = 0; i < array.length; i++){
                     if(array[i].trim() !== ''){
                         links += '<a href="' + app_context + '/search/' + array[i].trim() + '">' + array[i].trim() + '</a> <span class="keywordSeporator">|</span> ';
                     }
@@ -80,10 +80,10 @@ handlebars = handlebars.create({
             }
             return keywords;
         },
-        encodeURI: function(url){
+        encodeURI: function (url){
             return encodeURI(url);
         },
-        removeEmail: function(user){
+        removeEmail: function (user){
             return user.replace(/ - ([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/, '');
         },
         checked_state: function (state){
@@ -109,25 +109,25 @@ handlebars = handlebars.create({
             }
             return val;
         },
-        strip_md: function(md){
+        strip_md: function (md){
             if(md !== null && md !== ''){
                 return remove_md(md);
             }
             return md;
         },
-        view_count: function(value){
+        view_count: function (value){
             if(value === '' || value === undefined){
                 return'0';
             }
             return value;
         },
-        ifBoth: function(val1, val2, options){
+        ifBoth: function (val1, val2, options){
             if(val1 && val2){
                 return options.fn(this);
             }
             return options.inverse(this);
         },
-        format_date: function(date){
+        format_date: function (date){
             if(config.settings.date_format){
                 return moment(date).format(config.settings.date_format);
             }
@@ -138,8 +138,8 @@ handlebars = handlebars.create({
                 return'/' + config.settings.app_context;
             }return'';
         },
-        simpleCSS: function(config){
-            var cssString = '';
+        simpleCSS: function (config){
+            let cssString = '';
             if(typeof config.settings.style.cssHeaderBackgroundColor !== 'undefined' && config.settings.style.cssHeaderBackgroundColor !== ''){
                 cssString = cssString + '.navbar-default, .headerText h1 {background-color:' + config.settings.style.cssHeaderBackgroundColor + ';}';
             }
@@ -170,30 +170,30 @@ handlebars = handlebars.create({
             }
             return cssString;
         },
-        ifCond: function(v1, operator, v2, options){
-			switch(operator){
-				case'==':
-					return(v1 === v2) ? options.fn(this) : options.inverse(this);
-				case'!=':
-					return(v1 !== v2) ? options.fn(this) : options.inverse(this);
-				case'===':
-					return(v1 === v2) ? options.fn(this) : options.inverse(this);
-				case'<':
-					return(v1 < v2) ? options.fn(this) : options.inverse(this);
-				case'<=':
-					return(v1 <= v2) ? options.fn(this) : options.inverse(this);
-				case'>':
-					return(v1 > v2) ? options.fn(this) : options.inverse(this);
-				case'>=':
-					return(v1 >= v2) ? options.fn(this) : options.inverse(this);
-				case'&&':
-					return(v1 && v2) ? options.fn(this) : options.inverse(this);
-				case'||':
-					return(v1 || v2) ? options.fn(this) : options.inverse(this);
-				default:
-					return options.inverse(this);
-			}
-		},
+        ifCond: function (v1, operator, v2, options){
+            switch(operator){
+                case'==':
+                    return(v1 === v2) ? options.fn(this) : options.inverse(this);
+                case'!=':
+                    return(v1 !== v2) ? options.fn(this) : options.inverse(this);
+                case'===':
+                    return(v1 === v2) ? options.fn(this) : options.inverse(this);
+                case'<':
+                    return(v1 < v2) ? options.fn(this) : options.inverse(this);
+                case'<=':
+                    return(v1 <= v2) ? options.fn(this) : options.inverse(this);
+                case'>':
+                    return(v1 > v2) ? options.fn(this) : options.inverse(this);
+                case'>=':
+                    return(v1 >= v2) ? options.fn(this) : options.inverse(this);
+                case'&&':
+                    return(v1 && v2) ? options.fn(this) : options.inverse(this);
+                case'||':
+                    return(v1 || v2) ? options.fn(this) : options.inverse(this);
+                default:
+                    return options.inverse(this);
+            }
+        },
         is_an_admin: function (value, options){
             if(value === 'true'){
                 return options.fn(this);
@@ -208,7 +208,7 @@ app.set('port', process.env.PORT || 4444);
 app.set('bind', process.env.BIND || '0.0.0.0');
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser('5TOCyfH3HuszKGzFZntk'));
 app.use(session({
     resave: false,
@@ -225,7 +225,7 @@ app.use(session({
 }));
 
 // setup the app context
-var app_context = '';
+let app_context = '';
 if(config.settings.app_context !== undefined && config.settings.app_context !== ''){
     app_context = '/' + config.settings.app_context;
 }
@@ -249,14 +249,14 @@ app.use(app_context + '/favicon.png', express.static(path.join(__dirname, 'publi
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Make stuff accessible to our router
-app.use(function (req, res, next){
-	req.markdownit = markdownit;
-	req.handlebars = handlebars.helpers;
+app.use((req, res, next) => {
+    req.markdownit = markdownit;
+    req.handlebars = handlebars.helpers;
     req.bcrypt = bcrypt;
     req.i18n = i18n;
     req.app_context = app_context;
     req.i18n.setLocaleFromCookie();
-	next();
+    next();
 });
 
 // setup the routes
@@ -269,8 +269,8 @@ if(app_context !== ''){
 }
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next){
-    var err = new Error('Not Found');
+app.use((req, res, next) => {
+    let err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
@@ -280,7 +280,7 @@ app.use(function(req, res, next){
 // development error handler
 // will print stacktrace
 if(app.get('env') === 'development'){
-    app.use(function (err, req, res, next){
+    app.use((err, req, res, next) => {
         console.error(err.stack);
         res.status(err.status || 500);
         res.render('error', {
@@ -294,7 +294,7 @@ if(app.get('env') === 'development'){
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function (err, req, res, next){
+app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(err.status || 500);
     res.render('error', {
@@ -308,28 +308,28 @@ app.use(function (err, req, res, next){
 // sets up the databse depending on whether it's embedded (NeDB) or MongoDB
 if(config.settings.database.type === 'embedded'){
     // setup the db's
-    var db = new Nedb();
+    let db = new Nedb();
     db = {};
-    db.users = new Nedb({filename: path.join(__dirname, '/data/users.db'), autoload: true});
-    db.kb = new Nedb({filename: path.join(__dirname, '/data/kb.db'), autoload: true});
-    db.votes = new Nedb({filename: path.join(__dirname, '/data/votes.db'), autoload: true});
+    db.users = new Nedb({ filename: path.join(__dirname, '/data/users.db'), autoload: true });
+    db.kb = new Nedb({ filename: path.join(__dirname, '/data/kb.db'), autoload: true });
+    db.votes = new Nedb({ filename: path.join(__dirname, '/data/votes.db'), autoload: true });
 
     // add db to app for routes
     app.db = db;
 
     // add articles to index
-    common.buildIndex(db, function(index){
+    common.buildIndex(db, (index) => {
         // add the index
         app.index = index;
 
         // lift the app
-        app.listen(app.get('port'), app.get('bind'), function (){
+        app.listen(app.get('port'), app.get('bind'), () => {
             console.log('openKB running on host: http://' + app.get('bind') + ':' + app.get('port'));
             app.emit('openKBstarted');
         });
     });
 }else{
-    MongoClient.connect(config.settings.database.connection_string, {}, function(err, db){
+    MongoClient.connect(config.settings.database.connection_string, {}, (err, db) => {
         // On connection error we display then exit
         if(err){
             console.error('Error connecting to MongoDB: ' + err);
@@ -345,11 +345,11 @@ if(config.settings.database.type === 'embedded'){
         app.db = db;
 
         // add articles to index
-        common.buildIndex(db, function(index){
+        common.buildIndex(db, (index) => {
             // add the index
             app.index = index;
             // lift the app
-            app.listen(app.get('port'), app.get('bind'), function (){
+            app.listen(app.get('port'), app.get('bind'), () => {
                 console.log('openKB running on host: http://' + app.get('bind') + ':' + app.get('port'));
                 app.emit('openKBstarted');
             });

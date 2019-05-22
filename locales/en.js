@@ -174,5 +174,11 @@
 	"Previous versions": "Previous versions",
 	"Topic": "Topic",
 	"Suggestion successfully processed": "Suggestion successfully processed",
-	"Style": "Style"
+	"Style": "Style",
+	"Filtered term": "Filtered term",
+	"File upload error. Please select a file.": "File upload error. Please select a file.",
+	"dsdsds is not defined": "dsdsds is not defined",
+	"dfdfd": "dfdfd",
+	"url.URL.parse is not a function": "url.URL.parse is not a function",
+	"A user with that email does not exist.": "A user with that email does not exist."
 }

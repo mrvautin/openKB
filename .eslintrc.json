@@ -1,10 +1,12 @@
 {
     "extends": "standard",
-    "installedESLint": true,
     "plugins": [
         "standard",
         "promise"
     ],
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
     "globals": {
         "$": true
     },
@@ -13,18 +15,27 @@
         "node": true
     },
     "rules": {
+        "quotes": ["error", "single"],
+        "prefer-arrow-callback": [ "error", { "allowNamedFunctions": true } ],
         "consistent-return": 2,
+        "no-var"           : 2,
+        "new-cap"          : 0,
         "indent"           : 0,
         "no-else-return"   : 1,
         "semi"             : [1, "always"],
         "space-unary-ops"  : 2,
         "no-undef": 1,
         "no-unused-vars": 1,
-        "keyword-spacing": ["error", { "before": false, "after": false }],
+        "keyword-spacing": [
+            "error", { 
+                "before": false, "after": false, "overrides": {
+                "const": { "after": true }
+            }
+        }],
         "space-before-function-paren": 0,
         "space-before-blocks": ["error", "never"],
         "camelcase": 0,
         "handle-callback-err": ["error", "none"],
-        "object-curly-spacing": ["error", "never"]
+        "object-curly-spacing": ["error", "always"]
     }
 }
