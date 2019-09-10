@@ -9,7 +9,7 @@
         <title>{{result.kb_title}}</title>
         <meta property="og:title" content="{{result.kb_title}}" />
       {{else}}
-        <title>{{title}}</title>
+      <title>{{config.settings.website_title}}</title>
         <meta property="og:title" content="{{title}}" />
       {{/if}}
     {{/if}}
@@ -94,7 +94,7 @@
     {{#if show_footer}}
       <footer class="footer">
         <div class="container">
-          <p class="text-muted text-center">{{__ "Powered by"}} <a href="https://openkb.markmoffat.com/" target="_blank">openKB</a></p>
+		<p class="text-muted text-center">{{__ "Powered by"}} <a href={{config.settings.owner-site}} target="_blank">{{config.settings.owner}} </a></p>
         </div>
       </footer>
     {{/if}}

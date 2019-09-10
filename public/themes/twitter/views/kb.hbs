@@ -1,7 +1,7 @@
 <div class="row searchBar">
     {{> twitter/views/partials/navbar}}
     <div class="">
-        <h1>How can we help?</h1>
+        <h1>{{config.settings.website_description}}</h1>
     </div>
 	<form action="{{app_context}}/search" id="search_form" method="post">
         {{#if config.settings.show_featured_articles}}
@@ -28,7 +28,7 @@
         {{#if config.settings.show_featured_articles}}
             <div class="col-md-3 col-lg-3">
                 <div class="panel panel-default" style="margin-top: 30px;">
-                    <div class="panel-heading">Featured articles</div>
+                    <div class="panel-heading">{{__ "Featured articles"}}</div>
                     <div class="panel-body">
                         <ul class="list-group">
                             {{#each featured_results}}
@@ -69,13 +69,13 @@
             {{/if}}
             {{#if config.settings.show_kb_meta}}
                 <div class="panel panel-primary" style="margin-top: 35px;">
-                    <div class="panel-heading">Article details:</div>
+                    <div class="panel-heading">{{__ "Article details"}}:</div>
                     <div class="panel-body metaData">
                         <h5 class="col-sm-12 col-lg-12">
-                            <strong>Published date:</strong> {{format_date result.kb_published_date}}
+                            <strong>{{__ "Published date"}}:</strong> {{format_date result.kb_published_date}}
                         </h5>
                         <h5 class="col-sm-12 col-lg-12">
-                            <strong>Last updated:</strong> {{format_date result.kb_last_updated}}
+                            <strong>{{__ "Last updated"}}:</strong> {{format_date result.kb_last_updated}}
 				{{#if result.kb_last_update_user}}
                                     <span class="text-info">
                                         {{#ifCond config.settings.show_author_email '===' false}}
@@ -88,21 +88,21 @@
                         </h5>
                         {{#if result.kb_permalink}}
                             <h5 class="col-sm-12 col-lg-12">
-                                <strong>Share article:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/{{@root.config.settings.route_name}}/{{encodeURI result.kb_permalink}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                                <strong>{{__ "Share article"}}:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI @root.config.settings.base_link}}/{{@root.config.settings.route_name}}/{{encodeURI result.kb_permalink}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
                             </h5>
                         {{else}}
                             <h5 class="col-sm-12 col-lg-12">
-                                <strong>Share article:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI current_url}}/{{@root.config.settings.route_name}}/{{result._id}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                                <strong>{{__ "Share article"}}:</strong>&nbsp;<a href="mailto:?subject={{result.kb_title}}&body={{encodeURI @root.config.settings.base_link}}/{{@root.config.settings.route_name}}/{{result._id}}" target="_top"><i class="fa fa-envelope" aria-hidden="true"></i></a>
                             </h5>
                         {{/if}}
                         {{#if result.kb_author}}
                             <h5 class="col-sm-12 col-lg-12">
-                                <strong>Author:</strong> <span class="text-info">{{result.kb_author}} {{#if config.settings.show_author_email}}({{result.kb_author_email}}){{/if}}</span>
+                                <strong>{{__ "Author"}}:</strong> <span class="text-info">{{result.kb_author}} {{#if config.settings.show_author_email}}({{result.kb_author_email}}){{/if}}</span>
                             </h5>
                         {{/if}}
                         {{#if result.kb_permalink}}
                         <h5 class="col-sm-12 col-lg-12">
-                            <strong>Permalink:</strong> <a href="{{current_url}}/{{@root.config.settings.route_name}}/{{result.kb_permalink}}" target="_blank">{{current_url}}/{{@root.config.settings.route_name}}/{{result.kb_permalink}}</a>
+                            <strong>{{__ "Permalink"}}:</strong> <a href="{{@root.config.settings.base_link}}/{{@root.config.settings.route_name}}/{{result.kb_permalink}}" target="_blank">{{@root.config.settings.base_link}}/{{@root.config.settings.route_name}}/{{result.kb_permalink}}</a>
                         </h5>
                         {{/if}}
                     </div>
