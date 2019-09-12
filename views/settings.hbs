@@ -141,6 +141,41 @@
                             </p>
                         </div>
                         <div class="form-group">
+                            <label class="control-label" for="owner">{{__ "Owner"}}:</label>
+                            <input type="text" class="form-control" name="owner" value="{{config.settings.owner}}" required>
+                            <p class="help-block">
+                                {{__ "The owner of the KB that will be showed at powered by"}}.
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="owner-site">{{__ "Owner site"}}:</label>
+                            <input type="text" class="form-control" name="owner-site" value="{{config.settings.owner-site}}" required>
+                            <p class="help-block">
+                                {{__ "The owner's site that will be showed clicking on powered by Owner Eg: http://mysite.com"}}.
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="heading">{{__ "Heading"}}:</label>
+                            <input type="text" class="form-control" name="heading" value="{{config.settings.heading}}" >
+                            <p class="help-block">
+                                {{__ "Insert the H1 text to show under the search bar"}}.
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="subheading">{{__ "Sub Heading"}}:</label>
+                            <input type="text" class="form-control" name="subheading" value="{{config.settings.subheading}}" >
+                            <p class="help-block">
+                                {{__ "Insert the text to show under the Heading"}}.
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="base_link">{{__ "KB Base URL"}}:</label>
+                            <input type="text" class="form-control" name="base_link" value="{{config.settings.base_link}}" >
+                            <p class="help-block">
+                                {{__ "Insert the base url of the website Eg: http://myopenKB.com"}}.
+                            </p>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label" for="links_blank_page">{{__ "Google analytics code"}}:</label>
                             <textarea rows="5" class="form-control" name="google_analytics">{{config.settings.google_analytics}}</textarea>
                             <p class="help-block">
