@@ -28,7 +28,7 @@ const app = express();
 const i18n = new (require('i18n-2'))({
     locales: ['en', 'it', 'de', 'da', 'es', 'cn', 'ru', 'pt-br', 'jp', 'fi', 'sv', 'tr'],
     directory: path.join(__dirname, 'locales/'),
-    defaultLocale: 'it',
+    defaultLocale: 'en',
     cookieName: 'locale'
 });
 
