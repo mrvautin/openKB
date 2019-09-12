@@ -172,5 +172,15 @@
 	"Search the knowledge base": "Ricerca all'interno della knowledge base",
 	"Access denied. Check password and try again.": "Accesso negato. Verifica la password e prova ancora.",
 	"File upload error. Please select a file.": "Errore caricamento file. Seleziona un file.",
-	"Please enter a directory name": "Inserire il nome di una cartella"
+	"Please enter a directory name": "Inserire il nome di una cartella",
+	"The owner of the KB that will be showed at powered by": "Il gestore della KB da visualizzare nel realizzato da",
+	"Owner": "Gestore",
+	"Owner site": "Sito del Gestore",
+	"The owner's site that will be showed clicking on powered by Owner Eg: http://mysite.com": "Il sito principale del gestore della KB visualizzato cliccando su realizzato da gestore Es: http://ilmiosito.com",
+	"Heading": "Heading",
+	"Insert the H1 text to show under the search bar": "Inserire il testo H1 da visualizzare sotto la barra di ricerca",
+	"Sub Heading": "Sub Heading",
+	"Insert the text to show under the Heading": "Inserire il testo da visualizzare sotto l'Heading",
+	"KB Base URL": "KB URL di base",
+	"Insert the base url of the website Eg: http://myopenKB.com": "Inserire l'url di base di questo sito Es: http://myopenKB.com"
 }

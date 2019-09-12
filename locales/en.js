@@ -180,5 +180,17 @@
 	"dsdsds is not defined": "dsdsds is not defined",
 	"dfdfd": "dfdfd",
 	"url.URL.parse is not a function": "url.URL.parse is not a function",
-	"A user with that email does not exist.": "A user with that email does not exist."
+	"A user with that email does not exist.": "A user with that email does not exist.",
+	"Trending topics": "Trending topics",
+	"User deleted.": "User deleted.",
+    "Owner": "Owner",
+    "The owner of the KB that will be showed at powered by": "The owner of the KB that will be showed at powered by",
+    "Owner site": "Owner site",
+    "The owner's site that will be showed clicking on powered by Owner Eg: http://mysite.com": "The owner's site that will be showed clicking on powered by Owner Eg: http://mysite.com",
+    "Heading": "Heading",
+    "Insert the H1 text to show under the search bar": "Insert the H1 text to show under the search bar",
+    "Sub Heading": "Sub Heading",
+    "Insert the text to show under the Heading": "Insert the text to show under the Heading",
+    "KB Base URL": "KB Base URL",
+    "Insert the base url of the website Eg: http://myopenKB.com": "Insert the base url of the website Eg: http://myopenKB.com"
 }
