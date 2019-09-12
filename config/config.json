@@ -22,12 +22,12 @@
         "mathjax": false,
         "mathjax_input_mode": "TeX-MML-AM_CHTML",
         "app_context": "",
-        "base_link": "", // Insert the base url of the website to generate correct link when node is behind as example nginx
+        "base_link": "",
         "links_blank_page": true,
-        "owner-site": "", // Insert here the link of the site owner example https://mysite.com
-        "owner": "", // The name of the owner to show into the powered by
-        "heading": "", // The text to show above the search bar
-        "subheading": "", // The text to show down to the search bar
+        "owner-site": "",
+        "owner": "",
+        "heading": "",
+        "subheading": "",
         "database": {
             "type": "embedded"
         },
