@@ -855,6 +855,7 @@ router.post('/published_state', common.restrict, (req, res) => {
 // insert a user
 router.post('/user_insert', common.restrict, (req, res) => {
     const db = req.app.db;
+    const saltRounds = 10;
     let bcrypt = req.bcrypt;
 
     // set the account to admin if using the setup form. Eg: First user account
@@ -876,7 +877,7 @@ router.post('/user_insert', common.restrict, (req, res) => {
     let doc = {
         users_name: req.body.users_name,
         user_email: req.body.user_email,
-        user_password: bcrypt.hashSync(req.body.user_password),
+        user_password: bcrypt.hashSync(req.body.user_password, saltRounds),
         is_admin: is_admin
     };
 
@@ -939,10 +940,11 @@ router.post('/user_update', common.restrict, (req, res) => {
 
         // create the update doc
         let update_doc = {};
+        const saltRounds = 10;
         update_doc.is_admin = is_admin;
         update_doc.users_name = req.body.users_name;
         if(req.body.user_password){
-            update_doc.user_password = bcrypt.hashSync(req.body.user_password);
+            update_doc.user_password = bcrypt.hashSync(req.body.user_password, saltRounds);
         }
 
         db.users.update({ _id: common.getId(req.body.user_id) },
