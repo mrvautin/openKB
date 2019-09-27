@@ -24,10 +24,10 @@
         "app_context": "",
         "base_link": "",
         "links_blank_page": true,
-        "owner-site": "",
-        "owner": "",
-        "heading": "",
-        "subheading": "",
+        "owner-site": "https://openkb.markmoffat.com/",
+        "owner": "openKB",
+        "heading": "openKB",
+        "subheading": "openKB is an Open Source Node.js Markdown based knowledge base/FAQ/Wiki app with powerful lunr search",
         "database": {
             "type": "embedded"
         },
