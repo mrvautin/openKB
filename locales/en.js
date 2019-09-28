@@ -182,6 +182,7 @@
 	"url.URL.parse is not a function": "url.URL.parse is not a function",
 	"A user with that email does not exist.": "A user with that email does not exist.",
 	"Trending topics": "Trending topics",
+	"Trending articles": "Trending articles",
 	"User deleted.": "User deleted.",
 	"Owner": "Owner",
 	"The owner of the KB that will be showed at powered by": "The owner of the KB that will be showed at powered by",

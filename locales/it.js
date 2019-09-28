@@ -155,7 +155,7 @@
 	"To insert an image right click the link, copy the link address and add it to your Markdown": "Per inserire un'immagine cliccare con il tasto destro sul link selezionare copia l'indirizzo e aggiungilo nel Markdown",
 	"New directory": "Nuova cartella",
 	"Multiple directories can be created using a \"/\" separator": "Possono essere create cartelle multiple utilizzando \"/\" come separatore",
-	"Trending topics": "Articoli in evidenza",
+	"Trending topics": "Argomenti in evidenza",
 	"Successfully saved": "Salvataggio avvenuto con successo",
 	"Not Found": "Non disponibile",
 	"Article details:": "Dettagli articolo",
@@ -182,5 +182,12 @@
 	"Sub Heading": "Sub Heading",
 	"Insert the text to show under the Heading": "Inserire il testo da visualizzare sotto l'Heading",
 	"KB Base URL": "KB URL di base",
-	"Insert the base url of the website Eg: http://myopenKB.com": "Inserire l'url di base di questo sito Es: http://myopenKB.com"
+	"Insert the base url of the website Eg: http://myopenKB.com": "Inserire l'url di base di questo sito Es: http://myopenKB.com",
+	"Trending articles": "Articoli in evidenza",
+	"Votes:": "Votes:",
+	"Last updated:": "Last updated:",
+	"Share article:": "Share article:",
+	"Author:": "Author:",
+	"Permalink:": "Permalink:",
+	"No results found": "No results found"
 }
