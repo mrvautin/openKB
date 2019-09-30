@@ -28,6 +28,12 @@ Running the application in Production using minified code can be done by:
 2. Ensure the minified/ugly files are being used: `NODE_ENV=production node app.js`
 
 > Note: `openKB` supports Nodejs version 4.0 and above.
+> Note: As the latest change from `bcrypt-nodejs` to `bcrypt` for security reason is strongly adviced to use `node 10.X` and above to avoid the following error:
+`bcrypt@3.0.6 install: node-pre-gyp install --fallback-to-build
+npm ERR! Exit status 1
+npm ERR!
+npm ERR! Failed at the bcrypt@3.0.6 install script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.`
 
 ### Deploy on Heroku
 
