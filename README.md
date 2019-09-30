@@ -132,6 +132,11 @@ Most of the configuration can be done on the `/settings` page but there are some
 |`database`|The database type to use. See **Database setup**|
 |`google_analytics`|Adds Google Analytics to public facing pages. Include the entire code from Google including the &lt;script&gt; tags.|
 |`style`|Add any Hex color codes, HTML color names and fonts to style the public pages of your KB.|
+|`base_link`|Insert the base url of the website to generate correct link when node is behind a reverse proxy (ex. nginx)|
+|`owner-site`|Insert here the link of the site owner example https://mysite.com|
+|`owner`|The name of the owner to show into the powered by|
+|`heading`|The text to show above the search bar|
+|`subheading`|The text to show down to the search bar|
 
 **Data sorting**
 You can control the sort order or articles. You can sort on anything but popular fields are `kb_viewcount`,  `kb_published_date`,  `kb_last_updated` or `kb_votes`
