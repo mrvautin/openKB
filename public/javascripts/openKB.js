@@ -10,8 +10,21 @@ $(document).ready(function(){
     }
 
     // setup mermaid charting
-    if(typeof mermaid !== 'undefined'){
-        mermaid.initialize({startOnLoad: true});
+    debugger
+    if(typeof mermaid !== 'undefined' && config.mermaid){
+        //defaults - can be overridden in config.json by specifying mermaid_options
+        //TODO: Consider adding mermaid_options to settings page? 
+        var mermaid_opts = {
+            "theme" : "forest",
+            "flowchart": { "curve": "linear" },
+            "gantt": { "axisFormat": "%Y/%m/%d" },
+            "sequence": { "actorMargin": 20 },
+            "securityLevel": "loose" 
+        };
+        // Merge mermaid_options into mermaid_opts, recursively
+        $.extend( true, mermaid_opts, config.mermaid_options || {} );
+        mermaid_opts.startOnLoad = true;
+        mermaid.initialize(mermaid_opts);
     }
 
     // add the table class to all tables
@@ -117,16 +130,26 @@ $(document).ready(function(){
         inlineAttachment.editors.codemirror4.attach(simplemde.codemirror, {uploadUrl: $('#app_context').val() + '/file/upload_file'});
 
         // do initial convert on load
-        convertTextAreaToMarkdown();
-
-        // attach to editor changes and update preview
-        simplemde.codemirror.on('change', function(){
-            convertTextAreaToMarkdown();
-        });
+        convertTextAreaToMarkdown(true); //true means this is first call - do all rendering    
 
         // auto scrolls the simpleMDE preview pane
         var preview = document.getElementById('preview');
         if(preview !== null){
+
+            //timed re-render (virtual speedup) - i.e. only call convertTextAreaToMarkdown() after xxxms of inactivity to reduce redraws
+            var timer = null;
+            //TODO: Consider adding the renderDelayTime to settings
+            var renderDelayTime = 500;//only re-render when user stops changing text
+            
+            // attach to editor changes and update preview
+            simplemde.codemirror.on('change', function(){
+                if(timer != null)
+                    clearTimeout(timer);
+                timer = setTimeout(function(){
+                    convertTextAreaToMarkdown(false);//pass false to indicate this call is due to a code change
+                }, renderDelayTime);
+            });
+
             // Syncs scroll  editor -> preview
             var cScroll = false;
             var pScroll = false;
@@ -244,11 +267,41 @@ $(document).ready(function(){
     });
 
     // convert editor markdown to HTML and display in #preview div
-    function convertTextAreaToMarkdown(){
+    //firstRender indicates this is a first call (i.e. not a re-render request due to a code editor change) 
+    function convertTextAreaToMarkdown(firstRender){
+        console.log(`convertTextAreaToMarkdown(${firstRender == true})`);
         var classy = window.markdownItClassy;
 
         var mark_it_down = window.markdownit({html: true, linkify: true, typographer: true, breaks: true});
         mark_it_down.use(classy);
+
+        debugger
+        if(typeof mermaid !== 'undefined' && config.mermaid){
+            
+            var mermaidChart = function(code) {
+                try {
+                    mermaid.parse(code)
+                    return '<div class="mermaid">'+code+'</div>';
+                } catch ({ str, hash }) {
+                    return '<pre><code>'+code+'</code></pre>';
+                }
+            }
+            
+            var defFenceRules = mark_it_down.renderer.rules.fence.bind(mark_it_down.renderer.rules)
+            mark_it_down.renderer.rules.fence = function(tokens, idx, options, env, slf) {
+            var token = tokens[idx]
+            var code = token.content.trim()
+            if (token.info === 'mermaid') {
+                return mermaidChart(code)
+            }
+            var firstLine = code.split(/\n/)[0].trim()
+            if (firstLine === 'gantt' || firstLine === 'sequenceDiagram' || firstLine.match(/^graph (?:TB|BT|RL|LR|TD);?$/)) {
+                return mermaidChart(code)
+            }
+            return defFenceRules(tokens, idx, options, env, slf)
+            }
+        }
+
         var html = mark_it_down.render(simplemde.value());
 
         // add responsive images and tables
@@ -269,6 +322,12 @@ $(document).ready(function(){
         $('pre code').each(function(i, block){
             hljs.highlightBlock(block);
         });
+
+        debugger
+        if(!firstRender && typeof mermaid !== 'undefined' && (config.mermaid && config.mermaid_auto_update)) {
+            mermaid.init();//when this is not first render AND mermaid_auto_update==true, re-init mermaid charts (render code changes)
+        }
+
     }
 
     // user up vote clicked
