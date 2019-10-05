@@ -10,7 +10,6 @@ $(document).ready(function(){
     }
 
     // setup mermaid charting
-    debugger
     if(typeof mermaid !== 'undefined' && config.mermaid){
         //defaults - can be overridden in config.json by specifying mermaid_options
         //TODO: Consider adding mermaid_options to settings page? 
@@ -269,13 +268,11 @@ $(document).ready(function(){
     // convert editor markdown to HTML and display in #preview div
     //firstRender indicates this is a first call (i.e. not a re-render request due to a code editor change) 
     function convertTextAreaToMarkdown(firstRender){
-        console.log(`convertTextAreaToMarkdown(${firstRender == true})`);
         var classy = window.markdownItClassy;
 
         var mark_it_down = window.markdownit({html: true, linkify: true, typographer: true, breaks: true});
         mark_it_down.use(classy);
 
-        debugger
         if(typeof mermaid !== 'undefined' && config.mermaid){
             
             var mermaidChart = function(code) {
@@ -323,7 +320,6 @@ $(document).ready(function(){
             hljs.highlightBlock(block);
         });
 
-        debugger
         if(!firstRender && typeof mermaid !== 'undefined' && (config.mermaid && config.mermaid_auto_update)) {
             mermaid.init();//when this is not first render AND mermaid_auto_update==true, re-init mermaid charts (render code changes)
         }
