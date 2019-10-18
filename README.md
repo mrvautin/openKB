@@ -2,17 +2,13 @@
 
 ## Présentation
 
-Cette base de données VEDA est un fork du projet OpenKB de mrVautin.
-OpenKB est une application de base de connaissances (Knowledge Base) sous forme de FAQ.
-
-L'application est concue pour être facile à utiliser et à installer.
-Elle est basée sur le moteur de recherche plutot que sur une architecture en catégories.
+Cette base de données VEDA est un fork du projet OpenKB de Mark Vautin.
+OpenKB est une application de base de connaissances (Knowledge Base) sous forme de FAQ, conçue pour être facile à utiliser et à installer.
+Elle est basée sur un moteur de recherche plutot que sur une architecture en catégories: 
 Recherchez simplement ce que vous voulez, et choisissez parmi les résultats.
 
 
-### Screenshot
-
-![Homepage](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_homepage_.png)
+![Screenshot](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_homepage_.png)
 
 ### Edition
 
@@ -31,21 +27,22 @@ Elle utilise une base de données ([nedb](https://github.com/louischatriot/nedb)
 
 Demo: [http://openkb.markmoffat.com](http://openkb.markmoffat.com)
 
-## Installation
-
+## Installation sur Heroku
 
 ### Deploiement sur Heroku
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/sphinkie/openKB)
+Ce bouton permet de faire une installation initiale dans Heroku de openKB.
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mrvautin/openKB)
+Configurer ensuite les déploiements automatiques dans Heroku, provenant de votre propre fork.
 
-### imitations dûes à HEroku
-Les dyno de HEroku sont des Containers *Stateless*. LEs fichiers soont supprimés ou remis à leur état initial toutes les heures environ.
-* La configuration faite par le menu **Admin** n'est pas perenne
+### Limitations dûes à Heroku
+Les dyno de Heroku sont des Containers *Stateless*: les fichiers sont supprimés ou remis à leur état initial toutes les heures environ.
+* La configuration faite par le menu **Admin** n'est donc pas perenne
 * Les images ou fichiers insérés dans les articles ne sont pas conservés.
 
 ### Configuration
 
-A la première utilisation un formulaire s'affiche pour créer un premier utilisateur (administrateur).
+A la première utilisation, un formulaire s'affiche pour créer un premier utilisateur (administrateur).
 
 La configuration se fait manuellement dans le fichier `/config/config.json`.
 
