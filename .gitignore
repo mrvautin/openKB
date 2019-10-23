@@ -4,7 +4,6 @@ data/sessions.db
 data/kb.db
 data/votes.db
 Rubbish/
-public/images/
 data/export.zip
 .vscode
 jsconfig.json
