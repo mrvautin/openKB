@@ -5,7 +5,6 @@ data/kb.db
 data/votes.db
 Rubbish/
 public/images/
-public/uploads/
 data/export.zip
 .vscode
 jsconfig.json
