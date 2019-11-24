@@ -1519,7 +1519,7 @@ router.get('/export', common.restrict, (req, res) => {
         fs.writeFile('data/export.zip', buffer, (err) => {
             if(err)throw err;
             res.set('Content-Type', 'application/zip');
-            res.set('Content-Disposition', 'attachment; filename=data/export.zip');
+            res.set('Content-Disposition', 'attachment; filename=data/export_2019.zip');
             res.set('Content-Length', buffer.length);
             res.end(buffer, 'binary');
         });
