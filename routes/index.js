@@ -1505,6 +1505,15 @@ router.get('/export', common.restrict, (req, res) => {
         return;
     }
 
+	// generate a string date for the exported filename
+	var today = new Date();
+	var dd    = today.getDate();
+	var mm    = today.getMonth()+1; //January is 0!
+	var yyyy  = today.getFullYear();
+	if(dd<10) { dd = '0'+dd } 
+	if(mm<10) { mm = '0'+mm } 
+	var date  = yyyy + '-' + mm + '-' + dd;
+	
     // dump all articles to .md files. Article title is the file name and body is contents
     common.dbQuery(db.kb, {}, null, null, (err, results) => {
         // files are written and added to zip.
@@ -1519,7 +1528,7 @@ router.get('/export', common.restrict, (req, res) => {
         fs.writeFile('data/export.zip', buffer, (err) => {
             if(err)throw err;
             res.set('Content-Type', 'application/zip');
-            res.set('Content-Disposition', 'attachment; filename=data/export_2019.zip');
+            res.set('Content-Disposition', 'attachment; filename=data/export_'+date+'.zip');
             res.set('Content-Length', buffer.length);
             res.end(buffer, 'binary');
         });
