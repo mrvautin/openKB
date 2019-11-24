@@ -4,7 +4,7 @@
 
 Cette base de données VEDA est un fork du projet OpenKB de Mark Vautin.
 OpenKB est une application de base de connaissances (Knowledge Base) sous forme de FAQ, conçue pour être facile à utiliser et à installer.
-Elle est basée sur un moteur de recherche plutot que sur une architecture en catégories: 
+Elle est basée sur un moteur de recherche, plutôt que sur une architecture en catégories: 
 Recherchez simplement ce que vous voulez, et choisissez parmi les résultats.
 
 
@@ -23,7 +23,8 @@ L'application openKB est developpée par [Mark Vautin](https://github.com/mrvaut
 
 Elle est développée sous [Nodejs](https://nodejs.org/) et [ExpressJS](http://expressjs.com/) et utilise le moteur de recherche [Lunr.js](https://github.com/olivernn/lunr.js/).
 
-Elle utilise une base de données ([nedb](https://github.com/louischatriot/nedb)) (sous forme de fichier local) ou une base [MongoDB](https://www.mongodb.com) (par configuration. Voir plus bas). 
+Elle utilise une base de données ([nedb](https://github.com/louischatriot/nedb)) (sous forme de fichier local) ou une base [MongoDB](https://www.mongodb.com) 
+(par configuration. Voir plus bas). 
 
 Demo: [http://openkb.markmoffat.com](http://openkb.markmoffat.com)
 
@@ -37,7 +38,7 @@ Configurer ensuite les déploiements automatiques dans Heroku, provenant de votr
 
 ### Limitations dûes à Heroku
 Les dyno de Heroku sont des Containers *Stateless*: les fichiers sont supprimés ou remis à leur état initial toutes les heures environ.
-* La configuration faite par le menu **Admin** n'est donc pas perenne
+* La configuration faite par le menu **Admin** n'est donc pas perenne.
 * Les images ou fichiers insérés dans les articles ne sont pas conservés.
 
 ### Configuration
