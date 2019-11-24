@@ -1513,8 +1513,6 @@ router.get('/export', common.restrict, (req, res) => {
 	if(dd<10) { dd = '0'+dd } 
 	if(mm<10) { mm = '0'+mm } 
 	var date  = yyyy + '-' + mm + '-' + dd;
-	// get the site name from config file
-	// var site_name = config.settings.site_name;
 	
     // dump all articles to .md files. Article title is the file name and body is contents
     common.dbQuery(db.kb, {}, null, null, (err, results) => {
