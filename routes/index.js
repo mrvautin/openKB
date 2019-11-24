@@ -1513,6 +1513,9 @@ router.get('/export', common.restrict, (req, res) => {
 	if(dd<10) { dd = '0'+dd } 
 	if(mm<10) { mm = '0'+mm } 
 	var date  = yyyy + '-' + mm + '-' + dd;
+	// get the site name from config file
+	let config = exports.read_config();
+	var site_name = config.settings.site_name;
 	
     // dump all articles to .md files. Article title is the file name and body is contents
     common.dbQuery(db.kb, {}, null, null, (err, results) => {
@@ -1528,7 +1531,7 @@ router.get('/export', common.restrict, (req, res) => {
         fs.writeFile('data/export.zip', buffer, (err) => {
             if(err)throw err;
             res.set('Content-Type', 'application/zip');
-            res.set('Content-Disposition', 'attachment; filename=data/export_'+date+'.zip');
+            res.set('Content-Disposition', 'attachment; filename='+site_name+'_export_'+date+'.zip');
             res.set('Content-Length', buffer.length);
             res.end(buffer, 'binary');
         });
