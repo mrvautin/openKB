@@ -10,8 +10,8 @@
     "prepare": "npm run snyk-protect",
     "uglify": "node bin/uglify.js"
   },
-  "engines" : { 
-    "node" : ">=8.0.0 <13.0.0" 
+  "engines": {
+    "node": ">=8.0.0 <13.0.0"
   },
   "dependencies": {
     "async": "^2.6.2",
@@ -51,7 +51,7 @@
     "sanitize-html": "^1.20.1",
     "simplemde": "^1.11.2",
     "sitemap": "^1.8.1",
-    "snyk": "^1.166.0",
+    "snyk": "^1.258.2",
     "speakingurl": "^10.0.0",
     "uglify-js": "^3.5.15",
     "uglifycss": "0.0.27",
