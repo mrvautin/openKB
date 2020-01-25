@@ -43,9 +43,9 @@ router.post('/api/validate_permalink', (req, res) => {
     // else it just checks for any kb's with that permalink
     let query = {};
     if(req.body.doc_id === ''){
-        query = { 'kb_permalink': req.body.permalink };
+        query = { kb_permalink: req.body.permalink };
     }
-    query = { 'kb_permalink': req.body.permalink, $not: { _id: req.body.doc_id } };
+    query = { kb_permalink: req.body.permalink, $not: { _id: req.body.doc_id } };
 
     db.kb.count(query, (err, kb) => {
         if(kb > 0){
@@ -77,27 +77,27 @@ router.post('/api/newArticle', (req, res) => {
     }
 
     // The API schema
-    let articleSchema = {
-        'type': 'object',
-        'properties': {
-            'api_auth_token': { 'type': 'string' },
-            'kb_title': { 'type': 'string' },
-            'kb_body': { 'type': 'string' },
-            'kb_permalink': { 'type': 'string' },
-            'kb_published': { 'type': 'boolean' },
-            'kb_keywords': { 'type': 'string' },
-            'kb_author_email': { 'type': 'string' },
-            'kb_password': { 'type': 'string' },
-            'kb_featured': { 'type': 'boolean' },
-            'kb_seo_title': { 'type': 'string' },
-            'kb_seo_description': { 'type': 'string' }
+    const articleSchema = {
+        type: 'object',
+        properties: {
+            api_auth_token: { type: 'string' },
+            kb_title: { type: 'string' },
+            kb_body: { type: 'string' },
+            kb_permalink: { type: 'string' },
+            kb_published: { type: 'boolean' },
+            kb_keywords: { type: 'string' },
+            kb_author_email: { type: 'string' },
+            kb_password: { type: 'string' },
+            kb_featured: { type: 'boolean' },
+            kb_seo_title: { type: 'string' },
+            kb_seo_description: { type: 'string' }
         },
-        'required': ['api_auth_token', 'kb_title', 'kb_body', 'kb_author_email', 'kb_published']
+        required: ['api_auth_token', 'kb_title', 'kb_body', 'kb_author_email', 'kb_published']
     };
 
     // validate against schema
-    let validation = v.validate(req.body, articleSchema);
-    let validationResult = validation.errors.length !== 1;
+    const validation = v.validate(req.body, articleSchema);
+    const validationResult = validation.errors.length !== 1;
 
     // if have some data
     if(req.body){
@@ -123,11 +123,11 @@ router.post('/api/newArticle', (req, res) => {
                             return;
                         }
 
-                        let featuredArticle = typeof req.body.kb_featured !== 'undefined' ? req.body.kb_featured.toString() : 'false';
-                        let publishedArticle = typeof req.body.kb_published !== 'undefined' ? req.body.kb_published.toString() : 'false';
+                        const featuredArticle = typeof req.body.kb_featured !== 'undefined' ? req.body.kb_featured.toString() : 'false';
+                        const publishedArticle = typeof req.body.kb_published !== 'undefined' ? req.body.kb_published.toString() : 'false';
 
                         // setup the doc to insert
-                        let doc = {
+                        const doc = {
                             kb_permalink: req.body.kb_permalink,
                             kb_title: req.body.kb_title,
                             kb_body: req.body.kb_body,
@@ -163,7 +163,7 @@ router.post('/api/newArticle', (req, res) => {
                             }
 
                             // create lunr doc
-                            let lunr_doc = {
+                            const lunr_doc = {
                                 kb_title: req.body.kb_title,
                                 kb_keywords: keywords,
                                 id: newId

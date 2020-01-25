@@ -71,7 +71,7 @@ handlebars = handlebars.create({
                 app_context = '/' + app_context;
             }
             if(keywords){
-                let array = keywords.split(','); let links = '';
+                const array = keywords.split(','); let links = '';
                 for(let i = 0; i < array.length; i++){
                     if(array[i].trim() !== ''){
                         links += '<a href="' + app_context + '/search/' + array[i].trim() + '">' + array[i].trim() + '</a> <span class="keywordSeporator">|</span> ';
@@ -270,7 +270,7 @@ if(app_context !== ''){
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-    let err = new Error('Not Found');
+    const err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
@@ -357,32 +357,32 @@ if(config.settings.database.type === 'embedded'){
     });
 }
 
-function exitHandler(options, err) {
-    if (options.cleanup) {
+function exitHandler(options, err){
+    if(options.cleanup){
         console.log('clean');
         if(config.settings.database.type !== 'embedded'){
             app.db.close();
         }
     }
-    if (err) {
+    if(err){
         console.log(err.stack);
     }
-    if (options.exit) {
+    if(options.exit){
         process.exit();
     }
 }
 
-//do something when app is closing
-process.on('exit', exitHandler.bind(null,{cleanup:true}));
+// do something when app is closing
+process.on('exit', exitHandler.bind(null, { cleanup: true }));
 
-//catches ctrl+c event
-process.on('SIGINT', exitHandler.bind(null, {exit:true}));
+// catches ctrl+c event
+process.on('SIGINT', exitHandler.bind(null, { exit: true }));
 
 // catches "kill pid" (for example: nodemon restart)
-process.on('SIGUSR1', exitHandler.bind(null, {exit:true}));
-process.on('SIGUSR2', exitHandler.bind(null, {exit:true}));
+process.on('SIGUSR1', exitHandler.bind(null, { exit: true }));
+process.on('SIGUSR2', exitHandler.bind(null, { exit: true }));
 
-//catches uncaught exceptions
-process.on('uncaughtException', exitHandler.bind(null, {exit:true}));
+// catches uncaught exceptions
+process.on('uncaughtException', exitHandler.bind(null, { exit: true }));
 
 module.exports = app;

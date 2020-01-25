@@ -1,1 +1,4 @@
 ./locales/*.js
+/public/javascripts/**/*.js
+/locales/**/*.js
+/public/stylesheets/**/*.css

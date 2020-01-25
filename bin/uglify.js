@@ -1,7 +1,7 @@
-var uglifycss = require('uglifycss');
-var uglifyjs = require('uglify-js');
-var path = require('path');
-var fs = require('fs');
+const uglifycss = require('uglifycss');
+const uglifyjs = require('uglify-js');
+const path = require('path');
+const fs = require('fs');
 
 // css files
 uglifyFile('public/stylesheets/style.css', 'css');
@@ -21,14 +21,14 @@ uglifyFile('public/javascripts/codemirror.inline-attachment.js', 'js');
 
 function uglifyFile(filename, type){
     if(type === 'css'){
-        var cssfileContents = fs.readFileSync(filename, 'utf8');
-        var cssUglified = uglifycss.processString(cssfileContents);
-        var cssMiniFilename = filename.substring(0, filename.length - 4) + '.min.' + type;
+        const cssfileContents = fs.readFileSync(filename, 'utf8');
+        const cssUglified = uglifycss.processString(cssfileContents);
+        const cssMiniFilename = filename.substring(0, filename.length - 4) + '.min.' + type;
         fs.writeFileSync(cssMiniFilename, cssUglified, 'utf8');
     }
     if(type === 'js'){
-        var rawCode = fs.readFileSync(filename, 'utf8');
-        var jsUglified = uglifyjs.minify(rawCode, {
+        const rawCode = fs.readFileSync(filename, 'utf8');
+        const jsUglified = uglifyjs.minify(rawCode, {
             compress: {
                 dead_code: true,
                 global_defs: {
@@ -37,7 +37,7 @@ function uglifyFile(filename, type){
             }
         });
 
-        var jsMiniFilename = filename.substring(0, filename.length - 3) + '.min.' + type;
+        const jsMiniFilename = filename.substring(0, filename.length - 3) + '.min.' + type;
         fs.writeFileSync(jsMiniFilename, jsUglified.code, 'utf8');
     }
 }

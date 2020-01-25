@@ -109,7 +109,7 @@ router.post('/vote', (req, res) => {
         db.votes.findOne({ $and: [{ doc_id: req.body.doc_id }, { session_id: req.sessionID }] }, (err, result) => {
             // if not voted
             if(!result){
-                let vote = req.body.vote_type === 'upvote' ? 1 : -1;
+                const vote = req.body.vote_type === 'upvote' ? 1 : -1;
                 // update kb vote
                 db.kb.update({ _id: common.getId(req.body.doc_id) }, { $inc: { kb_votes: vote } }, (err, numReplaced) => {
                     // insert session id into table to stop muli-voters
@@ -145,12 +145,12 @@ router.get('/' + config.settings.route_name + '/:id/version', common.restrict, (
     }
 
     // get sortBy from config, set to 'kb_viewcount' if nothing found
-    let sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
-    let sortByOrder = typeof config.settings.sort_by.order !== 'undefined' ? config.settings.sort_by.order : -1;
-    let sortBy = {};
+    const sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
+    const sortByOrder = typeof config.settings.sort_by.order !== 'undefined' ? config.settings.sort_by.order : -1;
+    const sortBy = {};
     sortBy[sortByField] = sortByOrder;
 
-    let featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
+    const featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
 
     db.kb.findOne({ _id: common.getId(req.params.id) }, (err, result) => {
         // show the view
@@ -186,9 +186,9 @@ router.get('/' + config.settings.route_name + '/:id', common.restrict, (req, res
     common.setTemplateDir('user', req);
 
     // get sortBy from config, set to 'kb_viewcount' if nothing found
-    let sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
-    let sortByOrder = typeof config.settings.sort_by.order !== 'undefined' ? config.settings.sort_by.order : -1;
-    let sortBy = {};
+    const sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
+    const sortByOrder = typeof config.settings.sort_by.order !== 'undefined' ? config.settings.sort_by.order : -1;
+    const sortBy = {};
     sortBy[sortByField] = sortByOrder;
 
     db.kb.findOne({ $or: [{ _id: common.getId(req.params.id) }, { kb_permalink: req.params.id }], kb_versioned_doc: { $ne: true } }, (err, result) => {
@@ -278,7 +278,7 @@ router.get('/settings', common.restrict, (req, res) => {
     }
 
     // path to themes
-    let themePath = path.join(__dirname, '../public/themes');
+    const themePath = path.join(__dirname, '../public/themes');
 
     fs.readdir(themePath, (err, files) => {
         res.render('settings', {
@@ -303,13 +303,13 @@ router.post('/update_settings', common.restrict, (req, res) => {
     }
 
     // get the new settings
-    let settings = req.body;
+    const settings = req.body;
 
     // possible boolean type values
-    let booleanArray = [true, 'true', false, 'false'];
+    const booleanArray = [true, 'true', false, 'false'];
 
     // loop settings, update config
-    for(let key in settings){
+    for(const key in settings){
         if(Object.prototype.hasOwnProperty.call(settings, key)){
             let settingValue = settings[key];
             // check for style keys
@@ -326,7 +326,7 @@ router.post('/update_settings', common.restrict, (req, res) => {
     }
 
     // write settings to file
-    let dir = path.join(__dirname, '..', 'config');
+    const dir = path.join(__dirname, '..', 'config');
     if(!fs.existsSync(dir)){
         fs.mkdirSync(dir);
     }
@@ -409,9 +409,9 @@ router.get('/edit/:id', common.restrict, (req, res) => {
 // insert new KB form action
 router.post('/insert_kb', common.restrict, (req, res) => {
     const db = req.app.db;
-    let lunr_index = req.app.index;
+    const lunr_index = req.app.index;
 
-    let doc = {
+    const doc = {
         kb_permalink: req.body.frm_kb_permalink,
         kb_title: req.body.frm_kb_title,
         kb_body: req.body.frm_kb_body,
@@ -424,7 +424,7 @@ router.post('/insert_kb', common.restrict, (req, res) => {
         kb_author_email: req.session.user
     };
 
-    db.kb.count({ 'kb_permalink': req.body.frm_kb_permalink }, (err, kb) => {
+    db.kb.count({ kb_permalink: req.body.frm_kb_permalink }, (err, kb) => {
         if(kb > 0 && req.body.frm_kb_permalink !== ''){
             // permalink exits
             req.session.message = req.i18n.__('Permalink already exists. Pick a new one.');
@@ -468,7 +468,7 @@ router.post('/insert_kb', common.restrict, (req, res) => {
                     }
 
                     // create lunr doc
-                    let lunr_doc = {
+                    const lunr_doc = {
                         kb_title: req.body.frm_kb_title,
                         kb_keywords: keywords,
                         id: newId
@@ -515,7 +515,7 @@ router.get('/suggest', common.suggest_allowed, (req, res) => {
 // Update an existing KB article form action
 router.post('/insert_suggest', common.suggest_allowed, (req, res) => {
     const db = req.app.db;
-    let lunr_index = req.app.index;
+    const lunr_index = req.app.index;
 
     // if empty, remove the comma and just have a blank string
     let keywords = req.body.frm_kb_keywords.replace(/<(?:.|\n)*?>/gm, ''); ;
@@ -523,7 +523,7 @@ router.post('/insert_suggest', common.suggest_allowed, (req, res) => {
         keywords = '';
     }
 
-    let doc = {
+    const doc = {
         kb_title: req.body.frm_kb_title + ' (SUGGESTION)',
         kb_body: req.body.frm_kb_body,
         kb_published: 'false',
@@ -546,7 +546,7 @@ router.post('/insert_suggest', common.suggest_allowed, (req, res) => {
             }
 
             // create lunr doc
-            let lunr_doc = {
+            const lunr_doc = {
                 kb_title: req.body.frm_kb_title,
                 kb_keywords: keywords,
                 id: newId
@@ -571,8 +571,8 @@ router.post('/insert_suggest', common.suggest_allowed, (req, res) => {
 // Update an existing KB article form action
 router.post('/save_kb', common.restrict, (req, res) => {
     const db = req.app.db;
-    let lunr_index = req.app.index;
-    let kb_featured = req.body.frm_kb_featured === 'on' ? 'true' : 'false';
+    const lunr_index = req.app.index;
+    const kb_featured = req.body.frm_kb_featured === 'on' ? 'true' : 'false';
 
     // if empty, remove the comma and just have a blank string
     let keywords = req.body.frm_kb_keywords.replace(/<(?:.|\n)*?>/gm, '');
@@ -580,7 +580,7 @@ router.post('/save_kb', common.restrict, (req, res) => {
         keywords = '';
     }
 
-    db.kb.count({ 'kb_permalink': req.body.frm_kb_permalink, $not: { _id: common.getId(req.body.frm_kb_id) }, kb_versioned_doc: { $ne: true } }, (err, kb) => {
+    db.kb.count({ kb_permalink: req.body.frm_kb_permalink, $not: { _id: common.getId(req.body.frm_kb_id) }, kb_versioned_doc: { $ne: true } }, (err, kb) => {
         if(kb > 0 && req.body.frm_kb_permalink !== ''){
             // permalink exits
             req.session.message = req.i18n.__('Permalink already exists. Pick a new one.');
@@ -602,8 +602,8 @@ router.post('/save_kb', common.restrict, (req, res) => {
         }else{
             db.kb.findOne({ _id: common.getId(req.body.frm_kb_id) }, (err, article) => {
                 // update author if not set
-                let author = article.kb_author ? article.kb_author : req.session.users_name;
-                let author_email = article.kb_author_email ? article.kb_author_email : req.session.user;
+                const author = article.kb_author ? article.kb_author : req.session.users_name;
+                const author_email = article.kb_author_email ? article.kb_author_email : req.session.user;
 
                 // set published date to now if none exists
                 let published_date;
@@ -646,7 +646,7 @@ router.post('/save_kb', common.restrict, (req, res) => {
                         }
 
                         // create lunr doc
-                        let lunr_doc = {
+                        const lunr_doc = {
                             kb_title: req.body.frm_kb_title,
                             kb_keywords: keywords,
                             id: req.body.frm_kb_id
@@ -661,12 +661,12 @@ router.post('/save_kb', common.restrict, (req, res) => {
                         lunr_index.update(lunr_doc, false);
 
                         // check if versioning enabled
-                        let article_versioning = config.settings.article_versioning ? config.settings.article_versioning : false;
+                        const article_versioning = config.settings.article_versioning ? config.settings.article_versioning : false;
 
                         // if versions turned on, insert a doc to track versioning
                         if(article_versioning === true){
                             // version doc
-                            let version_doc = {
+                            const version_doc = {
                                 kb_title: req.body.frm_kb_title,
                                 kb_parent_id: req.body.frm_kb_id,
                                 kb_versioned_doc: true,
@@ -814,10 +814,10 @@ router.get('/articles/all', common.restrict, (req, res) => {
 
 router.get('/articles/:tag', (req, res) => {
     const db = req.app.db;
-    let lunr_index = req.app.index;
+    const lunr_index = req.app.index;
 
     // we strip the ID's from the lunr index search
-    let lunr_id_array = [];
+    const lunr_id_array = [];
     lunr_index.search(req.params.tag).forEach((id) => {
         lunr_id_array.push(id.ref);
     });
@@ -855,11 +855,11 @@ router.post('/published_state', common.restrict, (req, res) => {
 // insert a user
 router.post('/user_insert', common.restrict, (req, res) => {
     const db = req.app.db;
-    let bcrypt = req.bcrypt;
+    const bcrypt = req.bcrypt;
 
     // set the account to admin if using the setup form. Eg: First user account
     // eslint-disable-next-line node/no-deprecated-api
-    let url_parts = url.parse(req.header('Referer'));
+    const url_parts = url.parse(req.header('Referer'));
 
     // check if account being setup from the /setup route.
     // probably not the most elegent code but does the job.
@@ -873,7 +873,7 @@ router.post('/user_insert', common.restrict, (req, res) => {
     }
 
     // sets up the document
-    let doc = {
+    const doc = {
         users_name: req.body.users_name,
         user_email: req.body.user_email,
         user_password: bcrypt.hashSync(req.body.user_password),
@@ -881,7 +881,7 @@ router.post('/user_insert', common.restrict, (req, res) => {
     };
 
     // check for existing user
-    db.users.findOne({ 'user_email': req.body.user_email }, (err, user) => {
+    db.users.findOne({ user_email: req.body.user_email }, (err, user) => {
         if(user){
             // user already exists with that email address
             console.error('Failed to insert user, possibly already exists: ' + err);
@@ -897,19 +897,19 @@ router.post('/user_insert', common.restrict, (req, res) => {
                     req.session.message = req.i18n.__('User exists');
                     req.session.message_type = 'danger';
                     res.redirect(req.app_context + '/user/edit/' + doc._id);
-                }else{
-                    req.session.message = req.i18n.__('User account inserted');
-                    req.session.message_type = 'success';
-
-                    // if from setup we add user to session and redirect to login.
-                    // Otherwise we show users screen
-                    if(url_parts.path === '/setup'){
-                        req.session.user = req.body.user_email;
-                        res.redirect(req.app_context + '/login');
-                    }else{
-                        res.redirect(req.app_context + '/Users');
-                    }
+                    return;
                 }
+                req.session.message = req.i18n.__('User account inserted');
+                req.session.message_type = 'success';
+
+                // if from setup we add user to session and redirect to login.
+                // Otherwise we show users screen
+                if(url_parts.path === '/setup'){
+                    req.session.user = req.body.user_email;
+                    res.redirect(req.app_context + '/login');
+                    return;
+                }
+                res.redirect(req.app_context + '/users');
             });
         }
     });
@@ -918,7 +918,7 @@ router.post('/user_insert', common.restrict, (req, res) => {
 // update a user
 router.post('/user_update', common.restrict, (req, res) => {
     const db = req.app.db;
-    let bcrypt = req.bcrypt;
+    const bcrypt = req.bcrypt;
     let is_admin = req.body.user_admin === 'on' ? 'true' : 'false';
 
     // get the user we want to update
@@ -938,7 +938,7 @@ router.post('/user_update', common.restrict, (req, res) => {
         }
 
         // create the update doc
-        let update_doc = {};
+        const update_doc = {};
         update_doc.is_admin = is_admin;
         update_doc.users_name = req.body.users_name;
         if(req.body.user_password){
@@ -1024,8 +1024,8 @@ router.get('/setup', (req, res) => {
 // Loops files on the disk, checks for their existance in any KB articles and removes non used files.
 router.get('/file_cleanup', common.restrict, (req, res) => {
     const db = req.app.db;
-    let walkPath = path.join(appDir, 'public', 'uploads', 'inline_files');
-    let walker = walk.walk(walkPath, { followLinks: false });
+    const walkPath = path.join(appDir, 'public', 'uploads', 'inline_files');
+    const walker = walk.walk(walkPath, { followLinks: false });
 
     // only allow admin
     if(req.session.is_admin !== 'true'){
@@ -1034,10 +1034,10 @@ router.get('/file_cleanup', common.restrict, (req, res) => {
     }
 
     walker.on('file', (root, stat, next) => {
-        let file_name = path.resolve(root, stat.name);
+        const file_name = path.resolve(root, stat.name);
 
         // find posts with the file in question
-        common.dbQuery(db.kb, { 'kb_body': new RegExp(stat.name) }, null, null, (err, posts) => {
+        common.dbQuery(db.kb, { kb_body: new RegExp(stat.name) }, null, null, (err, posts) => {
             // if the images doesn't exists in any posts then we remove it
             if(posts.length === 0){
                 fs.unlinkSync(file_name);
@@ -1056,7 +1056,7 @@ router.get('/file_cleanup', common.restrict, (req, res) => {
 // login the user and check the password
 router.post('/login_action', (req, res) => {
     const db = req.app.db;
-    let bcrypt = req.bcrypt;
+    const bcrypt = req.bcrypt;
 
     db.users.findOne({ user_email: req.body.email }, (err, user) => {
         // check if user exists with that email
@@ -1075,7 +1075,7 @@ router.post('/login_action', (req, res) => {
                     res.redirect(req.app_context + '/');
                 }else{
                     // eslint-disable-next-line node/no-deprecated-api
-                    let url_parts = url.parse(req.body.frm_referring_url, true);
+                    const url_parts = url.parse(req.body.frm_referring_url, true);
                     if(url_parts.pathname !== '/setup' && url_parts.pathname !== req.app_context + '/login'){
                         res.redirect(req.body.frm_referring_url);
                     }else{
@@ -1092,7 +1092,7 @@ router.post('/login_action', (req, res) => {
     });
 });
 
-// delete user
+// delete a user
 router.get('/user/delete/:id', common.restrict, (req, res) => {
     // only allow admin
     if(req.session.is_admin !== 'true'){
@@ -1115,15 +1115,15 @@ router.get('/user/delete/:id', common.restrict, (req, res) => {
     }
 });
 
-// delete article
+// delete a article
 router.get('/delete/:id', common.restrict, (req, res) => {
     const db = req.app.db;
-    let lunr_index = req.app.index;
+    const lunr_index = req.app.index;
 
     // remove the article
     db.kb.remove({ _id: common.getId(req.params.id) }, {}, (err, numRemoved) => {
         // create lunr doc
-        let lunr_doc = {
+        const lunr_doc = {
             id: req.params.id
         };
 
@@ -1157,11 +1157,11 @@ router.post('/file/upload_file', common.restrict, inline_upload.single('file'), 
 
         // uploaded
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ 'filename': relative_upload_dir + '/' + file.originalname }));
+        res.end(JSON.stringify({ filename: relative_upload_dir + '/' + file.originalname }));
         return;
     }
     res.writeHead(500, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ 'filename': 'fail' }, null, 3));
+    res.end(JSON.stringify({ filename: 'fail' }, null, 3));
 });
 
 router.post('/file/new_dir', common.restrict, (req, res, next) => {
@@ -1188,7 +1188,7 @@ router.post('/file/new_dir', common.restrict, (req, res, next) => {
 
 // upload the file
 
-let upload = multer({ dest: path.join(appDir, 'public', 'uploads') });
+const upload = multer({ dest: path.join(appDir, 'public', 'uploads') });
 router.post('/file/upload', common.restrict, upload.single('upload_file'), (req, res, next) => {
     if(req.file){
         // check for upload select
@@ -1197,9 +1197,9 @@ router.post('/file/upload', common.restrict, upload.single('upload_file'), (req,
             upload_dir = path.join(appDir, 'public/', req.body.directory);
         }
 
-        let file = req.file;
-        let source = fs.createReadStream(file.path);
-        let dest = fs.createWriteStream(path.join(upload_dir, file.originalname.replace(/ /g, '_')));
+        const file = req.file;
+        const source = fs.createReadStream(file.path);
+        const dest = fs.createWriteStream(path.join(upload_dir, file.originalname.replace(/ /g, '_')));
 
         // save the new file
         source.pipe(dest);
@@ -1253,15 +1253,15 @@ router.get('/files', common.restrict, (req, res) => {
         files.sort();
 
         // declare the array of objects
-        let file_list = [];
-        let dir_list = [];
+        const file_list = [];
+        const dir_list = [];
 
         // loop these files
         for(let i = 0; i < files.length; i++){
             if(fs.existsSync(files[i])){
                 if(fs.lstatSync(files[i]).isDirectory() === false){
                     // declare the file object and set its values
-                    let file = {
+                    const file = {
                         id: i,
                         path: files[i].substring(6)
                     };
@@ -1269,7 +1269,7 @@ router.get('/files', common.restrict, (req, res) => {
                     // push the file object into the array
                     file_list.push(file);
                 }else{
-                    let dir = {
+                    const dir = {
                         id: i,
                         path: files[i].substring(6)
                     };
@@ -1320,8 +1320,8 @@ router.get('/topic', (req, res) => {
 router.get(['/search/:tag', '/topic/:tag'], common.restrict, (req, res) => {
     const db = req.app.db;
     common.config_expose(req.app);
-    let search_term = req.params.tag;
-    let lunr_index = req.app.index;
+    const search_term = req.params.tag;
+    const lunr_index = req.app.index;
 
     // determine whether its a search or a topic
     let routeType = 'search';
@@ -1330,7 +1330,7 @@ router.get(['/search/:tag', '/topic/:tag'], common.restrict, (req, res) => {
     }
 
     // we strip the ID's from the lunr index search
-    let lunr_id_array = [];
+    const lunr_id_array = [];
     lunr_index.search(search_term).forEach((id) => {
         // if mongoDB we use ObjectID's, else normal string ID's
         if(config.settings.database.type !== 'embedded'){
@@ -1340,12 +1340,12 @@ router.get(['/search/:tag', '/topic/:tag'], common.restrict, (req, res) => {
         }
     });
 
-    let featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
+    const featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
 
     // get sortBy from config, set to 'kb_viewcount' if nothing found
-    let sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
-    let sortByOrder = typeof config.settings.sort_by.order !== 'undefined' ? config.settings.sort_by.order : -1;
-    let sortBy = {};
+    const sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
+    const sortByOrder = typeof config.settings.sort_by.order !== 'undefined' ? config.settings.sort_by.order : -1;
+    const sortBy = {};
     sortBy[sortByField] = sortByOrder;
 
     // we search on the lunr indexes
@@ -1373,11 +1373,11 @@ router.get(['/search/:tag', '/topic/:tag'], common.restrict, (req, res) => {
 router.post('/search', common.restrict, (req, res) => {
     const db = req.app.db;
     common.config_expose(req.app);
-    let search_term = req.body.frm_search;
-    let lunr_index = req.app.index;
+    const search_term = req.body.frm_search;
+    const lunr_index = req.app.index;
 
     // we strip the ID's from the lunr index search
-    let lunr_id_array = [];
+    const lunr_id_array = [];
     lunr_index.search(search_term).forEach((id) => {
         // if mongoDB we use ObjectID's, else normal string ID's
         if(config.settings.database.type !== 'embedded'){
@@ -1387,12 +1387,12 @@ router.post('/search', common.restrict, (req, res) => {
         }
     });
 
-    let featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
+    const featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
 
     // get sortBy from config, set to 'kb_viewcount' if nothing found
-    let sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
-    let sortByOrder = typeof config.settings.sort_by.order !== 'undefined' ? config.settings.sort_by.order : -1;
-    let sortBy = {};
+    const sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
+    const sortByOrder = typeof config.settings.sort_by.order !== 'undefined' ? config.settings.sort_by.order : -1;
+    const sortBy = {};
     sortBy[sortByField] = sortByOrder;
 
     // we search on the lunr indexes
@@ -1429,10 +1429,10 @@ router.get('/import', common.restrict, (req, res) => {
 
 router.post('/importer', common.restrict, upload.single('import_file'), (req, res, next) => {
     const db = req.app.db;
-    let file = req.file;
+    const file = req.file;
 
     // check for allowed file type
-    let checkMime = _.includes('application/zip', mime.lookup(file.originalname));
+    const checkMime = _.includes('application/zip', mime.lookup(file.originalname));
     if(checkMime === false){
         // clean up temp file
         fs.unlinkSync(file.path);
@@ -1452,15 +1452,15 @@ router.post('/importer', common.restrict, upload.single('import_file'), (req, re
         fs.readdir(path.join(__dirname, '..', 'public', 'temp', 'import'), (err, files) => {
             files.forEach(file => {
                 // check for blank permalink field and set a nice one base on the title of the FAQ
-                let fileNoExt = file.replace(/\.[^/.]+$/, '');
-                let permalink = getSlug(fileNoExt);
+                const fileNoExt = file.replace(/\.[^/.]+$/, '');
+                const permalink = getSlug(fileNoExt);
                 let faq_body = fs.readFileSync(path.join(__dirname, '..', 'public', 'temp', 'import', file), 'utf-8');
                 if(faq_body === ''){
                     faq_body = 'FAQ body';
                 }
 
                 // setup the doc to insert
-                let doc = {
+                const doc = {
                     kb_permalink: permalink,
                     kb_title: fileNoExt,
                     kb_body: faq_body,
@@ -1506,14 +1506,14 @@ router.get('/export', common.restrict, (req, res) => {
     // dump all articles to .md files. Article title is the file name and body is contents
     common.dbQuery(db.kb, {}, null, null, (err, results) => {
         // files are written and added to zip.
-        let zip = new JSZip();
+        const zip = new JSZip();
         for(let i = 0; i < results.length; i++){
             // add and write file to zip
             zip.file(results[i].kb_title + '.md', results[i].kb_body);
         }
 
         // save the zip and serve to browser
-        let buffer = zip.generate({ type: 'nodebuffer' });
+        const buffer = zip.generate({ type: 'nodebuffer' });
         fs.writeFile('data/export.zip', buffer, (err) => {
             if(err)throw err;
             res.set('Content-Type', 'application/zip');
@@ -1530,13 +1530,13 @@ router.get('/sitemap.xml', (req, res, next) => {
 
     // get the articles
     common.dbQuery(db.kb, { kb_published: 'true', kb_visible_state: { $ne: 'private' } }, null, null, (err, articles) => {
-        let urlArray = [];
+        const urlArray = [];
 
         // push in the base url
         urlArray.push({ url: '/', changefreq: 'weekly', priority: 1.0 });
 
         // get the article URL's
-        for(let key in articles){
+        for(const key in articles){
             if(Object.prototype.hasOwnProperty.call(articles, key)){
                 // check for permalink
                 let pageUrl = '/' + config.settings.route_name + '/' + articles[key]._id;
@@ -1548,7 +1548,7 @@ router.get('/sitemap.xml', (req, res, next) => {
         }
 
         // create the sitemap
-        let sitemap = sm.createSitemap({
+        const sitemap = sm.createSitemap({
             hostname: req.protocol + '://' + req.headers.host,
             cacheTime: 600000, // 600 sec - cache purge period
             urls: urlArray
