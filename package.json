@@ -11,8 +11,8 @@
     "uglify": "node bin/uglify.js",
     "lint": "eslint ./"
   },
-  "engines" : { 
-    "node" : ">=8.0.0 <13.0.0" 
+  "engines": {
+    "node": ">=8.0.0 <13.0.0"
   },
   "dependencies": {
     "async": "^2.6.3",
