@@ -8,13 +8,13 @@
 // There are no duplication checks in place. Please only run this script once.
 // ** IMPORTANT **
 
-var Nedb = require('nedb');
-var mongodb = require('mongodb');
-var async = require('async');
-var path = require('path');
-var common = require('../routes/common');
-var config = common.read_config();
-var ndb;
+const Nedb = require('nedb');
+const mongodb = require('mongodb');
+const async = require('async');
+const path = require('path');
+const common = require('../routes/common');
+const config = common.read_config();
+let ndb;
 
 // check for DB config
 if(!config.settings.database.connection_string){
@@ -23,9 +23,9 @@ if(!config.settings.database.connection_string){
 }
 
 // Connect to the MongoDB database
-mongodb.connect(config.settings.database.connection_string, {}, function(err, mdb){
+mongodb.connect(config.settings.database.connection_string, {}, (err, mdb) => {
     if(err){
-        console.log("Couldn't connect to the Mongo database");
+        console.log('Couldn\'t connect to the Mongo database');
         console.log(err);
         process.exit(1);
     }
@@ -33,8 +33,8 @@ mongodb.connect(config.settings.database.connection_string, {}, function(err, md
     console.log('Connected to: ' + config.settings.database.connection_string);
     console.log('');
 
-    insertKB(mdb, function(KBerr, report){
-        insertUsers(mdb, function(Usererr, report){
+    insertKB(mdb, (KBerr, report) => {
+        insertUsers(mdb, (Usererr, report) => {
             if(KBerr || Usererr){
                 console.log('There was an error upgrading to MongoDB. Check the console output');
             }else{
@@ -46,17 +46,17 @@ mongodb.connect(config.settings.database.connection_string, {}, function(err, md
 });
 
 function insertKB(db, callback){
-    var collection = db.collection('kb');
+    const collection = db.collection('kb');
     console.log(path.join(__dirname, 'kb.db'));
     ndb = new Nedb(path.join(__dirname, 'kb.db'));
-    ndb.loadDatabase(function (err){
+    ndb.loadDatabase((err) => {
         if(err){
             console.error('Error while loading the data from the NeDB database');
             console.error(err);
             process.exit(1);
         }
 
-        ndb.find({}, function (err, docs){
+        ndb.find({}, (err, docs) => {
             if(docs.length === 0){
                 console.error('The NeDB database contains no data, no work required');
                 console.error('You should probably check the NeDB datafile path though!');
@@ -66,7 +66,7 @@ function insertKB(db, callback){
             }
 
             console.log('Inserting articles into MongoDB...');
-            async.each(docs, function (doc, cb){
+            async.each(docs, (doc, cb) => {
                 console.log('Article inserted: ' + doc.kb_title);
 
                 // check for permalink. If it is not set we set the old NeDB _id to the permalink to stop links from breaking.
@@ -77,8 +77,8 @@ function insertKB(db, callback){
                 // delete the old ID and let MongoDB generate new ones
                 delete doc._id;
 
-                collection.insert(doc, function (err){ return cb(err); });
-            }, function (err){
+                collection.insert(doc, (err) => { return cb(err); });
+            }, (err) => {
                 if(err){
                     console.log('An error happened while inserting data');
                     callback(err, null);
@@ -93,16 +93,16 @@ function insertKB(db, callback){
 };
 
 function insertUsers(db, callback){
-    var collection = db.collection('users');
+    const collection = db.collection('users');
     ndb = new Nedb(path.join(__dirname, 'users.db'));
-    ndb.loadDatabase(function (err){
+    ndb.loadDatabase((err) => {
         if(err){
             console.error('Error while loading the data from the NeDB database');
             console.error(err);
             process.exit(1);
         }
 
-        ndb.find({}, function (err, docs){
+        ndb.find({}, (err, docs) => {
             if(docs.length === 0){
                 console.error('The NeDB database contains no data, no work required');
                 console.error('You should probably check the NeDB datafile path though!');
@@ -112,14 +112,14 @@ function insertUsers(db, callback){
             }
 
             console.log('Inserting users into MongoDB...');
-            async.each(docs, function (doc, cb){
+            async.each(docs, (doc, cb) => {
                 console.log('User inserted: ' + doc.user_email);
 
                 // delete the old ID and let MongoDB generate new ones
                 delete doc._id;
 
-                collection.insert(doc, function (err){ return cb(err); });
-            }, function (err){
+                collection.insert(doc, (err) => { return cb(err); });
+            }, (err) => {
                 if(err){
                     console.error('An error happened while inserting user data');
                     callback(err, null);
@@ -132,5 +132,3 @@ function insertUsers(db, callback){
         });
     });
 };
-
-
