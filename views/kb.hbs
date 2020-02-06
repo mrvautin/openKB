@@ -97,7 +97,7 @@
                             {{/if}}
                             {{#if result.kb_permalink}}
                             <h5 class="col-sm-12 col-lg-6">
-                                <strong>{{__ "Permalink"}}:</strong> <a href="{{current_url}}/{{@root.config.settings.route_name}}/{{result.kb_permalink}}" target="_blank">{{current_url}}/{{@root.config.settings.route_name}}/{{result.kb_permalink}}</a>
+                                <strong>{{__ "Permalink"}}:</strong> <a href="{{@root.config.settings.base_link}}/{{@root.config.settings.route_name}}/{{result.kb_permalink}}" target="_blank">{{@root.config.settings.base_link}}/{{@root.config.settings.route_name}}/{{result.kb_permalink}}</a>
                             </h5>
                             {{/if}}
                         </div>

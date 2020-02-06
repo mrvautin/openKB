@@ -26,7 +26,7 @@ const app = express();
 
 // setup the translation
 const i18n = new (require('i18n-2'))({
-    locales: ['en', 'de', 'da', 'es', 'cn', 'ru', 'pt-br', 'jp', 'fi', 'sv', 'tr'],
+    locales: ['en', 'it', 'de', 'da', 'es', 'cn', 'ru', 'pt-br', 'jp', 'fi', 'sv', 'tr'],
     directory: path.join(__dirname, 'locales/'),
     defaultLocale: 'en',
     cookieName: 'locale'

@@ -9,7 +9,7 @@
         <title>{{result.kb_title}}</title>
         <meta property="og:title" content="{{result.kb_title}}" />
       {{else}}
-        <title>{{title}}</title>
+        <title>{{config.settings.website_title}}</title>
         <meta property="og:title" content="{{title}}" />
       {{/if}}
     {{/if}}
@@ -68,7 +68,7 @@
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
+		  <span class="sr-only">{{__ "Toggle navigation"}}</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -79,28 +79,28 @@
           <ul class="nav navbar-nav navbar-right">
             {{#if session.user}}
               {{#if result._id}}
-                <li><a href="{{app_context}}/edit/{{result._id}}">Edit</a></li>
+	      <li><a href="{{app_context}}/edit/{{result._id}}">{{__ "Edit"}}</a></li>
               {{/if}}
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
+		      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{__ "Users"}}<span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   {{#ifCond session.is_admin '==' 'true'}}
-                    <li><a href="{{app_context}}/users/new"><i class="fa fa-user-plus fa-fw"></i>&nbsp; New</a></li>
-                    <li><a href="{{app_context}}/users"><i class="fa fa-users fa-fw"></i>&nbsp; Edit</a></li>
+		  <li><a href="{{app_context}}/users/new"><i class="fa fa-user-plus fa-fw"></i>&nbsp; {{__ "New"}}</a></li>
+		  <li><a href="{{app_context}}/users"><i class="fa fa-users fa-fw"></i>&nbsp; {{__ "Edit"}}</a></li>
                   {{/ifCond}}
-                  <li><a href="{{app_context}}/user/edit/{{session.user_id}}"><i class="fa fa-user fa-fw"></i>&nbsp; My account</a></li>
+		  <li><a href="{{app_context}}/user/edit/{{session.user_id}}"><i class="fa fa-user fa-fw"></i>&nbsp; {{__ "My account"}}</a></li>
                 </ul>
               </li>
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Article <span class="caret"></span></a>
+		      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{__ "Article"}} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="{{app_context}}/insert"><i class="fa fa-plus fa-fw"></i>&nbsp; New</a></li>
-                  <li><a href="{{app_context}}/articles"><i class="fa fa-pencil fa-fw"></i>&nbsp; Edit</a></li>
+			<li><a href="{{app_context}}/insert"><i class="fa fa-plus fa-fw"></i>&nbsp; {{__ "New"}}</a></li>
+			<li><a href="{{app_context}}/articles"><i class="fa fa-pencil fa-fw"></i>&nbsp; {{__ "Edit"}}</a></li>
                 </ul>
               </li>
               {{#ifCond session.is_admin '==' 'true'}}
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{__ "Admin"}} <span class="caret"></span></a>
                   <ul class="dropdown-menu">
                     <li><a href="{{app_context}}/settings"><i class="fa fa-cog fa-fw"></i>&nbsp; {{__ "Settings"}}</a></li>
                     <li><a href="{{app_context}}/files"><i class="fa fa-files-o fa-fw"></i>&nbsp; {{__ "Files"}}</a></li>
@@ -110,12 +110,12 @@
                   </ul>
                 </li>
               {{/ifCond}}
-              <li><a href="{{app_context}}/logout">Logout</a></li>
+	      <li><a href="{{app_context}}/logout">{{__ "Logout"}}</a></li>
             {{else}}
               {{#if config.settings.suggest_allowed}}
-                <li><a href="{{app_context}}/suggest">Suggest</a></li>
+	      <li><a href="{{app_context}}/suggest">{{__ "Suggest"}}</a></li>
               {{/if}}
-              <li><a href="{{app_context}}/login">Login</a></li>
+	      <li><a href="{{app_context}}/login">{{__ "Login"}}</a></li>
             {{/if}}
           </ul>
         </div>
@@ -132,7 +132,7 @@
     {{#if show_footer}}
       <footer class="footer">
         <div class="container">
-          <p>{{__ "Powered by"}} <a href="http://openkb.mrvautin.com/" target="_blank">openKB</a></p>
+          <p>{{__ "Powered by"}}<a href={{config.settings.owner-site}} target="_blank">{{config.settings.owner}}</a></p>
         </div>
       </footer>
     {{/if}}

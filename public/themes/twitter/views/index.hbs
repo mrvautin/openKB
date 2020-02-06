@@ -1,7 +1,7 @@
 <div class="row searchBar">
     {{> twitter/views/partials/navbar}}
     <div class="">
-        <h1>Help Center</h1>
+        <h1>{{config.settings.website_description}}</h1>
     </div>
 	<form action="{{app_context}}/search" id="search_form" method="post">
         {{#if config.settings.show_featured_articles}}
@@ -10,7 +10,7 @@
             <div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 search_bar">
         {{/if}}
 			<div class="input-group">
-				<input type="text" name="frm_search" id="frm_search" class="form-control input-lg" placeholder="search">
+				<input type="text" name="frm_search" id="frm_search" class="form-control input-lg" placeholder="{{__ "Search the knowledge base"}}">
 				<span class="input-group-btn">
 					<button class="btn btn-default btn-lg" id="btn_search" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 				</span>
@@ -25,8 +25,8 @@
 </div>
 <div class="row">
     <div class="col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
-        <h2 class="text-center">Twitter Support</h2>
-        <p class="subheading">Get instant answers for the most common questions and learn how to use 140 characters like a pro.</p>
+        <h2 class="text-center">{{config.settings.heading}} </h2>
+        <p class="subheading">{{config.settings.subheading}} </p>
     </div>
 </div>
 <div>
@@ -71,13 +71,13 @@
 										<a href="/{{@root.config.settings.route_name}}/{{this.kb_permalink}}">{{this.kb_title}}</a>
                                         {{#if @root.config.settings.show_published_date}}
                                             {{#if @root.config.settings.show_view_count}}
-                                                <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                                <span class="pull-right view_count">&nbsp; / <strong>{{__ "Date"}}:</strong> {{format_date this.kb_published_date}}</span>
                                             {{else}}
-                                                <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                                <span class="pull-right view_count"><strong>{{__ "Date"}}:</strong> {{format_date this.kb_published_date}}</span>
                                             {{/if}}
                                         {{/if}}
 										{{#if @root.config.settings.show_view_count}}
-                                            <span class="pull-right view_count"><strong>View count:</strong> {{view_count this.kb_viewcount}}</span>
+                                            <span class="pull-right view_count"><strong>{{__ "View count"}}:</strong> {{view_count this.kb_viewcount}}</span>
 										{{/if}}
 									</h4>
 								</li>
@@ -87,13 +87,13 @@
 										<a href="/{{@root.config.settings.route_name}}/{{this._id}}">{{this.kb_title}}</a>
                                         {{#if @root.config.settings.show_published_date}}
                                             {{#if @root.config.settings.show_view_count}}
-                                                <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                                <span class="pull-right view_count">&nbsp; / <strong>{{__ "Date"}}:</strong> {{format_date this.kb_published_date}}</span>
                                             {{else}}
-                                                <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                                <span class="pull-right view_count"><strong>{{__ "Date"}}:</strong> {{format_date this.kb_published_date}}</span>
                                             {{/if}}
                                         {{/if}}
 										{{#if @root.config.settings.show_view_count}}
-                                            <span class="pull-right view_count"><strong>View count: </strong>{{view_count this.kb_viewcount}}</span>
+                                            <span class="pull-right view_count"><strong>{{__ "View count"}}: </strong>{{view_count this.kb_viewcount}}</span>
 										{{/if}}
 									</h4>
 								</li>
@@ -104,7 +104,7 @@
 			</div>
 		{{else}}
 			<div class="panel panel-default" style="margin-top: 30px;">
-				<div class="panel-heading">Trending topics</div>
+				<div class="panel-heading">{{__ "Trending topics"}} </div>
 				<div class="panel-body">
 					<ul class="list-group">
 						{{#each top_results}}
@@ -117,13 +117,13 @@
 									{{/if}}
                                     {{#if @root.config.settings.show_published_date}}
                                         {{#if @root.config.settings.show_view_count}}
-                                            <span class="pull-right view_count">&nbsp; / <strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                            <span class="pull-right view_count">&nbsp; / <strong>{{__ "Date"}}:</strong> {{format_date this.kb_published_date}}</span>
                                         {{else}}
-                                            <span class="pull-right view_count"><strong>Date:</strong> {{format_date this.kb_published_date}}</span>
+                                            <span class="pull-right view_count"><strong>{{__ "Date"}}:</strong> {{format_date this.kb_published_date}}</span>
                                         {{/if}}
                                     {{/if}}
 									{{#if @root.config.settings.show_view_count}}
-								 		<span class="pull-right view_count"><strong>View count:</strong> {{view_count this.kb_viewcount}}</span>
+								 		<span class="pull-right view_count"><strong>{{__ "View count"}}:</strong> {{view_count this.kb_viewcount}}</span>
 									{{/if}}
 									{{#if this.kb_password}}
 										<span class="pull-right view_count" style="padding-right: 5px;"><i class="fa fa-key"></i></span>
