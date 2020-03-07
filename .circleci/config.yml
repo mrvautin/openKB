@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: cimg/base:2020.01
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 17.11.0-ce
+      - run: docker login -u telco -p $DOCKER_PASSWORD registry.uw.systems
+      - run: docker build -t registry.uw.systems/utilitywarehouse/openkb:$CIRCLE_SHA1 .
+      - run: docker tag registry.uw.systems/utilitywarehouse/openkb:$CIRCLE_SHA1 registry.uw.systems/utilitywarehouse/openkb:latest
+      - run: docker push registry.uw.systems/utilitywarehouse/openkb
