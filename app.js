@@ -336,7 +336,7 @@ if(config.settings.database.type === 'embedded'){
             process.exit();
         }
 
-        db = client.db('openkb');
+        db = client.db();
 
         // setup the collections
         db.users = db.collection('users');

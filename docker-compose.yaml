@@ -14,7 +14,7 @@ services:
       - 8082:8081
 
   openkb:
-    image: 42f37dee5621
+    image: registry.uw.systems/utilitywarehouse/openkb
     restart: always
     ports:
       - 4444:4444
