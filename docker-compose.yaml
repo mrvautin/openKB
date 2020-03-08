@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8082:8081
+
+  openkb:
+    image: 42f37dee5621
+    restart: always
+    ports:
+      - 4444:4444
+    environment:
+      MONGODB_CONNECTION_STRING: 'mongodb://mongo:27017/openkb'
+    volumes:
+      -  ./config:/var/openKB/config

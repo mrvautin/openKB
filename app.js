@@ -329,12 +329,14 @@ if(config.settings.database.type === 'embedded'){
         });
     });
 }else{
-    MongoClient.connect(config.settings.database.connection_string, {}, (err, db) => {
+    MongoClient.connect(config.settings.database.connection_string, {}, (err, client) => {
         // On connection error we display then exit
         if(err){
             console.error('Error connecting to MongoDB: ' + err);
             process.exit();
         }
+
+        db = client.db('openkb');
 
         // setup the collections
         db.users = db.collection('users');
@@ -343,6 +345,7 @@ if(config.settings.database.type === 'embedded'){
 
         // add db to app for routes
         app.db = db;
+        app.dbc = client;
 
         // add articles to index
         common.buildIndex(db, (index) => {
@@ -361,7 +364,7 @@ function exitHandler(options, err){
     if(options.cleanup){
         console.log('clean');
         if(config.settings.database.type !== 'embedded'){
-            app.db.close();
+            app.dbc.close();
         }
     }
     if(err){
