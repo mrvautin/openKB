@@ -329,7 +329,7 @@ if(config.settings.database.type === 'embedded'){
         });
     });
 }else{
-    MongoClient.connect(config.settings.database.connection_string, {useNewUrlParser: true, useUnifiedTopology: false}, (err, client) => {
+    MongoClient.connect(config.settings.database.connection_string, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
         // On connection error we display then exit
         if(err){
             console.error('Error connecting to MongoDB: ' + err);
