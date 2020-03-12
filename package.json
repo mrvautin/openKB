@@ -39,7 +39,7 @@
     "lunr": "^0.7.2",
     "markdown-it": "^7.0.1",
     "mime-types": "^2.1.26",
-    "mkdirp": "^0.5.1",
+    "mkdirp": "^1.0.0",
     "moment": "^2.24.0",
     "mongodb": "^3.5.2",
     "morgan": "^1.9.1",
