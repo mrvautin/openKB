@@ -116,6 +116,8 @@ Most of the configuration can be done on the `/settings` page but there are some
 |`suggest_allowed`|If enabled non authenticated users can submit article suggestions for approval|
 |`show_author_email`|Controls whether the authors email address is displayed in the meta. Requires "Show article meta data" to be true.|
 |`mermaid`|Whether to allow Mermaid charts within articles|
+|`mermaid_auto_update`|Whether to auto update Mermaid charts in the preview window as you edit (default is `true`)|
+|`mermaid_options`|Additional options for Mermaid charts see [here](https://mermaidjs.github.io/#/mermaidAPI?id=configuration) (Default options - [link](https://github.com/knsv/mermaid/blob/master/docs/mermaidAPI.md#mermaidapi-configuration-defaults)) |
 |`mathjax`|Whether to allow MathJax inputs within articles|
 |`app_context`|Allows for the website to be run from a non root path. Eg: http://127.0.0.1:4444/openkb/|
 |`links_blank_page`|Controls whether links within articles open a new page (tab)|
