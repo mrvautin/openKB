@@ -35,7 +35,7 @@
     "jsonschema": "^1.2.5",
     "jszip": "^2.6.1",
     "junk": "^2.0.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.20",
     "lunr": "^0.7.2",
     "markdown-it": "^7.0.1",
     "mime-types": "^2.1.26",
