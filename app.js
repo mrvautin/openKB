@@ -305,7 +305,7 @@ app.use((err, req, res, next) => {
     });
 });
 
-// sets up the databse depending on whether it's embedded (NeDB) or MongoDB
+// sets up the database depending on whether it's embedded (NeDB) or MongoDB
 if(config.settings.database.type === 'embedded'){
     // setup the db's
     let db = new Nedb();

@@ -1,7 +1,5 @@
 node_modules/
-data/users.db
 data/sessions.db
-data/kb.db
 data/votes.db
 Rubbish/
 data/export.zip
