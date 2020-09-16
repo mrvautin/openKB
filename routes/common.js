@@ -53,6 +53,8 @@ exports.read_config = function(){
 };
 
 exports.buildIndex = function(db, callback){
+	console.log('>> buildIndex');
+
     let config = this.read_config();
     exports.dbQuery(db.kb, { kb_published: 'true' }, null, null, (err, kb_list) => {
         // build the index

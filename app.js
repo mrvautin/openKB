@@ -305,6 +305,8 @@ app.use((err, req, res, next) => {
     });
 });
 
+console.log('setting up database: ' + config.settings.database.type);
+
 // sets up the database depending on whether it's embedded (NeDB) or MongoDB
 if(config.settings.database.type === 'embedded'){
     // setup the db's
