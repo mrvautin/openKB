@@ -337,6 +337,7 @@ if(config.settings.database.type === 'embedded'){
             console.error('Error connecting to MongoDB: ' + err);
             process.exit();
         }
+		console.log('connected to database');
 
         // setup the collections
         db.users = db.collection('users');
