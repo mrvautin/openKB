@@ -68,6 +68,7 @@ exports.buildIndex = function(db, callback){
             index.field('kb_body');
         }
 
+		console.log('kb_list =',kb_list);
         // add to lunr index
         kb_list.forEach((kb) => {
             // only if defined
