@@ -5,37 +5,36 @@ const ObjectID = require('mongodb').ObjectID;
 const sanitizeHtml = require('sanitize-html');
 
 exports.clear_session_value = function (session, session_var){
-    let temp = session[session_var];
+    const temp = session[session_var];
     session[session_var] = null;
     return temp;
 };
 
 exports.read_config = function(){
     // preferred path
-    let configFile = path.join(__dirname, '..', 'config', 'config.json');
+    const configFile = path.join(__dirname, '..', 'config', 'config.json');
 
     // depreciated path
-    let defaultConfigFile = path.join(__dirname, 'config.js');
+    const defaultConfigFile = path.join(__dirname, 'config.js');
     if(fs.existsSync(defaultConfigFile) === true){
         // create config dir if doesnt exist
-        let dir = path.join(__dirname, '..', 'config');
+        const dir = path.join(__dirname, '..', 'config');
         if(!fs.existsSync(dir)){
             fs.mkdirSync(dir);
         }
 
         // if exists, copy our config from /routes to /config
-        let tempconfig = fs.readFileSync(defaultConfigFile, 'utf8');
+        const tempconfig = fs.readFileSync(defaultConfigFile, 'utf8');
         fs.writeFileSync(configFile, tempconfig, 'utf8');
         // remove old file
         fs.unlinkSync(defaultConfigFile);
     }
     // load config file
-    let rawData = fs.readFileSync(configFile, 'utf8');
-    let loadedConfig = JSON.parse(rawData);
+    const rawData = fs.readFileSync(configFile, 'utf8');
+    const loadedConfig = JSON.parse(rawData);
 
     if(loadedConfig.settings.database.type === 'mongodb'){
         loadedConfig.settings.database.connection_string = process.env.MONGODB_CONNECTION_STRING || loadedConfig.settings.database.connection_string;
-		console.log('connection string: ' + loadedConfig.settings.database.connection_string);
     }
 
     if(typeof loadedConfig.settings.route_name === 'undefined' || loadedConfig.settings.route_name === ''){
@@ -53,12 +52,10 @@ exports.read_config = function(){
 };
 
 exports.buildIndex = function(db, callback){
-	console.log('>> buildIndex');
-
-    let config = this.read_config();
+    const config = this.read_config();
     exports.dbQuery(db.kb, { kb_published: 'true' }, null, null, (err, kb_list) => {
         // build the index
-        let index = new lunr.Index();
+        const index = new lunr.Index();
         index.field('kb_title');
         index.field('kb_keywords');
         index.ref('id');
@@ -68,7 +65,6 @@ exports.buildIndex = function(db, callback){
             index.field('kb_body');
         }
 
-		console.log('kb_list =',kb_list);
         // add to lunr index
         kb_list.forEach((kb) => {
             // only if defined
@@ -77,7 +73,7 @@ exports.buildIndex = function(db, callback){
                 keywords = kb.kb_keywords.toString().replace(/,/g, ' ');
             }
 
-            let doc = {
+            const doc = {
                 kb_title: kb.kb_title,
                 kb_keywords: keywords,
                 id: kb._id
@@ -97,7 +93,7 @@ exports.buildIndex = function(db, callback){
 // This is called on the suggest url. If the value is set to false in the config
 // a 403 error is rendered.
 exports.suggest_allowed = function (req, res, next){
-    let config = exports.read_config();
+    const config = exports.read_config();
     if(config.settings.suggest_allowed === true){
         next();
         return;
@@ -110,7 +106,7 @@ exports.validate_permalink = function (db, data, callback){
     if(typeof data.kb_permalink === 'undefined' || data.kb_permalink === ''){
         callback(null, 'All good');
     }else{
-        db.kb.count({ 'kb_permalink': data.kb_permalink }, (err, kb) => {
+        db.kb.count({ kb_permalink: data.kb_permalink }, (err, kb) => {
             if(kb > 0){
                 callback('Permalink already exists', null); // eslint-disable-line
             }else{
@@ -125,8 +121,8 @@ exports.validate_permalink = function (db, data, callback){
 // checked for a login as they are considered to be protected. The only exception
 // is the "setup", "login" and "login_action" URL's which is not checked at all.
 exports.restrict = function (req, res, next){
-    let config = exports.read_config();
-    let url_path = req.url;
+    const config = exports.read_config();
+    const url_path = req.url;
 
     // if not protecting we check for public pages and don't check_login
     if(url_path.substring(0, 5).trim() === '/'){
@@ -179,8 +175,8 @@ exports.check_login = function (req, res, next){
 
 // exposes select server side settings to the client
 exports.config_expose = function (app){
-    let config = exports.read_config();
-    let clientConfig = {};
+    const config = exports.read_config();
+    const clientConfig = {};
     clientConfig.route_name = config.settings.route_name !== undefined ? config.settings.route_name : 'kb';
     clientConfig.add_header_anchors = config.settings.add_header_anchors !== undefined ? config.settings.add_header_anchors : false;
     clientConfig.links_blank_page = config.settings.links_blank_page !== undefined ? config.settings.links_blank_page : true;
@@ -190,11 +186,11 @@ exports.config_expose = function (app){
 };
 
 exports.setTemplateDir = function (type, req){
-    let config = exports.read_config();
+    const config = exports.read_config();
     if(type !== 'admin'){
         // if theme selected, override the layout dir
-        let layoutDir = config.settings.theme ? path.join(__dirname, '../public/themes/', config.settings.theme, '/views/layouts/layout.hbs') : path.join(__dirname, '../views/layouts/layout.hbs');
-        let viewDir = config.settings.theme ? path.join(__dirname, '../public/themes/', config.settings.theme, '/views') : path.join(__dirname, '../views');
+        const layoutDir = config.settings.theme ? path.join(__dirname, '../public/themes/', config.settings.theme, '/views/layouts/layout.hbs') : path.join(__dirname, '../views/layouts/layout.hbs');
+        const viewDir = config.settings.theme ? path.join(__dirname, '../public/themes/', config.settings.theme, '/views') : path.join(__dirname, '../views');
 
         // set the views dir
         req.app.locals.settings.views = viewDir;
@@ -207,7 +203,7 @@ exports.setTemplateDir = function (type, req){
 };
 
 exports.getId = function (id){
-    let config = exports.read_config();
+    const config = exports.read_config();
     if(config.settings.database.type === 'embedded'){
         return id;
     }
@@ -227,7 +223,7 @@ exports.getId = function (id){
 exports.sanitizeHTML = function(html){
     // eslint-disable-next-line no-return-assign
     return sanitizeHtml(html, {
-        allowedTags: [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol',
+        allowedTags: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol',
             'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div',
             'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'img', 'iframe'
         ],
@@ -236,7 +232,7 @@ exports.sanitizeHTML = function(html){
 };
 
 exports.dbQuery = function (db, query, sort, limit, callback){
-    let config = exports.read_config();
+    const config = exports.read_config();
     if(config.settings.database.type === 'embedded'){
         if(sort && limit){
             db.find(query).sort(sort).limit(parseInt(limit)).exec((err, results) => {

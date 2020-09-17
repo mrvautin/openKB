@@ -180,5 +180,8 @@
 	"dsdsds is not defined": "dsdsds is not defined",
 	"dfdfd": "dfdfd",
 	"url.URL.parse is not a function": "url.URL.parse is not a function",
-	"A user with that email does not exist.": "A user with that email does not exist."
+	"A user with that email does not exist.": "A user with that email does not exist.",
+	"Visible state": "Visible state",
+	"Public": "Public",
+	"Private": "Private"
 }
