@@ -329,18 +329,20 @@ if(config.settings.database.type === 'embedded'){
         });
     });
 }else{
-    MongoClient.connect(config.settings.database.connection_string, {}, (err, db) => {
+    MongoClient.connect(config.settings.database.connection_string, {}, (err, client) => {
         // On connection error we display then exit
         if(err){
             console.error('Error connecting to MongoDB: ' + err);
             process.exit();
         }
 
-        // setup the collections
         console.log('Connected to MongoDB :');
-        db.users = MongoClient.db("openkb").collection('users');
-        db.kb = MongoClient.db("openkb").collection('kb');
-        db.votes = MongoClient.db("openkb").collection('votes');
+		let dbName = "openkb";
+		let db = client.db(dbName);
+        // setup the collections
+        db.users = db.collection('users');
+        db.kb = db.collection('kb');
+        db.votes = db.collection('votes');
 
         // add db to app for routes
         app.db = db;
