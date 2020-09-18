@@ -337,6 +337,7 @@ if(config.settings.database.type === 'embedded'){
         }
 
         // setup the collections
+        console.log('Connected to MongoDB');
         db.users = db.collection('users');
         db.kb = db.collection('kb');
         db.votes = db.collection('votes');
@@ -345,6 +346,7 @@ if(config.settings.database.type === 'embedded'){
         app.db = db;
 
         // add articles to index
+        console.log('Building index');
         common.buildIndex(db, (index) => {
             // add the index
             app.index = index;
