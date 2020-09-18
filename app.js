@@ -338,9 +338,9 @@ if(config.settings.database.type === 'embedded'){
 
         // setup the collections
         console.log('Connected to MongoDB');
-        db.users = db.collection('users');
-        db.kb = db.collection('kb');
-        db.votes = db.collection('votes');
+        db.users = db("openkb").collection('users');
+        db.kb = db("openkb").collection('kb');
+        db.votes = db("openkb").collection('votes');
 
         // add db to app for routes
         app.db = db;
