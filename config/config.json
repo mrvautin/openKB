@@ -10,7 +10,7 @@
             "field": "kb_viewcount",
             "order": -1
         },
-        "website_title": "VEDA Knowledge Base",
+        "website_title": "veda-KB",
         "show_featured_articles": true,
         "show_featured_in_article": false,
         "featured_articles_count": "5",
