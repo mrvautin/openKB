@@ -3,7 +3,9 @@
 ## Installation sur Heroku
 
 Ce bouton permet de faire une installation initiale dans Heroku de openKB.
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mrvautin/openKB)
+
 Configurer ensuite les déploiements automatiques dans Heroku, provenant de votre propre fork.
 
 ## Limitations dûes à Heroku

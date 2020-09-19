@@ -1,5 +1,5 @@
 # Veda-KB
-![logo](docs\vedakb_logo_small.png)
+![logo](docs/vedakb_logo_small.png)
 ## Présentation
 
 Cette base de données VEDA est un fork du projet OpenKB de Mark Vautin.

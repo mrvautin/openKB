@@ -47,7 +47,7 @@ En effet, les modifications de fichiers locaux sont perdues chaque fois que Hero
 L'application **openKB** utilise une base de données.
 Cette database peut être:
 * Soit une base [nedb](https://github.com/louischatriot/nedb) sous forme de fichiers javascript locaux, qui ne nécessite aucune installation particulière, mais ne fonctionne pas dans un hébergement de type Heroku.
-* Soit une base MongoDB [mLab](https://mlab.com/) ou [Atlas](https://www.mongodb.com/cloud/atlas). Jusqu'en 2020, heroku fournissait un add-on **MongoDB** que l'on pouvait activer et utiliser. Depusi 2020, ce n'est plus disponible. Il faut donc ouvrir une abse *MongoDB*, par exemple avec le *free plan* de [mongodb.com](http://www.mongodb.com). Il faut ensuite modifier l'application javascript ([voir ici](changelog.md))
+* Soit une base MongoDB [mLab](https://mlab.com/) ou [Atlas](https://www.mongodb.com/cloud/atlas). Jusqu'en 2020, heroku fournissait un add-on **MongoDB** que l'on pouvait activer et utiliser. Depuis 2020, ce n'est plus disponible. Il faut donc ouvrir une base *MongoDB*, par exemple avec le *free plan* de [mongodb.com](http://www.mongodb.com). Il faut ensuite modifier l'application javascript ([voir le change-log](changelog.md))
 
 Le type de BDDse configure dans  le fichier de configuration `config.json` comme suit:
 
