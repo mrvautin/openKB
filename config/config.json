@@ -33,7 +33,7 @@
         "show_logon": true,
         "add_header_anchors": false,
         "typeahead_search": true,
-        "index_article_body": false,
+        "index_article_body": true,
         "enable_spellchecker": false,
         "show_website_logo": true,
         "website_description": "FAQ destinée à la mise au point des plateformes de diffusion VEDA.",
