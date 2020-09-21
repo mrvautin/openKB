@@ -1,7 +1,6 @@
 {
     "settings": {
         "route_name": "kb",
-		"site_name": "vedaKB",
         "num_top_results": "10",
         "date_format": "DD/MM/YYYY h:mmA",
         "show_view_count": true,
@@ -11,7 +10,7 @@
             "field": "kb_viewcount",
             "order": -1
         },
-        "website_title": "VEDA Knowledge Base",
+        "website_title": "veda-KB",
         "show_featured_articles": true,
         "show_featured_in_article": false,
         "featured_articles_count": "5",
@@ -24,9 +23,10 @@
         "mathjax_input_mode": "TeX-MML-AM_CHTML",
         "app_context": "",
         "links_blank_page": true,
-		"database": {
-			"type": "embedded"
-		},
+        "database": {
+			"type": "mongodb",
+			"connection_string": "mongodb://127.0.0.1:27017/openkb"
+        },
         "allow_voting": true,
         "google_analytics": "",
         "theme": "",
