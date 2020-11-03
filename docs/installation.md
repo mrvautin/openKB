@@ -23,7 +23,6 @@ On peut ouvrir une base de données *mongoDB* sur le site  [mongodb.com](https:/
 * Créer un *cluster*, et lui donner un nom.
 * Créer un user *administrateur* (par ex: mongo_admin)
 * Créer un user *utilisateur* (par exemple: mongo_user)
-* Créer une *base de donnée* (aller dans **cluster → collection**)
 * Dans *Cluster*, cliquer sur le bouton `connect`: cela va afficher la chaine de connection qu'il faudra configurer dans **heroku** dans une `Config Var` nommée **MONGODB_CONNECTION_STRING**, après avoir remplacer les champs prévus par `mongo_user`, son mot de passe, et le nom donné à la base de données.
 
 
