@@ -49,7 +49,7 @@
     "remove-markdown": "^0.1.0",
     "require-main-filename": "^1.0.1",
     "rimraf": "^2.7.1",
-    "sanitize-html": "^1.21.1",
+    "sanitize-html": "^2.3.2",
     "simplemde": "^1.11.2",
     "sitemap": "^1.8.1",
     "snyk": "^1.280.0",
