@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Fichier XML archicomplet généré par VisualStudio -->
-<root XMLSource="SGT-File-0.xml" xmlns="http://www.sgt.eu/FileDescription/">
+<root XMLSource="FileGenerator" xmlns="http://www.sgt.eu/FileDescription/">
   <Container FinalFileName="FinalFileName1" Status="Unknown">
     <TcStart seconds="1" framerate="1">TcStart1</TcStart>
     <Duration seconds="1" framerate="1">Duration1</Duration>

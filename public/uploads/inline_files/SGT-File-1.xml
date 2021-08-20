@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- Fichier XML complet généré avec XMLnotepad -->
 
-<root xmlns="http://www.sgt.eu/FileDescription/" XMLSource="SGT-File-1.xml">
+<root xmlns="http://www.sgt.eu/FileDescription/" XMLSource="FileGenerator">
   <Container FinalFileName="F000001A" Status="Accepted">
     <TcStart>00:00:00:00</TcStart>
     <Duration>00:00:05:00</Duration>

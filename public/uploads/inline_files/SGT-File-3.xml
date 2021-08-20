@@ -2,7 +2,7 @@
 
 <!-- Fichier XML opérationel épuré. Champs fonctionnels en v20.0 -->
 
-<root xmlns="http://www.sgt.eu/FileDescription/" XMLSource="AZ000019.xml">
+<root xmlns="http://www.sgt.eu/FileDescription/" XMLSource="FileGenerator">
   <Container FinalFileName="AZ000019" Status="Accepted">
     <TcStart>00:00:00:00</TcStart>
     <Duration>00:00:18:16</Duration>
