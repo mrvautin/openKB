@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fichier XML archicomplet généré par VisualStudio -->
+<root XMLSource="SGT-File-0.xml" xmlns="http://www.sgt.eu/FileDescription/">
+  <Container FinalFileName="FinalFileName1" Status="Unknown">
+    <TcStart seconds="1" framerate="1">TcStart1</TcStart>
+    <Duration seconds="1" framerate="1">Duration1</Duration>
+    <Format>Format1</Format>
+    <Video HdNative="true">
+      <ID>ID1</ID>
+      <Format>Format1</Format>
+      <Standard>PAL</Standard>
+      <VideoFormat>4/3</VideoFormat>
+      <ImageStoring>ImageStoring1</ImageStoring>
+      <ImageRatio>1.33</ImageRatio>
+      <Width>0</Width>
+      <Height>0</Height>
+      <BitRate>0</BitRate>
+      <SamplingResolution>8</SamplingResolution>
+      <FrameRate>1</FrameRate>
+      <Userdata>
+        <Data Label="Label1" Value="Value1" />
+        <Data Label="Label2" Value="Value2" />
+        <Data Label="Label3" Value="Value3" />
+      </Userdata>
+    </Video>
+    <Audio>
+      <Track>
+        <ID>ID1</ID>
+        <Combination>Combination1</Combination>
+        <Format>Format1</Format>
+        <BitRate>0</BitRate>
+        <SamplingRate>0</SamplingRate>
+        <SamplingResolution>8</SamplingResolution>
+        <Channels>
+          <Channel Language="Language1" Format="Mono">1.0</Channel>
+          <Channel Language="Language2" Format="'Bi' Mono">2.0</Channel>
+          <Channel Language="Language3" Format="Stereo">5.1</Channel>
+        </Channels>
+        <Userdata>
+          <Data Label="Label4" Value="Value4" />
+          <Data Label="Label5" Value="Value5" />
+          <Data Label="Label6" Value="Value6" />
+        </Userdata>
+      </Track>
+      <Track>
+        <ID>ID2</ID>
+        <Combination>Combination2</Combination>
+        <Format>Format2</Format>
+        <BitRate>4294967295</BitRate>
+        <SamplingRate>4294967295</SamplingRate>
+        <SamplingResolution>10</SamplingResolution>
+        <Channels>
+          <Channel Language="Language4" Format="Stereo Inv">5.0</Channel>
+          <Channel Language="Language5" Format="5.1">1.0</Channel>
+          <Channel Language="Language6" Format="5.0">2.0</Channel>
+        </Channels>
+        <Userdata>
+          <Data Label="Label7" Value="Value7" />
+          <Data Label="Label8" Value="Value8" />
+          <Data Label="Label9" Value="Value9" />
+        </Userdata>
+      </Track>
+      <Track>
+        <ID>ID3</ID>
+        <Combination>Combination3</Combination>
+        <Format>Format3</Format>
+        <BitRate>1</BitRate>
+        <SamplingRate>1</SamplingRate>
+        <SamplingResolution>12</SamplingResolution>
+        <Channels>
+          <Channel Language="Language7" Format="Mono">5.1</Channel>
+          <Channel Language="Language8" Format="'Bi' Mono">5.0</Channel>
+          <Channel Language="Language9" Format="Stereo">1.0</Channel>
+        </Channels>
+        <Userdata>
+          <Data Label="Label10" Value="Value10" />
+          <Data Label="Label11" Value="Value11" />
+          <Data Label="Label12" Value="Value12" />
+        </Userdata>
+      </Track>
+    </Audio>
+    <Userdata>
+      <Data Label="Label13" Value="Value13" />
+      <Data Label="Label14" Value="Value14" />
+      <Data Label="Label15" Value="Value15" />
+    </Userdata>
+    <ClientReference>ClientReference1</ClientReference>
+  </Container>
+  <Metadata>
+    <ContentName>ContentName1</ContentName>
+    <Label>Label1</Label>
+    <Gender>Video</Gender>
+    <Type>Type1</Type>
+    <Folio>Folio1</Folio>
+    <ContentGroup>ContentGroup1</ContentGroup>
+    <CreationDate>1900-01-01</CreationDate>
+    <Userdata>
+      <Data Label="Label16" Value="Value16" />
+      <Data Label="Label17" Value="Value17" />
+      <Data Label="Label18" Value="Value18" />
+    </Userdata>
+    <Section Part="1" TotalParts="1" Label="Label1">
+      <TcIn seconds="1" framerate="1">TcIn1</TcIn>
+      <Duration seconds="1" framerate="1">Duration1</Duration>
+    </Section>
+    <Status>Unknown</Status>
+    <ClientReference>ClientReference1</ClientReference>
+    <Packings>
+      <Packing Default="true" Name="Name1" Status="Unknown">
+        <ClientReference>ClientReference1</ClientReference>
+        <PackingPart Part="1">
+          <TcIn>1</TcIn>
+          <Duration>1</Duration>
+        </PackingPart>
+        <PackingPart Part="-2147483647">
+          <TcIn>-9223372036854775807</TcIn>
+          <Duration>-9223372036854775807</Duration>
+        </PackingPart>
+        <PackingPart Part="2147483647">
+          <TcIn>9223372036854775807</TcIn>
+          <Duration>9223372036854775807</Duration>
+        </PackingPart>
+      </Packing>
+      <Packing Default="false" Name="Name2" Status="Accepted">
+        <ClientReference>ClientReference2</ClientReference>
+        <PackingPart Part="0">
+          <TcIn>0</TcIn>
+          <Duration>0</Duration>
+        </PackingPart>
+        <PackingPart Part="2">
+          <TcIn>2</TcIn>
+          <Duration>2</Duration>
+        </PackingPart>
+        <PackingPart Part="-2147483646">
+          <TcIn>-9223372036854775806</TcIn>
+          <Duration>-9223372036854775806</Duration>
+        </PackingPart>
+      </Packing>
+      <Packing Default="true" Name="Name3" Status="Refused">
+        <ClientReference>ClientReference3</ClientReference>
+        <PackingPart Part="2147483646">
+          <TcIn>9223372036854775806</TcIn>
+          <Duration>9223372036854775806</Duration>
+        </PackingPart>
+        <PackingPart Part="-1">
+          <TcIn>-1</TcIn>
+          <Duration>-1</Duration>
+        </PackingPart>
+        <PackingPart Part="3">
+          <TcIn>3</TcIn>
+          <Duration>3</Duration>
+        </PackingPart>
+      </Packing>
+    </Packings>
+  </Metadata>
+  <Originaldata>
+    <Data Label="Label19" Value="Value19" />
+    <Data Label="Label20" Value="Value20" />
+    <Data Label="Label21" Value="Value21" />
+  </Originaldata>
+  <Interface>Interface1</Interface>
+</root>

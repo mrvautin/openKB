@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Fichier XML opérationel plateforme V18 -->
+<root xmlns="http://www.sgt.eu/FileDescription/" XMLSource="AZ000019.xml">
+  <Container FinalFileName="AZ000019" Status="Accepted">
+    <TcStart>00:00:00:00</TcStart>
+    <Duration>00:00:18:16</Duration>
+    <Format>MXF</Format>
+	
+    <Video HdNative="true">
+      <ID>1</ID>
+      <Format>XDCAM HD422</Format>
+      <Standard>PAL</Standard>
+      <VideoFormat>4/3</VideoFormat>
+      <ImageStoring>4/3</ImageStoring>
+      <ImageRatio>1.33</ImageRatio>
+	  <!-- UNUSED -->
+      <!-- <Width>720</Width> -->
+      <!-- <Height>576</Height> -->
+      <!-- <BitRate>50000000</BitRate> -->
+      <!-- <SamplingResolution>8</SamplingResolution> -->
+      <FrameRate>25</FrameRate>
+    </Video>
+	
+    <Audio>
+      <Track>
+        <ID>1</ID>
+        <Combination>1-2</Combination>
+        <Format>PCM</Format>
+		<!-- UNUSED -->
+        <!-- <BitRate>512000</BitRate> -->
+		<!-- 8=44.1kHz 9=48kHz -->
+        <!-- <SamplingRate>8</SamplingRate> -->
+        <!-- <SamplingResolution>24</SamplingResolution> -->
+        <Channels>
+          <Channel Format="Stereo" Language="fra">2.0</Channel>
+        </Channels>
+      </Track>
+      <Track>
+         <ID>3</ID> 
+         <Combination>3-4</Combination> 
+         <Format>PCM</Format> 
+         <!-- <BitRate>256000</BitRate> -->
+         <!-- <SamplingRate>8</SamplingRate> -->
+         <!-- <SamplingResolution>24</SamplingResolution> -->
+         <Channels> 
+            <Channel Format="Stereo" Language="fra">2.0</Channel> 
+         </Channels> 
+       </Track> 
+    </Audio>
+
+    <Userdata>
+      <Data Label="Traffic ID" Value="C_AZ000019" />
+    </Userdata>
+    <ClientReference>C_AZ000019</ClientReference>
+  </Container>
+  
+  <Metadata>
+    <ContentName>LA GRANDE TRAVERSEE</ContentName>
+    <Label>v19</Label>
+    <Gender>Video</Gender>
+    <Type>Movie</Type>
+    <Folio>CreatedByXML</Folio>
+    <!-- <ContentGroup>UNUSED IN V20</ContentGroup> -->
+    <Section Label="1" Part="1" TotalParts="1">
+      <TcIn framerate="25">00:00:00:00</TcIn>
+      <Duration framerate="25">00:00:18:16</Duration>
+    </Section>
+    <Status>Accepted</Status>
+    <ClientReference>C_AZ000019</ClientReference>
+    <Packings>
+      <Packing Default="true" Name="Packing 1" Status="Accepted">
+        <ClientReference>P_AZ000019</ClientReference>
+        <PackingPart Part="1">
+          <TcIn>0</TcIn>
+          <Duration>17000000</Duration>
+        </PackingPart>
+      </Packing>
+    </Packings>
+  </Metadata>
+  
+  <Interface>Locator-A</Interface>
+  
+</root>
