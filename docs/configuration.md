@@ -3,7 +3,7 @@
 ## Configuration
 A la première utilisation, un formulaire s'affiche pour créer un premier utilisateur (administrateur).
 
-La configuration se fait manuellement dans le fichier `/config/config.json`. on *commite* et on *push* le fichier modifié dans GitHub. Il est détecté par Heroku, qui le prend en compte et rebuilde l'applicatuion.
+La configuration se fait manuellement dans le fichier `/config/config.json`. on *commite* et on *push* le fichier modifié dans GitHub. Il est détecté par Heroku, qui le prend en compte et rebuilde l'application.
 
 *Les changements de configuration faits dans le module __Admin__ de l'application ne sont pas persistants.
 En effet, les modifications de fichiers locaux sont perdues chaque fois que Heroku réinitialise les containers.*
@@ -46,10 +46,12 @@ En effet, les modifications de fichiers locaux sont perdues chaque fois que Hero
 
 L'application **openKB** utilise une base de données.
 Cette database peut être:
-* Soit une base [nedb](https://github.com/louischatriot/nedb) sous forme de fichiers javascript locaux, qui ne nécessite aucune installation particulière, mais ne fonctionne pas dans un hébergement de type Heroku.
-* Soit une base MongoDB [mLab](https://mlab.com/) ou [Atlas](https://www.mongodb.com/cloud/atlas). Jusqu'en 2020, heroku fournissait un add-on **MongoDB** que l'on pouvait activer et utiliser. Depuis 2020, ce n'est plus disponible. Il faut donc ouvrir une base *MongoDB*, par exemple avec le *free plan* de [mongodb.com](http://www.mongodb.com). Il faut ensuite modifier l'application javascript ([voir le change-log](changelog.md))
+* Soit une base [nedb](https://github.com/louischatriot/nedb) sous forme de fichiers javascript locaux, qui ne nécessite aucune installation particulière, mais ne fonctionne pas dans un hébergement de type heroku.
+* Soit une base MongoDB [mLab](https://mlab.com/) ou [Atlas](https://www.mongodb.com/cloud/atlas). 
+  Jusqu'en 2020, heroku fournissait un add-on **MongoDB** que l'on pouvait activer et utiliser. Depuis 2020, ce n'est plus disponible. 
+  Il faut donc ouvrir une base *MongoDB*, par exemple avec le *free plan* de [mongodb.com](http://www.mongodb.com) et modifier l'application javascript ([voir le change-log](changelog.md)).
 
-Le type de BDDse configure dans  le fichier de configuration `config.json` comme suit:
+Le type de BDD se configure dans le fichier de configuration `config.json` comme suit:
 
 * Pour une base **NeDB**:
 
@@ -68,10 +70,7 @@ Le type de BDDse configure dans  le fichier de configuration `config.json` comme
 }
 ```
 
-La chaine de connexion peut être entrée dans le fichier de configuration (peu sûr) ou dans la variable d'environnement ci-dessous (recommandé) qui est configurable dans heroku.
-```
-MONGODB_CONNECTION_STRING
-```
+La chaine de connexion peut être entrée dans le fichier de configuration (peu sûr) ou dans la variable d'environnement `MONGODB_CONNECTION_STRING` (recommandé) qui est configurable dans **heroku**.
 
 * Format d'une chaine de connexion *mongoDB*:
 ```
