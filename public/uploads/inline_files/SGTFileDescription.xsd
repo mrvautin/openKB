@@ -1,425 +1,552 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.sgt.eu/FileDescription/" xmlns:ns="http://www.sgt.eu/FileDescription/" xmlns="http://www.sgt.eu/FileDescription/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:annotation>
-    <xs:documentation>Complete xml metadata description available from VEDA 11.0</xs:documentation>
-  </xs:annotation>
-  
-  <xs:simpleType name="NotEmptyString">
-    <xs:restriction base="xs:string">
-      <xs:minLength value="1"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="String1_30">
-    <xs:restriction base="xs:string">
-      <xs:minLength value="1"/>
-      <xs:maxLength value="30"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="String1_50">
-    <xs:restriction base="xs:string">
-      <xs:minLength value="1"/>
-      <xs:maxLength value="50"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="String0_50">
-    <xs:restriction base="xs:string">
-      <xs:maxLength value="50"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="String1_255">
-    <xs:restriction base="xs:string">
-      <xs:minLength value="1"/>
-      <xs:maxLength value="255"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="String1_128">
-    <xs:restriction base="xs:string">
-      <xs:minLength value="1"/>
-      <xs:maxLength value="128"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="String1_100">
-    <xs:restriction base="xs:string">
-      <xs:minLength value="1"/>
-      <xs:maxLength value="100"/>
-    </xs:restriction>
-  </xs:simpleType>
+	<xs:annotation>
+		<xs:documentation>Complete xml metadata description available from VEDA 20.0</xs:documentation>
+	</xs:annotation>
 
+	<xs:simpleType name="NotEmptyString">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String1_30">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String1_50">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String0_50">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String1_255">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String1_128">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="128"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="String1_100">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
 
-  <xs:simpleType name="TC">
-    <xs:restriction base="xs:string">
-      <xs:pattern value="(([0-1][0-9])|([2][0-3])):[0-5][0-9]:[0-5][0-9](([.,])|([:;]))[0-2][0-9]"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:complexType name="timecode">
-    <xs:simpleContent>
-      <xs:extension base="TC">
-        <xs:attribute name="seconds" type="xs:double" use="optional"/>
-        <xs:attribute name="framerate" type="framerate" use="optional"/>
-      </xs:extension>
-    </xs:simpleContent>
-  </xs:complexType>
-  <xs:simpleType name="FileStatus">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Unknown"/>
-      <xs:enumeration value="Accepted"/>
-      <xs:enumeration value="Refused"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="ContentStatus">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Unknown"/>
-      <xs:enumeration value="Accepted"/>
-      <xs:enumeration value="Refused"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="videostandard">
-    <xs:annotation>
-      <xs:documentation>Identification of video coding</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="PAL"/>
-      <xs:enumeration value="NTSC"/>
-      <xs:enumeration value="SECAM"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="videoformat">
-    <xs:annotation>
-      <xs:documentation>Video restitution format</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="4/3"/>
-      <xs:enumeration value="16/9"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="ratio">
-    <xs:annotation>
-      <xs:documentation>Image Width/Height ratio</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="1.33"/>
-      <xs:enumeration value="1.66"/>
-      <xs:enumeration value="1.77"/>
-      <xs:enumeration value="1.85"/>
-      <xs:enumeration value="2.35"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="samplingres">
-    <xs:annotation>
-      <xs:documentation>Number of bits used for coding</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:unsignedByte">
-      <xs:enumeration value="8"/>
-      <xs:enumeration value="10"/>
-      <xs:enumeration value="12"/>
-      <xs:enumeration value="16"/>
-      <xs:enumeration value="24"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="framerate">
-    <xs:annotation>
-      <xs:documentation>Number of frames per second</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:double">
-      <xs:pattern value="[0-9][0-9](\.[0-9]+)?"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="ISO639_2">
-    <xs:annotation>
-      <xs:documentation>Language using ISO639-2 code</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:pattern value="[a-z][a-z][a-z]"/>
-    </xs:restriction>
-  </xs:simpleType>
-  
-  <xs:simpleType name="restitutionchannels">
-    <xs:annotation>
-      <xs:documentation>Number of "true" channels embedded</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="1.0"/>
-      <xs:enumeration value="2.0"/>
-      <xs:enumeration value="5.1"/>
-      <xs:enumeration value="5.0"/>
-    </xs:restriction>
-  </xs:simpleType>
+	<xs:simpleType name="TC">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(([0-1][0-9])|([2][0-3])):[0-5][0-9]:[0-5][0-9](([.,])|([:;]))[0-2][0-9]"/>
+		</xs:restriction>
+	</xs:simpleType>
 
-  <xs:simpleType name="ContentGender">
-    <xs:annotation>
-      <xs:documentation>Gender available for content</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Video"/>
-      <xs:enumeration value="Audio"/>
-      <xs:enumeration value="Image"/>
-      <xs:enumeration value="Document"/>
-    </xs:restriction>
-  </xs:simpleType>
+	<xs:complexType name="timecode">
+		<xs:simpleContent>
+			<xs:extension base="TC">
+				<xs:attribute name="seconds" type="xs:double" use="optional"/>
+				<xs:attribute name="framerate" type="framerate" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
 
-  <xs:simpleType name="ChannelAudioFormat">
-    <xs:annotation>
-      <xs:documentation>Audio format of the channel</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Mono"/>
-      <xs:enumeration value="'Bi' Mono"/>
-      <xs:enumeration value="Stereo"/>
-      <xs:enumeration value="Stereo Inv"/>
-      <xs:enumeration value="5.1"/>
-      <xs:enumeration value="5.0"/>
-    </xs:restriction>
-  </xs:simpleType>
+	<xs:simpleType name="FileStatus">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Unknown"/>
+			<xs:enumeration value="Accepted"/>
+			<xs:enumeration value="Refused"/>
+		</xs:restriction>
+	</xs:simpleType>
 
-  <xs:complexType name="audiochannels" >
+	<xs:simpleType name="ContentStatus">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Unknown"/>
+			<xs:enumeration value="Accepted"/>
+			<xs:enumeration value="Refused"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="videostandard">
+		<xs:annotation>
+			<xs:documentation>Identification of video coding</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PAL"/>
+			<xs:enumeration value="NTSC"/>
+			<xs:enumeration value="SECAM"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="videoformat">
+		<xs:annotation>
+			<xs:documentation>Video restitution format</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="4/3"/>
+			<xs:enumeration value="16/9"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ratio">
+		<xs:annotation>
+			<xs:documentation>Image Width/Height ratio</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="1.33"/>
+			<xs:enumeration value="1.66"/>
+			<xs:enumeration value="1.77"/>
+			<xs:enumeration value="1.85"/>
+			<xs:enumeration value="2.35"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="samplingres">
+		<xs:annotation>
+			<xs:documentation>Number of bits used for coding</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:unsignedByte">
+			<xs:enumeration value="8"/>
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="12"/>
+			<xs:enumeration value="16"/>
+			<xs:enumeration value="24"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="framerate">
+		<xs:annotation>
+			<xs:documentation>Number of frames per second</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:double">
+			<xs:pattern value="[0-9][0-9](\.[0-9]+)?"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ISO639_2">
+		<xs:annotation>
+			<xs:documentation>Language using ISO639-2 code</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-z][a-z][a-z]"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="restitutionchannels">
+		<xs:annotation>
+			<xs:documentation>Number of "true" embedded channels</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="1.0"/>
+			<xs:enumeration value="2.0"/>
+			<xs:enumeration value="5.1"/>
+			<xs:enumeration value="5.0"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ContentGender">
+		<xs:annotation>
+			<xs:documentation>Available Genders for Contents</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Video"/>
+			<xs:enumeration value="Audio"/>
+			<xs:enumeration value="Image"/>
+			<xs:enumeration value="Document"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ChannelAudioFormat">
+		<xs:annotation>
+			<xs:documentation>Audio format of the channel</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Mono"/>
+			<xs:enumeration value="'Bi' Mono"/>
+			<xs:enumeration value="Stereo"/>
+			<xs:enumeration value="Stereo Inv"/>
+			<xs:enumeration value="5.1"/>
+			<xs:enumeration value="5.0"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="audiochannels" >
+		<xs:annotation>
+			<xs:documentation>List of audio channels.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Channel" type="audiochannel" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="audiochannel" >
     <xs:annotation>
-      <xs:documentation>Channels description</xs:documentation>
-    </xs:annotation>
-    <xs:sequence>
-      <xs:element name="Channel" type="audiochannel" minOccurs="1" maxOccurs="unbounded"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="audiochannel" >
-    <xs:annotation>
-      <xs:documentation>Channel description</xs:documentation>
+      <xs:documentation>Number of "true" audios embedded in the channel.</xs:documentation>
     </xs:annotation>
     <xs:simpleContent>
       <xs:extension base="ns:restitutionchannels">
         <xs:attribute name="Language" use="optional">
-          <xs:annotation>
-            <xs:documentation>Language of this channel</xs:documentation>
-          </xs:annotation>
-          <xs:simpleType>
-            <xs:restriction base="ISO639_2"/>
-          </xs:simpleType>
-        </xs:attribute>
-        <xs:attribute name="Format" use="optional" type="ns:ChannelAudioFormat">
-          <xs:annotation>
-            <xs:documentation>Audio format of this channel</xs:documentation>
-          </xs:annotation>
-        </xs:attribute>
-      </xs:extension>
-    </xs:simpleContent>
-  </xs:complexType>
+					<xs:annotation>
+						<xs:documentation>Language spoken on this audio channel</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="ISO639_2"/>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="Format" use="optional" type="ns:ChannelAudioFormat">
+					<xs:annotation>
+						<xs:documentation>Audio format of this channel</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
 
-  <xs:complexType name="UserData">
-    <xs:annotation>
-      <xs:documentation>Contains additionnal information</xs:documentation>
-    </xs:annotation>
-    <xs:sequence>
-      <xs:element name="Data" minOccurs="0" maxOccurs="unbounded" type ="ns:UFData"/>
-    </xs:sequence>
-  </xs:complexType>
+	<xs:complexType name="UserData">
+		<xs:annotation>
+			<xs:documentation>List of Userfields or additional information.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Data" minOccurs="0" maxOccurs="unbounded" type ="ns:UFData"/>
+		</xs:sequence>
+	</xs:complexType>
 
-  <xs:complexType name="UFData">
-    <xs:attribute name="Label" type="ns:NotEmptyString" use="required"/>
-    <xs:attribute name="Value" type="xs:string" use="required"/>
-  </xs:complexType>
+	<xs:complexType name="UFData">
+		<xs:attribute name="Label" type="ns:NotEmptyString" use="required">
+			<xs:annotation>
+				<xs:documentation>Name of the userfield.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Value" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Value of the userfield.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
 
-  <xs:complexType name="Video">
-    <xs:annotation>
-      <xs:documentation>Description of video essence</xs:documentation>
-      <xs:documentation>Will be provided if container refers to video</xs:documentation>
-    </xs:annotation>
-    <xs:sequence>
-      <xs:element name="ID" type="ns:NotEmptyString" minOccurs="0"/>
+	<xs:complexType name="Video">
+		<xs:annotation>
+			<xs:documentation>Description of video essence. Can be provided for video files.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ID" type="ns:NotEmptyString" minOccurs="0"/>
       <xs:element name="Format" type="ns:NotEmptyString" minOccurs="1" />
-      <xs:element name="Standard" type="ns:videostandard" minOccurs="0" />
-      <xs:element name="VideoFormat" type="ns:videoformat" minOccurs="0" />
-      <xs:element name="ImageStoring" type="ns:NotEmptyString" minOccurs="0" />
-      <xs:element name="ImageRatio" type="ns:ratio" minOccurs="0" />
-      <xs:element name="Width" type="xs:unsignedShort" minOccurs="0"/>
-      <xs:element name="Height" type="xs:unsignedShort" minOccurs="0"/>
-      <xs:element name="BitRate" type="xs:unsignedInt" minOccurs="0"/>
-      <xs:element name="SamplingResolution" type="ns:samplingres" minOccurs="0" />
-      <xs:element name="FrameRate" type="ns:framerate" minOccurs="0" />
-      <xs:element name="Userdata" minOccurs="0" maxOccurs="1" type="ns:UserData"/>
-    </xs:sequence>
-    <xs:attribute name="HdNative" type="xs:boolean" use="optional" />
-  </xs:complexType>
+			<xs:element name="Standard" type="ns:videostandard" minOccurs="0" />
+			<xs:element name="VideoFormat" type="ns:videoformat" minOccurs="0" />
+			<xs:element name="ImageStoring" type="ns:NotEmptyString" minOccurs="0" />
+			<xs:element name="ImageRatio" type="ns:ratio" minOccurs="0" />
+			<xs:element name="Width" type="xs:unsignedShort" minOccurs="0"/>
+			<xs:element name="Height" type="xs:unsignedShort" minOccurs="0"/>
+			<xs:element name="BitRate" type="xs:unsignedInt" minOccurs="0"/>
+			<xs:element name="SamplingResolution" type="ns:samplingres" minOccurs="0" />
+			<xs:element name="FrameRate" type="ns:framerate" minOccurs="0" />
+			<xs:element name="Userdata" minOccurs="0" maxOccurs="1" type="ns:UserData"/>
+		</xs:sequence>
+		<xs:attribute name="HdNative" type="xs:boolean" use="optional" />
+	</xs:complexType>
 
-  <xs:complexType name="AudioTrack">
-    <xs:sequence>
-      <xs:element name="ID" type="ns:NotEmptyString" minOccurs="0" />
-      <xs:element name="Combination" type="ns:NotEmptyString" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="Format" type="ns:NotEmptyString" minOccurs="1" />
-      <xs:element name="BitRate" type="xs:unsignedInt" minOccurs="0"/>
-      <xs:element name="SamplingRate"  type="xs:unsignedInt" minOccurs="0"/>
-      <xs:element name="SamplingResolution" type="ns:samplingres" minOccurs="0" />
-      <xs:element name="Channels" type="ns:audiochannels" minOccurs="1" maxOccurs="1" />
-      <xs:element name="Userdata" minOccurs="0" maxOccurs="1" type="ns:UserData"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="Audio">
-    <xs:sequence>
-      <xs:element name="Track" minOccurs="1" maxOccurs="unbounded" type="ns:AudioTrack"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="Packings">
+	<xs:complexType name="AudioTrack">
     <xs:annotation>
-      <xs:documentation>Allows specification of content packings</xs:documentation>
+      <xs:documentation>Description of an audio track.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="Packing" minOccurs="1" maxOccurs="unbounded" type="ns:Packing"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="Packing">
-    <xs:annotation>
-      <xs:documentation>Allows specification of content packing</xs:documentation>
-    </xs:annotation>
-    <xs:sequence>
-      <xs:element name="ClientReference" minOccurs="0" maxOccurs="1" type="ns:String1_128">
+			<xs:element name="ID" type="ns:NotEmptyString" minOccurs="0" >
         <xs:annotation>
-          <xs:documentation>Allows specifing the client reference for packing</xs:documentation>
+          <xs:documentation>Audio track Id</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PackingPart" minOccurs="1" maxOccurs="unbounded" type="ns:PackingPart"/>       
-      </xs:sequence>
-    <xs:attribute name="Default" type="xs:boolean" use="required"/>
-    <xs:attribute name="Name" type="ns:String1_100" use="required"/>
-    <xs:attribute name="Status" type ="ns:ContentStatus" use="optional"/>
-  </xs:complexType>
-
-  <xs:complexType name="PackingPart">
-    <xs:annotation>
-      <xs:documentation>Allows specification of content packing part</xs:documentation>
-    </xs:annotation>
-    <xs:sequence>
-      <xs:element name="TcIn" minOccurs="1" maxOccurs="1" type="xs:long">
+      <xs:element name="Combination" type="ns:NotEmptyString" minOccurs="0" maxOccurs="1">
         <xs:annotation>
-          <xs:documentation>First frame in microseconds</xs:documentation>
+          <xs:documentation>Audio track numbers (audio coding combination label). Ex: "1-2".</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Duration" minOccurs="1" maxOccurs="1" type="xs:long">
+			<xs:element name="Format" type="ns:NotEmptyString" minOccurs="1" >
         <xs:annotation>
-          <xs:documentation>Duration in microseconds</xs:documentation>
+          <xs:documentation>Audio codec. Ex: "PCM".</xs:documentation>
         </xs:annotation>
       </xs:element>
-    </xs:sequence>
-    <xs:attribute name="Part" type="xs:int" use="required"/>
-  </xs:complexType>
-
-  <xs:complexType name="Container">
-    <xs:sequence>
-      <xs:element name="TcStart" type="ns:timecode" minOccurs="0" maxOccurs="1" >
+      <xs:element name="BitRate" type="xs:unsignedInt" minOccurs="0">
         <xs:annotation>
-          <xs:documentation>Timecode of first picture</xs:documentation>
-          <xs:documentation>If not provided, will be assume to be 0</xs:documentation>
+          <xs:documentation>Audio bitrate in bits par second.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Duration" type="ns:timecode" minOccurs="1" maxOccurs="1">
+      <xs:element name="SamplingRate"  type="xs:unsignedInt" minOccurs="0">
         <xs:annotation>
-          <xs:documentation>Total duration of container</xs:documentation>
+          <xs:documentation>Sampling frequency code.</xs:documentation>
+          <xs:documentation>8=44.1kHz  9=48kHz</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Format" type ="xs:string" minOccurs="0" maxOccurs="1">
+			<xs:element name="SamplingResolution" type="ns:samplingres" minOccurs="0" >
         <xs:annotation>
-          <xs:documentation>Used to specify container format and resolve file extension ambiguities (.mxf for example)</xs:documentation>
+          <xs:documentation>Number of bits used for audio coding. Default value = 16 bits.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Video" minOccurs="0" maxOccurs="1" type="ns:Video"/>
-      <xs:element name="Audio" minOccurs="0" maxOccurs="1" type="ns:Audio"/>
-      <xs:element name="Userdata" minOccurs="0" maxOccurs="1" type="ns:UserData"/>
-      <xs:element name="ClientReference" minOccurs="0" maxOccurs="1" type="ns:String1_128">
+      <xs:element name="Channels" type="ns:audiochannels" minOccurs="1" maxOccurs="1" >
         <xs:annotation>
-          <xs:documentation>Allows specifing the client reference for container</xs:documentation>
+          <xs:documentation>Audio channel description.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+			<xs:element name="Userdata" minOccurs="0" maxOccurs="1" type="ns:UserData">
+        <xs:annotation>
+          <xs:documentation>optional additional data.</xs:documentation>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
-    <xs:attribute name="FinalFileName" type="xs:string">
+	</xs:complexType>
+
+	<xs:complexType name="Audio">
+		<xs:annotation>
+			<xs:documentation>Description of audio essence. Can be provided for video files.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Track" minOccurs="1" maxOccurs="unbounded" type="ns:AudioTrack"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Packings">
+		<xs:annotation>
+			<xs:documentation>List of the Content's Packings</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Packing" minOccurs="1" maxOccurs="unbounded" type="ns:Packing"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Packing">
+		<xs:annotation>
+			<xs:documentation>Specification of a Content's Packing</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ClientReference" minOccurs="0" maxOccurs="1" type="ns:String1_128">
+				<xs:annotation>
+					<xs:documentation>Optional. Client Reference of the Packing, related to the Interface tag.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PackingPart" minOccurs="1" maxOccurs="unbounded" type="ns:PackingPart">
+				<xs:annotation>
+					<xs:documentation>Description of a Part of the Packing. Each packing must have at least 1 part.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Default" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation>Indicates the Main Packing. 1 packing must be Main.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Name" type="ns:String1_100" use="required">
+			<xs:annotation>
+				<xs:documentation>Packing's name.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Status" type ="ns:ContentStatus" use="optional">
+			<xs:annotation>
+				<xs:documentation>Editorial status of the Packing. Will override the Content status.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="PackingPart">
+		<xs:annotation>
+			<xs:documentation>Specification of Content's packing part.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TcIn" minOccurs="1" maxOccurs="1" type="xs:long">
+				<xs:annotation>
+					<xs:documentation>First frame in microseconds</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Duration" minOccurs="1" maxOccurs="1" type="xs:long">
+				<xs:annotation>
+					<xs:documentation>Duration in microseconds</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Part" type="xs:int" use="required">
       <xs:annotation>
-        <xs:documentation>Allows specifing the name of the file once imported</xs:documentation>
+        <xs:documentation>Number of the part.</xs:documentation>
       </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="Status" type="ns:FileStatus">
-      <xs:annotation>
-        <xs:documentation>Allows specifing the file status</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-  </xs:complexType>
-
-  <xs:complexType name="Section">
-    <xs:annotation>
-      <xs:documentation>Allows specification of content section defined by this file (if not provided, assumed to be 1 of 1)</xs:documentation>
-    </xs:annotation>
-    <xs:sequence>
-      <xs:element name="TcIn" type="ns:timecode" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="Duration" type="ns:timecode" minOccurs="0" maxOccurs="1"/>
-    </xs:sequence>
-    <xs:attribute name="Part" type="xs:int" use="required"/>
-    <xs:attribute name="TotalParts" type="xs:int" use="required"/>
-    <xs:attribute name="Label" type="ns:String0_50" use="optional"/>
-  </xs:complexType>
-
-  <xs:complexType name="Metadata">
-    <xs:annotation>
-      <xs:documentation>Contains editorial information associated with the file</xs:documentation>
-    </xs:annotation>
-    <xs:sequence>
-      <xs:element name="ContentName" type="ns:String1_255" minOccurs="1" maxOccurs="1">
-        <xs:annotation>
-          <xs:documentation>Allows specifing the name of the content associated to the file</xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="Label" type="ns:String1_30" minOccurs="0" maxOccurs="1">
-        <xs:annotation>
-          <xs:documentation>Allows label of content specification.</xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="Gender" type="ns:ContentGender" minOccurs="1" maxOccurs="1">
-        <xs:annotation>
-          <xs:documentation>Gender of content</xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="Type" type="ns:NotEmptyString" minOccurs="0" maxOccurs="1">
-        <xs:annotation>
-          <xs:documentation>Type of content, specifying gender (for example advertising or movie). If not provided, default type equals to gender must be used</xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="Folio" type="ns:NotEmptyString" minOccurs="0" maxOccurs="1">
-        <xs:annotation>
-          <xs:documentation>Allows folio storing content specification. If not provided, default one configured for user/application is used</xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="ContentGroup" type="ns:String1_255" minOccurs="0" maxOccurs="1">
-        <xs:annotation>
-          <xs:documentation>Allows specification of name of the group of content (if not provided ContentName is used)</xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="CreationDate" type="xs:date" minOccurs="0" maxOccurs="1">
-        <xs:annotation>
-          <xs:documentation>Initial creation date of content</xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="Userdata" minOccurs="0" maxOccurs="1" type="ns:UserData"/>
-      <xs:element name="Section" minOccurs="0" maxOccurs="1" type="ns:Section"/>
-      <xs:element name="Status" minOccurs ="0" maxOccurs ="1" type ="ns:ContentStatus"/>
-      <xs:element name="ClientReference" minOccurs="0" maxOccurs="1" type="ns:String1_128">
-        <xs:annotation>
-          <xs:documentation>Allows specifing the client reference for content</xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="Packings" minOccurs="0" maxOccurs="1" type="ns:Packings"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="root">
-      <xs:sequence>
-        <xs:element name="Container" minOccurs="0" maxOccurs="1" type="ns:Container"/>
-        <xs:element name="Metadata" minOccurs="0" maxOccurs="1" type="ns:Metadata"/>
-        <xs:element name="Originaldata" minOccurs="0" maxOccurs="1" type="ns:UserData"/>
-        <xs:element name="Interface" minOccurs="0" maxOccurs="1" type="ns:String1_50"/>
-      </xs:sequence>
-      <xs:attribute name="XMLSource" use="required">
-        <xs:simpleType>
-          <xs:restriction base="xs:string"/>
-        </xs:simpleType>
       </xs:attribute>
     </xs:complexType>
 
-  <xs:element name="root" type="ns:root"/>
-  
+	<xs:complexType name="Container">
+		<xs:annotation>
+			<xs:documentation>Specification of the Content's file.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TcStart" type="ns:timecode" minOccurs="0" maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>Timecode of first picture. If not provided, default value is 00:00:00:00.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Duration" type="ns:timecode" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Total duration of the file.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Format" type ="xs:string" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Container format. Used to resolve file extension ambiguities. Ex: "MXF".</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Video" minOccurs="0" maxOccurs="1" type="ns:Video">
+        <xs:annotation>
+          <xs:documentation>Description of video essence. Can be provided for video files.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Audio" minOccurs="0" maxOccurs="1" type="ns:Audio">
+          <xs:annotation>
+            <xs:documentation>Description of audio essence. Can be provided for video files.</xs:documentation>
+          </xs:annotation>
+      </xs:element>
+      <xs:element name="Userdata" minOccurs="0" maxOccurs="1" type="ns:UserData">
+				<xs:annotation>
+					<xs:documentation>Userfields of the Content.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ClientReference" minOccurs="0" maxOccurs="1" type="ns:String1_128">
+				<xs:annotation>
+					<xs:documentation>Optional. Client Reference of the Container, related to the Interface tag.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="FinalFileName" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Name of the video file, once imported.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Status" type="ns:FileStatus">
+			<xs:annotation>
+				<xs:documentation>File technical status</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="Section">
+		<xs:annotation>
+			<xs:documentation>Specification of the Content section, related to this file. If not provided: assumed to be 1 of 1</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TcIn" type="ns:timecode" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="Duration" type="ns:timecode" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="Part" type="xs:int" use="required"/>
+		<xs:attribute name="TotalParts" type="xs:int" use="required"/>
+		<xs:attribute name="Label" type="ns:String0_50" use="optional"/>
+	</xs:complexType>
+
+	<xs:complexType name="Metadata">
+		<xs:annotation>
+			<xs:documentation>Editorial information associated to the Content.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ContentName" type="ns:String1_255" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Name of the Content associated to the file.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Label" type="ns:String1_30" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Label of the Content. Ex: "v1"</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Gender" type="ns:ContentGender" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Gender of Content.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Type" type="ns:NotEmptyString" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Program Type of the Content (for example advertising or movie). If not provided, a default Type equals to Gender must be used.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Folio" type="ns:NotEmptyString" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Folio where the Content will be stored. If not provided, the configured default folio is used.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ContentGroup" type="ns:String1_255" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Name of the Content group (if not provided, ContentName is used).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CreationDate" type="xs:date" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Optional. Initial creation date of the Content. Default value is current date.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Userdata" minOccurs="0" maxOccurs="1" type="ns:UserData">
+				<xs:annotation>
+					<xs:documentation>Optional additional data.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Section" minOccurs="0" maxOccurs="1" type="ns:Section">
+				<xs:annotation>
+					<xs:documentation>Section of the file, used by the Content.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Status" minOccurs ="0" maxOccurs ="1" type ="ns:ContentStatus">
+							<xs:annotation>
+					<xs:documentation>Optional. Content editorial status.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ClientReference" minOccurs="0" maxOccurs="1" type="ns:String1_128">
+				<xs:annotation>
+					<xs:documentation>Optional. Client Reference of the Content, related to the Interface tag.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Packings" minOccurs="0" maxOccurs="1" type="ns:Packings">
+				<xs:annotation>
+					<xs:documentation>Optional. Definition of the broadcast versions of the Content.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="root">
+    <xs:annotation>
+      <xs:documentation>Content description and metadata.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+			<xs:element name="Container" minOccurs="0" maxOccurs="1" type="ns:Container">
+				<xs:annotation>
+					<xs:documentation>Description of the video file</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Metadata" minOccurs="0" maxOccurs="1" type="ns:Metadata">
+				<xs:annotation>
+					<xs:documentation>Description of the media metadata</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Originaldata" minOccurs="0" maxOccurs="1" type="ns:UserData">
+				<xs:annotation>
+					<xs:documentation>Original metadata.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Interface" minOccurs="0" maxOccurs="1" type="ns:String1_50">
+				<xs:annotation>
+					<xs:documentation>Label of the external interface, which refers to the ClientReferences defined in the xml document</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="XMLSource" use="required">
+      <xs:annotation>
+        <xs:documentation>Name of the issuer of the XML file.</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction base="xs:string"/>
+      </xs:simpleType>
+    </xs:attribute>
+	</xs:complexType>
+
+	<xs:element name="root" type="ns:root"/>
+
 </xs:schema>
