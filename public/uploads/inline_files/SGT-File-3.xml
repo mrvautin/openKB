@@ -32,7 +32,7 @@
          <Combination>3-4</Combination> 
          <Format>PCM</Format> 
          <Channels> 
-            <Channel Format="Stereo" Language="fra">2.0</Channel> 
+            <Channel Format="Stereo" Language="eng">2.0</Channel> 
          </Channels> 
        </Track> 
     </Audio>
@@ -40,7 +40,8 @@
     <Userdata>
       <Data Label="Traffic ID" Value="C_AZ000019" />
     </Userdata>
-    <ClientReference>C_AZ000019</ClientReference>
+	
+    <ClientReference>M_AZ000019</ClientReference>
   </Container>
   
   <Metadata>
@@ -66,6 +67,6 @@
     </Packings>
   </Metadata>
   
-  <Interface>Locator-A</Interface>
+  <Interface>BXF Interface</Interface>
   
 </root>

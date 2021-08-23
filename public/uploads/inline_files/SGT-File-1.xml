@@ -55,7 +55,7 @@
     <Userdata>
       <Data Label="label4" Value="value4" />
     </Userdata>
-    <ClientReference>C_F000001A</ClientReference>
+    <ClientReference>M_F000001A</ClientReference>
   </Container>
   <Metadata>
     <ContentName>LA GRANDE TRAVERSEE</ContentName>
@@ -87,5 +87,5 @@
   <Originaldata>
     <Data Label="label6" Value="value6" />
   </Originaldata>
-  <Interface>Locator-A</Interface>
+  <Interface>BXF Interface</Interface>
 </root>

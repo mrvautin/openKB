@@ -51,7 +51,8 @@
     <Userdata>
       <Data Label="Traffic ID" Value="C_AZ000019" />
     </Userdata>
-    <ClientReference>C_AZ000019</ClientReference>
+	
+    <ClientReference>M_AZ000019</ClientReference>
   </Container>
   
   <Metadata>
@@ -78,6 +79,6 @@
     </Packings>
   </Metadata>
   
-  <Interface>Locator-A</Interface>
+  <Interface>BXF Interface</Interface>
   
 </root>
