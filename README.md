@@ -18,3 +18,14 @@ Pour la configuration et la customisation: voir [ici](docs/configuration.md)
 
 Pour les modification effectuées dans cette branche: voir le [change_log](docs/changelog.md)
 
+## Gestion des images
+
+*Heroku* ne conserve pas les fichiers qui sont uploadées via l'administration du site (le site est resetté toutes les heures). Pour ajouter une image, il faut donc procéder ainsi:
+
+* Déposer le fichier PNG (ou tout autre fichier, même non-image) dans le repository, dans `public/uploads/inline_files`.
+* Faire un `commit` du repository dans GitHub. Cela déclenche un upload du site actualisé vers *Heroku*.
+* Dans la page où l'on veut faire apparaitre les fichiers, on insère :
+  *  `[Exemple de fichier XML](/uploads/inline_files/exemple.xml)`   : fait apparaître un lien pour télécharger ou ouvrir le fichier.
+  *  `![image](http://veda-kb.herokuapp.com/uploads/inline_files/DVE-Play.PNG)` : fait apparaitre une image (on obtient le lien en allant dans `Administrateur` → `Fichiers` → `clic-droit` sur une image → `copier le lien` )
+  *  `![image](http://i.stack.imgur.com/N1IGZ.jpg)`  : fait apparaitre une image issue d'un autre site
+
