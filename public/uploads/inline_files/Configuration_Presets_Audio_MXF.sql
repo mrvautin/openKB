@@ -57,7 +57,7 @@ values (
 	17,             -- 1="1"   17="1-2"
 	0, 2, 0,
 	'Add Stereo',
-	0)
+	1)              -- Ce sera la track par defaut pour le RAS et le LOCATOR
 	
 -- -----------------------------------------------------------------------------
 -- AJOUT PCM DOLBY 5.1 pour MXF
@@ -98,7 +98,7 @@ values (
 	10029,           -- DE Audio
 	4, '4', 0, 24,   -- ID et Label de Track
 	6, 256000, 9,    -- 1=Mono 3=Stereo 6=DolbyE 5=5.1
-	19,              -- 1="1"   17="1-2"  20="7-8"   29="1-2-3-4-5-6"
+	20,              -- 1="1"   17="1-2"  20="7-8"   29="1-2-3-4-5-6"
 	0, 2, 0, 
 	'Add Dolby-E',
 	0)
