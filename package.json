@@ -37,7 +37,7 @@
     "junk": "^2.0.0",
     "lodash": "^4.17.15",
     "lunr": "^0.7.2",
-    "markdown-it": "^7.0.1",
+    "markdown-it": "^12.3.2",
     "mime-types": "^2.1.26",
     "mkdirp": "^0.5.1",
     "moment": "^2.24.0",
