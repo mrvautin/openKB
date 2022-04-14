@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<root XMLSource="Adonis">
+	<FileName>77978K11</FileName>
+	<ContentName>Transformers: Dark of the Moon</ContentName>
+	<ContentStatus>Broadcastable</ContentStatus>
+	<Folio>FILE IMPORT</Folio>
+	<SOM>00:00:00:00</SOM>
+	<Duration>02:19:58:12</Duration>
+	<Format>XDCAM422</Format>
+	<Type>MXF_FICTION</Type>
+	<Userfields>
+		<Data Label="Original Title" Value="Transformers: Dark of the Moon" />
+		<Data Label="Country Year" Value="USA, 2011" />
+		<Data Label="Director" Value="Michael Bay" />
+	</Userfields>
+	<!-- Only 1 packing allowed -->
+	<Packing Name="Packing" >
+		<PackingPart>
+			<Part>1</Part>
+			<OffsetIn>00:00:00:00</OffsetIn>
+			<Duration>00:20:52:23</Duration>
+		</PackingPart>
+		<PackingPart>
+			<Part>2</Part>
+			<OffsetIn>00:20:52:24</OffsetIn>
+			<Duration>00:28:49:10</Duration>
+		</PackingPart>
+		<PackingPart>
+			<Part>3</Part>
+			<OffsetIn>01:42:10:08</OffsetIn>
+			<Duration>00:37:48:03</Duration>
+		</PackingPart>
+	</Packing>
+</root>

@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+
+	<!-- VIRTUAL MIXER -->
+
+	<Device>
+		<Name>VMIXER-2</Name>
+		<UID>1036</UID>
+		<Type>VirtualMixer</Type>
+		<Plugin>SGT.Device.VirtualMixer</Plugin>
+		<MasterUID>0</MasterUID>
+		<DevParams>
+			<Mixers>
+				<Mixer UID="21" Host="localhost" Mandatory="true" Name="MIX-2" />
+			</Mixers>
+			<Routers>
+				<Router UID="20" Host="localhost" Mandatory="true" Name="SWITCHER" />
+			</Routers>
+			<Actions>
+				<!-- Router + Mixer Mode AB-->
+				<RouterMixerAB Use="1">
+					<Mixer>12</Mixer>
+					<Router>20</Router>
+					<!-- Entrées Grille  = Sources Automation -->
+					<!-- @Router = No sortie Grille pour ce Mixer -->
+					<!-- @Mixer  = No entree Mixer -->
+					<A Router="4" Mixer="1" />
+					<B Router="5" Mixer="2" />
+					<!-- Retour en CUT sur A-->
+					<ReturnToA Use="0" DelayAfterEffect="1000" DelayBetweenPrepaAndTake="500" MinClipDuration="5000" />
+				</RouterMixerAB>
+			</Actions>
+			<EffectSpeed Slow="2000" Medium="1000" Fast="500" />
+		</DevParams>
+	</Device>
+
+	<!-- GRILLE PHYSIQUE -->
+	
+	<Device>
+		<Name>SWITCHER</Name>
+		<UID>20</UID>
+		<Type>Switcher</Type>
+		<Plugin>SGT.Device.Router.SWP08</Plugin>
+		<MasterUID>0</MasterUID>
+		<DevParams>
+			<DecalTake>0</DecalTake>
+			<Polling>1000</Polling>
+			<!-- <IPAddress>127.0.0.1</IPAddress> -->
+			<IPAddress>172.17.20.49</IPAddress>
+			<Port>2330</Port>
+			<OutputNumber>32</OutputNumber>
+		</DevParams>
+	</Device>
+
+	<!-- MELANGEUR PHYSIQUE -->
+
+	<Device>
+		<Name>MIX-2</Name>
+		<UID>21</UID>
+		<Type>Mixer</Type>
+		<Plugin>SGT.Device.Simulate</Plugin>
+		<MasterUID>0</MasterUID>
+		<DevParams>
+			<DecalTake>0</DecalTake>
+		</DevParams>
+	</Device>
+
+	<!-- EVS VIRTUEL DVE -->
+
+	<Device>
+		<Name>DVE-2</Name>
+		<UID>1284</UID>
+		<Type>Evs</Type>
+		<Plugin>SGT.Device.VirtualMixer</Plugin>
+		<DevParams>
+			<Actions>
+				<DVE>
+					<Route  UID ="20" Mandatory="true" In="45" Out="12"/>
+					<Server UID ="22" Mandatory="true"/>
+					<Evs    UID ="23" Mandatory="true" />
+				</DVE>
+			</Actions>
+		</DevParams>
+	</Device>
+	
+	<!-- DEVICES PHYSIQUES POUR LE DVE -->
+	
+	<Device>
+		<Name>DEC-DVE-2</Name>
+		<UID>22</UID>
+		<Type>Server</Type>
+		<Plugin>SGT.Device.Simulate</Plugin>
+	</Device>
+
+	<Device>
+		<Name>INTUITION-DVE-2</Name>
+		<UID>23</UID>
+		<Type>Evs</Type>
+		<Plugin>SGT.Device.Simulate</Plugin>
+	</Device>
+
+</root>

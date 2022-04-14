@@ -41,7 +41,7 @@ router.get('/', common.restrict, (req, res, next) => {
     common.dbQuery(db.kb, { kb_published: 'true' }, sortBy, config.settings.num_top_results, (err, top_results) => {
         common.dbQuery(db.kb, { kb_published: 'true', kb_featured: 'true' }, sortBy, featuredCount, (err, featured_results) => {
             res.render('index', {
-                title: 'openKB',
+                title: config.settings.website_title,
                 user_page: true,
                 homepage: true,
                 top_results: top_results,
@@ -1505,6 +1505,15 @@ router.get('/export', common.restrict, (req, res) => {
         return;
     }
 
+	// generate a string date for the exported filename
+	var today = new Date();
+	var dd    = today.getDate();
+	var mm    = today.getMonth()+1; //January is 0!
+	var yyyy  = today.getFullYear();
+	if(dd<10) { dd = '0'+dd } 
+	if(mm<10) { mm = '0'+mm } 
+	var date  = yyyy + '-' + mm + '-' + dd;
+	
     // dump all articles to .md files. Article title is the file name and body is contents
     common.dbQuery(db.kb, {}, null, null, (err, results) => {
         // files are written and added to zip.
@@ -1519,7 +1528,7 @@ router.get('/export', common.restrict, (req, res) => {
         fs.writeFile('data/export.zip', buffer, (err) => {
             if(err)throw err;
             res.set('Content-Type', 'application/zip');
-            res.set('Content-Disposition', 'attachment; filename=data/export.zip');
+            res.set('Content-Disposition', 'attachment; filename='+config.settings.website_title+'_export_'+date+'.zip');
             res.set('Content-Length', buffer.length);
             res.end(buffer, 'binary');
         });

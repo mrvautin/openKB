@@ -26,7 +26,7 @@ const app = express();
 
 // setup the translation
 const i18n = new (require('i18n-2'))({
-    locales: ['en', 'de', 'da', 'es', 'cn', 'ru', 'pt-br', 'jp', 'fi', 'sv', 'tr'],
+    locales: ['en', 'de', 'fr', 'da', 'es', 'cn', 'ru', 'pt-br', 'jp', 'fi', 'sv', 'tr'],
     directory: path.join(__dirname, 'locales/'),
     defaultLocale: 'en',
     cookieName: 'locale'
@@ -329,13 +329,16 @@ if(config.settings.database.type === 'embedded'){
         });
     });
 }else{
-    MongoClient.connect(config.settings.database.connection_string, {}, (err, db) => {
+    MongoClient.connect(config.settings.database.connection_string, {}, (err, client) => {
         // On connection error we display then exit
         if(err){
             console.error('Error connecting to MongoDB: ' + err);
             process.exit();
         }
 
+        console.log('Connected to MongoDB :');
+		let dbName = "openkb";
+		let db = client.db(dbName);
         // setup the collections
         db.users = db.collection('users');
         db.kb = db.collection('kb');
@@ -345,6 +348,7 @@ if(config.settings.database.type === 'embedded'){
         app.db = db;
 
         // add articles to index
+        console.log('Building index');
         common.buildIndex(db, (index) => {
             // add the index
             app.index = index;

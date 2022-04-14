@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Fichier XML complet généré avec XMLnotepad -->
+
+<root xmlns="http://www.sgt.eu/FileDescription/" XMLSource="FileGenerator">
+  <Container FinalFileName="F000001A" Status="Accepted">
+    <TcStart>00:00:00:00</TcStart>
+    <Duration>00:00:05:00</Duration>
+    <Format>MXF</Format>
+    <Video HdNative="true">
+      <ID>1</ID>
+      <Format>HDCAM XD 422</Format>
+      <Standard>PAL</Standard>
+      <VideoFormat>16/9</VideoFormat>
+      <ImageStoring>16/9</ImageStoring>
+      <ImageRatio>1.77</ImageRatio>
+      <Width>1920</Width>
+      <Height>1080</Height>
+      <BitRate>50000000</BitRate>
+      <SamplingResolution>16</SamplingResolution>
+      <FrameRate>25</FrameRate>
+      <Userdata>
+        <Data Label="label1" Value="value1" />
+      </Userdata>
+    </Video>
+    <Audio>
+      <Track>
+        <ID>1</ID>
+        <Combination>17</Combination>
+        <Format>PCM</Format>
+        <BitRate>256000</BitRate>
+        <SamplingRate>9</SamplingRate>
+        <SamplingResolution>16</SamplingResolution>
+        <Channels>
+          <Channel Format="Stereo" Language="fre">2.0</Channel>
+        </Channels>
+        <Userdata>
+          <Data Label="label2" Value="value2" />
+        </Userdata>
+      </Track>
+      <Track>
+        <ID>3</ID>
+        <Combination>18</Combination>
+        <Format>PCM</Format>
+        <BitRate>256000</BitRate>
+        <SamplingRate>9</SamplingRate>
+        <SamplingResolution>16</SamplingResolution>
+        <Channels>
+          <Channel Format="Stereo" Language="fre">2.0</Channel>
+        </Channels>
+        <Userdata>
+          <Data Label="label3" Value="value3" />
+        </Userdata>
+      </Track>
+    </Audio>
+    <Userdata>
+      <Data Label="label4" Value="value4" />
+    </Userdata>
+    <ClientReference>M_F000001A</ClientReference>
+  </Container>
+  <Metadata>
+    <ContentName>LA GRANDE TRAVERSEE</ContentName>
+    <Label>v1</Label>
+    <Gender>Video</Gender>
+    <Type>Movie</Type>
+    <Folio>CreatedByXML</Folio>
+    <ContentGroup>ASTERIX</ContentGroup>
+    <CreationDate>2021-08-20</CreationDate>
+    <Userdata>
+      <Data Label="label5" Value="value5" />
+    </Userdata>
+    <Section Label="1" Part="1" TotalParts="1">
+      <TcIn framerate="25">00:00:00:00</TcIn>
+      <Duration framerate="25">00:00:05:00</Duration>
+    </Section>
+    <Status>Unknown</Status>
+    <ClientReference>C_F000001A</ClientReference>
+    <Packings>
+      <Packing Default="true" Name="Packing 1" Status="Unknown">
+        <ClientReference>P_F000001A</ClientReference>
+        <PackingPart Part="1">
+          <TcIn>0</TcIn>
+          <Duration>5000000</Duration>
+        </PackingPart>
+      </Packing>
+    </Packings>
+  </Metadata>
+  <Originaldata>
+    <Data Label="label6" Value="value6" />
+  </Originaldata>
+  <Interface>BXF Interface</Interface>
+</root>
