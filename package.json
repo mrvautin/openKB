@@ -15,7 +15,7 @@
     "node": ">=8.0.0 <13.0.0"
   },
   "dependencies": {
-    "async": "^2.6.3",
+    "async": "^3.2.2",
     "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
     "bootstrap": "^3.4.1",
