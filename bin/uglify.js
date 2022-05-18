@@ -7,7 +7,6 @@ const fs = require('fs');
 uglifyFile('public/stylesheets/style.css', 'css');
 uglifyFile('public/stylesheets/github.css', 'css');
 uglifyFile('public/stylesheets/jpushmenu.css', 'css');
-uglifyFile('public/stylesheets/mermaid.css', 'css');
 uglifyFile('public/stylesheets/bootstrap-tokenfield.css', 'css');
 
 // js files

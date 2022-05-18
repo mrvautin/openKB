@@ -238,6 +238,28 @@ router.get('/' + config.settings.route_name + '/:id', common.restrict, (req, res
                 new_viewcount = old_viewcount + 1;
             }
 
+
+            if(config.settings.mermaid){
+            
+                var mermaidChart = function(code) {
+                    return '<div class="mermaid">'+code+'</div>';
+                }
+                
+                var defFenceRules = markdownit.renderer.rules.fence.bind(markdownit.renderer.rules)
+                markdownit.renderer.rules.fence = function(tokens, idx, options, env, slf) {
+                    var token = tokens[idx]
+                    var code = token.content.trim()
+                    if (token.info === 'mermaid') {
+                        return mermaidChart(code)
+                    }
+                    var firstLine = code.split(/\n/)[0].trim()
+                    if (firstLine === 'gantt' || firstLine === 'sequenceDiagram' || firstLine.match(/^graph (?:TB|BT|RL|LR|TD);?$/)) {
+                        return mermaidChart(code)
+                    }
+                    return defFenceRules(tokens, idx, options, env, slf)
+                }
+            }
+
             // update kb_viewcount
             db.kb.update({ $or: [{ _id: common.getId(req.params.id) }, { kb_permalink: req.params.id }] },
                 {

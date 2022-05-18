@@ -182,6 +182,9 @@ exports.config_expose = function (app){
     clientConfig.links_blank_page = config.settings.links_blank_page !== undefined ? config.settings.links_blank_page : true;
     clientConfig.typeahead_search = config.settings.typeahead_search !== undefined ? config.settings.typeahead_search : true;
     clientConfig.enable_spellchecker = config.settings.enable_spellchecker !== undefined ? config.settings.enable_spellchecker : true;
+    clientConfig.mermaid = config.settings.mermaid !== undefined ? config.settings.mermaid : false;
+    clientConfig.mermaid_options = config.settings.mermaid_options;
+    clientConfig.mermaid_auto_update = config.settings.mermaid_auto_update !== undefined ? config.settings.mermaid_auto_update : true;
     app.expose(clientConfig, 'config');
 };
 
