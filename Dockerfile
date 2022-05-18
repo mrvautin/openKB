@@ -1,7 +1,7 @@
 FROM node:10.16.3-alpine as builder
 RUN apk --no-cache add python make g++
 WORKDIR /var/openKB
-COPY package* .
+COPY package* ./
 RUN npm install
 
 FROM node:10.16.3-alpine
