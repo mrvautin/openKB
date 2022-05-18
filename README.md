@@ -9,10 +9,6 @@ by default but can also use a MongoDB server by changing the config (see below).
 
 Demo: [https://openkb.markmoffat.com](https://openkb.markmoffat.com)
 
-## Support
-
-If my work helps you, please consider [![buying me a coffee](https://cdn-images-1.medium.com/max/738/1*G95uyokAH4JC5Ppvx4LmoQ@2x.png)](https://www.buymeacoffee.com/mrvautin)
-
 ### Installation
 
 1. Clone Repository: `git clone https://github.com/mrvautin/openKB.git && cd openKB`
