@@ -6,17 +6,12 @@
   "scripts": {
     "start": "node app.js",
     "dbUpgrade": "node data/mongodbUpgrade.js",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect",
     "uglify": "node bin/uglify.js",
     "lint": "eslint ./"
   },
-  "engines": {
-    "node": ">=8.0.0 <13.0.0"
-  },
   "dependencies": {
     "async": "^2.6.3",
-    "bcrypt": "^3.0.7",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "bootstrap": "^3.4.1",
     "compression": "^1.7.4",
@@ -52,7 +47,6 @@
     "sanitize-html": "^1.21.1",
     "simplemde": "^1.11.2",
     "sitemap": "^1.8.1",
-    "snyk": "^1.280.0",
     "speakingurl": "^10.0.0",
     "uglify-js": "^3.7.6",
     "uglifycss": "0.0.27",
@@ -92,6 +86,5 @@
   "bugs": {
     "url": "https://github.com/mrvautin/openKB/issues"
   },
-  "homepage": "https://openkb.markmoffat.com",
-  "snyk": true
+  "homepage": "https://openkb.markmoffat.com"
 }

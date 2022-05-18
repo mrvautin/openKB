@@ -1,15 +1,13 @@
 # openKB
 
-![logo](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_logo_small.png)
-
-![npm downloads badge](https://nodei.co/npm/openkb.png?downloads=true "npm download badge")
+![logo](https://files.markmoffat.com/openkb/logo.png)
 
 [![Build Status](https://travis-ci.org/mrvautin/openKB.svg?branch=master)](https://travis-ci.org/mrvautin/openkb)
 
 openKB is a Markdown Knowledge base application (FAQ) built with [Nodejs](https://nodejs.org/) and [ExpressJS](http://expressjs.com/). The application uses an embedded database ([nedb](https://github.com/louischatriot/nedb))
 by default but can also use a MongoDB server by changing the config (see below). The application is designed to be easy to use and install and based around search rather than nested categories. Simply search for what you want and select from the results.
 
-Demo: [http://openkb.markmoffat.com](http://openkb.markmoffat.com)
+Demo: [https://openkb.markmoffat.com](https://openkb.markmoffat.com)
 
 ## Support
 
@@ -33,11 +31,6 @@ Running the application in Production using minified code can be done by:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mrvautin/openKB)
 
-### Hosted/Managed
-
-Don't want to manage, upgrade and install `openKB` yourself? [ezyFAQ](https://www.ezyfaq.com) is a hosted solution with all the benefits and features of `openKB` and more but using a fully managed/hosted
-platform.
-
 ### Features
 
 - **Search**: openKB is a search based Knowledge base (FAQ) backed by [Lunr.js](https://github.com/olivernn/lunr.js/) indexing to create the best possible results on searches.
@@ -52,39 +45,23 @@ platform.
 
 **Homepage**
 
-![Homepage](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_homepage_.png)
-
-**Responsive**
-
-![Responsive](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_desktop_mobile.png)
-
-**Fully Configurable**
-
-![Fully Configurable](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_settings.png)
+![Homepage](https://files.markmoffat.com/openkb/homepage.png)
 
 **Admin editor**
 
-![Editor](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_editor.png)
+![Editor](https://files.markmoffat.com/openkb/editor.png)
 
 **Article view**
 
-![Article view](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_articleview.png)
+![Article view](https://files.markmoffat.com/openkb/articleview.png)
 
 **Admin article management**
 
-![Article filtering](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_articlefiltering.png)
+![Article filtering](https://files.markmoffat.com/openkb/articlefiltering.png)
 
 **Managing files**
 
-![Files](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_files.png)
-
-**This is a deliberate rip from [https://twitter.com](https://twitter.com) to show an example. All design and credit goes to [https://twitter.com](https://twitter.com) and not openKB.**
-
-![Theme](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_theme_example.png)
-
-**Live search/typeahead**
-
-![typeahead](https://raw.githubusercontent.com/mrvautin/mrvautin.github.io/master/images/openkb/openkb_typeahead.png)
+![Files](https://files.markmoffat.com/openkb/files.png)
 
 ### Admin
 
@@ -210,7 +187,7 @@ The return Object from the API will be as follows:
 }
 ```
 
-The `errors` value will have any validation or error message which have occured. The `result` is an approval boolean. Eg: `true` was successful and `false` wasn't.
+The `errors` value will have any validation or error message which have occurred. The `result` is an approval boolean. Eg: `true` was successful and `false` wasn't.
 
 ### Migrating from NeDB to MongoDB (experimental)
 
