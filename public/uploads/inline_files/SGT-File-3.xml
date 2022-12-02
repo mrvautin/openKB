@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- Fichier XML opérationel plateforme V18 -->
+<!-- Fichier XML opérationel plateforme V20 -->
 <root xmlns="http://www.sgt.eu/FileDescription/" XMLSource="FileGenerator">
 	<Container FinalFileName="AZ000025" Status="Accepted">
 		<TcStart>00:00:00:00</TcStart>
