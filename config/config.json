@@ -24,8 +24,7 @@
         "app_context": "",
         "links_blank_page": true,
         "database": {
-			"type": "mongodb",
-			"connection_string": "mongodb://127.0.0.1:27017/openkb"
+            "type": "embedded"
         },
         "allow_voting": true,
         "google_analytics": "",

@@ -1,20 +1,22 @@
-FROM alpine:3.5
-
-RUN apk add --update nodejs
-
+FROM node:10.16.3-alpine as builder
+RUN apk --no-cache add python make g++
 WORKDIR /var/openKB
-
-COPY locales/ /var/openKB/locales/
-COPY public/ /var/openKB/public/
-COPY routes/ /var/openKB/routes/
-COPY views/ /var/openKB/views/
-COPY config/ /var/openKB/config/
-COPY app.js /var/openKB/
-COPY package.json /var/openKB/
-
+COPY package* .
 RUN npm install
 
+FROM node:10.16.3-alpine
+WORKDIR /var/openKB
+COPY package.json .
+COPY locales/ locales/
+COPY public/ public/
+COPY routes/ routes/
+COPY views/ views/
+COPY config/ config/
+COPY app.js .
+COPY --from=builder /var/openKB/node_modules node_modules
+
 VOLUME /var/openKB/data
+VOLUME /var/openKB/public/uploads
 
 EXPOSE 4444
 ENTRYPOINT ["npm", "start"]

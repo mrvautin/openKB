@@ -9,3 +9,4 @@ data/export.zip
 jsconfig.json
 .idea/
 .DS_Store
+ecosystem.config.js
