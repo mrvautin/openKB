@@ -123,6 +123,7 @@ exports.validate_permalink = function (db, data, callback){
 exports.restrict = function (req, res, next){
     const config = exports.read_config();
     const url_path = req.url;
+
     // if not protecting we check for public pages and don't check_login
     if(url_path.substring(0, 5).trim() === '/'){
         if(config.settings.password_protect === false){
