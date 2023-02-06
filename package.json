@@ -20,7 +20,7 @@
     "express": "^4.17.1",
     "express-handlebars": "^5.3.1",
     "express-session": "^1.17.0",
-    "express-state": "^1.4.0",
+    "express-state": "^2.0.0",
     "extract-zip": "^1.6.7",
     "font-awesome": "^4.6.3",
     "glob": "^5.0.14",
