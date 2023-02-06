@@ -123,7 +123,6 @@ exports.validate_permalink = function (db, data, callback){
 exports.restrict = function (req, res, next){
     const config = exports.read_config();
     const url_path = req.url;
-
     // if not protecting we check for public pages and don't check_login
     if(url_path.substring(0, 5).trim() === '/'){
         if(config.settings.password_protect === false){
@@ -155,6 +154,16 @@ exports.restrict = function (req, res, next){
     if(req.session.needs_setup === true){
         res.redirect(req.app_context + '/setup');
         return;
+    }
+
+    // if allowing query params and not protecting 
+    if(config.settings.allow_query_param === true ) {
+        if(url_path.substring(0, 2).trim() === '/?'){
+            if(config.settings.password_protect === false){
+                next();
+                return;
+            }
+        }    
     }
 
     // if not a public page we
