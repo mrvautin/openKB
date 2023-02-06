@@ -157,6 +157,16 @@ exports.restrict = function (req, res, next){
         return;
     }
 
+    // if allowing query params and not protecting 
+    if(config.settings.allow_query_param === true ) {
+        if(url_path.substring(0, 2).trim() === '/?'){
+            if(config.settings.password_protect === false){
+                next();
+                return;
+            }
+        }    
+    }
+
     // if not a public page we
     exports.check_login(req, res, next);
 };

@@ -51,6 +51,7 @@
             "cssLinkColor": "",
             "cssTextColor": "",
             "cssFontFamily": ""
-        }
+        },
+        "allow_query_param": true
     }
 }

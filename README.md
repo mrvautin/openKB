@@ -102,6 +102,7 @@ Most of the configuration can be done on the `/settings` page but there are some
 |`database`|The database type to use. See **Database setup**|
 |`google_analytics`|Adds Google Analytics to public facing pages. Include the entire code from Google including the &lt;script&gt; tags.|
 |`style`|Add any Hex color codes, HTML color names and fonts to style the public pages of your KB.|
+|`allow_query_param`|Allow main page query params to be passed without going to the login page.|
 
 **Data sorting**
 You can control the sort order or articles. You can sort on anything but popular fields are `kb_viewcount`,  `kb_published_date`,  `kb_last_updated` or `kb_votes`
