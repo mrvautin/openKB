@@ -44,7 +44,7 @@
     "remove-markdown": "^0.1.0",
     "require-main-filename": "^1.0.1",
     "rimraf": "^2.7.1",
-    "sanitize-html": "^2.3.2",
+    "sanitize-html": "^2.12.1",
     "simplemde": "^1.11.2",
     "sitemap": "^1.8.1",
     "speakingurl": "^10.0.0",
