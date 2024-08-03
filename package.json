@@ -41,7 +41,7 @@
     "multer": "^1.4.2",
     "nedb": "^1.8.0",
     "nedb-session-store": "^1.1.2",
-    "remove-markdown": "^0.1.0",
+    "remove-markdown": "^0.5.0",
     "require-main-filename": "^1.0.1",
     "rimraf": "^2.7.1",
     "sanitize-html": "^2.3.2",
