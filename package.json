@@ -36,7 +36,7 @@
     "mime-types": "^2.1.26",
     "mkdirp": "^0.5.1",
     "moment": "^2.24.0",
-    "mongodb": "^3.5.2",
+    "mongodb": "2.2.36",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",
     "nedb": "^1.8.0",
