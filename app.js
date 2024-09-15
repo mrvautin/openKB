@@ -24,8 +24,8 @@ const api = require('./routes/api');
 
 const app = express();
 
-app.use('/help', userRouter);
-app.use('/help', productRouter);
+app.use('/help', index);
+app.use('/help', api);
 // setup the translation
 const i18n = new (require('i18n-2'))({
     locales: ['en', 'de', 'da', 'es', 'cn', 'ru', 'pt-br', 'jp', 'fi', 'sv', 'tr', 'fa'],
