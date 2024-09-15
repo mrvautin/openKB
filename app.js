@@ -22,6 +22,9 @@ let handlebars = require('express-handlebars');
 const index = require('./routes/index');
 const api = require('./routes/api');
 
+app.use('/help', userRouter);
+app.use('/help', productRouter);
+
 const app = express();
 
 // setup the translation
@@ -344,7 +347,7 @@ if(config.settings.database.type === 'embedded'){
         db.votes = db.collection('votes');
 
         // add db to app for routes
-        app.db = db;
+        app.client = client;
 
         // add articles to index
         common.buildIndex(db, (index) => {
@@ -363,7 +366,7 @@ function exitHandler(options, err){
     if(options.cleanup){
         console.log('clean');
         if(config.settings.database.type !== 'embedded'){
-            app.db.close();
+            app.client.close();
         }
     }
     if(err){
