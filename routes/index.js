@@ -1528,23 +1528,29 @@ router.get('/export', common.restrict, (req, res) => {
     }
 
     // dump all articles to .md files. Article title is the file name and body is contents
-    common.dbQuery(db.kb, {}, null, null, (err, results) => {
+    common.dbQuery(db.kb, {}, null, null, async (err, results) => {
         // files are written and added to zip.
         const zip = new JSZip();
         for(let i = 0; i < results.length; i++){
             // add and write file to zip
             zip.file(results[i].kb_title + '.md', results[i].kb_body);
         }
+        try {
+            // save the zip and serve to browser
+            const buffer = await zip.generateAsync({ type: 'nodebuffer' });
+            fs.writeFile('data/export.zip', buffer, (err) => {
+                if (err) throw err;
+                res.set('Content-Type', 'application/zip');
+                res.set('Content-Disposition', 'attachment; filename=data/export.zip');
+                res.set('Content-Length', buffer.length);
+                res.end(buffer, 'binary');
+            });
+        } catch (err) {
+            console.error('Error generating zip:', err);
+            res.status(500).send('Error generating zip');
+        }
 
-        // save the zip and serve to browser
-        const buffer = zip.generate({ type: 'nodebuffer' });
-        fs.writeFile('data/export.zip', buffer, (err) => {
-            if(err)throw err;
-            res.set('Content-Type', 'application/zip');
-            res.set('Content-Disposition', 'attachment; filename=data/export.zip');
-            res.set('Content-Length', buffer.length);
-            res.end(buffer, 'binary');
-        });
+
     });
 });
 
