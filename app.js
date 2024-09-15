@@ -329,7 +329,7 @@ if(config.settings.database.type === 'embedded'){
         });
     });
 }else{
-    MongoClient.connect(config.settings.database.connection_string, {}, (err, db) => {
+    MongoClient.connect(config.settings.database.connection_string, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, client) {
         // On connection error we display then exit
         if(err){
             console.error('Error connecting to MongoDB: ' + err);
@@ -337,6 +337,8 @@ if(config.settings.database.type === 'embedded'){
         }
 
         // setup the collections
+        const db = client.db();
+
         db.users = db.collection('users');
         db.kb = db.collection('kb');
         db.votes = db.collection('votes');
