@@ -24,7 +24,7 @@
         "app_context": "",
         "links_blank_page": true,
         "database": {
-            "type": "embedded"
+            "type": "mongodb"
         },
         "allow_voting": true,
         "google_analytics": "",

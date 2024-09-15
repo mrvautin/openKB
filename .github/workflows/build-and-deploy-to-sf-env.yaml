@@ -1,0 +1,107 @@
+name: Build And Deploy To Self-Hosted Environment
+
+# The concurrency group is then named ci-cd-pipeline-master for workflows triggered by the master branch.
+# As a result, only one workflow will be in progress at a time for each branch.
+concurrency: ci-cd-help-magicdoor-com-pipeline-sf-${{ github.ref }}
+
+on:
+  push:
+    branches:
+      - master
+      - harry/github-action
+
+env:
+  REGISTRY_HOST: "registry.magicdoor.io"
+  REGISTRY_NAMESPACE: "magicdoor"
+  REGISTRY_USERNAME: "magicdoor"
+  POFE_DOCKER_IMAGE_NAME: "help-magicdoor-com"
+  STAGING_NAMESPACE: "test"
+  PROD_NAMESPACE: "prod"
+
+jobs:
+  buildPOFEDockerImage:
+    runs-on: ubuntu-latest
+    name: Build POFE docker image
+    outputs:
+      IMAGE_URL: ${{ env.REGISTRY_HOST }}/${{ env.REGISTRY_NAMESPACE }}/${{ env.POFE_DOCKER_IMAGE_NAME }}:${{ github.sha }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Login to Harbor Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY_HOST }}
+          username: ${{ env.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          file: Dockerfile
+          context: .
+          push: true
+          build-args: |
+            SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
+          tags: "${{ env.REGISTRY_HOST }}/${{ env.REGISTRY_NAMESPACE }}/${{ env.POFE_DOCKER_IMAGE_NAME }}:${{ github.sha }}"
+
+  deployStaging:
+    runs-on: ubuntu-latest
+    needs: [buildPOFEDockerImage]
+    name: Deploy Staging
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup Kubeconfig
+        uses: Azure/k8s-set-context@v4
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - name: Bake Manifest
+        uses: azure/k8s-bake@v3
+        with:
+          renderEngine: "helm"
+          releaseName: ${{ env.POFE_DOCKER_IMAGE_NAME }}
+          helmChart: "./helm-chart/"
+          overrides: |
+            image.tag:${{ github.sha }}
+          helm-version: "latest"
+        id: bake
+
+      - name: Deploy Staging
+        uses: Azure/k8s-deploy@v5
+        with:
+          manifests: ${{ steps.bake.outputs.manifestsBundle }}
+          namespace: "${{ env.STAGING_NAMESPACE }}"
+
+  deployProd:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip prod]')"
+    needs: [deployStaging]
+    name: Deploy Prod
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup Kubeconfig
+        uses: Azure/k8s-set-context@v4
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - name: Bake Manifest
+        uses: azure/k8s-bake@v3
+        with:
+          renderEngine: "helm"
+          releaseName: ${{ env.POFE_DOCKER_IMAGE_NAME }}
+          helmChart: "./helm-chart/"
+          overrides: |
+            image.tag:${{ github.sha }}
+          helm-version: "latest"
+        id: bake
+
+      - name: Deploy Prod
+        uses: Azure/k8s-deploy@v5
+        with:
+          manifests: ${{ steps.bake.outputs.manifestsBundle }}
+          namespace: "${{ env.PROD_NAMESPACE }}"
