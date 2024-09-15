@@ -63,7 +63,7 @@ jobs:
         with:
           renderEngine: "helm"
           releaseName: ${{ env.POFE_DOCKER_IMAGE_NAME }}
-          helmChart: "./helm-chart/"
+          helmChart: "./.helm-chart/"
           overrides: |
             image.tag:${{ github.sha }}
           helm-version: "latest"
@@ -94,7 +94,7 @@ jobs:
         with:
           renderEngine: "helm"
           releaseName: ${{ env.POFE_DOCKER_IMAGE_NAME }}
-          helmChart: "./helm-chart/"
+          helmChart: "./.helm-chart/"
           overrides: |
             image.tag:${{ github.sha }}
           helm-version: "latest"
