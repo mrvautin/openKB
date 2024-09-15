@@ -46,7 +46,6 @@ spec:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- with .Values.volumeMounts }}
           envFrom:
             - configMapRef:
                 name: {{ include "help-magicdoor-com.fullname" . }}-configmap
@@ -54,6 +53,7 @@ spec:
             - secretRef:
                 name: {{ include "help-magicdoor-com.fullname" . }}-secret
                 optional: true
+          {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
