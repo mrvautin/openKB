@@ -344,6 +344,7 @@ if(config.settings.database.type === 'embedded'){
         db.votes = db.collection('votes');
 
         // add db to app for routes
+        app.db = db;
         app.client = client;
 
         // add articles to index
