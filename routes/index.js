@@ -1337,7 +1337,7 @@ router.get('/insert', common.restrict, (req, res) => {
 
 // redirect home with a null topic
 router.get('/topic', (req, res) => {
-    res.redirect('/');
+    res.redirect(req.app_context + '/');
 });
 
 // search kb's
@@ -1512,7 +1512,7 @@ router.post('/importer', common.restrict, upload.single('import_file'), (req, re
             rimraf.sync('public/temp/import');
             req.session.message = 'Articles imported successfully';
             req.session.message_type = 'success';
-            res.redirect('/import');
+            res.redirect(req.app_context + '/import');
         });
     });
 });
