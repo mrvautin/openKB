@@ -17,6 +17,7 @@ env:
   POFE_DOCKER_IMAGE_NAME: "help-magicdoor-com"
   STAGING_NAMESPACE: "test"
   PROD_NAMESPACE: "prod"
+  DEMO_NAMESPACE: "demo"
 
 jobs:
   buildPOFEDockerImage:
@@ -105,3 +106,34 @@ jobs:
         with:
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
           namespace: "${{ env.PROD_NAMESPACE }}"
+
+  deployDemo:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip demo]')"
+    needs: [deployStaging]
+    name: Deploy Demo
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup Kubeconfig
+        uses: Azure/k8s-set-context@v4
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - name: Bake Manifest
+        uses: azure/k8s-bake@v3
+        with:
+          renderEngine: "helm"
+          releaseName: ${{ env.POFE_DOCKER_IMAGE_NAME }}
+          helmChart: "./.helm-chart/"
+          overrides: |
+            image.tag:${{ github.sha }}
+          helm-version: "latest"
+        id: bake
+
+      - name: Deploy Demo
+        uses: Azure/k8s-deploy@v5
+        with:
+          manifests: ${{ steps.bake.outputs.manifestsBundle }}
+          namespace: "${{ env.DEMO_NAMESPACE }}"
