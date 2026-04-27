@@ -210,6 +210,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser('5TOCyfH3HuszKGzFZntk'));
+const sessionStore = new Nedb_store({
+    filename: 'data/sessions.db',
+    ttl: 60 * 24 * 3600  // purge sessions older than 60 days
+});
+
+// Compact the NeDB sessions file daily to reclaim disk space after purges
+sessionStore.db.persistence.setAutocompactionInterval(24 * 3600 * 1000);
+
 app.use(session({
     resave: false,
     saveUninitialized: true,
@@ -219,9 +227,7 @@ app.use(session({
         httpOnly: true,
         maxAge: 3600000 * 24
     },
-    store: new Nedb_store({
-        filename: 'data/sessions.db'
-    })
+    store: sessionStore
 }));
 
 // setup the app context
